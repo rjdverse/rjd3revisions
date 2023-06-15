@@ -1,0 +1,40 @@
+Package: rjd3revisions
+Type: Package
+Title: Revision analysis with 'JDemetra+ 3.0'
+Version: 1.0.0
+Authors@R: 
+    person(given = "Corentin",
+           family = "Lemasson",
+           role = c("aut", "cre"),
+           email = "corentin.lemasson@nbb.be")
+Description: Interface around 'JDemetra+ 3.x' sa-toolkit 
+             (<https://github.com/jdemetra/jdemetra-core>), STACE project.
+             It performs a battery of tests on revisions and submit a report 
+             with the results. The various tests enable the users to detect
+             potential bias and sources of inefficiency in preliminary 
+             estimates.
+Depends:
+  R (>= 3.6.0)
+Imports:
+  rJava (>= 1.0-6),
+  rjd3toolkit (>= 3.0.0),
+  knitr,
+  rmarkdown
+Suggest:
+  readxl,
+  formattable,
+  kableExtra
+SystemRequirements: Java JRE 17 or higher
+License: EUPL
+Encoding: UTF-8
+Collate: 
+    'jd3_ts.R'
+    'jd3_rslts.R'
+    'output.R'
+    'report.R'
+    'revision_analysis.R'
+    'revisions.R'
+    'tests.R'
+    'vintages.R'
+    'zzz.R'
+RoxygenNote: 7.2.3
