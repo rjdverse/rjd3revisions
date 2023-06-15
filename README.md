@@ -4,7 +4,7 @@
 remotes::install_github("rjdemetra/rjd3revisions")
 
 ## Usage
-First you need to get your input data set as a data.frame in a specific format as below.
+First you need to get your input data set as a data.frame in R in a specific format as below.
 | rev_date    | time_period | obs_values  |
 | ----------- | ----------- | ----------- |
 | 2022-07-31  | 2022Q1      | 0.8         |
