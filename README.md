@@ -34,6 +34,7 @@ plot(rslt)
 ```
 
 ## Additional information
-See the functions documentation for a complete view of the current possibilities of the tool
-Tests description are part of the generated report 
+See the functions documentation for a complete view of the current possibilities of the tool.
+
+Tests description are part of the generated report. 
 
