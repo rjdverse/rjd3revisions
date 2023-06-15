@@ -15,7 +15,7 @@ First you need to get your input data set as a data.frame in R in a specific for
 | ...         | ...         | ...         |
 
 ``` r
-#Basic example
+#Example
 df<-data.frame(rev_date = c(rep("2022-07-31",4), rep("2022-08-31",4),
                             rep("2022-09-30",4), rep("2022-10-31",4),
                             rep("2022-11-30",4), rep("2022-12-31",4),
