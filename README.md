@@ -4,7 +4,7 @@
 remotes::install_github("rjdemetra/rjd3revisions")
 
 ## Usage
-First you need to get your data set as a data.frame in a specific format as in the example below.
+First you need to get your data set as a data.frame in a specific format as below.
 ``` r
 df<-data.frame(rev_date = c(rep("2022-07-31",4), rep("2022-08-31",4),
                             rep("2022-09-30",4), rep("2022-10-31",4),
@@ -16,6 +16,14 @@ df<-data.frame(rev_date = c(rep("2022-07-31",4), rep("2022-08-31",4),
                                 .7,.2,.5,NA, .7,.3,.7,NA,
                                 .7,.2,.7,.4, .7,.3,.7,.3))
 ```
+| rev_date    | time_period | obs_values  |
+| ----------- | ----------- | ----------- |
+| 2022-07-31  | 2022Q1      | 0.8         |
+| 2022-07-31  | 2022Q2      | 0.2         |
+| 2022-07-31  | 2022Q3      | NA          |
+| 2022-07-31  | 2022Q4      | NA          |
+| 2022-08-31  | 2022Q1      | 0.8         |
+| ...         | ...         | ...         |
 
 Then you can create your vintages, inspect the revisions if you want and make the analysis 
 ``` r
