@@ -44,7 +44,5 @@ plot(rslt)
 ```
 
 ## Additional information
-See the functions documentation for a complete view of the current possibilities of the tool.
-
-Tests description are part of the generated report. 
+This README.md file gives you an example of how to proceed. Then, you can consult the documentation of each function separately (for example: ?create_vintages, ?revision_analysis) to see the current possibilities of the tool. Finally, the function get_report() generates a report that includes a summary of the results but also explanation about all the tests being performed.
 
