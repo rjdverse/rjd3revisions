@@ -1,7 +1,9 @@
 # rjd3revisions
 
 ## Installation
+``` r
 remotes::install_github("rjdemetra/rjd3revisions")
+```
 
 ## Usage
 First you need to get your input data set as a data.frame in R in a specific format as below.
@@ -29,6 +31,8 @@ df<-data.frame(rev_date = c(rep("2022-07-31",4), rep("2022-08-31",4),
 
 Then you can create your vintages, inspect revisions if you want and make the analysis 
 ``` r
+library("rjd3revisions")
+
 vintages<-create_vintages(df, periodicity = 4)
 #revisions<-get_revisions(vintages, gap = 2)
 rslt<-revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
@@ -44,5 +48,5 @@ plot(rslt)
 ```
 
 ## Additional information
-This README.md file gives you an example of how to proceed. Then, you can consult the documentation of each function separately (for example: ?create_vintages, ?revision_analysis) to see the current possibilities of the tool. Finally, the function get_report() generates a report that includes a summary of the results but also explanation about all the tests being performed.
+This README.md file gives you an example of how to proceed. Then, you can consult the documentation of each function separately (for example: `?create_vintages`, `?revision_analysis`) to see the current possibilities of the tool. Finally, the function `get_report()` generates a report that includes a summary of the results but also explanation about all the tests being performed.
 
