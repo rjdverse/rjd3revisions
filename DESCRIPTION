@@ -1,7 +1,7 @@
 Package: rjd3revisions
 Type: Package
 Title: Revision analysis with 'JDemetra+ 3.0'
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: 
     person(given = "Corentin",
            family = "Lemasson",
@@ -17,7 +17,7 @@ Depends:
   R (>= 3.6.0)
 Imports:
   rJava (>= 1.0-6),
-  rjd3toolkit (>= 3.0.0),
+  rjd3toolkit (>= 3.0.1),
   knitr,
   rmarkdown
 Suggest:
