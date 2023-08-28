@@ -175,7 +175,11 @@ create_vintages<- function(df, periodicity, vintage.selection = NULL, revdate.fo
 #' @examples
 #' \dontrun{
 #' file.name<-"myinput.csv"
-#' vintages<-create_vintages_from_csv(file.name, 12, separator = ";", revdate.format="%d/%m/%Y")
+#' vintages<-create_vintages_from_csv(file.name, 
+#'                                    periodicity=12, 
+#'                                    separator = ";",
+#'                                    vintage.selection=NULL, 
+#'                                    revdate.format="%Y-%m-%d")
 #' }
 create_vintages_from_csv<-function(file, periodicity, separator = ",", vintage.selection=NULL, revdate.format="%Y.%m.%d"){
 
@@ -210,9 +214,14 @@ create_vintages_from_csv<-function(file, periodicity, separator = ",", vintage.s
 #' @examples
 #' \dontrun{
 #' file.name<-"myinput.xlsx"
-#' vintages<-create_vintages_from_xlsx(file.name, 12, separator = ";", revdate.format="%d/%m/%Y")
+#' sheet.name<-"Sheet1"
+#' vintages<-create_vintages_from_xlsx(file.name, 
+#'                                     sheet.name, 
+#'                                     periodicity=12, 
+#'                                     vintage.selection=NULL, 
+#'                                     revdate.format="%d/%m/%Y"))
 #' }
-create_vintages_from_xlsx<-function(file, sheetname, periodicity, vintage.selection, revdate.format= "%Y.%m.%d"){
+create_vintages_from_xlsx<-function(file, sheetname, periodicity, vintage.selection = NULL, revdate.format= "%Y.%m.%d"){
 
   if(! require(readxl)){stop("package 'readxl' must be installed to run the function 'create_vintages_from_xlsx'")}
 

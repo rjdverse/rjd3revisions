@@ -8,7 +8,7 @@ create_vintages_from_xlsx(
   file,
   sheetname,
   periodicity,
-  vintage.selection,
+  vintage.selection = NULL,
   revdate.format = "\%Y.\%m.\%d"
 )
 }
@@ -40,7 +40,12 @@ Create vintages table from XLSX files
 \examples{
 \dontrun{
 file.name<-"myinput.xlsx"
-vintages<-create_vintages_from_xlsx(file.name, 12, separator = ";", revdate.format="\%d/\%m/\%Y")
+sheet.name<-"Sheet1"
+vintages<-create_vintages_from_xlsx(file.name, 
+                                    sheet.name, 
+                                    periodicity=12, 
+                                    vintage.selection=NULL, 
+                                    revdate.format="\%d/\%m/\%Y"))
 }
 }
 \seealso{
