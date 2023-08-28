@@ -40,7 +40,11 @@ Create vintages table from CSV or TXT files
 \examples{
 \dontrun{
 file.name<-"myinput.csv"
-vintages<-create_vintages_from_csv(file.name, 12, separator = ";", revdate.format="\%d/\%m/\%Y")
+vintages<-create_vintages_from_csv(file.name, 
+                                   periodicity=12, 
+                                   separator = ";",
+                                   vintage.selection=NULL, 
+                                   revdate.format="\%Y-\%m-\%d")
 }
 }
 \seealso{

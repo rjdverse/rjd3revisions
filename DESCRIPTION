@@ -1,7 +1,7 @@
 Package: rjd3revisions
 Type: Package
 Title: Revision analysis with 'JDemetra+ 3.0'
-Version: 1.0.1
+Version: 1.1.0
 Authors@R: 
     person(given = "Corentin",
            family = "Lemasson",
@@ -38,3 +38,4 @@ Collate:
     'vintages.R'
     'zzz.R'
 RoxygenNote: 7.2.3
+VignetteBuilder: knitr
