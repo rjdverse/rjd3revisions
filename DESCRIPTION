@@ -20,6 +20,8 @@ Imports:
   rjd3toolkit (>= 3.0.1),
   knitr,
   rmarkdown
+Remotes:
+  github::rjdemetra/rjd3toolkit
 Suggest:
   readxl,
   formattable,
