@@ -77,7 +77,7 @@ input_df<-data.frame(rev_date = c(rep("2022-07-31",4), rep("2022-08-31",4),
 ## Processing
 
 ```{r}
-library(rjd3revisions)
+library("rjd3revisions")
 ```
 
 Once your input data are in the right format, you create the vintages, possibly inspect the revisions and perform the revision analysis
