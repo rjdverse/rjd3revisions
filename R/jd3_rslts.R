@@ -153,4 +153,3 @@ proc_likelihood<-function(jrslt, prefix){
     hannanquinn=proc_numeric(jrslt, paste(prefix,"hannanquinn", sep="")))
   )
 }
-

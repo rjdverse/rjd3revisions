@@ -29,7 +29,7 @@ summary.rjd3rev_revision_analysis<- function(x){
                                                             font.weight = ifelse(substr(x,1,1) == "S", "bold", "plain")))
     }
     nc<-ncol(x$summary)
-    return(list(formattable::formattable(x$summary, apply(x$summary[,2:nc,drop=F], 2, format_font))))
+    return(list(formattable::formattable(x$summary, apply(x$summary[,2:nc,drop=FALSE], 2, format_font))))
   }
 }
 
@@ -51,5 +51,3 @@ plot.rjd3rev_revision_analysis <- function(x, ...){
   legend("topleft", bty="n", lty=1,lwd=2, col=c(1:nc), legend=colnames(rev))
   title(main = "Size of Revisions")
 }
-
-
