@@ -261,7 +261,7 @@ yp<-function(s){
   if(nchar(as.character(s))[1] == 4){
     return (ymd(y,1))
   }else{
-    p=substr(s,5,5)
+    p <- substr(s,5,5)
     if (all(p == 'Q') | all(p == 'q')){
       q<-as.integer(substr(s, 6, 6))
       return (yq(y,q))

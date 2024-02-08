@@ -245,7 +245,7 @@ bias<-function(revisions.view, na.zero= FALSE){
     warning("bias could not be performed",call.= FALSE)
     return(NULL)
   }
-  bias=matrix_jd2r(jbias)
+  bias <- matrix_jd2r(jbias)
   bias[rowSums(bias[])==0,]<-NaN # fix non-calculable cases
   if(all(is.nan(bias))){
     warning("bias could not be performed",call.= FALSE)
@@ -304,7 +304,7 @@ slope_and_drift<-function(vintages.view, gap=1, na.zero= FALSE){
     warning("Slope and drift could not be performed",call.= FALSE)
     return(NULL)
   }
-  slope_and_drift=matrix_jd2r(jsd)
+  slope_and_drift <- matrix_jd2r(jsd)
   slope_and_drift[rowSums(slope_and_drift[])==0,]<-NaN # fix non-calculable cases
   if(all(is.nan(slope_and_drift))){
     warning("slope_and_drift could not be performed",call.= FALSE)
@@ -363,7 +363,7 @@ efficiencyModel1<-function(vintages.view, gap=1, na.zero= FALSE){
     warning("efficiencyModel1 could not be performed",call.= FALSE)
     return(NULL)
   }
-  efficiencyModel1=matrix_jd2r(jef1)
+  efficiencyModel1 <- matrix_jd2r(jef1)
   efficiencyModel1[rowSums(efficiencyModel1[])==0,]<-NaN # fix non-calculable cases
   if(all(is.nan(efficiencyModel1))){
     warning("efficiencyModel1 could not be performed",call.= FALSE)
@@ -423,7 +423,7 @@ efficiencyModel2<-function(vintages.view, gap=1, na.zero= FALSE){
     warning("efficiencyModel2 could not be performed",call.= FALSE)
     return(NULL)
   }
-  efficiencyModel2=matrix_jd2r(jef2)
+  efficiencyModel2 <- matrix_jd2r(jef2)
   if(length(efficiencyModel2)==0) {
     warning("efficiencyModel2 could not be performed: Too few number of vintages",call.= FALSE)
     return(NULL)
@@ -486,7 +486,7 @@ orthogonallyModel1<-function(revisions.view, nrevs=1, na.zero= FALSE){
     warning("orthogonallyModel1 could not be performed",call.= FALSE)
     return(NULL)
   }
-  om=matrix_jd2r(jom)
+  om <- matrix_jd2r(jom)
   if (length(om)==0) {
     warning("orthogonallyModel1 could not be performed: Too few number of vintages",call.= FALSE)
     return(NULL)
@@ -546,7 +546,7 @@ orthogonallyModel2<-function(revisions.view, reference=1, na.zero= FALSE){
     warning("orthogonallyModel2 could not be performed",call.= FALSE)
     return(NULL)
   }
-  om=matrix_jd2r(jom)
+  om <- matrix_jd2r(jom)
   if (length(om)==0) {
     warning("orthogonallyModel2 could not be performed: Too few number of vintages",call.= FALSE)
     return(NULL)
