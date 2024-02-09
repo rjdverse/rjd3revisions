@@ -129,7 +129,7 @@ revision_analysis<-function(vintages,
   if(view == "vertical"){
     vt<-vintages$vertical_view
   }else if (view == "diagonal"){
-    vt<-vintages$diagonal_view[,1:n.releases]
+    vt<-vintages$diagonal_view[, 1:n.releases]
   }
 
   ## Revisions and Vintages Transformation
@@ -139,7 +139,7 @@ revision_analysis<-function(vintages,
   ### Log transformation
   if(transf.log){
     if(length(vt[vt[!is.na(vt)] < 0])>0){
-      warning("Logarithm transformation incompatible with negative data. No transformation considered.",call.=FALSE)
+      warning("Logarithm transformation incompatible with negative data. No transformation considered.", call.=FALSE)
       rv<-rv_notrf
       is_log<-FALSE
     }else{
@@ -155,10 +155,10 @@ revision_analysis<-function(vintages,
   ### Differentiation
   ur<-unitroot(vt, adfk=1, na.zero) # H0: non-stationary
   if(!is.null(ur)){
-    ur_rslt<-t(round(ur,3))
-    ur_ADFpvals<-ur[,"ADF.pvalue"]
+    ur_rslt<-t(round(ur, 3))
+    ur_ADFpvals<-ur[, "ADF.pvalue"]
     pc_signif_ur<-length(ur_ADFpvals[ur_ADFpvals<.05])/length(ur_ADFpvals)
-    is_stationary<-ifelse(pc_signif_ur>.8,TRUE,FALSE)
+    is_stationary<-ifelse(pc_signif_ur>.8, TRUE, FALSE)
   }else{
     ur_rslt<-NULL
     is_stationary<-TRUE
@@ -169,17 +169,17 @@ revision_analysis<-function(vintages,
     is_cointegrated<-TRUE
   }else{
     if(!is.null(coint)){
-      coint_pvals<-coint[,"pvalue"]
+      coint_pvals<-coint[, "pvalue"]
       pc_signif_coint<-length(coint_pvals[coint_pvals<.05])/length(coint_pvals)
-      is_cointegrated<-ifelse(pc_signif_coint>.8,TRUE,FALSE)
+      is_cointegrated<-ifelse(pc_signif_coint>.8, TRUE, FALSE)
     }else{
       is_cointegrated<-FALSE
     }
   }
 
-  seasonality<-apply(vt,2,check_seasonality)
+  seasonality<-apply(vt, 2, check_seasonality)
   nt<-sum(seasonality)
-  is_seasonal<-ifelse(nt/ncol(vt)>.8,TRUE,FALSE)
+  is_seasonal<-ifelse(nt/ncol(vt)>.8, TRUE, FALSE)
   if(is_seasonal){
     vt_diff<-diff(vt, freq)
     delta_diff<-freq
@@ -197,53 +197,53 @@ revision_analysis<-function(vintages,
   }else if(transf.diff == "none"){
     vts<-vtc<-vt
     if(!is_stationary | !is_cointegrated){
-      warning("No differentiation considered even though stationarity and/or cointegration might not be present. This can lead to spurious regression.",call.=FALSE)
+      warning("No differentiation considered even though stationarity and/or cointegration might not be present. This can lead to spurious regression.", call.=FALSE)
     }
     is_stationary<-is_cointegrated<-TRUE
   }
 
   # Descriptive statistics
-  ds<-descriptive_statistics(rv_notrf,descriptive.rounding)
+  ds<-descriptive_statistics(rv_notrf, descriptive.rounding)
 
   # Parametric analysis
 
   ## I. Relevancy
 
   ### Theil U1 and U2
-  N<-apply(rv_notrf,2,function(x) length(x[!is.na(x)]))
+  N<-apply(rv_notrf, 2, function(x) length(x[!is.na(x)]))
   U_det<-"U"
   theil_trf<-"None"
   U1<-theil(vt, gap, na.zero)
   U2<-theil2(vt, gap, na.zero)
   if(!is.null(U1)){
-    theil_rslt<-round(rbind(N,U1),3)
+    theil_rslt<-round(rbind(N, U1), 3)
     if(!is.null(U2) && !all(is.nan(U2))==TRUE){
-      theil_rslt<-rbind(theil_rslt,U2=round(U2,3))
+      theil_rslt<-rbind(theil_rslt, U2=round(U2, 3))
       theil_q<-eval_U(U2)
       U_det<-"U2"
     }else{
-      theil_rslt<-rbind(theil_rslt,U2=rep(NA,length(U1)))
-      theil_q<-eval_U(U1,U2=FALSE)
+      theil_rslt<-rbind(theil_rslt, U2=rep(NA, length(U1)))
+      theil_q<-eval_U(U1, U2=FALSE)
       U_det<-"U1"
-      warning("Theil U2 could not be calculated. Theil U1 is considered instead in summary().",call.=FALSE)
+      warning("Theil U2 could not be calculated. Theil U1 is considered instead in summary().", call.=FALSE)
     }
   }else{
     theil_rslt<-NULL
-    theil_q<-rep(NA,length(colnames(rv)))
+    theil_q<-rep(NA, length(colnames(rv)))
   }
 
   ## II. Bias (mean and regression bias)
 
   ### II.1_2. T-test and Augmented T-test
-  ta_trf<-ifelse(is_log,"Log","None")
+  ta_trf<-ifelse(is_log, "Log", "None")
   ta<-bias(rv, na.zero)
   if(!is.null(ta)){
-    ta_rslt<-t(round(ta,3))
-    t_q<-eval_pvals(ta[,"pvalue"], h0_good=TRUE)
-    ta_q<-eval_pvals(ta[,"pvalue.adjusted"], h0_good=TRUE)
+    ta_rslt<-t(round(ta, 3))
+    t_q<-eval_pvals(ta[, "pvalue"], h0_good=TRUE)
+    ta_q<-eval_pvals(ta[, "pvalue.adjusted"], h0_good=TRUE)
   }else{
     ta_rslt<-NULL
-    t_q<-ta_q<-rep(NA,length(colnames(rv)))
+    t_q<-ta_q<-rep(NA, length(colnames(rv)))
   }
 
   ### II.3. Slope and drift
@@ -253,13 +253,13 @@ revision_analysis<-function(vintages,
         paste("Delta-Log", delta_diff)
   sd<-slope_and_drift(vtc, gap, na.zero)
   if(!is.null(sd)){
-    sd_rslt<-format_reg_output(sd,is_log,!is_cointegrated)
-    sd_m_q<-eval_pvals(sd[,"intercept.pvalue"], h0_good=TRUE)
-    sd_r_q<-eval_pvals(sd[,"slope.pvalue"], h0_good=TRUE)
+    sd_rslt<-format_reg_output(sd, is_log, !is_cointegrated)
+    sd_m_q<-eval_pvals(sd[, "intercept.pvalue"], h0_good=TRUE)
+    sd_r_q<-eval_pvals(sd[, "slope.pvalue"], h0_good=TRUE)
     sd_diagnostics<-regression_diagnostics(sd)
   }else{
     sd_rslt<-sd_diagnostics<-NULL
-    sd_m_q<-sd_r_q<-rep(NA,length(colnames(vtc)[-c(1:gap)]))
+    sd_m_q<-sd_r_q<-rep(NA, length(colnames(vtc)[-c(1:gap)]))
   }
 
   ## III. Efficiency
@@ -272,96 +272,96 @@ revision_analysis<-function(vintages,
   eff1<-efficiencyModel1(vts, gap, na.zero)
   if(!is.null(eff1)){
     eff1_rslt<-format_reg_output(eff1, is_log, !is_stationary)
-    eff1_m_q<-eval_pvals(eff1[,"intercept.pvalue"],h0_good=TRUE)
-    eff1_r_q<-eval_pvals(eff1[,"slope.pvalue"],h0_good=TRUE)
+    eff1_m_q<-eval_pvals(eff1[, "intercept.pvalue"], h0_good=TRUE)
+    eff1_r_q<-eval_pvals(eff1[, "slope.pvalue"], h0_good=TRUE)
     eff1_diagnostics<-regression_diagnostics(eff1)
   }else{
     eff1_rslt<-eff1_diagnostics<-NULL
-    eff1_m_q<-eff1_r_q<-rep(NA,length(colnames(rv)))
+    eff1_m_q<-eff1_r_q<-rep(NA, length(colnames(rv)))
   }
 
   ### III.2. Regression of latter revisions (Rv) on previous revisions (Rv_1)
-  eff2_trf<-ifelse(is_log,"Log","None")
+  eff2_trf<-ifelse(is_log, "Log", "None")
   eff2<-efficiencyModel2(vt, gap, na.zero)
   if(!is.null(eff2)){
     eff2_rslt<-format_reg_output(eff2, is_log, FALSE)
-    eff2_m_q<-c("",eval_pvals(eff2[,"intercept.pvalue"],h0_good=TRUE))
-    eff2_r_q<-c("",eval_pvals(eff2[,"slope.pvalue"],h0_good=TRUE))
+    eff2_m_q<-c("", eval_pvals(eff2[, "intercept.pvalue"], h0_good=TRUE))
+    eff2_r_q<-c("", eval_pvals(eff2[, "slope.pvalue"], h0_good=TRUE))
     eff2_diagnostics<-regression_diagnostics(eff2)
   }else{
     eff2_rslt<-eff2_diagnostics<-NULL
-    eff2_m_q<-eff2_r_q<-c("",rep(NA,length(colnames(rv)[-1])))
+    eff2_m_q<-eff2_r_q<-c("", rep(NA, length(colnames(rv)[-1])))
   }
 
   ## IV. Orthogonality
 
   ### IV.1. Regression of latter revisions (Rv) on previous revisions (Rv_1, Rv_2,...Rv_p)
-  orth1_trf<-ifelse(is_log,"Log","None")
+  orth1_trf<-ifelse(is_log, "Log", "None")
   orth1<-orthogonallyModel1(rv, nrevs, na.zero)
   if(!is.null(orth1)){
-    orth1_rslt<-format_reg_output(orth1,is_log, FALSE)
-    orth1_m_q<-c(rep("",nrevs),eval_pvals(orth1[,"intercept.pvalue"],h0_good=TRUE))
-    orth1_r_q<-c(rep("",nrevs),eval_pvals(pf(orth1[,"F"], nrevs, orth1[,"N"]-nrevs-1),h0_good=TRUE))
+    orth1_rslt<-format_reg_output(orth1, is_log, FALSE)
+    orth1_m_q<-c(rep("", nrevs), eval_pvals(orth1[, "intercept.pvalue"], h0_good=TRUE))
+    orth1_r_q<-c(rep("", nrevs), eval_pvals(pf(orth1[, "F"], nrevs, orth1[, "N"]-nrevs-1), h0_good=TRUE))
     orth1_diagnostics<-regression_diagnostics(orth1)
   }else{
     orth1_rslt<-orth1_diagnostics<-NULL
-    if(ncol(rv)>nrevs) orth1_m_q<-orth1_r_q<-c(rep("",nrevs),rep(NA,length(colnames(rv)[-c(1:nrevs)])))
-    else orth1_m_q<-orth1_r_q<-rep("",nrevs)
+    if(ncol(rv)>nrevs) orth1_m_q<-orth1_r_q<-c(rep("", nrevs), rep(NA, length(colnames(rv)[-c(1:nrevs)])))
+    else orth1_m_q<-orth1_r_q<-rep("", nrevs)
   }
 
   ### IV.2. Regression model of latter revisions (Rv) on previous revisions at a specific version (Rv_k)
-  orth2_trf<-ifelse(is_log,"Log","None")
+  orth2_trf<-ifelse(is_log, "Log", "None")
   orth2<-orthogonallyModel2(rv, ref, na.zero)
   if(!is.null(orth2)){
     orth2_rslt<-format_reg_output(orth2, is_log, FALSE)
-    orth2_m_q<-c(rep("",ref),eval_pvals(orth2[,"intercept.pvalue"],h0_good=TRUE))
-    orth2_r_q<-c(rep("",ref),eval_pvals(orth2[,"slope.pvalue"],h0_good=TRUE))
+    orth2_m_q<-c(rep("", ref), eval_pvals(orth2[, "intercept.pvalue"], h0_good=TRUE))
+    orth2_r_q<-c(rep("", ref), eval_pvals(orth2[, "slope.pvalue"], h0_good=TRUE))
     orth2_diagnostics<-regression_diagnostics(orth2)
   }else{
     orth2_rslt<-orth2_diagnostics<-NULL
-    if(ncol(rv)>ref) orth2_m_q<-orth2_r_q<-c(rep("",ref),rep(NA,length(colnames(rv)[-c(1:ref)])))
-    else orth2_m_q<-orth2_r_q<-rep("",ref)
+    if(ncol(rv)>ref) orth2_m_q<-orth2_r_q<-c(rep("", ref), rep(NA, length(colnames(rv)[-c(1:ref)])))
+    else orth2_m_q<-orth2_r_q<-rep("", ref)
   }
 
   ### IV.3. Autocorrelation test
-  ac_trf<-ifelse(is_log,"Log","None")
-  ac_trf_str<-ifelse(ac_trf == "Log", get_info_transformation(TRUE,FALSE), get_info_transformation(FALSE,FALSE))
-  pm_test<-try(apply(rv,2,function(x) ljungbox(x[!is.na(x)],k=2)),silent=TRUE) # Ljung-Box up to k
+  ac_trf<-ifelse(is_log, "Log", "None")
+  ac_trf_str<-ifelse(ac_trf == "Log", get_info_transformation(TRUE, FALSE), get_info_transformation(FALSE, FALSE))
+  pm_test<-try(apply(rv, 2, function(x) ljungbox(x[!is.na(x)], k=2)), silent=TRUE) # Ljung-Box up to k
 
   if(!"try-error" %in% class(pm_test)){
-    pm_test_mat<-matrix(unlist(pm_test), ncol=2, byrow=TRUE)[,,drop=FALSE]
-    dimnames(pm_test_mat)<-list(colnames(rv), c("value","p.value"))
+    pm_test_mat<-matrix(unlist(pm_test), ncol=2, byrow=TRUE)[, , drop=FALSE]
+    dimnames(pm_test_mat)<-list(colnames(rv), c("value", "p.value"))
     ac_rslt<-list(info_transformation=ac_trf_str, estimates_ljungbox=pm_test_mat)
-    ac_q<-eval_pvals(ac_rslt$estimates_ljungbox[,"p.value"], h0_good=TRUE)
+    ac_q<-eval_pvals(ac_rslt$estimates_ljungbox[, "p.value"], h0_good=TRUE)
   }else{
     ac_rslt<-NULL
     ac_q<-rep(NA, length(colnames(rv)))
   }
 
   ### IV.4. Seasonality test
-  seas_trf<- ifelse(is_log,"Delta-Log 1","Delta 1")
-  seas_trf_str<-ifelse(seas_trf == "Delta-Log 1", get_info_transformation(TRUE,TRUE), get_info_transformation(FALSE,TRUE))
-  lb_test<-try(apply(diff(rv),2,function(x) seasonality_qs(x,freq)),silent=TRUE) # Ljung-Box
-  fd_test<-try(apply(diff(rv),2,function(x) seasonality_friedman(x,freq)),silent=TRUE)  # Friedman non-parametric test
+  seas_trf<- ifelse(is_log, "Delta-Log 1", "Delta 1")
+  seas_trf_str<-ifelse(seas_trf == "Delta-Log 1", get_info_transformation(TRUE, TRUE), get_info_transformation(FALSE, TRUE))
+  lb_test<-try(apply(diff(rv), 2, function(x) seasonality_qs(x, freq)), silent=TRUE) # Ljung-Box
+  fd_test<-try(apply(diff(rv), 2, function(x) seasonality_friedman(x, freq)), silent=TRUE)  # Friedman non-parametric test
 
   if(!"try-error" %in% class(lb_test) & !"try-error" %in% class(fd_test) & freq>1){
     seas_rslt<-list(info_transformation=seas_trf_str,
-                    estimates_ljungbox=matrix(unlist(lb_test), ncol=2, byrow = TRUE, dimnames = list(colnames(rv), c("value","p.value"))),
-                    estimates_friedman=matrix(unlist(fd_test), ncol=2, byrow = TRUE, dimnames = list(colnames(rv), c("value","p.value"))))
-    seas_lb_q<-eval_pvals(seas_rslt$estimates_ljungbox[,"p.value"], h0_good=TRUE)
-    seas_fd_q<-eval_pvals(seas_rslt$estimates_friedman[,"p.value"], h0_good=TRUE)
+                    estimates_ljungbox=matrix(unlist(lb_test), ncol=2, byrow = TRUE, dimnames = list(colnames(rv), c("value", "p.value"))),
+                    estimates_friedman=matrix(unlist(fd_test), ncol=2, byrow = TRUE, dimnames = list(colnames(rv), c("value", "p.value"))))
+    seas_lb_q<-eval_pvals(seas_rslt$estimates_ljungbox[, "p.value"], h0_good=TRUE)
+    seas_fd_q<-eval_pvals(seas_rslt$estimates_friedman[, "p.value"], h0_good=TRUE)
   }else if(!"try-error" %in% class(lb_test) & freq>1){
     seas_rslt<-list(info_transformation=seas_trf_str,
-                    estimates_ljungbox=matrix(unlist(lb_test), ncol=2, byrow = TRUE, dimnames = list(colnames(rv), c("value","p.value"))),
+                    estimates_ljungbox=matrix(unlist(lb_test), ncol=2, byrow = TRUE, dimnames = list(colnames(rv), c("value", "p.value"))),
                     estimates_friedman=NULL)
-    seas_lb_q<-eval_pvals(seas_rslt$estimates_ljungbox[,"p.value"], h0_good=TRUE)
+    seas_lb_q<-eval_pvals(seas_rslt$estimates_ljungbox[, "p.value"], h0_good=TRUE)
     seas_fd_q<-rep(NA, length(colnames(rv)))
   }else if(!"try-error" %in% class(fd_test) & freq>1){
     seas_rslt<-list(info_transformation=seas_trf_str,
                     estimates_ljungbox=NULL,
-                    estimates_friedman=matrix(unlist(fd_test), ncol=2, byrow = TRUE, dimnames = list(colnames(rv), c("value","p.value"))))
+                    estimates_friedman=matrix(unlist(fd_test), ncol=2, byrow = TRUE, dimnames = list(colnames(rv), c("value", "p.value"))))
     seas_lb_q<-rep(NA, length(colnames(rv)))
-    seas_fd_q<-eval_pvals(seas_rslt$estimates_friedman[,"p.value"], h0_good=TRUE)
+    seas_fd_q<-eval_pvals(seas_rslt$estimates_friedman[, "p.value"], h0_good=TRUE)
   }else{
     seas_rslt<-NULL
     seas_lb_q<-seas_fd_q<-rep(NA, length(colnames(rv)))
@@ -375,12 +375,12 @@ revision_analysis<-function(vintages,
   sn<-signalnoise(vts, gap, na.zero)
   if(!is.null(sn)){
     sn_rslt<-list(info_transformation=get_info_transformation(is_log, !is_stationary),
-                  estimates=t(round(sn,3)))
-    sn_noise_q<-eval_pvals(sn[,"Noise.pvalue"], h0_good=TRUE)
-    sn_news_q<-eval_pvals(sn[,"News.pvalue"], h0_good=FALSE)
+                  estimates=t(round(sn, 3)))
+    sn_noise_q<-eval_pvals(sn[, "Noise.pvalue"], h0_good=TRUE)
+    sn_news_q<-eval_pvals(sn[, "News.pvalue"], h0_good=FALSE)
   }else{
     sn_rslt<-NULL
-    sn_noise_q<-sn_news_q<-rep(NA,colnames(rv))
+    sn_noise_q<-sn_news_q<-rep(NA, colnames(rv))
   }
 
 
@@ -395,7 +395,7 @@ revision_analysis<-function(vintages,
   ## 3. VECM
   errcorr<-vecm(vt, lag=2, model="none", na.zero)
   if(!is.null(errcorr)){
-    vecm_rslt<-round(errcorr,3)
+    vecm_rslt<-round(errcorr, 3)
   }else{
     vecm_rslt<-NULL
   }
@@ -415,14 +415,14 @@ revision_analysis<-function(vintages,
          "Orthogonality3 AutoCorrelation (Ljung-Box)",
          "Orthogonality4 Seasonality (Ljung-Box)", "Orthogonality4 Seasonality (Friedman)",
          "SignalVsNoise1 - Noise (Ols R on P)", "SignalVsNoise2 - Signal (Ols R on L)")
-  transformation<-c(theil_trf,rep(ta_trf,2),rep(sd_trf,2),rep(eff1_trf,2),
-                    rep(eff2_trf,2), rep(orth1_trf,2), rep(orth2_trf,2),
-                    ac_trf, rep(seas_trf,2) ,rep(sn_trf,2))
+  transformation<-c(theil_trf, rep(ta_trf, 2), rep(sd_trf, 2), rep(eff1_trf, 2),
+                    rep(eff2_trf, 2), rep(orth1_trf, 2), rep(orth2_trf, 2),
+                    ac_trf, rep(seas_trf, 2), rep(sn_trf, 2))
   evals<-rbind(theil_q, t_q, ta_q, sd_m_q, sd_r_q, eff1_m_q, eff1_r_q, eff2_m_q,
                eff2_r_q, orth1_m_q, orth1_r_q, orth2_m_q, orth2_r_q,
                ac_q, seas_lb_q, seas_fd_q, sn_noise_q, sn_news_q)
   summary_table<-data.frame(transformation, evals, row.names = lbl)
-  colnames(summary_table)<- c("Transf.",colnames(rv))
+  colnames(summary_table)<- c("Transf.", colnames(rv))
 
   diagnostics_table <- list(slope_and_drift = sd_diagnostics, efficiency1 = eff1_diagnostics,
                             efficiency2 = eff2_diagnostics, orthogonality1 = orth1_diagnostics,
@@ -452,9 +452,9 @@ get_rownames_diag <- function(vt, gap){
   # Example for n=4: v1_v2, v1_v3, v1_v4, v2_v3, v2_v4, v3_v4
   n<-ncol(vt)
   idx1<-rep(1:(n-gap), (n-gap):1)
-  idx0<-sequence((n-gap):1)+rep(1:(n-gap),(n-gap):1)
+  idx0<-sequence((n-gap):1)+rep(1:(n-gap), (n-gap):1)
   w<-sapply(colnames(vt), function(s){paste0('[', s, ']')})
-  rw<-mapply(function(a,b){paste(a,b,sep='_')}, w[idx1],w[idx0])
+  rw<-mapply(function(a, b){paste(a, b, sep='_')}, w[idx1], w[idx0])
   return(rw)
 }
 
@@ -473,14 +473,14 @@ eval_pvals<-function(pval, h0_good = TRUE, residuals = FALSE){
   }else{
     if(h0_good){
       quality<-ifelse(pval>.1, "Good",
-                      ifelse(pval>.01, "Uncertain","Bad"))
+                      ifelse(pval>.01, "Uncertain", "Bad"))
     }else{
       quality<-ifelse(pval<.05, "Good", "Uncertain")
     }
   }
   quality[is.na(quality)]<-"Good"
 
-  return(paste0(quality, " (", trimws(format(round(pval,3), nsmall=3)), ")"))
+  return(paste0(quality, " (", trimws(format(round(pval, 3), nsmall=3)), ")"))
 }
 
 eval_U<-function(U, U2=TRUE){
@@ -497,21 +497,21 @@ eval_U<-function(U, U2=TRUE){
   }
   quality[is.na(quality)]<-"Good"
 
-  return(paste0(quality, " (", trimws(format(round(U,3), nsmall=3)), ")"))
+  return(paste0(quality, " (", trimws(format(round(U, 3), nsmall=3)), ")"))
 }
 
 format_reg_output<-function(x, is_log, is_diff){
   info_transformation<-get_info_transformation(is_log, is_diff)
 
-  x_df<-as.data.frame(t(round(x,3)))
+  x_df<-as.data.frame(t(round(x, 3)))
   n<-nrow(x_df)
-  estim<-x_df[1:(n-13),,drop=FALSE]
+  estim<-x_df[1:(n-13), , drop=FALSE]
 
-  norm_test<-list(Jarque_Bera_test=x_df[(n-12):(n-9),,drop=FALSE])
-  hsk_test<-list(Breusch_Pagan_test=x_df[(n-8):(n-6),,drop=FALSE],White_test=x_df[(n-5):(n-3),,drop=FALSE],ARCH_test=x_df[(n-2):n,,drop=FALSE])
+  norm_test<-list(Jarque_Bera_test=x_df[(n-12):(n-9), , drop=FALSE])
+  hsk_test<-list(Breusch_Pagan_test=x_df[(n-8):(n-6), , drop=FALSE], White_test=x_df[(n-5):(n-3), , drop=FALSE], ARCH_test=x_df[(n-2):n, , drop=FALSE])
   tests<-list(normality=norm_test, homoskedasticity=hsk_test)
 
-  return(list(info_transformation=info_transformation,estimates=estim,residuals=tests))
+  return(list(info_transformation=info_transformation, estimates=estim, residuals=tests))
 }
 
 get_info_transformation<-function(is_log, is_diff){
@@ -530,16 +530,16 @@ get_info_transformation<-function(is_log, is_diff){
 
 regression_diagnostics<-function(reg_output){
 
-  jb<-eval_pvals(reg_output[,"JarqueBera.pvalue"], residuals=TRUE)
-  bp<-eval_pvals(reg_output[,"BreuschPagan.pvalue"], residuals=TRUE)
-  wh<-eval_pvals(reg_output[,"White.pvalue"], residuals=TRUE)
-  arch<-eval_pvals(reg_output[,"arch.pvalue"], residuals=TRUE)
+  jb<-eval_pvals(reg_output[, "JarqueBera.pvalue"], residuals=TRUE)
+  bp<-eval_pvals(reg_output[, "BreuschPagan.pvalue"], residuals=TRUE)
+  wh<-eval_pvals(reg_output[, "White.pvalue"], residuals=TRUE)
+  arch<-eval_pvals(reg_output[, "arch.pvalue"], residuals=TRUE)
 
   lbl<-c("Jarque-Bera", "Breusch-Pagan", "White", "ARCH")
-  tests<-c("Normality", rep("Homoskedasticity",3))
-  tests_rslts<-rbind(jb,bp,wh,arch)
+  tests<-c("Normality", rep("Homoskedasticity", 3))
+  tests_rslts<-rbind(jb, bp, wh, arch)
 
-  rslt<-`colnames<-`(data.frame(tests, tests_rslts, row.names = lbl), c("Test",rownames(reg_output)))
+  rslt<-`colnames<-`(data.frame(tests, tests_rslts, row.names = lbl), c("Test", rownames(reg_output)))
 
   return(rslt)
 }
@@ -550,10 +550,10 @@ get_vd_rev <- function(vt, gap){
   idx1<-(gap+1):n
   idx0<-1:(n-gap)
 
-  rev<-vt[,idx1,drop=FALSE]-vt[,idx0,drop=FALSE]
+  rev<-vt[, idx1, drop=FALSE]-vt[, idx0, drop=FALSE]
 
   w<-sapply(colnames(vt), function(s){paste0('[', s, ']')})
-  rw<-mapply(function(a,b){paste(a,b,sep='-')}, w[idx1],w[idx0])
+  rw<-mapply(function(a, b){paste(a, b, sep='-')}, w[idx1], w[idx0])
 
   rev<-`colnames<-`(rev, rw)
   return (rev)
@@ -563,8 +563,8 @@ check_seasonality <- function(x){
 
   if(frequency(x)>1){
     x_diff<-diff(x)
-    lb_pval<-try(seasonality_qs(x_diff,frequency(x))$pvalue, silent=TRUE) # Ljung-Box
-    fd_pval<-try(seasonality_friedman(x_diff,frequency(x))$pvalue, silent=TRUE) # Friedman non-parametric test
+    lb_pval<-try(seasonality_qs(x_diff, frequency(x))$pvalue, silent=TRUE) # Ljung-Box
+    fd_pval<-try(seasonality_friedman(x_diff, frequency(x))$pvalue, silent=TRUE) # Friedman non-parametric test
 
     test_succeeded<-c(!"try-error" %in% class(lb_pval), !"try-error" %in% class(fd_pval))
     if(all(test_succeeded)){
@@ -572,9 +572,9 @@ check_seasonality <- function(x){
       seasonality<-ifelse(length(pvals[which(pvals<.05)])==2, TRUE, FALSE)
     }else if(any(test_succeeded)){
       if(test_succeeded[1]){
-        seasonality<-ifelse(lb_pval<.01,TRUE,FALSE)
+        seasonality<-ifelse(lb_pval<.01, TRUE, FALSE)
       }else if(test_succeeded[2]){
-        seasonality<-ifelse(fd_pval<.01,TRUE,FALSE)
+        seasonality<-ifelse(fd_pval<.01, TRUE, FALSE)
       }
     }else{
       seasonality<-FALSE

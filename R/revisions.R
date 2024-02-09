@@ -36,17 +36,17 @@ get_revisions<-function(vintages, gap=1){
     idx1<-(gap+1):n
     idx0<-1:(n-gap)
 
-    rev<-vt[,idx1,drop=FALSE]-vt[,idx0,drop=FALSE]
+    rev<-vt[, idx1, drop=FALSE]-vt[, idx0, drop=FALSE]
 
     w<-sapply(colnames(vt), function(s){paste0('[', s, ']')})
-    rw<-mapply(function(a,b){paste(a,b,sep='-')}, w[idx1],w[idx0])
+    rw<-mapply(function(a, b){paste(a, b, sep='-')}, w[idx1], w[idx0])
 
     rev<-`colnames<-`(rev, rw)
     return (rev)
   }
 
   vr<-get_vd_rev(vintages$vertical_view, gap)
-  hr<-`colnames<-`(t(vr),colnames(vintages$horizontal_view))
+  hr<-`colnames<-`(t(vr), colnames(vintages$horizontal_view))
   dr<-get_vd_rev(vintages$diagonal_view, gap)
 
   return (list(vertical_view=vr, horizontal_view=hr, diagonal_view=dr))

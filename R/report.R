@@ -44,10 +44,10 @@ get_report <- function(rslt,
   template_file<-system.file("templates/report.Rmd", package = "rjd3revisions")
 
   if(is.null(path.out)){
-    path.out<-paste0(getwd(),"/","revisions_report.html")
+    path.out<-paste0(getwd(), "/", "revisions_report.html")
   }else{
     path.out<-ifelse(substr(path.out, length(path.out)-5, length(path.out)) != ".html",
-                     paste0(path.out,".html"),
+                     paste0(path.out, ".html"),
                      path.out)
   }
 

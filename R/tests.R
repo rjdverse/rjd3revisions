@@ -1,4 +1,4 @@
-descriptiveStatNames<-c("N", "mean revision", "st.dev.", "min", "q.10", "median","q.90", "max", "% positive", "% zero", "% negative", "mean absolute revision", "root mean square revision")
+descriptiveStatNames<-c("N", "mean revision", "st.dev.", "min", "q.10", "median", "q.90", "max", "% positive", "% zero", "% negative", "mean absolute revision", "root mean square revision")
 
 biasNames<-c("N", "estimate", "stderr", "tstat", "pvalue", "ar(1)", "stderr.adjusted", "tstat.adjusted", "pvalue.adjusted")
 
@@ -45,10 +45,10 @@ OlsAllNames<-function(nregs){
 vecmAllNames<-function(lag){
   t<-m<-c()
   for (i in lag:1){
-    t<-c(t,paste0("trace(", i, ")"))
-    m<-c(m,paste0("max(", i, ")"))
+    t<-c(t, paste0("trace(", i, ")"))
+    m<-c(m, paste0("max(", i, ")"))
   }
-  return(c(t,m))
+  return(c(t, m))
 }
 
 #' Descriptive statistics
@@ -90,9 +90,9 @@ descriptive_statistics<-function(revisions.view, rounding=3){
     mn<-mean(rc)
     sd<-sd(rc)
     min<-min(rc)
-    q10<-quantile(rc,.1)
+    q10<-quantile(rc, .1)
     q50<-median(rc)
-    q90<-quantile(rc,.9)
+    q90<-quantile(rc, .9)
     max<-max(rc)
     pp<-length(rc[rc>0])/n
     p0<-length(rc[rc==0])/n
@@ -100,12 +100,12 @@ descriptive_statistics<-function(revisions.view, rounding=3){
     mar<-mean(abs(rc))
     rmsr<-sqrt(mean(rc^2))
 
-    return(c(n,mn,sd,min,q10,q50,q90,max,pp,p0,pn,mar,rmsr))
+    return(c(n, mn, sd, min, q10, q50, q90, max, pp, p0, pn, mar, rmsr))
   }
 
   ds<-apply(revisions.view, 2, descriptive_statistics_one)
 
-  return (`rownames<-`(round(ds,rounding), descriptiveStatNames))
+  return (`rownames<-`(round(ds, rounding), descriptiveStatNames))
 }
 
 #' Theil's Inequality Coefficient U1
@@ -148,9 +148,9 @@ theil<-function(vintages.view, gap=1, na.zero= FALSE){
   q<-vintages.view
   if(na.zero) q[is.na(q)]<-0
   jq<-matrix_r2jd(q)
-  theil<-try(.jcall("jdplus/revisions/base/r/Utility", "[D", "theil", jq, as.integer(gap)),silent= TRUE)
+  theil<-try(.jcall("jdplus/revisions/base/r/Utility", "[D", "theil", jq, as.integer(gap)), silent= TRUE)
   if("try-error" %in% class(theil)){
-    warning("theil could not be performed",call.= FALSE)
+    warning("theil could not be performed", call.= FALSE)
     return(NULL)
   }
   return (theil)
@@ -195,9 +195,9 @@ theil2<-function(vintages.view, gap=1, na.zero= FALSE){
   q<-vintages.view
   if(na.zero) q[is.na(q)]<-0
   jq<-matrix_r2jd(q)
-  theil2<-try(.jcall("jdplus/revisions/base/r/Utility", "[D", "theil2", jq, as.integer(gap)),silent= TRUE)
+  theil2<-try(.jcall("jdplus/revisions/base/r/Utility", "[D", "theil2", jq, as.integer(gap)), silent= TRUE)
   if("try-error" %in% class(theil2)){
-    warning("theil2 could not be performed",call.= FALSE)
+    warning("theil2 could not be performed", call.= FALSE)
     return(NULL)
   }
   return (theil2)
@@ -240,15 +240,15 @@ bias<-function(revisions.view, na.zero= FALSE){
   r<-revisions.view
   if(na.zero) r[is.na(r)]<-0
   jrevs<-matrix_r2jd(r)
-  jbias<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "bias", jrevs),silent= TRUE)
+  jbias<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "bias", jrevs), silent= TRUE)
   if("try-error" %in% class(bias)){
-    warning("bias could not be performed",call.= FALSE)
+    warning("bias could not be performed", call.= FALSE)
     return(NULL)
   }
   bias <- matrix_jd2r(jbias)
-  bias[rowSums(bias[])==0,]<-NaN # fix non-calculable cases
+  bias[rowSums(bias[])==0, ]<-NaN # fix non-calculable cases
   if(all(is.nan(bias))){
-    warning("bias could not be performed",call.= FALSE)
+    warning("bias could not be performed", call.= FALSE)
     return(NULL)
   }
   colnames(bias)<-biasNames
@@ -299,15 +299,15 @@ slope_and_drift<-function(vintages.view, gap=1, na.zero= FALSE){
   q<-vintages.view
   if(na.zero) q[is.na(q)]<-0
   jq<-matrix_r2jd(q)
-  jsd<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "slopeAndDrift", jq, as.integer(gap)),silent= TRUE)
+  jsd<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "slopeAndDrift", jq, as.integer(gap)), silent= TRUE)
   if("try-error" %in% class(jsd)){
-    warning("Slope and drift could not be performed",call.= FALSE)
+    warning("Slope and drift could not be performed", call.= FALSE)
     return(NULL)
   }
   slope_and_drift <- matrix_jd2r(jsd)
-  slope_and_drift[rowSums(slope_and_drift[])==0,]<-NaN # fix non-calculable cases
+  slope_and_drift[rowSums(slope_and_drift[])==0, ]<-NaN # fix non-calculable cases
   if(all(is.nan(slope_and_drift))){
-    warning("slope_and_drift could not be performed",call.= FALSE)
+    warning("slope_and_drift could not be performed", call.= FALSE)
     return(NULL)
   }
   colnames(slope_and_drift)<-OlsNames
@@ -358,21 +358,21 @@ efficiencyModel1<-function(vintages.view, gap=1, na.zero= FALSE){
   q<-vintages.view
   if(na.zero) q[is.na(q)]<-0
   jq<-matrix_r2jd(q)
-  jef1<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "efficiencyModel1", jq, as.integer(gap)),silent= TRUE)
+  jef1<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "efficiencyModel1", jq, as.integer(gap)), silent= TRUE)
   if("try-error" %in% class(jef1)){
-    warning("efficiencyModel1 could not be performed",call.= FALSE)
+    warning("efficiencyModel1 could not be performed", call.= FALSE)
     return(NULL)
   }
   efficiencyModel1 <- matrix_jd2r(jef1)
-  efficiencyModel1[rowSums(efficiencyModel1[])==0,]<-NaN # fix non-calculable cases
+  efficiencyModel1[rowSums(efficiencyModel1[])==0, ]<-NaN # fix non-calculable cases
   if(all(is.nan(efficiencyModel1))){
-    warning("efficiencyModel1 could not be performed",call.= FALSE)
+    warning("efficiencyModel1 could not be performed", call.= FALSE)
     return(NULL)
   }
   colnames(efficiencyModel1)<-OlsNames
   n<-dim(q)[2]
   w<-sapply(colnames(q), function(s){paste0('[', s, ']')})
-  rw<-mapply(function(a,b){paste(a,b,sep='-')}, w[(gap+1):n],w[1:(n-gap)])
+  rw<-mapply(function(a, b){paste(a, b, sep='-')}, w[(gap+1):n], w[1:(n-gap)])
   rownames(efficiencyModel1)<-rw
   return (efficiencyModel1)
 }
@@ -418,25 +418,25 @@ efficiencyModel2<-function(vintages.view, gap=1, na.zero= FALSE){
   q<-vintages.view
   if(na.zero) q[is.na(q)]<-0
   jq<-matrix_r2jd(q)
-  jef2<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "efficiencyModel2", jq, as.integer(gap)),silent= TRUE)
+  jef2<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "efficiencyModel2", jq, as.integer(gap)), silent= TRUE)
   if("try-error" %in% class(jef2)){
-    warning("efficiencyModel2 could not be performed",call.= FALSE)
+    warning("efficiencyModel2 could not be performed", call.= FALSE)
     return(NULL)
   }
   efficiencyModel2 <- matrix_jd2r(jef2)
   if(length(efficiencyModel2)==0) {
-    warning("efficiencyModel2 could not be performed: Too few number of vintages",call.= FALSE)
+    warning("efficiencyModel2 could not be performed: Too few number of vintages", call.= FALSE)
     return(NULL)
   }
-  efficiencyModel2[rowSums(efficiencyModel2[])==0,]<-NaN # fix non-calculable cases
+  efficiencyModel2[rowSums(efficiencyModel2[])==0, ]<-NaN # fix non-calculable cases
   if(all(is.nan(efficiencyModel2))){
-    warning("efficiencyModel2 could not be performed",call.= FALSE)
+    warning("efficiencyModel2 could not be performed", call.= FALSE)
     return(NULL)
   }
   colnames(efficiencyModel2)<-OlsNames
   n<-dim(q)[2]
   w<-sapply(colnames(q), function(s){paste0('[', s, ']')})
-  rw<-mapply(function(a,b){paste(a,b,sep='-')}, w[(gap+1):n],w[1:(n-gap)])
+  rw<-mapply(function(a, b){paste(a, b, sep='-')}, w[(gap+1):n], w[1:(n-gap)])
   rownames(efficiencyModel2)<-rw[-1]
   return (efficiencyModel2)
 }
@@ -481,19 +481,19 @@ orthogonallyModel1<-function(revisions.view, nrevs=1, na.zero= FALSE){
   r<-revisions.view
   if(na.zero) r[is.na(r)]<-0
   jr<-matrix_r2jd(as.matrix(r))
-  jom<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "orthogonallyModel1", jr, as.integer(nrevs)),silent= TRUE)
+  jom<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "orthogonallyModel1", jr, as.integer(nrevs)), silent= TRUE)
   if("try-error" %in% class(jom)){
-    warning("orthogonallyModel1 could not be performed",call.= FALSE)
+    warning("orthogonallyModel1 could not be performed", call.= FALSE)
     return(NULL)
   }
   om <- matrix_jd2r(jom)
   if (length(om)==0) {
-    warning("orthogonallyModel1 could not be performed: Too few number of vintages",call.= FALSE)
+    warning("orthogonallyModel1 could not be performed: Too few number of vintages", call.= FALSE)
     return(NULL)
   }
-  om[rowSums(om[])==0,]<-NaN # fix non-calculable cases
+  om[rowSums(om[])==0, ]<-NaN # fix non-calculable cases
   if(all(is.nan(om))){
-    warning("orthogonallyModel1 could not be performed",call.= FALSE)
+    warning("orthogonallyModel1 could not be performed", call.= FALSE)
     return(NULL)
   }
   colnames(om)<-OlsAllNames(nrevs)
@@ -541,19 +541,19 @@ orthogonallyModel2<-function(revisions.view, reference=1, na.zero= FALSE){
   r<-revisions.view
   if(na.zero) r[is.na(r)]<-0
   jr<-matrix_r2jd(as.matrix(r))
-  jom<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "orthogonallyModel2", jr, as.integer(reference)),silent= TRUE)
+  jom<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "orthogonallyModel2", jr, as.integer(reference)), silent= TRUE)
   if("try-error" %in% class(jom)){
-    warning("orthogonallyModel2 could not be performed",call.= FALSE)
+    warning("orthogonallyModel2 could not be performed", call.= FALSE)
     return(NULL)
   }
   om <- matrix_jd2r(jom)
   if (length(om)==0) {
-    warning("orthogonallyModel2 could not be performed: Too few number of vintages",call.= FALSE)
+    warning("orthogonallyModel2 could not be performed: Too few number of vintages", call.= FALSE)
     return(NULL)
   }
-  om[rowSums(om[])==0,]<-NaN # fix non-calculable cases
+  om[rowSums(om[])==0, ]<-NaN # fix non-calculable cases
   if(all(is.nan(om))){
-    warning("orthogonallyModel2 could not be performed",call.= FALSE)
+    warning("orthogonallyModel2 could not be performed", call.= FALSE)
     return(NULL)
   }
   colnames(om)<-OlsNames
@@ -604,21 +604,21 @@ signalnoise<-function(vintages.view, gap=1, na.zero= FALSE){
   q<-vintages.view
   if(na.zero) q[is.na(q)]<-0
   jq<-matrix_r2jd(q)
-  jsd<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "signalNoise", jq, as.integer(gap)),silent= TRUE)
+  jsd<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "signalNoise", jq, as.integer(gap)), silent= TRUE)
   if("try-error" %in% class(jsd)){
-    warning("signalnoise could not be performed",call.= FALSE)
+    warning("signalnoise could not be performed", call.= FALSE)
     return(NULL)
   }
   sn<-matrix_jd2r(jsd)
-  sn[rowSums(sn[])==0,]<-NaN # fix non-calculable cases
+  sn[rowSums(sn[])==0, ]<-NaN # fix non-calculable cases
   if(all(is.nan(sn))){
-    warning("SignalNoise could not be performed",call.= FALSE)
+    warning("SignalNoise could not be performed", call.= FALSE)
     return(NULL)
   }
   colnames(sn)<-snNames
   n<-dim(q)[2]
   w<-sapply(colnames(q), function(s){paste0('[', s, ']')})
-  rw<-mapply(function(a,b){paste(a,b,sep='-')}, w[(gap+1):n],w[1:(n-gap)])
+  rw<-mapply(function(a, b){paste(a, b, sep='-')}, w[(gap+1):n], w[1:(n-gap)])
   rownames(sn)<-rw
   return (sn)
 }
@@ -660,9 +660,9 @@ unitroot<-function(vintages.view, adfk=1, na.zero= FALSE){
   q<-vintages.view
   if(na.zero) q[is.na(q)]<-0
   jq<-matrix_r2jd(q)
-  jsd<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "unitroot", jq, as.integer(adfk)),silent= TRUE)
+  jsd<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "unitroot", jq, as.integer(adfk)), silent= TRUE)
   if("try-error" %in% class(jsd)){
-    warning("unit root test could not be performed",call.= FALSE)
+    warning("unit root test could not be performed", call.= FALSE)
     return(NULL)
   }
   ur<-matrix_jd2r(jsd)
@@ -708,9 +708,9 @@ cointegration<-function(vintages.view, adfk=1, na.zero= FALSE){
   q<-vintages.view
   if(na.zero) q[is.na(q)]<-0
   jq<-matrix_r2jd(q)
-  jsd<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "cointegration", jq, as.integer(adfk)),silent= TRUE)
+  jsd<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "cointegration", jq, as.integer(adfk)), silent= TRUE)
   if("try-error" %in% class(jsd)){
-    warning("cointegration test could not be performed",call.= FALSE)
+    warning("cointegration test could not be performed", call.= FALSE)
     return(NULL)
   }
   eg<-matrix_jd2r(jsd)
@@ -759,9 +759,9 @@ vecm<-function(vintages.view, lag=2, model = c("none", "cnt", "trend"), na.zero=
   q<-vintages.view
   if(na.zero) q[is.na(q)]<-0
   jq<-matrix_r2jd(q)
-  jsd<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "vecm", jq, as.integer(lag), model),silent= TRUE)
+  jsd<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "vecm", jq, as.integer(lag), model), silent= TRUE)
   if("try-error" %in% class(jsd)){
-    warning("vecm could not be performed",call.= FALSE)
+    warning("vecm could not be performed", call.= FALSE)
     return(NULL)
   }
   vecm<-matrix_jd2r(jsd)
@@ -777,9 +777,9 @@ vecm<-function(vintages.view, lag=2, model = c("none", "cnt", "trend"), na.zero=
 #   if(na.zero) q[is.na(q)]<-0
 #   jq<-matrix_r2jd(q)
 #   jsd<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "autoCorrelation", jq
-#                   , as.integer(nbreuschgodfrey), as.integer(nljungbox)),silent= TRUE)
+#                   , as.integer(nbreuschgodfrey), as.integer(nljungbox)), silent= TRUE)
 #   if("try-error" %in% class(jsd)){
-#     warning("auto_correlation test on OLS residuals could not be performed",call.= FALSE)
+#     warning("auto_correlation test on OLS residuals could not be performed", call.= FALSE)
 #     return(NULL)
 #   }
 #   ac<-matrix_jd2r(jsd)

@@ -86,7 +86,7 @@ create_vintages<- function(df, periodicity, vintage.selection = NULL, revdate.fo
     return(NULL)
   }
 
-  colnames(df)<-c("revdate","time","obs_value")
+  colnames(df)<-c("revdate", "time", "obs_value")
   df$revdate<-as.Date(as.character(df$revdate), revdate.format)
 
   if (any(is.na(df$revdate))){
@@ -139,8 +139,8 @@ create_vintages<- function(df, periodicity, vintage.selection = NULL, revdate.fo
 
   ## diagonal view
   vd_mat<-t(apply(t(vv), 2, function(x) x[order(is.na(x))]))
-  releases_name<-sprintf("Release[%s]",seq_len(ncol(vd_mat)))
-  vd<-`colnames<-`(ts(vd_mat, start = start(vv), frequency = periodicity),releases_name)
+  releases_name<-sprintf("Release[%s]", seq_len(ncol(vd_mat)))
+  vd<-`colnames<-`(ts(vd_mat, start = start(vv), frequency = periodicity), releases_name)
 
   vintages <- list(vertical_view = vv, horizontal_view = vh, diagonal_view = vd)
   class(vintages) <- "rjd3rev_vintages"
@@ -259,16 +259,16 @@ yq<-function(y, q){
 yp<-function(s){
   y<-as.integer(substr(s, 1, 4))
   if(nchar(as.character(s))[1] == 4){
-    return (ymd(y,1))
+    return (ymd(y, 1))
   }else{
-    p <- substr(s,5,5)
+    p <- substr(s, 5, 5)
     if (all(p == 'Q') | all(p == 'q')){
       q<-as.integer(substr(s, 6, 6))
-      return (yq(y,q))
+      return (yq(y, q))
     }
     if (all(p == 'M') | all(p == 'm')){
       m<-as.integer(substr(s, 6, length(s)))
-      return (ymd(y,m))
+      return (ymd(y, m))
     }
   }
   return (NULL)
@@ -277,11 +277,11 @@ yp<-function(s){
 d2t<-function(d, periodicity){
   y<-floor(d)
   frac<-d%%1
-  date<-ymd(y,1,1)+(ymd(y+1,1,1)-ymd(y,1,1))*frac
+  date<-ymd(y, 1, 1)+(ymd(y+1, 1, 1)-ymd(y, 1, 1))*frac
   if (periodicity == 12){
-    return (paste0(y,"M",format(date,"%m")))
+    return (paste0(y, "M", format(date, "%m")))
   }else if (periodicity == 4){
-    return (paste0(y,"Q",(as.numeric(format(date,"%m"))+2)/3))
+    return (paste0(y, "Q", (as.numeric(format(date, "%m"))+2)/3))
   }else if (periodicity == 1){
     return (y)
   }
