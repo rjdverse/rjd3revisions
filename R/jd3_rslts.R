@@ -125,7 +125,7 @@ proc_data<-function(rslt, name){
 proc_dictionary<-function(name){
   jmapping<-.jcall(name, "Ldemetra/information/InformationMapping;", "getMapping")
   jmap<-.jnew("java/util/LinkedHashMap")
-  .jcall(jmapping, "V", "fillDictionary", .jnull("java/lang/String"), .jcast(jmap, "java/util/Map"), TRUE )
+  .jcall(jmapping, "V", "fillDictionary", .jnull("java/lang/String"), .jcast(jmap, "java/util/Map"), TRUE)
   jkeys<-.jcall(jmap, "Ljava/util/Set;", "keySet")
   size<-.jcall(jkeys, "I", "size")
   keys<-array(dim=size)

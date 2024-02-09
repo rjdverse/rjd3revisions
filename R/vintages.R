@@ -118,7 +118,7 @@ create_vintages<- function(df, periodicity, vintage.selection = NULL, revdate.fo
   }
 
   # format input
-  input<-split(df, seq(nrow(df)))
+  input<-split(df, seq_len(nrow(df)))
 
   add_to_JD3revisions <- function(x) {
     revdate<-x[[1]]
@@ -139,7 +139,7 @@ create_vintages<- function(df, periodicity, vintage.selection = NULL, revdate.fo
 
   ## diagonal view
   vd_mat<-t(apply(t(vv), 2, function(x) x[order(is.na(x))]))
-  releases_name<-sprintf("Release[%s]",seq(1:ncol(vd_mat)))
+  releases_name<-sprintf("Release[%s]",seq_len(ncol(vd_mat)))
   vd<-`colnames<-`(ts(vd_mat, start = start(vv), frequency = periodicity),releases_name)
 
   vintages <- list(vertical_view = vv, horizontal_view = vh, diagonal_view = vd)
