@@ -34,7 +34,7 @@ proc_ts<-function(rslt, name){
   if (is.jnull(s))
     return (NULL)
   if (.jinstanceof(s, "demetra/timeseries/TsData"))
-    return(ts_jd2r(.jcast(s,"demetra/timeseries/TsData")))
+    return(ts_jd2r(.jcast(s, "demetra/timeseries/TsData")))
   else
     return (NULL)
 }
@@ -98,11 +98,11 @@ proc_data<-function(rslt, name){
   if (is.jnull(s))
     return (NULL)
   if (.jinstanceof(s, "demetra/timeseries/TsData"))
-    return(ts_jd2r(.jcast(s,"demetra/timeseries/TsData")))
+    return(ts_jd2r(.jcast(s, "demetra/timeseries/TsData")))
   else if (.jinstanceof(s, "java/lang/Number"))
     return (.jcall(s, "D", "doubleValue"))
   else if (.jinstanceof(s, "demetra/math/matrices/MatrixType"))
-    return(matrix_jd2r(.jcast(s,"demetra/math/matrices/MatrixType")))
+    return(matrix_jd2r(.jcast(s, "demetra/math/matrices/MatrixType")))
   else if (.jinstanceof(s, "demetra/data/Parameter")){
     val<-.jcall(s, "D", "getValue")
      return (c(val))
@@ -125,32 +125,31 @@ proc_data<-function(rslt, name){
 proc_dictionary<-function(name){
   jmapping<-.jcall(name, "Ldemetra/information/InformationMapping;", "getMapping")
   jmap<-.jnew("java/util/LinkedHashMap")
-  .jcall(jmapping, "V", "fillDictionary", .jnull("java/lang/String"), .jcast(jmap, "java/util/Map"), TRUE )
+  .jcall(jmapping, "V", "fillDictionary", .jnull("java/lang/String"), .jcast(jmap, "java/util/Map"), TRUE)
   jkeys<-.jcall(jmap, "Ljava/util/Set;", "keySet")
   size<-.jcall(jkeys, "I", "size")
   keys<-array(dim=size)
   jiter<-.jcall(jkeys, "Ljava/util/Iterator;", "iterator")
   for (i in 1:size){
-    keys[i]=.jcall(.jcall(jiter, "Ljava/lang/Object;", "next"), "Ljava/lang/String;", "toString")
+    keys[i] <- .jcall(.jcall(jiter, "Ljava/lang/Object;", "next"), "Ljava/lang/String;", "toString")
   }
   return (keys)
 }
 
 proc_likelihood<-function(jrslt, prefix){
   return (list(
-    ll=proc_numeric(jrslt, paste(prefix,"ll", sep="")),
-    ssq=proc_numeric(jrslt, paste(prefix,"ssq", sep="")),
-    ser=proc_numeric(jrslt, paste(prefix,"ser", sep="")),
-    nobs=proc_int(jrslt, paste(prefix,"nobs", sep="")),
-    neffective=proc_int(jrslt, paste(prefix,"neffective", sep="")),
-    nparams=proc_int(jrslt, paste(prefix,"nparams", sep="")),
-    df=proc_int(jrslt, paste(prefix,"df", sep="")),
-    aic=proc_numeric(jrslt, paste(prefix,"aic", sep="")),
-    aicc=proc_numeric(jrslt, paste(prefix,"aicc", sep="")),
-    bic=proc_numeric(jrslt, paste(prefix,"bic", sep="")),
-    bic2=proc_numeric(jrslt, paste(prefix,"bic2", sep="")),
-    bicc=proc_numeric(jrslt, paste(prefix,"bicc", sep="")),
-    hannanquinn=proc_numeric(jrslt, paste(prefix,"hannanquinn", sep="")))
+    ll=proc_numeric(jrslt, paste(prefix, "ll", sep="")),
+    ssq=proc_numeric(jrslt, paste(prefix, "ssq", sep="")),
+    ser=proc_numeric(jrslt, paste(prefix, "ser", sep="")),
+    nobs=proc_int(jrslt, paste(prefix, "nobs", sep="")),
+    neffective=proc_int(jrslt, paste(prefix, "neffective", sep="")),
+    nparams=proc_int(jrslt, paste(prefix, "nparams", sep="")),
+    df=proc_int(jrslt, paste(prefix, "df", sep="")),
+    aic=proc_numeric(jrslt, paste(prefix, "aic", sep="")),
+    aicc=proc_numeric(jrslt, paste(prefix, "aicc", sep="")),
+    bic=proc_numeric(jrslt, paste(prefix, "bic", sep="")),
+    bic2=proc_numeric(jrslt, paste(prefix, "bic2", sep="")),
+    bicc=proc_numeric(jrslt, paste(prefix, "bicc", sep="")),
+    hannanquinn=proc_numeric(jrslt, paste(prefix, "hannanquinn", sep="")))
   )
 }
-

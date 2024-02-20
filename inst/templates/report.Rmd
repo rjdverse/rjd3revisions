@@ -25,32 +25,32 @@ For some parametric tests, transformation may be important to avoid misleading r
 
 # Descriptive statistics
 ```{r descriptivetable, echo = FALSE}
-selection<-c("N","mean revision", "st.dev.", "% positive", "% zero", "% negative")  
+selection<-c("N", "mean revision", "st.dev.", "% positive", "% zero", "% negative")  
 
-if (! requireNamespace("kableExtra", quietly=T)) {
-  knitr::kable(descriptive_statistics[selection,,drop=F], format="html")
+if (! requireNamespace("kableExtra", quietly=TRUE)) {
+  knitr::kable(descriptive_statistics[selection, , drop=FALSE], format="html")
   warning("Please install kableExtra: install.packages('kableExtra') to get more visual table output")
 }else{
-  kableExtra::kable_minimal(knitr::kable(descriptive_statistics[selection,,drop=F], format="html"))
+  kableExtra::kable_minimal(knitr::kable(descriptive_statistics[selection, , drop=FALSE], format="html"))
 }
 ```
 
 # Main Results
 ```{r summarytable, echo = FALSE}
-if (! requireNamespace("kableExtra", quietly=T)) {
+if (! requireNamespace("kableExtra", quietly=TRUE)) {
   knitr::kable(main_results, format="html")
 }else{
   format_font <- function(x){
     kableExtra::cell_spec(x,
-                          color = ifelse(is.na(x),"black",
-                                  ifelse(substr(x,1,1) == "G", "green",
-                                  ifelse(substr(x,1,1) == "U", "orange", "red"))),
-                          bold = ifelse(is.na(x),F,
-                                 ifelse(substr(x,1,1) == "S", T, F)))
+                          color = ifelse(is.na(x), "black",
+                                  ifelse(substr(x, 1, 1) == "G", "green",
+                                  ifelse(substr(x, 1, 1) == "U", "orange", "red"))),
+                          bold = ifelse(is.na(x), FALSE,
+                                 ifelse(substr(x, 1, 1) == "S", TRUE, FALSE)))
   }
   nc<-ncol(main_results)
-  main_results[,2:nc]<-apply(main_results[,2:nc,drop=F], 2, format_font)
-  kableExtra::kable_minimal(knitr::kable(main_results, format="html", escape = F))
+  main_results[, 2:nc]<-apply(main_results[, 2:nc, drop=FALSE], 2, format_font)
+  kableExtra::kable_minimal(knitr::kable(main_results, format="html", escape = FALSE))
 }
 ```
 
