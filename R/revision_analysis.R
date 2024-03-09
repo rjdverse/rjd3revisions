@@ -129,6 +129,7 @@ revision_analysis<-function(vintages,
   if(view == "vertical"){
     vt<-vintages$vertical_view
   }else if (view == "diagonal"){
+    n.releases <- min(n.releases, ncol(vintages$diagonal_view))
     vt<-vintages$diagonal_view[, 1:n.releases]
   }
 
