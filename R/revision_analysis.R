@@ -380,7 +380,7 @@ revision_analysis<-function(vintages,
     sn_news_q<-eval_pvals(sn[, "News.pvalue"], h0_good=FALSE)
   }else{
     sn_rslt<-NULL
-    sn_noise_q<-sn_news_q<-rep(NA, colnames(rv))
+    sn_noise_q<-sn_news_q<-rep(NA, length(colnames(rv)))
   }
 
 
