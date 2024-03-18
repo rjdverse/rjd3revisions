@@ -4,13 +4,13 @@
 \alias{bias}
 \title{Estimate bias using t-test and augmented t-test}
 \usage{
-bias(revisions.view, na.zero = F)
+bias(revisions.view, na.zero = FALSE)
 }
 \arguments{
-\item{revisions.view}{mts object. Vertical or diagonal view of the 
+\item{revisions.view}{mts object. Vertical or diagonal view of the
 `get_revisions()` output}
 
-\item{na.zero}{Boolean whether missing values should be considered as 0 or 
+\item{na.zero}{Boolean whether missing values should be considered as 0 or
 rather as data not (yet) available (the default).}
 }
 \description{

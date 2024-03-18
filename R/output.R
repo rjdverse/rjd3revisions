@@ -4,7 +4,7 @@
 #' @param \dots further arguments passed to or from other methods.
 #' @export
 #'
-print.rjd3rev_revision_analysis <- function(x, ...){
+print.rjd3rev_revision_analysis <- function(x, ...) {
 
   print(list(call=x$call,
              descriptive_statistics=x$descriptive.statistics,
@@ -16,14 +16,14 @@ print.rjd3rev_revision_analysis <- function(x, ...){
 #' @param x an object of class "rjd3rev_revision_analysis"
 #' @export
 #'
-summary.rjd3rev_revision_analysis<- function(x){
+summary.rjd3rev_revision_analysis<- function(x) {
 
   if (! requireNamespace("formattable", quietly = TRUE)) {
     warning("Please install 'formattable': install.packages('formattable') to get more visual output")
     return(x$summary)
-  }else{
-    format_font <- function(x){
-      formattable::formatter('span',
+  } else {
+    format_font <- function(x) {
+      formattable::formatter("span",
                              style = x ~ formattable::style(color = ifelse(substr(x, 1, 1) == "G", "green",
                                                                     ifelse(substr(x, 1, 1) == "U", "orange", "red")),
                                                             font.weight = ifelse(substr(x, 1, 1) == "S", "bold", "plain")))
@@ -39,10 +39,10 @@ summary.rjd3rev_revision_analysis<- function(x){
 #' @param \dots further arguments passed to or from other methods.
 #' @export
 #'
-plot.rjd3rev_revision_analysis <- function(x, ...){
+plot.rjd3rev_revision_analysis <- function(x, ...) {
   rev<-x$revisions
   nc<-ncol(rev)
-  if(nc>4){
+  if (nc>4) {
     rev<-rev[, 1:4]
     nc<-4
   }

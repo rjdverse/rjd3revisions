@@ -77,7 +77,7 @@ create_vintages<- function(df, periodicity, vintage.selection = NULL, revdate.fo
   jfac<-.jnew("jdplus/revisions/base/r/VintagesFactory", as.integer(periodicity))
 
   # check input
-  if(! is.data.frame(df)){
+  if (! is.data.frame(df)) {
     warning("Wrong input type. Must be a data.frame.")
     return(NULL)
   }
@@ -89,30 +89,30 @@ create_vintages<- function(df, periodicity, vintage.selection = NULL, revdate.fo
   colnames(df)<-c("revdate", "time", "obs_value")
   df$revdate<-as.Date(as.character(df$revdate), revdate.format)
 
-  if (any(is.na(df$revdate))){
+  if (any(is.na(df$revdate))) {
     warning("Wrong input in first column. Revision dates not in a correct format. The parameter revdate.format might be mispecified.")
     return(NULL)
   }
-  if(is.null(yp(df$time))){
+  if (is.null(yp(df$time))) {
     warning("Wrong input in second column. Time periods not in a correct format. Examples of correct formats are 2023M01, 2023Q1 or 2023.")
     return(NULL)
-  }else{
+  } else {
     df$time<-yp(df$time)
   }
-  if(! is.numeric(df$obs_value)){
+  if (! is.numeric(df$obs_value)) {
     warning("Wrong input in third column. Obsevation values must be numeric.")
     return(NULL)
   }
 
   # Vintages selection
-  if(!is.null(vintage.selection)){
+  if (!is.null(vintage.selection)) {
     df<-subset(df, revdate >= as.Date(vintage.selection[[1]]) & revdate <= as.Date(vintage.selection[[2]]))
-    if(nrow(df) == 0){
+    if (nrow(df) == 0) {
       warning("Vintage selection out of range!")
       return(NULL)
     }
   }
-  if(length(unique(df$revdate))<2){
+  if (length(unique(df$revdate))<2) {
     warning("Too few number of vintages. Number of unique revision dates must be >= 2.")
     return(NULL)
   }
@@ -125,7 +125,7 @@ create_vintages<- function(df, periodicity, vintage.selection = NULL, revdate.fo
     timedate<-x[[2]]
     val<-x[[3]]
     .jcall(jfac, "V", "add", as.character(timedate), as.character(revdate), val)
-    return (NULL)
+    return(NULL)
   }
   lapply(input, FUN=add_to_JD3revisions)
 
@@ -145,7 +145,7 @@ create_vintages<- function(df, periodicity, vintage.selection = NULL, revdate.fo
   vintages <- list(vertical_view = vv, horizontal_view = vh, diagonal_view = vd)
   class(vintages) <- "rjd3rev_vintages"
 
-  return (vintages)
+  return(vintages)
 }
 
 #' Create vintages table from CSV or TXT files
@@ -181,7 +181,7 @@ create_vintages<- function(df, periodicity, vintage.selection = NULL, revdate.fo
 #'                                    vintage.selection=NULL,
 #'                                    revdate.format="%Y-%m-%d")
 #' }
-create_vintages_from_csv<-function(file, periodicity, separator = ",", vintage.selection=NULL, revdate.format="%Y.%m.%d"){
+create_vintages_from_csv<-function(file, periodicity, separator = ",", vintage.selection=NULL, revdate.format="%Y.%m.%d") {
 
   df<-as.data.frame(read.csv(file, sep = separator, stringsAsFactors = FALSE))
 
@@ -221,9 +221,11 @@ create_vintages_from_csv<-function(file, periodicity, separator = ",", vintage.s
 #'                                     vintage.selection=NULL,
 #'                                     revdate.format="%d/%m/%Y"))
 #' }
-create_vintages_from_xlsx<-function(file, sheetname, periodicity, vintage.selection = NULL, revdate.format= "%Y.%m.%d"){
+create_vintages_from_xlsx<-function(file, sheetname, periodicity, vintage.selection = NULL, revdate.format= "%Y.%m.%d") {
 
-  if(! require(readxl)){stop("package 'readxl' must be installed to run the function 'create_vintages_from_xlsx'")}
+  if (! require(readxl)) {
+      stop("package 'readxl' must be installed to run the function 'create_vintages_from_xlsx'")
+  }
 
   df<-as.data.frame(read_excel(file, sheet = sheetname))
 
@@ -232,7 +234,7 @@ create_vintages_from_xlsx<-function(file, sheetname, periodicity, vintage.select
 
 
 
-vintageTableFromFactory<-function(jfac){
+vintageTableFromFactory<-function(jfac) {
 
   jvn<-.jcall(jfac, "Ljdplus/revisions/base/r/Vintages;", "build")
   jmat<-.jcall(jvn, "Ljdplus/revisions/base/api/timeseries/TsMatrix;", "vtable")
@@ -244,46 +246,46 @@ vintageTableFromFactory<-function(jfac){
   data[is.nan(data)]<-NA
   tsm<-ts(data, frequency = pstart[1], start = pstart[-1])
   tsm<-`colnames<-`(tsm, cols)
-  return (tsm)
+  return(tsm)
 }
 
 
-ymd<-function(y, m, d=1){
-  return (as.Date(sprintf("%04i-%02i-%02i", y, m, d)))
+ymd<-function(y, m, d=1) {
+  return(as.Date(sprintf("%04i-%02i-%02i", y, m, d)))
 }
 
-yq<-function(y, q){
-  return (as.Date(sprintf("%04i-%02i-%02i", y, q*3-2, 1)))
+yq<-function(y, q) {
+  return(as.Date(sprintf("%04i-%02i-%02i", y, q*3-2, 1)))
 }
 
-yp<-function(s){
+yp<-function(s) {
   y<-as.integer(substr(s, 1, 4))
-  if(nchar(as.character(s))[1] == 4){
-    return (ymd(y, 1))
-  }else{
+  if (nchar(as.character(s))[1] == 4) {
+    return(ymd(y, 1))
+  } else {
     p <- substr(s, 5, 5)
-    if (all(p == 'Q') | all(p == 'q')){
+    if (all(p == "Q") || all(p == "q")) {
       q<-as.integer(substr(s, 6, 6))
-      return (yq(y, q))
+      return(yq(y, q))
     }
-    if (all(p == 'M') | all(p == 'm')){
+    if (all(p == "M") || all(p == "m")) {
       m<-as.integer(substr(s, 6, length(s)))
-      return (ymd(y, m))
+      return(ymd(y, m))
     }
   }
-  return (NULL)
+  return(NULL)
 }
 
-d2t<-function(d, periodicity){
+d2t<-function(d, periodicity) {
   y<-floor(d)
   frac<-d%%1
-  date<-ymd(y, 1, 1)+(ymd(y+1, 1, 1)-ymd(y, 1, 1))*frac
-  if (periodicity == 12){
-    return (paste0(y, "M", format(date, "%m")))
-  }else if (periodicity == 4){
-    return (paste0(y, "Q", (as.numeric(format(date, "%m"))+2)/3))
-  }else if (periodicity == 1){
-    return (y)
+  date<-ymd(y, 1, 1)+ (ymd(y+1, 1, 1)-ymd(y, 1, 1))*frac
+  if (periodicity == 12) {
+    return(paste0(y, "M", format(date, "%m")))
+  }else if (periodicity == 4) {
+    return(paste0(y, "Q", (as.numeric(format(date, "%m"))+2)/3))
+  }else if (periodicity == 1) {
+    return(y)
   }
   return(NULL)
 }
