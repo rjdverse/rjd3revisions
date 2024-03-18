@@ -556,7 +556,7 @@ get_vd_rev <- function(vt, gap) {
   rw<-mapply(function(a, b) paste(a, b, sep="-"), w[idx1], w[idx0])
 
   rev<-`colnames<-`(rev, rw)
-  return (rev)
+  return(rev)
 }
 
 check_seasonality <- function(x) {

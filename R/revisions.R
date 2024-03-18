@@ -42,12 +42,12 @@ get_revisions<-function(vintages, gap=1) {
     rw<-mapply(FUN = function(a, b) paste(a, b, sep = "-"), w[idx1], w[idx0])
 
     rev<-`colnames<-`(rev, rw)
-    return (rev)
+    return(rev)
   }
 
   vr<-get_vd_rev(vintages$vertical_view, gap)
   hr<-`colnames<-`(t(vr), colnames(vintages$horizontal_view))
   dr<-get_vd_rev(vintages$diagonal_view, gap)
 
-  return (list(vertical_view=vr, horizontal_view=hr, diagonal_view=dr))
+  return(list(vertical_view=vr, horizontal_view=hr, diagonal_view=dr))
 }

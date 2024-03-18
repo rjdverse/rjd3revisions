@@ -125,7 +125,7 @@ create_vintages<- function(df, periodicity, vintage.selection = NULL, revdate.fo
     timedate<-x[[2]]
     val<-x[[3]]
     .jcall(jfac, "V", "add", as.character(timedate), as.character(revdate), val)
-    return (NULL)
+    return(NULL)
   }
   lapply(input, FUN=add_to_JD3revisions)
 
@@ -145,7 +145,7 @@ create_vintages<- function(df, periodicity, vintage.selection = NULL, revdate.fo
   vintages <- list(vertical_view = vv, horizontal_view = vh, diagonal_view = vd)
   class(vintages) <- "rjd3rev_vintages"
 
-  return (vintages)
+  return(vintages)
 }
 
 #' Create vintages table from CSV or TXT files
@@ -246,34 +246,34 @@ vintageTableFromFactory<-function(jfac) {
   data[is.nan(data)]<-NA
   tsm<-ts(data, frequency = pstart[1], start = pstart[-1])
   tsm<-`colnames<-`(tsm, cols)
-  return (tsm)
+  return(tsm)
 }
 
 
 ymd<-function(y, m, d=1) {
-  return (as.Date(sprintf("%04i-%02i-%02i", y, m, d)))
+  return(as.Date(sprintf("%04i-%02i-%02i", y, m, d)))
 }
 
 yq<-function(y, q) {
-  return (as.Date(sprintf("%04i-%02i-%02i", y, q*3-2, 1)))
+  return(as.Date(sprintf("%04i-%02i-%02i", y, q*3-2, 1)))
 }
 
 yp<-function(s) {
   y<-as.integer(substr(s, 1, 4))
   if(nchar(as.character(s))[1] == 4) {
-    return (ymd(y, 1))
+    return(ymd(y, 1))
   } else {
     p <- substr(s, 5, 5)
     if (all(p == "Q") || all(p == "q")) {
       q<-as.integer(substr(s, 6, 6))
-      return (yq(y, q))
+      return(yq(y, q))
     }
     if (all(p == "M") || all(p == "m")) {
       m<-as.integer(substr(s, 6, length(s)))
-      return (ymd(y, m))
+      return(ymd(y, m))
     }
   }
-  return (NULL)
+  return(NULL)
 }
 
 d2t<-function(d, periodicity) {
@@ -281,11 +281,11 @@ d2t<-function(d, periodicity) {
   frac<-d%%1
   date<-ymd(y, 1, 1)+(ymd(y+1, 1, 1)-ymd(y, 1, 1))*frac
   if (periodicity == 12) {
-    return (paste0(y, "M", format(date, "%m")))
+    return(paste0(y, "M", format(date, "%m")))
   }else if (periodicity == 4) {
-    return (paste0(y, "Q", (as.numeric(format(date, "%m"))+2)/3))
+    return(paste0(y, "Q", (as.numeric(format(date, "%m"))+2)/3))
   }else if (periodicity == 1) {
-    return (y)
+    return(y)
   }
   return(NULL)
 }

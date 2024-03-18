@@ -35,11 +35,11 @@ OlsCNames<-function(nregs) {
     cur<-paste0("x(", i, ")")
     n<-c(n, paste0(cur, ".estimate"), paste0(cur, ".stderr"), paste0(cur, ".pvalue"))
   }
-  return (n)
+  return(n)
 }
 
 OlsAllNames<-function(nregs) {
-  return (c(OlsAdjNames, OlsCNames(nregs), OlsTestNames))
+  return(c(OlsAdjNames, OlsCNames(nregs), OlsTestNames))
 }
 
 vecmAllNames<-function(lag) {
@@ -105,7 +105,7 @@ descriptive_statistics<-function(revisions.view, rounding=3) {
 
   ds<-apply(revisions.view, 2, descriptive_statistics_one)
 
-  return (`rownames<-`(round(ds, rounding), descriptiveStatNames))
+  return(`rownames<-`(round(ds, rounding), descriptiveStatNames))
 }
 
 #' Theil's Inequality Coefficient U1
@@ -153,7 +153,7 @@ theil<-function(vintages.view, gap=1, na.zero= FALSE) {
     warning("theil could not be performed", call.= FALSE)
     return(NULL)
   }
-  return (theil)
+  return(theil)
 }
 
 #' Theil's Inequality Coefficient U2
@@ -200,7 +200,7 @@ theil2<-function(vintages.view, gap=1, na.zero= FALSE) {
     warning("theil2 could not be performed", call.= FALSE)
     return(NULL)
   }
-  return (theil2)
+  return(theil2)
 }
 
 #' Estimate bias using t-test and augmented t-test
@@ -312,7 +312,7 @@ slope_and_drift<-function(vintages.view, gap=1, na.zero= FALSE) {
   }
   colnames(slope_and_drift)<-OlsNames
   rownames(slope_and_drift)<-colnames(q)[-(1:gap)]
-  return (slope_and_drift)
+  return(slope_and_drift)
 }
 
 
@@ -374,7 +374,7 @@ efficiencyModel1<-function(vintages.view, gap=1, na.zero= FALSE) {
   w<-sapply(colnames(q), function(s) paste0("[", s, "]"))
   rw<-mapply(function(a, b) paste(a, b, sep="-"), w[(gap+1):n], w[1:(n-gap)])
   rownames(efficiencyModel1)<-rw
-  return (efficiencyModel1)
+  return(efficiencyModel1)
 }
 
 #' Efficiency Model 2
@@ -438,7 +438,7 @@ efficiencyModel2<-function(vintages.view, gap=1, na.zero= FALSE) {
   w<-sapply(colnames(q), function(s) paste0("[", s, "]"))
   rw<-mapply(function(a, b) paste(a, b, sep="-"), w[(gap+1):n], w[1:(n-gap)])
   rownames(efficiencyModel2)<-rw[-1]
-  return (efficiencyModel2)
+  return(efficiencyModel2)
 }
 
 #' Orthogonally Model 1
@@ -498,7 +498,7 @@ orthogonallyModel1<-function(revisions.view, nrevs=1, na.zero= FALSE) {
   }
   colnames(om)<-OlsAllNames(nrevs)
   rownames(om)<-colnames(r[-c(1:nrevs)])
-  return (om)
+  return(om)
 }
 
 #' Orthogonally Model 2
@@ -558,7 +558,7 @@ orthogonallyModel2<-function(revisions.view, reference=1, na.zero= FALSE) {
   }
   colnames(om)<-OlsNames
   rownames(om)<-colnames(r)[-c(1:reference)]
-  return (om)
+  return(om)
 }
 
 #' Signal VS Noise
@@ -620,7 +620,7 @@ signalnoise<-function(vintages.view, gap=1, na.zero= FALSE) {
   w<-sapply(colnames(q), function(s) paste0("[", s, "]"))
   rw<-mapply(function(a, b) paste(a, b, sep="-"), w[(gap+1):n], w[1:(n-gap)])
   rownames(sn)<-rw
-  return (sn)
+  return(sn)
 }
 
 #' Unit root test
@@ -716,7 +716,7 @@ cointegration<-function(vintages.view, adfk=1, na.zero= FALSE) {
   eg<-matrix_jd2r(jsd)
   colnames(eg)<-egNames
   rownames(eg)<-get_rownames_diag(q, adfk)
-  return (eg)
+  return(eg)
 }
 
 #' Vector error correction model (VECM)
@@ -767,7 +767,7 @@ vecm<-function(vintages.view, lag=2, model = c("none", "cnt", "trend"), na.zero=
   vecm<-matrix_jd2r(jsd)
   colnames(vecm)<-vecmAllNames(lag)
   rownames(vecm)<-get_rownames_diag(q, 1)
-  return (vecm)
+  return(vecm)
 }
 
 # Auto-correlation tests on OLS residuals
@@ -785,5 +785,5 @@ vecm<-function(vintages.view, lag=2, model = c("none", "cnt", "trend"), na.zero=
 #   ac<-matrix_jd2r(jsd)
 #   colnames(ac)<-acNames
 #   rownames(ac)<-get_rownames_diag(q, 1)
-#   return (ac)
+#   return(ac)
 # }
