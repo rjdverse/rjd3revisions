@@ -10,52 +10,52 @@ revision_analysis(
   view = c("vertical", "diagonal"),
   n.releases = 3,
   transf.diff = c("auto", "forced", "none"),
-  transf.log = F,
+  transf.log = FALSE,
   descriptive.rounding = 3,
   nrevs = 1,
   ref = 1,
-  na.zero = F
+  na.zero = FALSE
 )
 }
 \arguments{
-\item{vintages}{an object of class `"rjd3rev_vintages"` which is the output 
+\item{vintages}{an object of class `"rjd3rev_vintages"` which is the output
 of the function `create_vintages()`}
 
-\item{gap}{Integer. Gap to consider between each vintages. Default is 1 
+\item{gap}{Integer. Gap to consider between each vintages. Default is 1
 which means that revisions are calculated and tested for each
 vintages consecutively.}
 
 \item{view}{Selected view. Can be "vertical" (the default) or "diagonal".
-Vertical view shows the observed values at each time period by 
+Vertical view shows the observed values at each time period by
 the different vintages. Diagonal view shows subsequent releases
-of a given time period, without regard for the date of 
-publication, which can be particularly informative when regular 
+of a given time period, without regard for the date of
+publication, which can be particularly informative when regular
 estimation intervals exist. See `?create_vintages()` for more
 information about interests and drawbacks of each view.}
 
-\item{n.releases}{only used when `view = "diagonal"`. Ignored otherwise. 
-Allow the user to limit the number of releases under 
+\item{n.releases}{only used when `view = "diagonal"`. Ignored otherwise.
+Allow the user to limit the number of releases under
 investigation). When `view = "vertical"`, the user is
 invited to limit the number of vintages upstream through
 the parameter `vintage.selection` in `create_vintages()`
 whenever necessary.}
 
-\item{transf.diff}{differentiation to apply to the data prior testing. Only 
+\item{transf.diff}{differentiation to apply to the data prior testing. Only
 used for regressions including vintage data as regressor
-and/or regressand. Regression including revision data only 
-are never differentiated even if `transf.diff = "forced"`.  
+and/or regressand. Regression including revision data only
+are never differentiated even if `transf.diff = "forced"`.
 Options are "automatic" (the default), "forced" and "none".}
 
 \item{transf.log}{Boolean whether a log-transformation should first be
 applied to the data. Default is FALSE.}
 
-\item{descriptive.rounding}{Integer. Number of decimals to display for 
+\item{descriptive.rounding}{Integer. Number of decimals to display for
 descriptive statistics. Default is 3.}
 
-\item{nrevs, ref}{Integer. Number of lags to consider for orthogonality tests 
+\item{nrevs, ref}{Integer. Number of lags to consider for orthogonality tests
 1 and 2 respectively.}
 
-\item{na.zero}{Boolean whether missing values should be considered as 0 or 
+\item{na.zero}{Boolean whether missing values should be considered as 0 or
 rather as data not yet available (the default).}
 }
 \value{
@@ -122,6 +122,6 @@ rslt3<-revision_analysis(vintages, gap=2, view = "vertical")
 
 }
 \seealso{
-`create_vintages()` to create the input object, 
+`create_vintages()` to create the input object,
          `get_report()` to get a summary and information the tests
 }
