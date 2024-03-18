@@ -1,5 +1,5 @@
-ts_r2jd<-function(s){
-  if (is.null(s)){
+ts_r2jd<-function(s) {
+  if (is.null(s)) {
     return (NULL)
   }
   freq<-frequency(s)
@@ -8,14 +8,14 @@ ts_r2jd<-function(s){
          as.integer(freq), as.integer(start[1]), as.integer(start[2]), as.double(s))
   }
 
-tsdomain_r2jd<-function(period, startYear, startPeriod, length){
+tsdomain_r2jd<-function(period, startYear, startPeriod, length) {
   .jcall("jdplus/toolkit/base/r/timeseries/TsUtility", "Ljdplus/toolkit/base/r/timeseries/TsDomain;", "of",
          as.integer(period), as.integer(startYear), as.integer(startPeriod), as.integer(length))
 }
 
 
-ts_jd2r<-function(s){
-  if (is.null(s)){
+ts_jd2r<-function(s) {
+  if (is.null(s)) {
     return (NULL)
   }
   pstart<-.jcall("jdplus/toolkit/base/r/timeseries/TsUtility", "[I", "startPeriod", s)
@@ -24,8 +24,8 @@ ts_jd2r<-function(s){
   ts(x, start=pstart[2:3], frequency=pstart[1])
 }
 
-matrix_jd2r<-function(s){
-  if (is.jnull(s)){
+matrix_jd2r<-function(s) {
+  if (is.jnull(s)) {
     return (NULL)
   }
   nr<-.jcall(s, "I", "getRowsCount")
@@ -34,10 +34,10 @@ matrix_jd2r<-function(s){
   return (array(d, dim=c(nr, nc)))
 }
 
-matrix_r2jd<-function(s){
+matrix_r2jd<-function(s) {
   if (is.null(s))
     return (.jnull("jdplus/toolkit/base/api/math/matrices/Matrix"))
-  if (!is.matrix(s)){
+  if (!is.matrix(s)) {
     s<-matrix(s, nrow=length(s), ncol=1)
   }
   sdim<-dim(s)

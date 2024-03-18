@@ -24,13 +24,13 @@
 #' vintages<-create_vintages(df, periodicity = 4)
 #' revisions<-get_revisions(vintages, gap=1)
 #'
-get_revisions<-function(vintages, gap=1){
-  if(!class(vintages)=="rjd3rev_vintages"){
+get_revisions<-function(vintages, gap=1) {
+  if(!class(vintages)=="rjd3rev_vintages") {
     warning("Wrong input. vintages must be an object of class 'rjd3rev_vintages'.")
     return(NULL)
   }
 
-  get_vd_rev <- function(vt, gap){
+  get_vd_rev <- function(vt, gap) {
     n<-dim(vt)[2]
 
     idx1<-(gap+1):n
@@ -38,8 +38,8 @@ get_revisions<-function(vintages, gap=1){
 
     rev<-vt[, idx1, drop=FALSE]-vt[, idx0, drop=FALSE]
 
-    w<-sapply(colnames(vt), function(s){paste0("[", s, "]")})
-    rw<-mapply(function(a, b){paste(a, b, sep="-")}, w[idx1], w[idx0])
+    w<-sapply(colnames(vt), function(s) paste0("[", s, "]"))
+    rw<-mapply(FUN = function(a, b) paste(a, b, sep = "-"), w[idx1], w[idx0])
 
     rev<-`colnames<-`(rev, rw)
     return (rev)

@@ -30,7 +30,7 @@ selection<-c("N", "mean revision", "st.dev.", "% positive", "% zero", "% negativ
 if (! requireNamespace("kableExtra", quietly=TRUE)) {
   knitr::kable(descriptive_statistics[selection, , drop=FALSE], format="html")
   warning("Please install kableExtra: install.packages('kableExtra') to get more visual table output")
-}else{
+} else {
   kableExtra::kable_minimal(knitr::kable(descriptive_statistics[selection, , drop=FALSE], format="html"))
 }
 ```
@@ -39,8 +39,8 @@ if (! requireNamespace("kableExtra", quietly=TRUE)) {
 ```{r summarytable, echo = FALSE}
 if (! requireNamespace("kableExtra", quietly=TRUE)) {
   knitr::kable(main_results, format="html")
-}else{
-  format_font <- function(x){
+} else {
+  format_font <- function(x) {
     kableExtra::cell_spec(x,
                           color = ifelse(is.na(x), "black",
                                   ifelse(substr(x, 1, 1) == "G", "green",
