@@ -42,7 +42,7 @@ summary.rjd3rev_revision_analysis<- function(x) {
 plot.rjd3rev_revision_analysis <- function(x, ...) {
   rev<-x$revisions
   nc<-ncol(rev)
-  if(nc>4) {
+  if (nc>4) {
     rev<-rev[, 1:4]
     nc<-4
   }

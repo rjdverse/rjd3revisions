@@ -77,7 +77,7 @@ create_vintages<- function(df, periodicity, vintage.selection = NULL, revdate.fo
   jfac<-.jnew("jdplus/revisions/base/r/VintagesFactory", as.integer(periodicity))
 
   # check input
-  if(! is.data.frame(df)) {
+  if (! is.data.frame(df)) {
     warning("Wrong input type. Must be a data.frame.")
     return(NULL)
   }
@@ -93,26 +93,26 @@ create_vintages<- function(df, periodicity, vintage.selection = NULL, revdate.fo
     warning("Wrong input in first column. Revision dates not in a correct format. The parameter revdate.format might be mispecified.")
     return(NULL)
   }
-  if(is.null(yp(df$time))) {
+  if (is.null(yp(df$time))) {
     warning("Wrong input in second column. Time periods not in a correct format. Examples of correct formats are 2023M01, 2023Q1 or 2023.")
     return(NULL)
   } else {
     df$time<-yp(df$time)
   }
-  if(! is.numeric(df$obs_value)) {
+  if (! is.numeric(df$obs_value)) {
     warning("Wrong input in third column. Obsevation values must be numeric.")
     return(NULL)
   }
 
   # Vintages selection
-  if(!is.null(vintage.selection)) {
+  if (!is.null(vintage.selection)) {
     df<-subset(df, revdate >= as.Date(vintage.selection[[1]]) & revdate <= as.Date(vintage.selection[[2]]))
-    if(nrow(df) == 0) {
+    if (nrow(df) == 0) {
       warning("Vintage selection out of range!")
       return(NULL)
     }
   }
-  if(length(unique(df$revdate))<2) {
+  if (length(unique(df$revdate))<2) {
     warning("Too few number of vintages. Number of unique revision dates must be >= 2.")
     return(NULL)
   }
@@ -223,7 +223,7 @@ create_vintages_from_csv<-function(file, periodicity, separator = ",", vintage.s
 #' }
 create_vintages_from_xlsx<-function(file, sheetname, periodicity, vintage.selection = NULL, revdate.format= "%Y.%m.%d") {
 
-  if(! require(readxl)) {
+  if (! require(readxl)) {
       stop("package 'readxl' must be installed to run the function 'create_vintages_from_xlsx'")
   }
 
@@ -260,7 +260,7 @@ yq<-function(y, q) {
 
 yp<-function(s) {
   y<-as.integer(substr(s, 1, 4))
-  if(nchar(as.character(s))[1] == 4) {
+  if (nchar(as.character(s))[1] == 4) {
     return(ymd(y, 1))
   } else {
     p <- substr(s, 5, 5)
@@ -279,7 +279,7 @@ yp<-function(s) {
 d2t<-function(d, periodicity) {
   y<-floor(d)
   frac<-d%%1
-  date<-ymd(y, 1, 1)+(ymd(y+1, 1, 1)-ymd(y, 1, 1))*frac
+  date<-ymd(y, 1, 1)+ (ymd(y+1, 1, 1)-ymd(y, 1, 1))*frac
   if (periodicity == 12) {
     return(paste0(y, "M", format(date, "%m")))
   }else if (periodicity == 4) {

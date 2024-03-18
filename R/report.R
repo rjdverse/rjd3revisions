@@ -60,5 +60,5 @@ get_report <- function(rslt,
                     output_options = list(self_contained = FALSE, mathjax = "local"),
                     envir = e)
 
-  if(open.report) utils::browseURL(path.out)
+  if (open.report) utils::browseURL(path.out)
 }

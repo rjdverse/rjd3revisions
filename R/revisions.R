@@ -25,7 +25,7 @@
 #' revisions<-get_revisions(vintages, gap=1)
 #'
 get_revisions<-function(vintages, gap=1) {
-  if(!class(vintages)=="rjd3rev_vintages") {
+  if (!class(vintages)=="rjd3rev_vintages") {
     warning("Wrong input. vintages must be an object of class 'rjd3rev_vintages'.")
     return(NULL)
   }
@@ -33,7 +33,7 @@ get_revisions<-function(vintages, gap=1) {
   get_vd_rev <- function(vt, gap) {
     n<-dim(vt)[2]
 
-    idx1<-(gap+1):n
+    idx1<- (gap+1):n
     idx0<-1:(n-gap)
 
     rev<-vt[, idx1, drop=FALSE]-vt[, idx0, drop=FALSE]
