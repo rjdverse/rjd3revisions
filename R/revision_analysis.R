@@ -196,7 +196,7 @@ revision_analysis<-function(vintages,
     is_stationary<-is_cointegrated<-FALSE
   }else if(transf.diff == "none"){
     vts<-vtc<-vt
-    if(!is_stationary | !is_cointegrated){
+    if(!is_stationary || !is_cointegrated){
       warning("No differentiation considered even though stationarity and/or cointegration might not be present. This can lead to spurious regression.", call.=FALSE)
     }
     is_stationary<-is_cointegrated<-TRUE
@@ -344,19 +344,19 @@ revision_analysis<-function(vintages,
   lb_test<-try(apply(diff(rv), 2, function(x) seasonality_qs(x, freq)), silent=TRUE) # Ljung-Box
   fd_test<-try(apply(diff(rv), 2, function(x) seasonality_friedman(x, freq)), silent=TRUE)  # Friedman non-parametric test
 
-  if(!"try-error" %in% class(lb_test) & !"try-error" %in% class(fd_test) & freq>1){
+  if(!"try-error" %in% class(lb_test) && !"try-error" %in% class(fd_test) && freq>1){
     seas_rslt<-list(info_transformation=seas_trf_str,
                     estimates_ljungbox=matrix(unlist(lb_test), ncol=2, byrow = TRUE, dimnames = list(colnames(rv), c("value", "p.value"))),
                     estimates_friedman=matrix(unlist(fd_test), ncol=2, byrow = TRUE, dimnames = list(colnames(rv), c("value", "p.value"))))
     seas_lb_q<-eval_pvals(seas_rslt$estimates_ljungbox[, "p.value"], h0_good=TRUE)
     seas_fd_q<-eval_pvals(seas_rslt$estimates_friedman[, "p.value"], h0_good=TRUE)
-  }else if(!"try-error" %in% class(lb_test) & freq>1){
+  }else if(!"try-error" %in% class(lb_test) && freq>1){
     seas_rslt<-list(info_transformation=seas_trf_str,
                     estimates_ljungbox=matrix(unlist(lb_test), ncol=2, byrow = TRUE, dimnames = list(colnames(rv), c("value", "p.value"))),
                     estimates_friedman=NULL)
     seas_lb_q<-eval_pvals(seas_rslt$estimates_ljungbox[, "p.value"], h0_good=TRUE)
     seas_fd_q<-rep(NA, length(colnames(rv)))
-  }else if(!"try-error" %in% class(fd_test) & freq>1){
+  }else if(!"try-error" %in% class(fd_test) && freq>1){
     seas_rslt<-list(info_transformation=seas_trf_str,
                     estimates_ljungbox=NULL,
                     estimates_friedman=matrix(unlist(fd_test), ncol=2, byrow = TRUE, dimnames = list(colnames(rv), c("value", "p.value"))))
