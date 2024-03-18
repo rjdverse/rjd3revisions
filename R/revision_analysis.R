@@ -453,8 +453,8 @@ get_rownames_diag <- function(vt, gap){
   n<-ncol(vt)
   idx1<-rep(1:(n-gap), (n-gap):1)
   idx0<-sequence((n-gap):1)+rep(1:(n-gap), (n-gap):1)
-  w<-sapply(colnames(vt), function(s){paste0('[', s, ']')})
-  rw<-mapply(function(a, b){paste(a, b, sep='_')}, w[idx1], w[idx0])
+  w<-sapply(colnames(vt), function(s){paste0("[", s, "]")})
+  rw<-mapply(function(a, b){paste(a, b, sep="_")}, w[idx1], w[idx0])
   return(rw)
 }
 
@@ -552,8 +552,8 @@ get_vd_rev <- function(vt, gap){
 
   rev<-vt[, idx1, drop=FALSE]-vt[, idx0, drop=FALSE]
 
-  w<-sapply(colnames(vt), function(s){paste0('[', s, ']')})
-  rw<-mapply(function(a, b){paste(a, b, sep='-')}, w[idx1], w[idx0])
+  w<-sapply(colnames(vt), function(s){paste0("[", s, "]")})
+  rw<-mapply(function(a, b){paste(a, b, sep="-")}, w[idx1], w[idx0])
 
   rev<-`colnames<-`(rev, rw)
   return (rev)

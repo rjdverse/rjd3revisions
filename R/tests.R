@@ -371,8 +371,8 @@ efficiencyModel1<-function(vintages.view, gap=1, na.zero= FALSE){
   }
   colnames(efficiencyModel1)<-OlsNames
   n<-dim(q)[2]
-  w<-sapply(colnames(q), function(s){paste0('[', s, ']')})
-  rw<-mapply(function(a, b){paste(a, b, sep='-')}, w[(gap+1):n], w[1:(n-gap)])
+  w<-sapply(colnames(q), function(s){paste0("[", s, "]")})
+  rw<-mapply(function(a, b){paste(a, b, sep="-")}, w[(gap+1):n], w[1:(n-gap)])
   rownames(efficiencyModel1)<-rw
   return (efficiencyModel1)
 }
@@ -435,8 +435,8 @@ efficiencyModel2<-function(vintages.view, gap=1, na.zero= FALSE){
   }
   colnames(efficiencyModel2)<-OlsNames
   n<-dim(q)[2]
-  w<-sapply(colnames(q), function(s){paste0('[', s, ']')})
-  rw<-mapply(function(a, b){paste(a, b, sep='-')}, w[(gap+1):n], w[1:(n-gap)])
+  w<-sapply(colnames(q), function(s){paste0("[", s, "]")})
+  rw<-mapply(function(a, b){paste(a, b, sep="-")}, w[(gap+1):n], w[1:(n-gap)])
   rownames(efficiencyModel2)<-rw[-1]
   return (efficiencyModel2)
 }
@@ -617,8 +617,8 @@ signalnoise<-function(vintages.view, gap=1, na.zero= FALSE){
   }
   colnames(sn)<-snNames
   n<-dim(q)[2]
-  w<-sapply(colnames(q), function(s){paste0('[', s, ']')})
-  rw<-mapply(function(a, b){paste(a, b, sep='-')}, w[(gap+1):n], w[1:(n-gap)])
+  w<-sapply(colnames(q), function(s){paste0("[", s, "]")})
+  rw<-mapply(function(a, b){paste(a, b, sep="-")}, w[(gap+1):n], w[1:(n-gap)])
   rownames(sn)<-rw
   return (sn)
 }

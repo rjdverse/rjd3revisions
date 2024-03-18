@@ -23,7 +23,7 @@ summary.rjd3rev_revision_analysis<- function(x){
     return(x$summary)
   }else{
     format_font <- function(x){
-      formattable::formatter('span',
+      formattable::formatter("span",
                              style = x ~ formattable::style(color = ifelse(substr(x, 1, 1) == "G", "green",
                                                                     ifelse(substr(x, 1, 1) == "U", "orange", "red")),
                                                             font.weight = ifelse(substr(x, 1, 1) == "S", "bold", "plain")))

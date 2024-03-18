@@ -262,11 +262,11 @@ yp<-function(s){
     return (ymd(y, 1))
   }else{
     p <- substr(s, 5, 5)
-    if (all(p == 'Q') | all(p == 'q')){
+    if (all(p == "Q") | all(p == "q")){
       q<-as.integer(substr(s, 6, 6))
       return (yq(y, q))
     }
-    if (all(p == 'M') | all(p == 'm')){
+    if (all(p == "M") | all(p == "m")){
       m<-as.integer(substr(s, 6, length(s)))
       return (ymd(y, m))
     }
