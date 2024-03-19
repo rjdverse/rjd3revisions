@@ -1,0 +1,10 @@
+pandoc: 3.1.11
+pkgdown: 2.0.7
+pkgdown_sha: ~
+articles:
+  rjd3revisions: rjd3revisions.html
+last_built: 2024-03-19T09:14Z
+urls:
+  reference: https://rjdemetra.github.io/rjd3revisions/reference
+  article: https://rjdemetra.github.io/rjd3revisions/articles
+
