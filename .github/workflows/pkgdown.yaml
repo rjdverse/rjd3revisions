@@ -35,8 +35,8 @@ jobs:
         with:
           use-public-rspm: true
 
-      # - name: Set up for RProtoBuf
-      #   run: sudo apt-get update -y && sudo apt-get install protobuf-compiler libprotobuf-dev libprotoc-dev
+      - name: Set up for RProtoBuf
+        run: sudo apt-get update -y && sudo apt-get install protobuf-compiler libprotobuf-dev libprotoc-dev
 
 
       - uses: r-lib/actions/setup-r-dependencies@v2
