@@ -68,3 +68,12 @@ plot(rslt)
 
 ## Additional information
 This README.md file gives you a quick example of how to proceed. Consult the vignette (with `browseVignettes("rjd3revisions")`) and the documentation of each function (for example: `?create_vintages`, `?revision_analysis`) to see the current possibilities of the tool.
+
+
+## Contributing
+
+Any contribution is welcome and should be done through pull requests and/or issues.
+
+## Licensing
+
+The code of this project is licensed under the [European Union Public Licence (EUPL)](https://joinup.ec.europa.eu/page/eupl-text-11-12).
