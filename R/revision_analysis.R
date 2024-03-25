@@ -1,3 +1,6 @@
+DFMMODEL<-'JD3_DfmModel'
+
+
 #' Revision analysis through a battery of tests
 #'
 #' The function perform parametric tests which enable the users to detect
@@ -112,13 +115,13 @@ revision_analysis<-function(vintages,
 
   options(scipen = 999)
 
-  cl<-match.call()
+  cl <- match.call()
 
   out <- list()
   class(out) <- "rjd3rev_revision_analysis"
 
-  view<-match.arg(view)
-  transf.diff<-match.arg(transf.diff)
+  view <- match.arg(view)
+  transf.diff <- match.arg(transf.diff)
 
   if (is.null(vintages)) stop("No vintage found!")
   if (n.releases<1+gap) stop("'n.releases' must be >= (1+gap)")
