@@ -29,22 +29,22 @@ egNames<-c("value", "stderr", "statistic", "pvalue")
 snNames<-c("News.R2", "News.F", "News.pvalue", "Noise.R2", "Noise.F", "Noise.pvalue")
 
 
-OlsCNames<-function(nregs){
+OlsCNames<-function(nregs) {
   n<-c("intercept.estimate", "intercept.stderr", "intercept.pvalue")
-  for (i in 1:nregs){
+  for (i in 1:nregs) {
     cur<-paste0("x(", i, ")")
     n<-c(n, paste0(cur, ".estimate"), paste0(cur, ".stderr"), paste0(cur, ".pvalue"))
   }
-  return (n)
+  return(n)
 }
 
-OlsAllNames<-function(nregs){
-  return (c(OlsAdjNames, OlsCNames(nregs), OlsTestNames))
+OlsAllNames<-function(nregs) {
+  return(c(OlsAdjNames, OlsCNames(nregs), OlsTestNames))
 }
 
-vecmAllNames<-function(lag){
+vecmAllNames<-function(lag) {
   t<-m<-c()
-  for (i in lag:1){
+  for (i in lag:1) {
     t<-c(t, paste0("trace(", i, ")"))
     m<-c(m, paste0("max(", i, ")"))
   }
@@ -70,7 +70,7 @@ vecmAllNames<-function(lag){
 #' xt<-cumsum(sample(rnorm(1000,0,1), np, TRUE))
 #' rev<-rnorm(np*4,0,.1)
 #' obs_values<-xt
-#' for(i in 1:4){
+#' for(i in 1:4) {
 #'   xt<-xt+rev[(1+(i-1)*np):(i*np)]
 #'   obs_values<-c(obs_values,xt)
 #' }
@@ -81,9 +81,9 @@ vecmAllNames<-function(lag){
 #' revisions<-get_revisions(vintages, gap=1)
 #' descriptive_statistics(revisions$diagonal_view, rounding=1)
 #'
-descriptive_statistics<-function(revisions.view, rounding=3){
+descriptive_statistics<-function(revisions.view, rounding=3) {
 
-  descriptive_statistics_one<-function(r){
+  descriptive_statistics_one<-function(r) {
     rc<-as.numeric(r[!is.na(r)])
 
     n<-length(rc)
@@ -105,7 +105,7 @@ descriptive_statistics<-function(revisions.view, rounding=3){
 
   ds<-apply(revisions.view, 2, descriptive_statistics_one)
 
-  return (`rownames<-`(round(ds, rounding), descriptiveStatNames))
+  return(`rownames<-`(round(ds, rounding), descriptiveStatNames))
 }
 
 #' Theil's Inequality Coefficient U1
@@ -134,7 +134,7 @@ descriptive_statistics<-function(revisions.view, rounding=3){
 #' xt<-cumsum(sample(rnorm(1000,0,1), np, TRUE))
 #' rev<-rnorm(np*4,0,.1)
 #' obs_values<-xt
-#' for(i in 1:4){
+#' for(i in 1:4) {
 #'   xt<-xt+rev[(1+(i-1)*np):(i*np)]
 #'   obs_values<-c(obs_values,xt)
 #' }
@@ -144,16 +144,16 @@ descriptive_statistics<-function(revisions.view, rounding=3){
 #' vintages<-create_vintages(df, periodicity = 4)
 #' theil(vintages$diagonal_view)
 #'
-theil<-function(vintages.view, gap=1, na.zero= FALSE){
+theil<-function(vintages.view, gap=1, na.zero= FALSE) {
   q<-vintages.view
-  if(na.zero) q[is.na(q)]<-0
+  if (na.zero) q[is.na(q)]<-0
   jq<-matrix_r2jd(q)
   theil<-try(.jcall("jdplus/revisions/base/r/Utility", "[D", "theil", jq, as.integer(gap)), silent= TRUE)
-  if("try-error" %in% class(theil)){
+  if ("try-error" %in% class(theil)) {
     warning("theil could not be performed", call.= FALSE)
     return(NULL)
   }
-  return (theil)
+  return(theil)
 }
 
 #' Theil's Inequality Coefficient U2
@@ -181,7 +181,7 @@ theil<-function(vintages.view, gap=1, na.zero= FALSE){
 #' xt<-cumsum(sample(rnorm(1000,0,1), np, TRUE))
 #' rev<-rnorm(np*4,0,.1)
 #' obs_values<-xt
-#' for(i in 1:4){
+#' for(i in 1:4) {
 #'   xt<-xt+rev[(1+(i-1)*np):(i*np)]
 #'   obs_values<-c(obs_values,xt)
 #' }
@@ -191,16 +191,16 @@ theil<-function(vintages.view, gap=1, na.zero= FALSE){
 #' vintages<-create_vintages(df, periodicity = 4)
 #' theil2(vintages$diagonal_view)
 #'
-theil2<-function(vintages.view, gap=1, na.zero= FALSE){
+theil2<-function(vintages.view, gap=1, na.zero= FALSE) {
   q<-vintages.view
-  if(na.zero) q[is.na(q)]<-0
+  if (na.zero) q[is.na(q)]<-0
   jq<-matrix_r2jd(q)
   theil2<-try(.jcall("jdplus/revisions/base/r/Utility", "[D", "theil2", jq, as.integer(gap)), silent= TRUE)
-  if("try-error" %in% class(theil2)){
+  if ("try-error" %in% class(theil2)) {
     warning("theil2 could not be performed", call.= FALSE)
     return(NULL)
   }
-  return (theil2)
+  return(theil2)
 }
 
 #' Estimate bias using t-test and augmented t-test
@@ -225,7 +225,7 @@ theil2<-function(vintages.view, gap=1, na.zero= FALSE){
 #' xt<-cumsum(sample(rnorm(1000,0,1), np, TRUE))
 #' rev<-rnorm(np*4,0,.1)
 #' obs_values<-xt
-#' for(i in 1:4){
+#' for(i in 1:4) {
 #'   xt<-xt+rev[(1+(i-1)*np):(i*np)]
 #'   obs_values<-c(obs_values,xt)
 #' }
@@ -236,18 +236,18 @@ theil2<-function(vintages.view, gap=1, na.zero= FALSE){
 #' revisions<-get_revisions(vintages, gap=1)
 #' bias(revisions$diagonal_view)
 #'
-bias<-function(revisions.view, na.zero= FALSE){
+bias<-function(revisions.view, na.zero= FALSE) {
   r<-revisions.view
-  if(na.zero) r[is.na(r)]<-0
+  if (na.zero) r[is.na(r)]<-0
   jrevs<-matrix_r2jd(r)
   jbias<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "bias", jrevs), silent= TRUE)
-  if("try-error" %in% class(bias)){
+  if ("try-error" %in% class(bias)) {
     warning("bias could not be performed", call.= FALSE)
     return(NULL)
   }
   bias <- matrix_jd2r(jbias)
   bias[rowSums(bias[])==0, ]<-NaN # fix non-calculable cases
-  if(all(is.nan(bias))){
+  if (all(is.nan(bias))) {
     warning("bias could not be performed", call.= FALSE)
     return(NULL)
   }
@@ -285,7 +285,7 @@ bias<-function(revisions.view, na.zero= FALSE){
 #' xt<-cumsum(sample(rnorm(1000,0,1), np, TRUE))
 #' rev<-rnorm(np*4,0,.1)
 #' obs_values<-xt
-#' for(i in 1:4){
+#' for(i in 1:4) {
 #'   xt<-xt+rev[(1+(i-1)*np):(i*np)]
 #'   obs_values<-c(obs_values,xt)
 #' }
@@ -295,24 +295,24 @@ bias<-function(revisions.view, na.zero= FALSE){
 #' vintages<-create_vintages(df, periodicity = 4)
 #' slope_and_drift(vintages$diagonal_view)
 #'
-slope_and_drift<-function(vintages.view, gap=1, na.zero= FALSE){
+slope_and_drift<-function(vintages.view, gap=1, na.zero= FALSE) {
   q<-vintages.view
-  if(na.zero) q[is.na(q)]<-0
+  if (na.zero) q[is.na(q)]<-0
   jq<-matrix_r2jd(q)
   jsd<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "slopeAndDrift", jq, as.integer(gap)), silent= TRUE)
-  if("try-error" %in% class(jsd)){
+  if ("try-error" %in% class(jsd)) {
     warning("Slope and drift could not be performed", call.= FALSE)
     return(NULL)
   }
   slope_and_drift <- matrix_jd2r(jsd)
   slope_and_drift[rowSums(slope_and_drift[])==0, ]<-NaN # fix non-calculable cases
-  if(all(is.nan(slope_and_drift))){
+  if (all(is.nan(slope_and_drift))) {
     warning("slope_and_drift could not be performed", call.= FALSE)
     return(NULL)
   }
   colnames(slope_and_drift)<-OlsNames
   rownames(slope_and_drift)<-colnames(q)[-(1:gap)]
-  return (slope_and_drift)
+  return(slope_and_drift)
 }
 
 
@@ -344,7 +344,7 @@ slope_and_drift<-function(vintages.view, gap=1, na.zero= FALSE){
 #' xt<-cumsum(sample(rnorm(1000,0,1), np, TRUE))
 #' rev<-rnorm(np*4,0,.1)
 #' obs_values<-xt
-#' for(i in 1:4){
+#' for(i in 1:4) {
 #'   xt<-xt+rev[(1+(i-1)*np):(i*np)]
 #'   obs_values<-c(obs_values,xt)
 #' }
@@ -354,27 +354,27 @@ slope_and_drift<-function(vintages.view, gap=1, na.zero= FALSE){
 #' vintages<-create_vintages(df, periodicity = 4)
 #' efficiencyModel1(vintages$diagonal_view)
 #'
-efficiencyModel1<-function(vintages.view, gap=1, na.zero= FALSE){
+efficiencyModel1<-function(vintages.view, gap=1, na.zero= FALSE) {
   q<-vintages.view
-  if(na.zero) q[is.na(q)]<-0
+  if (na.zero) q[is.na(q)]<-0
   jq<-matrix_r2jd(q)
   jef1<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "efficiencyModel1", jq, as.integer(gap)), silent= TRUE)
-  if("try-error" %in% class(jef1)){
+  if ("try-error" %in% class(jef1)) {
     warning("efficiencyModel1 could not be performed", call.= FALSE)
     return(NULL)
   }
   efficiencyModel1 <- matrix_jd2r(jef1)
   efficiencyModel1[rowSums(efficiencyModel1[])==0, ]<-NaN # fix non-calculable cases
-  if(all(is.nan(efficiencyModel1))){
+  if (all(is.nan(efficiencyModel1))) {
     warning("efficiencyModel1 could not be performed", call.= FALSE)
     return(NULL)
   }
   colnames(efficiencyModel1)<-OlsNames
   n<-dim(q)[2]
-  w<-sapply(colnames(q), function(s){paste0('[', s, ']')})
-  rw<-mapply(function(a, b){paste(a, b, sep='-')}, w[(gap+1):n], w[1:(n-gap)])
+  w<-sapply(colnames(q), function(s) paste0("[", s, "]"))
+  rw<-mapply(function(a, b) paste(a, b, sep="-"), w[(gap+1):n], w[1:(n-gap)])
   rownames(efficiencyModel1)<-rw
-  return (efficiencyModel1)
+  return(efficiencyModel1)
 }
 
 #' Efficiency Model 2
@@ -404,7 +404,7 @@ efficiencyModel1<-function(vintages.view, gap=1, na.zero= FALSE){
 #' xt<-cumsum(sample(rnorm(1000,0,1), np, TRUE))
 #' rev<-rnorm(np*4,0,.1)
 #' obs_values<-xt
-#' for(i in 1:4){
+#' for(i in 1:4) {
 #'   xt<-xt+rev[(1+(i-1)*np):(i*np)]
 #'   obs_values<-c(obs_values,xt)
 #' }
@@ -414,31 +414,31 @@ efficiencyModel1<-function(vintages.view, gap=1, na.zero= FALSE){
 #' vintages<-create_vintages(df, periodicity = 4)
 #' efficiencyModel2(vintages$diagonal_view)
 #'
-efficiencyModel2<-function(vintages.view, gap=1, na.zero= FALSE){
+efficiencyModel2<-function(vintages.view, gap=1, na.zero= FALSE) {
   q<-vintages.view
-  if(na.zero) q[is.na(q)]<-0
+  if (na.zero) q[is.na(q)]<-0
   jq<-matrix_r2jd(q)
   jef2<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "efficiencyModel2", jq, as.integer(gap)), silent= TRUE)
-  if("try-error" %in% class(jef2)){
+  if ("try-error" %in% class(jef2)) {
     warning("efficiencyModel2 could not be performed", call.= FALSE)
     return(NULL)
   }
   efficiencyModel2 <- matrix_jd2r(jef2)
-  if(length(efficiencyModel2)==0) {
+  if (length(efficiencyModel2)==0) {
     warning("efficiencyModel2 could not be performed: Too few number of vintages", call.= FALSE)
     return(NULL)
   }
   efficiencyModel2[rowSums(efficiencyModel2[])==0, ]<-NaN # fix non-calculable cases
-  if(all(is.nan(efficiencyModel2))){
+  if (all(is.nan(efficiencyModel2))) {
     warning("efficiencyModel2 could not be performed", call.= FALSE)
     return(NULL)
   }
   colnames(efficiencyModel2)<-OlsNames
   n<-dim(q)[2]
-  w<-sapply(colnames(q), function(s){paste0('[', s, ']')})
-  rw<-mapply(function(a, b){paste(a, b, sep='-')}, w[(gap+1):n], w[1:(n-gap)])
+  w<-sapply(colnames(q), function(s) paste0("[", s, "]"))
+  rw<-mapply(function(a, b) paste(a, b, sep="-"), w[(gap+1):n], w[1:(n-gap)])
   rownames(efficiencyModel2)<-rw[-1]
-  return (efficiencyModel2)
+  return(efficiencyModel2)
 }
 
 #' Orthogonally Model 1
@@ -466,7 +466,7 @@ efficiencyModel2<-function(vintages.view, gap=1, na.zero= FALSE){
 #' xt<-cumsum(sample(rnorm(1000,0,1), np, TRUE))
 #' rev<-rnorm(np*4,0,.1)
 #' obs_values<-xt
-#' for(i in 1:4){
+#' for(i in 1:4) {
 #'   xt<-xt+rev[(1+(i-1)*np):(i*np)]
 #'   obs_values<-c(obs_values,xt)
 #' }
@@ -477,12 +477,12 @@ efficiencyModel2<-function(vintages.view, gap=1, na.zero= FALSE){
 #' revisions<-get_revisions(vintages, gap=1)
 #' orthogonallyModel1(revisions$diagonal_view)
 #'
-orthogonallyModel1<-function(revisions.view, nrevs=1, na.zero= FALSE){
+orthogonallyModel1<-function(revisions.view, nrevs=1, na.zero= FALSE) {
   r<-revisions.view
-  if(na.zero) r[is.na(r)]<-0
+  if (na.zero) r[is.na(r)]<-0
   jr<-matrix_r2jd(as.matrix(r))
   jom<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "orthogonallyModel1", jr, as.integer(nrevs)), silent= TRUE)
-  if("try-error" %in% class(jom)){
+  if ("try-error" %in% class(jom)) {
     warning("orthogonallyModel1 could not be performed", call.= FALSE)
     return(NULL)
   }
@@ -492,13 +492,13 @@ orthogonallyModel1<-function(revisions.view, nrevs=1, na.zero= FALSE){
     return(NULL)
   }
   om[rowSums(om[])==0, ]<-NaN # fix non-calculable cases
-  if(all(is.nan(om))){
+  if (all(is.nan(om))) {
     warning("orthogonallyModel1 could not be performed", call.= FALSE)
     return(NULL)
   }
   colnames(om)<-OlsAllNames(nrevs)
   rownames(om)<-colnames(r[-c(1:nrevs)])
-  return (om)
+  return(om)
 }
 
 #' Orthogonally Model 2
@@ -526,7 +526,7 @@ orthogonallyModel1<-function(revisions.view, nrevs=1, na.zero= FALSE){
 #' xt<-cumsum(sample(rnorm(1000,0,1), np, TRUE))
 #' rev<-rnorm(np*4,0,.1)
 #' obs_values<-xt
-#' for(i in 1:4){
+#' for(i in 1:4) {
 #'   xt<-xt+rev[(1+(i-1)*np):(i*np)]
 #'   obs_values<-c(obs_values,xt)
 #' }
@@ -537,12 +537,12 @@ orthogonallyModel1<-function(revisions.view, nrevs=1, na.zero= FALSE){
 #' revisions<-get_revisions(vintages, gap=1)
 #' orthogonallyModel2(revisions$diagonal_view)
 #'
-orthogonallyModel2<-function(revisions.view, reference=1, na.zero= FALSE){
+orthogonallyModel2<-function(revisions.view, reference=1, na.zero= FALSE) {
   r<-revisions.view
-  if(na.zero) r[is.na(r)]<-0
+  if (na.zero) r[is.na(r)]<-0
   jr<-matrix_r2jd(as.matrix(r))
   jom<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "orthogonallyModel2", jr, as.integer(reference)), silent= TRUE)
-  if("try-error" %in% class(jom)){
+  if ("try-error" %in% class(jom)) {
     warning("orthogonallyModel2 could not be performed", call.= FALSE)
     return(NULL)
   }
@@ -552,13 +552,13 @@ orthogonallyModel2<-function(revisions.view, reference=1, na.zero= FALSE){
     return(NULL)
   }
   om[rowSums(om[])==0, ]<-NaN # fix non-calculable cases
-  if(all(is.nan(om))){
+  if (all(is.nan(om))) {
     warning("orthogonallyModel2 could not be performed", call.= FALSE)
     return(NULL)
   }
   colnames(om)<-OlsNames
   rownames(om)<-colnames(r)[-c(1:reference)]
-  return (om)
+  return(om)
 }
 
 #' Signal VS Noise
@@ -590,7 +590,7 @@ orthogonallyModel2<-function(revisions.view, reference=1, na.zero= FALSE){
 #' xt<-cumsum(sample(rnorm(1000,0,1), np, TRUE))
 #' rev<-rnorm(np*4,0,.1)
 #' obs_values<-xt
-#' for(i in 1:4){
+#' for(i in 1:4) {
 #'   xt<-xt+rev[(1+(i-1)*np):(i*np)]
 #'   obs_values<-c(obs_values,xt)
 #' }
@@ -600,27 +600,27 @@ orthogonallyModel2<-function(revisions.view, reference=1, na.zero= FALSE){
 #' vintages<-create_vintages(df, periodicity = 4)
 #' signalnoise(vintages$diagonal_view)
 #'
-signalnoise<-function(vintages.view, gap=1, na.zero= FALSE){
+signalnoise<-function(vintages.view, gap=1, na.zero= FALSE) {
   q<-vintages.view
-  if(na.zero) q[is.na(q)]<-0
+  if (na.zero) q[is.na(q)]<-0
   jq<-matrix_r2jd(q)
   jsd<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "signalNoise", jq, as.integer(gap)), silent= TRUE)
-  if("try-error" %in% class(jsd)){
+  if ("try-error" %in% class(jsd)) {
     warning("signalnoise could not be performed", call.= FALSE)
     return(NULL)
   }
   sn<-matrix_jd2r(jsd)
   sn[rowSums(sn[])==0, ]<-NaN # fix non-calculable cases
-  if(all(is.nan(sn))){
+  if (all(is.nan(sn))) {
     warning("SignalNoise could not be performed", call.= FALSE)
     return(NULL)
   }
   colnames(sn)<-snNames
   n<-dim(q)[2]
-  w<-sapply(colnames(q), function(s){paste0('[', s, ']')})
-  rw<-mapply(function(a, b){paste(a, b, sep='-')}, w[(gap+1):n], w[1:(n-gap)])
+  w<-sapply(colnames(q), function(s) paste0("[", s, "]"))
+  rw<-mapply(function(a, b) paste(a, b, sep="-"), w[(gap+1):n], w[1:(n-gap)])
   rownames(sn)<-rw
-  return (sn)
+  return(sn)
 }
 
 #' Unit root test
@@ -646,7 +646,7 @@ signalnoise<-function(vintages.view, gap=1, na.zero= FALSE){
 #' xt<-cumsum(sample(rnorm(1000,0,1), np, TRUE))
 #' rev<-rnorm(np*4,0,.1)
 #' obs_values<-xt
-#' for(i in 1:4){
+#' for(i in 1:4) {
 #'   xt<-xt+rev[(1+(i-1)*np):(i*np)]
 #'   obs_values<-c(obs_values,xt)
 #' }
@@ -656,12 +656,12 @@ signalnoise<-function(vintages.view, gap=1, na.zero= FALSE){
 #' vintages<-create_vintages(df, periodicity = 4)
 #' unitroot(vintages$diagonal_view)
 #'
-unitroot<-function(vintages.view, adfk=1, na.zero= FALSE){
+unitroot<-function(vintages.view, adfk=1, na.zero= FALSE) {
   q<-vintages.view
-  if(na.zero) q[is.na(q)]<-0
+  if (na.zero) q[is.na(q)]<-0
   jq<-matrix_r2jd(q)
   jsd<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "unitroot", jq, as.integer(adfk)), silent= TRUE)
-  if("try-error" %in% class(jsd)){
+  if ("try-error" %in% class(jsd)) {
     warning("unit root test could not be performed", call.= FALSE)
     return(NULL)
   }
@@ -694,7 +694,7 @@ unitroot<-function(vintages.view, adfk=1, na.zero= FALSE){
 #' xt<-cumsum(sample(rnorm(1000,0,1), np, TRUE))
 #' rev<-rnorm(np*4,0,.1)
 #' obs_values<-xt
-#' for(i in 1:4){
+#' for(i in 1:4) {
 #'   xt<-xt+rev[(1+(i-1)*np):(i*np)]
 #'   obs_values<-c(obs_values,xt)
 #' }
@@ -704,19 +704,19 @@ unitroot<-function(vintages.view, adfk=1, na.zero= FALSE){
 #' vintages<-create_vintages(df, periodicity = 4)
 #' cointegration(vintages$diagonal_view)
 #'
-cointegration<-function(vintages.view, adfk=1, na.zero= FALSE){
+cointegration<-function(vintages.view, adfk=1, na.zero= FALSE) {
   q<-vintages.view
-  if(na.zero) q[is.na(q)]<-0
+  if (na.zero) q[is.na(q)]<-0
   jq<-matrix_r2jd(q)
   jsd<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "cointegration", jq, as.integer(adfk)), silent= TRUE)
-  if("try-error" %in% class(jsd)){
+  if ("try-error" %in% class(jsd)) {
     warning("cointegration test could not be performed", call.= FALSE)
     return(NULL)
   }
   eg<-matrix_jd2r(jsd)
   colnames(eg)<-egNames
   rownames(eg)<-get_rownames_diag(q, adfk)
-  return (eg)
+  return(eg)
 }
 
 #' Vector error correction model (VECM)
@@ -744,7 +744,7 @@ cointegration<-function(vintages.view, adfk=1, na.zero= FALSE){
 #' xt<-cumsum(sample(rnorm(1000,0,1), np, TRUE))
 #' rev<-rnorm(np*4,0,.1)
 #' obs_values<-xt
-#' for(i in 1:4){
+#' for(i in 1:4) {
 #'   xt<-xt+rev[(1+(i-1)*np):(i*np)]
 #'   obs_values<-c(obs_values,xt)
 #' }
@@ -754,36 +754,36 @@ cointegration<-function(vintages.view, adfk=1, na.zero= FALSE){
 #' vintages<-create_vintages(df, periodicity = 4)
 #' vecm(vintages$diagonal_view)
 #'
-vecm<-function(vintages.view, lag=2, model = c("none", "cnt", "trend"), na.zero= FALSE){
+vecm<-function(vintages.view, lag=2, model = c("none", "cnt", "trend"), na.zero= FALSE) {
   model<-match.arg(model)
   q<-vintages.view
-  if(na.zero) q[is.na(q)]<-0
+  if (na.zero) q[is.na(q)]<-0
   jq<-matrix_r2jd(q)
   jsd<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "vecm", jq, as.integer(lag), model), silent= TRUE)
-  if("try-error" %in% class(jsd)){
+  if ("try-error" %in% class(jsd)) {
     warning("vecm could not be performed", call.= FALSE)
     return(NULL)
   }
   vecm<-matrix_jd2r(jsd)
   colnames(vecm)<-vecmAllNames(lag)
   rownames(vecm)<-get_rownames_diag(q, 1)
-  return (vecm)
+  return(vecm)
 }
 
 # Auto-correlation tests on OLS residuals
 #
-# auto_correlation<-function(vintages.view, nbreuschgodfrey=1, nljungbox=1, na.zero= FALSE){
+# auto_correlation<-function(vintages.view, nbreuschgodfrey=1, nljungbox=1, na.zero= FALSE) {
 #   q<-vintages.view
-#   if(na.zero) q[is.na(q)]<-0
+#   if (na.zero) q[is.na(q)]<-0
 #   jq<-matrix_r2jd(q)
 #   jsd<-try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "autoCorrelation", jq
 #                   , as.integer(nbreuschgodfrey), as.integer(nljungbox)), silent= TRUE)
-#   if("try-error" %in% class(jsd)){
+#   if ("try-error" %in% class(jsd)) {
 #     warning("auto_correlation test on OLS residuals could not be performed", call.= FALSE)
 #     return(NULL)
 #   }
 #   ac<-matrix_jd2r(jsd)
 #   colnames(ac)<-acNames
 #   rownames(ac)<-get_rownames_diag(q, 1)
-#   return (ac)
+#   return(ac)
 # }

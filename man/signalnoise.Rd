@@ -4,22 +4,22 @@
 \alias{signalnoise}
 \title{Signal VS Noise}
 \usage{
-signalnoise(vintages.view, gap = 1, na.zero = F)
+signalnoise(vintages.view, gap = 1, na.zero = FALSE)
 }
 \arguments{
-\item{vintages.view}{mts object. Vertical or diagonal view of the 
+\item{vintages.view}{mts object. Vertical or diagonal view of the
 `create_vintages()` output}
 
-\item{gap}{Integer. Gap to consider between each vintages. Default is 1 
+\item{gap}{Integer. Gap to consider between each vintages. Default is 1
 which means that revisions are calculated and tested for each
 vintages consecutively.}
 
-\item{na.zero}{Boolean whether missing values should be considered as 0 or 
+\item{na.zero}{Boolean whether missing values should be considered as 0 or
 rather as data not (yet) available (the default).}
 }
 \description{
-Linear regression models to determine whether revisions are ‘news’ or ‘noise’. 
-For 'noise': R (revisions) on P (preliminary estimate). 
+Linear regression models to determine whether revisions are ‘news’ or ‘noise’.
+For 'noise': R (revisions) on P (preliminary estimate).
 For 'news': R on L (latter estimate).
 }
 \examples{
@@ -28,7 +28,7 @@ period_range<-seq(as.Date('2011-01-01'),as.Date('2020-10-01'),by='quarter')
 qtr<-(as.numeric(substr(period_range,6,7))+2)/3
 time_period<-rep(paste0(format(period_range, "\%Y"), "Q", qtr),5)
 np<-length(period_range)
-rev_date<-c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np), 
+rev_date<-c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np),
             rep("2022-12-31",np), rep("2023-06-30",np))
 set.seed(1)
 xt<-cumsum(sample(rnorm(1000,0,1), np, TRUE))

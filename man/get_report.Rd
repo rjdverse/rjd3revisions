@@ -4,10 +4,10 @@
 \alias{get_report}
 \title{Generate report on Revision Analysis}
 \usage{
-get_report(rslt, path.out = NULL, open.report = T)
+get_report(rslt, path.out = NULL, open.report = TRUE)
 }
 \arguments{
-\item{rslt}{an object of class `"rjd3rev_vintages"` which is the output 
+\item{rslt}{an object of class `"rjd3rev_vintages"` which is the output
 of the function `revision_analysis()`}
 
 \item{path.out}{path of the output HTML file containing the report. Default
@@ -26,7 +26,7 @@ period_range<-seq(as.Date('2011-01-01'),as.Date('2020-10-01'),by='quarter')
 qtr<-(as.numeric(substr(period_range,6,7))+2)/3
 time_period<-rep(paste0(format(period_range, "\%Y"), "Q", qtr),5)
 np<-length(period_range)
-rev_date<-c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np), 
+rev_date<-c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np),
             rep("2022-12-31",np), rep("2023-06-30",np))
 set.seed(1)
 xt<-cumsum(sample(rnorm(1000,0,1), np, TRUE))
