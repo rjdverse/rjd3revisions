@@ -128,7 +128,8 @@ revision_analysis<-function(vintages,
   ## Select vintage view
   if (view == "vertical") {
     vt<-vintages$vertical_view
-  }else if (view == "diagonal") {
+  }else if (view == "diagonal"){
+    n.releases <- min(n.releases, ncol(vintages$diagonal_view))
     vt<-vintages$diagonal_view[, 1:n.releases]
   }
 
@@ -380,7 +381,7 @@ revision_analysis<-function(vintages,
     sn_news_q<-eval_pvals(sn[, "News.pvalue"], h0_good=FALSE)
   } else {
     sn_rslt<-NULL
-    sn_noise_q<-sn_news_q<-rep(NA, colnames(rv))
+    sn_noise_q<-sn_news_q<-rep(NA, length(colnames(rv)))
   }
 
 
