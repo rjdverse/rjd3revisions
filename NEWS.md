@@ -12,6 +12,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 * new functions to check the input format (`check_XXX()`)
 * new functions to convert an input revision into another (`from_XXX_to_XXX()`)
+* generate report in pdf format
 
 ### Changed
 
