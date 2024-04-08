@@ -25,7 +25,7 @@ For some parametric tests, transformation may be important to avoid misleading r
 
 # Descriptive statistics
 ```{r descriptivetable, echo = FALSE}
-selection<-c("N", "mean revision", "st.dev.", "% positive", "% zero", "% negative")  
+selection<-c("N", "mean revision", "st.dev.", "% positive", "% zero", "% negative")
 
 if (! requireNamespace("kableExtra", quietly=TRUE)) {
   knitr::kable(descriptive_statistics[selection, , drop=FALSE], format="html")

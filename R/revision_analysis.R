@@ -128,7 +128,7 @@ revision_analysis<-function(vintages,
   ## Select vintage view
   if (view == "vertical") {
     vt<-vintages$vertical_view
-  }else if (view == "diagonal"){
+  } else if (view == "diagonal") {
     n.releases <- min(n.releases, ncol(vintages$diagonal_view))
     vt<-vintages$diagonal_view[, 1:n.releases]
   }
@@ -192,10 +192,10 @@ revision_analysis<-function(vintages,
   if (transf.diff == "auto") {
     vts<-if (is_stationary) vt else vt_diff
     vtc<-if (is_cointegrated) vt else vt_diff
-  }else if (transf.diff == "forced") {
+  } else if (transf.diff == "forced") {
     vts<-vtc<-vt_diff
     is_stationary<-is_cointegrated<-FALSE
-  }else if (transf.diff == "none") {
+  } else if (transf.diff == "none") {
     vts<-vtc<-vt
     if (!is_stationary || !is_cointegrated) {
       warning("No differentiation considered even though stationarity and/or cointegration might not be present. This can lead to spurious regression.", call.=FALSE)
@@ -351,13 +351,13 @@ revision_analysis<-function(vintages,
                     estimates_friedman=matrix(unlist(fd_test), ncol=2, byrow = TRUE, dimnames = list(colnames(rv), c("value", "p.value"))))
     seas_lb_q<-eval_pvals(seas_rslt$estimates_ljungbox[, "p.value"], h0_good=TRUE)
     seas_fd_q<-eval_pvals(seas_rslt$estimates_friedman[, "p.value"], h0_good=TRUE)
-  }else if (!"try-error" %in% class(lb_test) && freq>1) {
+  } else if (!"try-error" %in% class(lb_test) && freq>1) {
     seas_rslt<-list(info_transformation=seas_trf_str,
                     estimates_ljungbox=matrix(unlist(lb_test), ncol=2, byrow = TRUE, dimnames = list(colnames(rv), c("value", "p.value"))),
                     estimates_friedman=NULL)
     seas_lb_q<-eval_pvals(seas_rslt$estimates_ljungbox[, "p.value"], h0_good=TRUE)
     seas_fd_q<-rep(NA, length(colnames(rv)))
-  }else if (!"try-error" %in% class(fd_test) && freq>1) {
+  } else if (!"try-error" %in% class(fd_test) && freq>1) {
     seas_rslt<-list(info_transformation=seas_trf_str,
                     estimates_ljungbox=NULL,
                     estimates_friedman=matrix(unlist(fd_test), ncol=2, byrow = TRUE, dimnames = list(colnames(rv), c("value", "p.value"))))
@@ -571,10 +571,10 @@ check_seasonality <- function(x) {
     if (all(test_succeeded)) {
       pvals<-c(lb_pval, fd_pval)
       seasonality<-ifelse(length(pvals[which(pvals<.05)])==2, TRUE, FALSE)
-    }else if (any(test_succeeded)) {
+    } else if (any(test_succeeded)) {
       if (test_succeeded[1]) {
         seasonality<-ifelse(lb_pval<.01, TRUE, FALSE)
-      }else if (test_succeeded[2]) {
+      } else if (test_succeeded[2]) {
         seasonality<-ifelse(fd_pval<.01, TRUE, FALSE)
       }
     } else {
