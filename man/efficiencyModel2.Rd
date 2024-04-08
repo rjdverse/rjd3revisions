@@ -44,5 +44,5 @@ efficiencyModel2(vintages$diagonal_view)
 
 }
 \seealso{
-`revision_analysis()`, `get_report()`
+`revision_analysis()`, `render_report()`
 }

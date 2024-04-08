@@ -2,9 +2,39 @@
 % Please edit documentation in R/vintages.R
 \name{create_vintages}
 \alias{create_vintages}
+\alias{create_vintages.data.frame}
+\alias{create_vintages.mts}
+\alias{create_vintages.matrix}
+\alias{create_vintages.default}
 \title{Create vintage tables}
 \usage{
 create_vintages(x, ...)
+
+create_vintages.data.frame(
+  x,
+  type = c("long", "horizontal", "vertical"),
+  periodicity = c(4L, 12L, 1L),
+  date_format = "\%Y-\%m-\%d",
+  ...
+)
+
+\method{create_vintages}{mts}(
+  x,
+  type = c("long", "horizontal", "vertical"),
+  periodicity = NULL,
+  date_format = "\%Y-\%m-\%d",
+  ...
+)
+
+\method{create_vintages}{matrix}(
+  x,
+  type = c("long", "horizontal", "vertical"),
+  periodicity = c(4L, 12L, 1L),
+  date_format = "\%Y-\%m-\%d",
+  ...
+)
+
+\method{create_vintages}{default}(x, ...)
 }
 \arguments{
 \item{x}{a formatted object containing the input. It can be of type

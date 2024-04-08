@@ -74,7 +74,7 @@ transformation of the vintage data may be important to avoid misleading
 results. By default, the decision to differentiate the vintage data is
 performed automatically based on unit root and co-integration tests whose
 results can be found found in the results too (section 'varbased'). Finally,
-running the function `get_report()` on the output of `revision_analysis()`
+running the function `render_report()` on the output of `revision_analysis()`
 would give you both a formatted summary of the results and full explanations
 about each tests.
 }
@@ -103,7 +103,7 @@ vintages<-create_vintages(df, periodicity = 4, revdate.format= "\%Y-\%m-\%d")
 
 ## Call using all default parameters
 rslt1<-revision_analysis(vintages)
-#get_report(rslt1)
+#render_report(rslt1)
 #summary(rslt1) # formatted summary only
 
 ## Calls using diagonal view (suited in many situations such as to evaluate GDP estimates)
@@ -111,17 +111,17 @@ rslt1<-revision_analysis(vintages)
 ## performed automatically (if transf.diff is let to its default option) but `transf.log`
 ## must be set to TRUE manually whenever a log-transformation of the data is necessary
 rslt2<-revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
-#get_report(rslt2)
+#render_report(rslt2)
 #summary(rslt2)
 
 ## Call to evaluate revisions for a specific range of vintage periods
 vintages<-create_vintages(df, periodicity = 4, vintage.selection = list(start="2021-12-31", end="2023-06-30"))
 rslt3<-revision_analysis(vintages, gap=2, view = "vertical")
-#get_report(rslt3)
+#render_report(rslt3)
 #summary(rslt3)
 
 }
 \seealso{
 `create_vintages()` to create the input object,
-         `get_report()` to get a summary and information the tests
+         `render_report()` to get a summary and information the tests
 }
