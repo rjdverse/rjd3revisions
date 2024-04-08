@@ -2,48 +2,39 @@
 % Please edit documentation in R/vintages.R
 \name{create_vintages}
 \alias{create_vintages}
-\title{Create vintage tables from data.frame}
+\title{Create vintage tables}
 \usage{
-create_vintages(
-  df,
-  periodicity,
-  vintage.selection = NULL,
-  revdate.format = "\%Y-\%m-\%d"
-)
+create_vintages(x, ...)
 }
 \arguments{
-\item{df}{a formatted data.frame containing the input. It must be composed of
-three columns in this order: revision date, time period and value:
-Revision date should be in a Date format specified in
-`revdate.format` argument. Time period should be mentioned in
-YYM., YYQ. or YEAR. format. Examples of correct formats are
-2023M01, 2023Q1 or 2023. Finally, the values should be numeric.}
+\item{x}{a formatted object containing the input. It can be of type
+`data.frame`, `matrix` or `mts` and must represent one of the multiple
+vintage views (selected by the argument `type`.}
+
+\item{type}{character specifying the type of representation of the input
+between `"long"`, `"horizontal"` and `"vertical"` approach.}
 
 \item{periodicity}{periodicity of the time period (12, 4 or 1 for resp.
 monthly,quarterly or annual data)}
 
-\item{vintage.selection}{a list specifying the range of revision dates to
-retain. As an example: list(start="2022-02-02",
-end="2022-08-05") would keep all the vintages whose
-revision date is between 02Feb.2022 and 05Aug.2022.
-If NULL (the default), the whole range is
-selected.}
-
-\item{revdate.format}{character string corresponding to the format used in
+\item{date_format}{character string corresponding to the format used in
 the input data.frame for the revision dates.}
 }
 \value{
-an object of class `rjd3rev_vintages`
+an object of class `rjd3rev_vintages` which contains the four
+different view of a revision
 }
 \description{
+Create vintage tables from data.frame, matrix or mts object in R
+}
+\details{
 From the input data.frame, the function displays vintages considering three
 different data structures or views: vertical, horizontal and diagonal. See
 the `details` section below for more information on the different views. The
 function returns an object of class `rjd3rev_vintages` that can be used as
 input in the main function `revision_analysis`.
-}
-\details{
-The are three different vintage views:
+
+The are four different vintage views:
 
 1. The vertical view shows the observed values at each time period by the
 different vintages. This approach is robust to changes of base year and
@@ -69,24 +60,32 @@ the release and the accuracy of the published figures. It is particularly
 informative when regular estimation intervals exist for the data under
 study. However, this approach requires to be particularly vigilant in case
 there is a change in base year or data redefinition.
+
+4. The long view is a representation of data that allows information to be
+grouped together in order to facilitate their manipulation. With 3 columns
+(1 column for the time period, 1 column for the publication / revision date
+and one column for the data), this representation allows for efficient and
+non-redundant storage of data.
 }
 \examples{
-df<-data.frame(rev_date = c(rep("2022-07-31",4), rep("2022-08-31",4),
-                            rep("2022-09-30",4), rep("2022-10-31",4),
-                            rep("2022-11-30",4), rep("2022-12-31",4),
-                            rep("2023-01-31",4), rep("2023-02-28",4)),
-               time_period = c(rep(c("2022Q1","2022Q2","2022Q3","2022Q4"),8)),
-               obs_values = c(.8,.2,NA,NA, .8,.1,NA,NA,
-                                .7,.1,NA,NA, .7,.2,.5,NA,
-                                .7,.2,.5,NA, .7,.3,.7,NA,
-                                .7,.2,.7,.4, .7,.3,.7,.3))
-vintages<-create_vintages(df, periodicity = 4)
-
-## including vintage selection
-vintages<-create_vintages(df, periodicity = 4,
-                          vintage.selection = list(start="2022-10-31", end="2023-01-31"))
+## creating the input
+df <- data.frame(rev_date = c(rep("2022-07-31",4), rep("2022-08-31",4),
+                              rep("2022-09-30",4), rep("2022-10-31",4),
+                              rep("2022-11-30",4), rep("2022-12-31",4),
+                              rep("2023-01-31",4), rep("2023-02-28",4)),
+                 time_period = c(rep(c("2022Q1","2022Q2","2022Q3","2022Q4"),8)),
+                 obs_value = c(.8,.2,NA,NA, .8,.1,NA,NA,
+                               .7,.1,NA,NA, .7,.2,.5,NA,
+                               .7,.2,.5,NA, .7,.3,.7,NA,
+                               .7,.2,.7,.4, .7,.3,.7,.3))
+vintages <- create_vintages(x = df, type = "long", periodicity = 4L)
 
 ## specifying the format of revision dates
-vintages<-create_vintages(df, periodicity = 4, revdate.format= "\%Y-\%m-\%d")
+vintages <- create_vintages(
+    x = df,
+    type ="long",
+    periodicity = 4L,
+    date_format= "\%Y-\%m-\%d"
+)
 
 }
