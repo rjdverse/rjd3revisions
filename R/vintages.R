@@ -22,7 +22,7 @@ check_vertical <- function(x, ...) {
     return(UseMethod("check_vertical", x))
 }
 
-#' @exportS3Method
+#' @exportS3Method check_vertical mts
 check_vertical.mts <- function(
         x,
         date_format = "%Y-%m-%d",
@@ -45,7 +45,7 @@ check_vertical.mts <- function(
     return(vertical)
 }
 
-#' @exportS3Method
+#' @exportS3Method check_vertical matrix
 check_vertical.matrix <- function(
         x,
         date_format = "%Y-%m-%d",
@@ -53,7 +53,8 @@ check_vertical.matrix <- function(
         ...
 ) {
     # Check periodicity
-    periodicity <- match.arg(arg = NULL, choices = periodicity)
+    checkmate::assert_number(x = periodicity, na.ok = FALSE, finite = TRUE, null.ok = FALSE)
+    checkmate::assert_choice(x = periodicity, choices = c(4L, 12L, 1L))
 
     # Check data type
     checkmate::assert_matrix(x, mode = "numeric")
@@ -98,7 +99,7 @@ check_vertical.matrix <- function(
     return(vertical)
 }
 
-#' @exportS3Method
+#' @exportS3Method check_vertical default
 check_vertical.default <- function(x, ...) {
     stop("The function requires a matrix or a mts object!")
 }
@@ -405,7 +406,8 @@ create_vintages <- function(x, ...) {
     return(UseMethod("create_vintages", x))
 }
 
-#' @export
+#' @exportS3Method create_vintages data.frame
+#' @rdname create_vintages
 create_vintages.data.frame <- function(
         x,
         type = c("long", "horizontal", "vertical"),
@@ -418,7 +420,8 @@ create_vintages.data.frame <- function(
     type <- match.arg(type)
 
     # check periodicity
-    periodicity <- match.arg(arg = NULL, choices = periodicity)
+    checkmate::assert_number(x = periodicity, na.ok = FALSE, finite = TRUE, null.ok = FALSE)
+    checkmate::assert_choice(x = periodicity, choices = c(4L, 12L, 1L))
 
     if (type == "long") {
 
@@ -447,7 +450,8 @@ create_vintages.data.frame <- function(
     }
 }
 
-#' @export
+#' @exportS3Method create_vintages mts
+#' @rdname create_vintages
 create_vintages.mts <- function(
         x,
         type = c("long", "horizontal", "vertical"),
@@ -485,7 +489,8 @@ create_vintages.mts <- function(
     ))
 }
 
-#' @export
+#' @exportS3Method create_vintages matrix
+#' @rdname create_vintages
 create_vintages.matrix <- function(
         x,
         type = c("long", "horizontal", "vertical"),
@@ -498,7 +503,8 @@ create_vintages.matrix <- function(
     type <- match.arg(type)
 
     # check periodicity
-    periodicity <- match.arg(arg = NULL, choices = periodicity)
+    checkmate::assert_number(x = periodicity, na.ok = FALSE, finite = TRUE, null.ok = FALSE)
+    checkmate::assert_choice(x = periodicity, choices = c(4L, 12L, 1L))
 
     if (type == "long") {
         stop("Wrong type for mts data.")
@@ -544,7 +550,8 @@ create_vintages.matrix <- function(
     ))
 }
 
-#' @export
+#' @exportS3Method create_vintages default
+#' @rdname create_vintages
 create_vintages.default <- function(x, ...) {
     stop("The function requires a data.frame, a matrix or a mts object!")
 }
@@ -590,7 +597,8 @@ create_vintages_from_csv <- function(file,
     type <- match.arg(type)
 
     # check periodicity
-    periodicity <- match.arg(arg = NULL, choices = periodicity)
+    checkmate::assert_number(x = periodicity, na.ok = FALSE, finite = TRUE, null.ok = FALSE)
+    checkmate::assert_choice(x = periodicity, choices = c(4L, 12L, 1L))
 
     df <- read.csv(file, ...)
 
@@ -644,7 +652,8 @@ create_vintages_from_xlsx<-function(file,
     type <- match.arg(type)
 
     # check periodicity
-    periodicity <- match.arg(arg = NULL, choices = periodicity)
+    checkmate::assert_number(x = periodicity, na.ok = FALSE, finite = TRUE, null.ok = FALSE)
+    checkmate::assert_choice(x = periodicity, choices = c(4L, 12L, 1L))
 
     df <- readxl::read_excel(path = file, ...)
 
