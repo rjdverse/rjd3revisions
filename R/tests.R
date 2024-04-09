@@ -118,7 +118,7 @@ descriptive_statistics<-function(revisions.view, rounding=3) {
 #' @param na.zero Boolean whether missing values should be considered as 0 or
 #'                rather as data not (yet) available (the default).
 #'
-#' @seealso `revision_analysis()`, `get_report()`
+#' @seealso `revision_analysis()`, `render_report()`
 #'
 #' @export
 #'
@@ -165,7 +165,7 @@ theil<-function(vintages.view, gap=1, na.zero= FALSE) {
 #'            vintages consecutively..
 #' @param na.zero Boolean whether missing values should be considered as 0 or
 #'                rather as data not (yet) available (the default).
-#' @seealso `revision_analysis()`, `get_report()`
+#' @seealso `revision_analysis()`, `render_report()`
 #'
 #' @export
 #'
@@ -209,7 +209,7 @@ theil2<-function(vintages.view, gap=1, na.zero= FALSE) {
 #'                       `get_revisions()` output
 #' @param na.zero Boolean whether missing values should be considered as 0 or
 #'                rather as data not (yet) available (the default).
-#' @seealso `revision_analysis()`, `get_report()`
+#' @seealso `revision_analysis()`, `render_report()`
 #'
 #' @export
 #'
@@ -269,7 +269,7 @@ bias<-function(revisions.view, na.zero= FALSE) {
 #' @param na.zero Boolean whether missing values should be considered as 0 or
 #'                rather as data not (yet) available (the default).
 #'
-#' @seealso `revision_analysis()`, `get_report()`
+#' @seealso `revision_analysis()`, `render_report()`
 #'
 #' @export
 #'
@@ -328,7 +328,7 @@ slope_and_drift<-function(vintages.view, gap=1, na.zero= FALSE) {
 #' @param na.zero Boolean whether missing values should be considered as 0 or
 #'                rather as data not (yet) available (the default).
 #'
-#' @seealso `revision_analysis()`, `get_report()`
+#' @seealso `revision_analysis()`, `render_report()`
 #'
 #' @export
 #'
@@ -388,7 +388,7 @@ efficiencyModel1<-function(vintages.view, gap=1, na.zero= FALSE) {
 #'            vintages consecutively.
 #' @param na.zero Boolean whether missing values should be considered as 0 or
 #'                rather as data not (yet) available (the default).
-#' @seealso `revision_analysis()`, `get_report()`
+#' @seealso `revision_analysis()`, `render_report()`
 #'
 #' @export
 #'
@@ -450,7 +450,7 @@ efficiencyModel2<-function(vintages.view, gap=1, na.zero= FALSE) {
 #' @param nrevs Integer. Number of lags to consider.
 #' @param na.zero Boolean whether missing values should be considered as 0 or
 #'                rather as data not (yet) available (the default).
-#' @seealso `revision_analysis()`, `get_report()`
+#' @seealso `revision_analysis()`, `render_report()`
 #'
 #' @export
 #'
@@ -510,7 +510,7 @@ orthogonallyModel1<-function(revisions.view, nrevs=1, na.zero= FALSE) {
 #' @param reference Integer. Number of lags to consider.
 #' @param na.zero Boolean whether missing values should be considered as 0 or
 #'                rather as data not (yet) available (the default).
-#' @seealso `revision_analysis()`, `get_report()`
+#' @seealso `revision_analysis()`, `render_report()`
 #'
 #' @export
 #'
@@ -574,7 +574,7 @@ orthogonallyModel2<-function(revisions.view, reference=1, na.zero= FALSE) {
 #'            vintages consecutively.
 #' @param na.zero Boolean whether missing values should be considered as 0 or
 #'                rather as data not (yet) available (the default).
-#' @seealso `revision_analysis()`, `get_report()`
+#' @seealso `revision_analysis()`, `render_report()`
 #'
 #' @export
 #'
@@ -630,7 +630,7 @@ signalnoise<-function(vintages.view, gap=1, na.zero= FALSE) {
 #' @param adfk Number of lags to consider for Augmented Dicky-Fuller (ADF) test
 #' @param na.zero Boolean whether missing values should be considered as 0 or
 #'                rather as data not (yet) available (the default).
-#' @seealso `revision_analysis()`, `get_report()`
+#' @seealso `revision_analysis()`, `render_report()`
 #'
 #' @export
 #'
@@ -678,7 +678,7 @@ unitroot<-function(vintages.view, adfk=1, na.zero= FALSE) {
 #' @param adfk Number of lags to consider for ADF
 #' @param na.zero Boolean whether missing values should be considered as 0 or
 #'                rather as data not (yet) available (the default).
-#' @seealso `revision_analysis()`, `get_report()`
+#' @seealso `revision_analysis()`, `render_report()`
 #'
 #' @export
 #'

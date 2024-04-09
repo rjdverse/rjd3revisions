@@ -70,7 +70,7 @@ rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 Finally to create a report and get a summary of the results, you can use
 
 ``` r
-get_report(rslt)
+render_report(rslt)
 
 summary(rslt)
 print(rslt)
