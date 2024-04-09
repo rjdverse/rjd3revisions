@@ -84,10 +84,12 @@ the vignette (with `browseVignettes("rjd3revisions")`) and the
 documentation of each function (for example: `?create_vintages`,
 `?revision_analysis`) to see the current possibilities of the tool.
 
-## Contributing
+## Package Maintenance and contributing
 
 Any contribution is welcome and should be done through pull requests
-and/or issues.
+and/or issues. pull requests should include **updated tests** and
+**updated documentation**. If functionality is changed, docstrings
+should be added or updated.
 
 ## Licensing
 
