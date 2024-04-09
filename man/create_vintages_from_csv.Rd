@@ -7,7 +7,7 @@
 create_vintages_from_csv(
   file,
   type = c("long", "horizontal", "vertical"),
-  periodicity = c(4L, 12L, 1L),
+  periodicity,
   date_format = "\%Y-\%m-\%d",
   ...
 )
@@ -20,9 +20,9 @@ to be read from.}
 between `"long"`, `"horizontal"` and `"vertical"` approach.}
 
 \item{periodicity}{periodicity of the time period (12, 4 or 1 for resp.
-monthly,quarterly or annual data)}
+monthly, quarterly or annual data)}
 
-\item{date_format}{character string corresponding to the format used in
+\item{date_format}{\code{character} string corresponding to the format used in
 the input data.frame for the revision dates.}
 
 \item{...}{Arguments to be passed to `read.csv()`, for example:

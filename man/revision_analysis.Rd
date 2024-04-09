@@ -37,7 +37,7 @@ information about interests and drawbacks of each view.}
 Allow the user to limit the number of releases under
 investigation). When `view = "vertical"`, the user is
 invited to limit the number of vintages upstream through
-the parameter `vintage.selection` in `create_vintages()`
+the parameter `vintage_selection` in `create_vintages()`
 whenever necessary.}
 
 \item{transf.diff}{differentiation to apply to the data prior testing. Only
@@ -98,7 +98,7 @@ for(i in 1:4) {
 df<-data.frame(rev_date, time_period, obs_values)
 
 ## Create a `"rjd3rev_vintages"` object with the input
-vintages<-create_vintages(df, periodicity = 4, revdate.format= "\%Y-\%m-\%d")
+vintages <- create_vintages(x = df, periodicity = 4, date_format = "\%Y-\%m-\%d")
 # revisions<-get_revisions(vintages, gap = 1) # just to get a first insight of the revisions
 
 ## Call using all default parameters
@@ -115,7 +115,11 @@ rslt2<-revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 #summary(rslt2)
 
 ## Call to evaluate revisions for a specific range of vintage periods
-vintages<-create_vintages(df, periodicity = 4, vintage.selection = list(start="2021-12-31", end="2023-06-30"))
+vintages <- create_vintages(
+    x = df,
+    periodicity = 4,
+    vintage_selection = c(start="2021-12-31", end="2023-06-30")
+)
 rslt3<-revision_analysis(vintages, gap=2, view = "vertical")
 #render_report(rslt3)
 #summary(rslt3)
