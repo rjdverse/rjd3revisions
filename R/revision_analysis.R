@@ -32,7 +32,7 @@
 #'                   Allow the user to limit the number of releases under
 #'                   investigation). When `view = "vertical"`, the user is
 #'                   invited to limit the number of vintages upstream through
-#'                   the parameter `vintage.selection` in `create_vintages()`
+#'                   the parameter `vintage_selection` in `create_vintages()`
 #'                   whenever necessary.
 #' @param transf.diff differentiation to apply to the data prior testing. Only
 #'                    used for regressions including vintage data as regressor
@@ -77,7 +77,7 @@
 #' df<-data.frame(rev_date, time_period, obs_values)
 #'
 #' ## Create a `"rjd3rev_vintages"` object with the input
-#' vintages<-create_vintages(df, periodicity = 4, revdate.format= "%Y-%m-%d")
+#' vintages <- create_vintages(x = df, periodicity = 4, date_format = "%Y-%m-%d")
 #' # revisions<-get_revisions(vintages, gap = 1) # just to get a first insight of the revisions
 #'
 #' ## Call using all default parameters
@@ -94,7 +94,11 @@
 #' #summary(rslt2)
 #'
 #' ## Call to evaluate revisions for a specific range of vintage periods
-#' vintages<-create_vintages(df, periodicity = 4, vintage.selection = list(start="2021-12-31", end="2023-06-30"))
+#' vintages <- create_vintages(
+#'     x = df,
+#'     periodicity = 4,
+#'     vintage_selection = c(start="2021-12-31", end="2023-06-30")
+#' )
 #' rslt3<-revision_analysis(vintages, gap=2, view = "vertical")
 #' #render_report(rslt3)
 #' #summary(rslt3)
@@ -135,7 +139,7 @@ revision_analysis<-function(vintages,
 
   ## Revisions and Vintages Transformation
   rv_notrf<-get_vd_rev(vt, gap)
-  freq<-frequency(vt)
+  freq<-stats::frequency(vt)
 
   ### Log transformation
   if (transf.log) {
@@ -302,7 +306,7 @@ revision_analysis<-function(vintages,
   if (!is.null(orth1)) {
     orth1_rslt<-format_reg_output(orth1, is_log, FALSE)
     orth1_m_q<-c(rep("", nrevs), eval_pvals(orth1[, "intercept.pvalue"], h0_good=TRUE))
-    orth1_r_q<-c(rep("", nrevs), eval_pvals(pf(orth1[, "F"], nrevs, orth1[, "N"]-nrevs-1), h0_good=TRUE))
+    orth1_r_q<-c(rep("", nrevs), eval_pvals(stats::pf(orth1[, "F"], nrevs, orth1[, "N"]-nrevs-1), h0_good=TRUE))
     orth1_diagnostics<-regression_diagnostics(orth1)
   } else {
     orth1_rslt<-orth1_diagnostics<-NULL
@@ -562,10 +566,10 @@ get_vd_rev <- function(vt, gap) {
 
 check_seasonality <- function(x) {
 
-  if (frequency(x)>1) {
+  if (stats::frequency(x)>1) {
     x_diff<-diff(x)
-    lb_pval<-try(seasonality_qs(x_diff, frequency(x))$pvalue, silent=TRUE) # Ljung-Box
-    fd_pval<-try(seasonality_friedman(x_diff, frequency(x))$pvalue, silent=TRUE) # Friedman non-parametric test
+    lb_pval<-try(seasonality_qs(x_diff, stats::frequency(x))$pvalue, silent=TRUE) # Ljung-Box
+    fd_pval<-try(seasonality_friedman(x_diff, stats::frequency(x))$pvalue, silent=TRUE) # Friedman non-parametric test
 
     test_succeeded<-c(!"try-error" %in% class(lb_pval), !"try-error" %in% class(fd_pval))
     if (all(test_succeeded)) {

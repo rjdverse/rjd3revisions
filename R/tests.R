@@ -90,9 +90,9 @@ descriptive_statistics<-function(revisions.view, rounding=3) {
     mn<-mean(rc)
     sd<-sd(rc)
     min<-min(rc)
-    q10<-quantile(rc, .1)
-    q50<-median(rc)
-    q90<-quantile(rc, .9)
+    q10<-stats::quantile(rc, .1)
+    q50<-stats::median(rc)
+    q90<-stats::quantile(rc, .9)
     max<-max(rc)
     pp<-length(rc[rc>0])/n
     p0<-length(rc[rc==0])/n
