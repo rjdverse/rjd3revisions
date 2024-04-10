@@ -138,6 +138,13 @@ check_vertical.matrix <- function(
             by = "quarter",
             length.out = nrow(x)
         )
+    } else if (periodicity == 1L) {
+        start <- c(start_year, 1L + ((start_month - 1L) %/% 3L))
+        theo_time_period <- seq.Date(
+            from = min(real_time_period),
+            by = "year",
+            length.out = nrow(x)
+        )
     }
     checkmate::assert_set_equal(x = real_time_period, y = theo_time_period)
 
@@ -237,7 +244,7 @@ convert_rev_date <- function(x, date_format = "%Y-%m-%d") {
 
 from_long_to_vertical <- function(x, periodicity, date_format = "%Y-%m-%d") {
     # Check input
-    x <- check_long(x)
+    x <- check_long(x = x, date_format = date_format)
 
     # Check periodicity
     checkmate::assert_count(x = periodicity, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
@@ -257,9 +264,9 @@ from_long_to_vertical <- function(x, periodicity, date_format = "%Y-%m-%d") {
     return(check_vertical(x = vertical, periodicity = periodicity, date_format = date_format))
 }
 
-from_long_to_horizontal <- function(x) {
+from_long_to_horizontal <- function(x, date_format = "%Y-%m-%d") {
     # Check input
-    x <- check_long(x)
+    x <- check_long(x = x, date_format = date_format)
 
     horizontal <- stats::reshape(
         data = x,
@@ -274,9 +281,9 @@ from_long_to_horizontal <- function(x) {
     return(horizontal)
 }
 
-from_long_to_diagonal <- function(x, periodicity) {
+from_long_to_diagonal <- function(x, periodicity, date_format = "%Y-%m-%d") {
     # Check input
-    x <- check_long(x = x)
+    x <- check_long(x = x, date_format = date_format)
 
     # Check periodicity
     checkmate::assert_count(x = periodicity, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
@@ -408,7 +415,7 @@ from_horizontal_to_diagonal <- function(x, periodicity, date_format = "%Y-%m-%d"
     diagonal <- do.call(what = rbind, diagonal)
     colnames(diagonal) <- paste0("Release[", seq_len(ncol(diagonal)), "]")
 
-    real_time_period <- convert_time_period(rownames(diagonal), date_format)
+    real_time_period <- convert_time_period(x = rownames(diagonal), date_format = date_format)
 
     start_year <- as.integer(format(min(real_time_period), format = "%Y"))
     start_month <- as.integer(format(min(real_time_period), format = "%m"))
@@ -425,6 +432,13 @@ from_horizontal_to_diagonal <- function(x, periodicity, date_format = "%Y-%m-%d"
         theo_time_period <- seq.Date(
             from = min(real_time_period),
             by = "quarter",
+            length.out = ncol(x)
+        )
+    } else if (periodicity == 1L) {
+        start <- c(start_year, 1L + ((start_month - 1L) %/% 3L))
+        theo_time_period <- seq.Date(
+            from = min(real_time_period),
+            by = "year",
             length.out = ncol(x)
         )
     }

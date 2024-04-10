@@ -62,8 +62,8 @@ simulate_long <- function(n_period = 50,
         by <- "month"
     } else if (periodicity == 4L) {
         by <- "quarter"
-    } else {
-        stop("Cas non trait\u00e9")
+    } else if (periodicity == 1L) {
+        by <- "year"
     }
 
     time_period <- seq.Date(from = start_period, by = by, length.out = n_period)
@@ -74,7 +74,7 @@ simulate_long <- function(n_period = 50,
             replace = FALSE)),
         origin = "1970-01-01"
     )
-    final_series <- simulate_series(n_period)
+    final_series <- simulate_series(n_period, periodicity = periodicity)
 
     long <- data.frame(
         rev_date = integer(),
@@ -96,6 +96,7 @@ simulate_long <- function(n_period = 50,
     }
 
     long <- long[order(long$rev_date , long$time_period  ), ]
+    rownames(long) <- NULL
 
     return(long)
 }

@@ -196,4 +196,43 @@ test_that("Creation of vintages works for all format", {
     expect_identical(vintage1, vintage13)
     expect_identical(vintage1, vintage14)
     expect_identical(vintage1, vintage15)
+
+})
+
+
+test_that("Creation of vintages works for all format", {
+
+    vintage1 <- create_vintages(x = input_long_1, type = "long", periodicity = 4L)
+    vintage2 <- create_vintages(x = input_long_2, type = "long", periodicity = 4L, date_format = "%d/%m/%Y")
+    vintage3 <- create_vintages(x = input_long_3, type = "long", periodicity = 4L)
+    vintage4 <- create_vintages(x = input_long_4, type = "long", periodicity = 4L, date_format = "%m/%d/%y")
+
+    vintage5 <- create_vintages(x = input_horizontal_1, type = "horizontal", periodicity = 4L)
+    vintage6 <- create_vintages(x = input_horizontal_2, type = "horizontal", periodicity = 4L, date_format = "%d/%m/%Y")
+    vintage7 <- create_vintages(x = input_horizontal_3, type = "horizontal", periodicity = 4L)
+    vintage8 <- create_vintages(x = input_horizontal_4, type = "horizontal", periodicity = 4L, date_format = "%m/%d/%y")
+
+    vintage9 <- create_vintages(x = input_vertical_1, type = "vertical")
+    vintage10 <- create_vintages(x = input_vertical_2, type = "vertical", date_format = "%d/%m/%Y")
+    vintage11 <- create_vintages(x = input_vertical_3, type = "vertical", date_format = "%m/%d/%y")
+    vintage12 <- create_vintages(x = input_vertical_4, type = "vertical", periodicity = 4L)
+    vintage13 <- create_vintages(x = input_vertical_5, type = "vertical", periodicity = 4L, date_format = "%d/%m/%Y")
+    vintage14 <- create_vintages(x = input_vertical_6, type = "vertical", periodicity = 4L)
+    vintage15 <- create_vintages(x = input_vertical_7, type = "vertical", periodicity = 4L, date_format = "%m/%d/%y")
+
+    expect_identical(vintage1, vintage2)
+    expect_identical(vintage1, vintage3)
+    expect_identical(vintage1, vintage4)
+    expect_identical(vintage1, vintage5)
+    expect_identical(vintage1, vintage6)
+    expect_identical(vintage1, vintage7)
+    expect_identical(vintage1, vintage8)
+    expect_identical(vintage1, vintage9)
+    expect_identical(vintage1, vintage10)
+    expect_identical(vintage1, vintage11)
+    expect_identical(vintage1, vintage12)
+    expect_identical(vintage1, vintage13)
+    expect_identical(vintage1, vintage14)
+    expect_identical(vintage1, vintage15)
+
 })

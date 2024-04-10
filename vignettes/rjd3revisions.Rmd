@@ -91,7 +91,7 @@ rslt<-revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 
 Finally to create the report and get a summary of the results, you can use
 ```{r}
-get_report(rslt)
+render_report(rslt)
 
 summary(rslt)
 print(rslt)
@@ -149,7 +149,7 @@ For some of the parametric tests, prior transformation of the vintage data may b
 
 As part of the arguments of the `revision_analysis()` function, you can choose the view and the gap to consider, restrict the number of releases under investigation when diagonal view is selected and/or change the default setting about the prior transformation of the data (including the possibility to add a prior log-transformation of your data).  
 
-The function `get_report()` applied on the output of `revision_analysis()` will generate an enhanced HTML report including both a formatted summary of the results and full explanations about each tests (which are also included in the vignette below). The formatted summary of the results display the p-value of each test (except for Theil's tests where the value of the statistics is provided) and their interpretation. An appreciation 'good', 'uncertain', 'bad' and 'severe' is indeed associated to each test following the usual statistical interpretation of p-values and the orientation of the tests. This allows a quick visual interpretation of the results and is similar to what is done in the GUI of JDemetra+. 
+The function `render_report()` applied on the output of `revision_analysis()` will generate an enhanced HTML report including both a formatted summary of the results and full explanations about each tests (which are also included in the vignette below). The formatted summary of the results display the p-value of each test (except for Theil's tests where the value of the statistics is provided) and their interpretation. An appreciation 'good', 'uncertain', 'bad' and 'severe' is indeed associated to each test following the usual statistical interpretation of p-values and the orientation of the tests. This allows a quick visual interpretation of the results and is similar to what is done in the GUI of JDemetra+. 
 
 In addition to the function `revision_analysis()`, the user can also perform tests individually if they want to. To list all functions available in the package (and therefore finding the different functions corresponding to the individual tests), you can do
 
@@ -163,7 +163,7 @@ Use help(‘name of the functions’) or ?‘name of the functions’ for more i
 
 The detailed results of each test are part of the output returned by the function `revision_analysis()`. Alternatively, the functions associated with the individual test will give you the same result specific to this test. 
 
-In addition to the visual report that you can get by applying the function `get_report()` on the output of the function `revision_analysis()`, you can also apply the usual `summary()`, `print()` and `plot()` functions to this output. The function `summary()`, in particular, will print only the formatted table of the report with the main results. The `print()` will provide the same unformatted information together with some extra ones and `plot()` will plot the revisions over time.
+In addition to the visual report that you can get by applying the function `render_report()` on the output of the function `revision_analysis()`, you can also apply the usual `summary()`, `print()` and `plot()` functions to this output. The function `summary()`, in particular, will print only the formatted table of the report with the main results. The `print()` will provide the same unformatted information together with some extra ones and `plot()` will plot the revisions over time.
 
 # Tests description and interpretation
 
