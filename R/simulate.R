@@ -67,11 +67,13 @@ simulate_long <- function(n_period = 50,
     }
 
     time_period <- seq.Date(from = start_period, by = by, length.out = n_period)
-    rev_date <- as.Date(sort(sample(
-        x = min(time_period):(max(time_period) + 2 * 30 * 12 / periodicity), # On rajoute 2 périodes supplémentaires
-        size = n_revision,
-        replace = FALSE
-    )))
+    rev_date <- as.Date(
+        x = sort(sample(
+            x = min(time_period):(max(time_period) + 2 * 30 * 12 / periodicity), # On rajoute 2 périodes supplémentaires
+            size = n_revision,
+            replace = FALSE)),
+        origin = "1970-01-01"
+    )
     final_series <- simulate_series(n_period)
 
     long <- data.frame(

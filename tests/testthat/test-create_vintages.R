@@ -85,35 +85,41 @@ values_vertical <- c(0.8, 0.2, NA, NA, 0.8, 0.1, NA, NA, 0.7, 0.1, NA,
                      NA, 0.7, 0.2, 0.5, NA, 0.7, 0.2, 0.5, NA, 0.7, 0.3, 0.7, NA,
                      0.7, 0.2, 0.7, 0.4, 0.7, 0.3, 0.7, 0.3)
 
-input_vertical_1 <- structure(
-    .Data = values_vertical,
-    dim = c(4L, 8L),
-    dimnames = list(
-        NULL, c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
-                "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28")),
-    tsp = c(2022, 2022.75, 4),
-    class = c("mts", "ts", "matrix", "array")
+input_vertical_1 <- ts(
+    data = structure(
+        .Data = values_vertical,
+        dim = c(4L, 8L),
+        dimnames = list(
+            NULL, c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
+                    "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28"))
+    ),
+    start = 2022,
+    frequency = 4
 )
 
-input_vertical_2 <- structure(
-    .Data = values_vertical,
-    dim = c(4L, 8L),
-    dimnames = list(
-        NULL,
-        c("31/07/2022", "31/08/2022", "30/09/2022", "31/10/2022",
-          "30/11/2022", "31/12/2022", "31/01/2023", "28/02/2023")),
-    tsp = c(2022, 2022.75, 4),
-    class = c("mts", "ts", "matrix", "array")
+input_vertical_2 <- ts(
+    data = structure(
+        .Data = values_vertical,
+        dim = c(4L, 8L),
+        dimnames = list(
+            NULL,
+            c("31/07/2022", "31/08/2022", "30/09/2022", "31/10/2022",
+              "30/11/2022", "31/12/2022", "31/01/2023", "28/02/2023"))
+    ),
+    start = 2022,
+    frequency = 4
 )
 
-input_vertical_3 <- structure(
-    .Data = values_vertical,
-    dim = c(4L, 8L),
-    dimnames = list(
-        NULL, c("07/31/22", "08/31/22", "09/30/22", "10/31/22",
-                "11/30/22", "12/31/22", "01/31/23", "02/28/23")),
-    tsp = c(2022, 2022.75, 4),
-    class = c("mts", "ts", "matrix", "array")
+input_vertical_3 <- ts(
+    data = structure(
+        .Data = values_vertical,
+        dim = c(4L, 8L),
+        dimnames = list(
+            NULL, c("07/31/22", "08/31/22", "09/30/22", "10/31/22",
+                    "11/30/22", "12/31/22", "01/31/23", "02/28/23"))
+    ),
+    start = 2022,
+    frequency = 4
 )
 
 input_vertical_4 <- structure(
