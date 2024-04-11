@@ -47,7 +47,7 @@ plot.rjd3rev_revision_analysis <- function(x, ...) {
     nc<-4
   }
 
-  ts.plot(rev, gpars=list(xlab="", ylab="", col=c(1:nc), type="h", lwd=2, ...))
-  legend("topleft", bty="n", lty=1, lwd=2, col=c(1:nc), legend=colnames(rev))
-  title(main = "Size of Revisions")
+  stats::ts.plot(rev, gpars=list(xlab="", ylab="", col=c(1:nc), type="h", lwd=2, ...))
+  graphics::legend("topleft", bty="n", lty=1, lwd=2, col=c(1:nc), legend=colnames(rev))
+  graphics::title(main = "Size of Revisions")
 }

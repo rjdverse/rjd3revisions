@@ -24,11 +24,8 @@
 #' vintages<-create_vintages(df, periodicity = 4)
 #' revisions<-get_revisions(vintages, gap=1)
 #'
-get_revisions<-function(vintages, gap=1) {
-  if (!class(vintages)=="rjd3rev_vintages") {
-    warning("Wrong input. vintages must be an object of class 'rjd3rev_vintages'.")
-    return(NULL)
-  }
+get_revisions<-function(vintages, gap = 1) {
+    checkmate::assert_class(x = vintages, classes = "rjd3rev_vintages")
 
   get_vd_rev <- function(vt, gap) {
     n<-dim(vt)[2]
