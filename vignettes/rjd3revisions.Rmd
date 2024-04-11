@@ -120,7 +120,7 @@ colnames(vertical_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-
 
 ## Processing
 
-```{r loading package, echo = TRUE, eval = FALSE}
+```{r loading package, echo = TRUE, eval = TRUE}
 library("rjd3revisions")
 ```
 
@@ -141,12 +141,12 @@ revisions <- get_revisions(vintages, gap = 1)
 Finally to create the report and get a summary of the results, you can use
 
 ```{r create report, echo = TRUE, eval = TRUE}
-rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
+# rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 # render_report(rslt, output_path = "C:/User/report.pdf", output_format = "pdf_format")
 
-summary(rslt)
-print(rslt)
-plot(rslt)
+# summary(rslt)
+# print(rslt)
+# plot(rslt)
 ```
 
 ## Details on the main functions
