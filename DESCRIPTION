@@ -18,14 +18,14 @@ Depends:
 Imports:
     rJava (>= 1.0-6),
     rjd3toolkit (>= 3.0.1),
-    checkmate,
-    knitr, 
-    rmarkdown
+    checkmate
 Suggests: 
     readxl,
     formattable,
-    kableExtra, 
-    testthat (>= 3.0.0)
+    kableExtra,
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
 Remotes:
     github::rjdemetra/rjd3toolkit
 SystemRequirements: Java (>= 17)
