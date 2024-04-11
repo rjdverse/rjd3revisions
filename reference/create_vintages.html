@@ -6,11 +6,11 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light" data-bs-theme="light"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">rjd3revisions</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -132,13 +132,13 @@ non-redundant storage of data.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## creating the input</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    rev_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>        <span class="st">"2022-07-31"</span>, <span class="st">"2022-08-31"</span>, <span class="st">"2022-09-30"</span>, <span class="st">"2022-10-31"</span>,</span></span>
-<span class="r-in"><span>        <span class="st">"2022-11-30"</span>, <span class="st">"2022-12-31"</span>, <span class="st">"2023-01-31"</span>, <span class="st">"2023-02-28"</span></span></span>
-<span class="r-in"><span>    <span class="op">)</span>, each <span class="op">=</span> <span class="fl">4L</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span><span class="co"># Long format</span></span></span>
+<span class="r-in"><span><span class="va">long_view</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    rev_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022-07-31"</span>, <span class="st">"2022-08-31"</span>, <span class="st">"2022-09-30"</span>, <span class="st">"2022-10-31"</span>,</span></span>
+<span class="r-in"><span>                         <span class="st">"2022-11-30"</span>, <span class="st">"2022-12-31"</span>, <span class="st">"2023-01-31"</span>, <span class="st">"2023-02-28"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                   each <span class="op">=</span> <span class="fl">4L</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    time_period <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022Q1"</span>, <span class="st">"2022Q2"</span>, <span class="st">"2022Q3"</span>, <span class="st">"2022Q4"</span><span class="op">)</span>, times <span class="op">=</span> <span class="fl">8L</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    obs_value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    obs_values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>        <span class="fl">.8</span>, <span class="fl">.2</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">.8</span>, <span class="fl">.1</span>, <span class="cn">NA</span>, <span class="cn">NA</span>,</span></span>
 <span class="r-in"><span>        <span class="fl">.7</span>, <span class="fl">.1</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">.7</span>, <span class="fl">.2</span>, <span class="fl">.5</span>, <span class="cn">NA</span>,</span></span>
 <span class="r-in"><span>        <span class="fl">.7</span>, <span class="fl">.2</span>, <span class="fl">.5</span>, <span class="cn">NA</span>, <span class="fl">.7</span>, <span class="fl">.3</span>, <span class="fl">.7</span>, <span class="cn">NA</span>,</span></span>
@@ -146,7 +146,35 @@ non-redundant storage of data.</p>
 <span class="r-in"><span>    <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">vintages</span> <span class="op">&lt;-</span> <span class="fu">create_vintages</span><span class="op">(</span>x <span class="op">=</span> <span class="va">df</span>, type <span class="op">=</span> <span class="st">"long"</span>, periodicity <span class="op">=</span> <span class="fl">4L</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">vintages_1</span> <span class="op">&lt;-</span> <span class="fu">create_vintages</span><span class="op">(</span>x <span class="op">=</span> <span class="va">long_view</span>, type <span class="op">=</span> <span class="st">"long"</span>, periodicity <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Horizontal format</span></span></span>
+<span class="r-in"><span><span class="va">horizontal_view</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.8</span>, <span class="fl">.8</span>, <span class="fl">.7</span>, <span class="fl">.7</span>, <span class="fl">.7</span>, <span class="fl">.7</span>, <span class="fl">.7</span>, <span class="fl">.7</span>, <span class="fl">.2</span>, <span class="fl">.1</span>,</span></span>
+<span class="r-in"><span>                            <span class="fl">.1</span>, <span class="fl">.2</span>, <span class="fl">.2</span>, <span class="fl">.3</span>, <span class="fl">.2</span>, <span class="fl">.3</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">.5</span>, <span class="fl">.5</span>, <span class="fl">.7</span>, <span class="fl">.7</span>,</span></span>
+<span class="r-in"><span>                            <span class="fl">.7</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">.4</span>, <span class="fl">.3</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                          ncol <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">horizontal_view</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022Q1"</span>, <span class="st">"2022Q2"</span>, <span class="st">"2022Q3"</span>, <span class="st">"2022Q4"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">horizontal_view</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022-07-31"</span>, <span class="st">"2022-08-31"</span>, <span class="st">"2022-09-30"</span>, <span class="st">"2022-10-31"</span>,</span></span>
+<span class="r-in"><span>                               <span class="st">"2022-11-30"</span>, <span class="st">"2022-12-31"</span>, <span class="st">"2023-01-31"</span>, <span class="st">"2023-02-28"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">vintages_2</span> <span class="op">&lt;-</span> <span class="fu">create_vintages</span><span class="op">(</span>x <span class="op">=</span> <span class="va">horizontal_view</span>, type <span class="op">=</span> <span class="st">"horizontal"</span>, periodicity <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Horizontal format</span></span></span>
+<span class="r-in"><span><span class="va">vertical_view</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.8</span>, <span class="fl">.2</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">.8</span>, <span class="fl">.1</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">.7</span>, <span class="fl">.1</span>, <span class="cn">NA</span>,</span></span>
+<span class="r-in"><span>                                 <span class="cn">NA</span>, <span class="fl">.7</span>, <span class="fl">.2</span>, <span class="fl">.5</span>, <span class="cn">NA</span>, <span class="fl">.7</span>, <span class="fl">.2</span>, <span class="fl">.5</span>, <span class="cn">NA</span>, <span class="fl">.7</span>, <span class="fl">.3</span>, <span class="fl">.7</span>, <span class="cn">NA</span>,</span></span>
+<span class="r-in"><span>                                 <span class="fl">.7</span>, <span class="fl">.2</span>, <span class="fl">.7</span>, <span class="fl">.4</span>, <span class="fl">.7</span>, <span class="fl">.3</span>, <span class="fl">.7</span>, <span class="fl">.3</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                          nrow <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">vertical_view</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022Q1"</span>, <span class="st">"2022Q2"</span>, <span class="st">"2022Q3"</span>, <span class="st">"2022Q4"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">vertical_view</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022-07-31"</span>, <span class="st">"2022-08-31"</span>, <span class="st">"2022-09-30"</span>, <span class="st">"2022-10-31"</span>,</span></span>
+<span class="r-in"><span>                               <span class="st">"2022-11-30"</span>, <span class="st">"2022-12-31"</span>, <span class="st">"2023-01-31"</span>, <span class="st">"2023-02-28"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">vintages_3</span> <span class="op">&lt;-</span> <span class="fu">create_vintages</span><span class="op">(</span>x <span class="op">=</span> <span class="va">vertical_view</span>, type <span class="op">=</span> <span class="st">"vertical"</span>, periodicity <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">waldo</span><span class="fu">::</span><span class="fu"><a href="https://waldo.r-lib.org/reference/compare.html" class="external-link">compare</a></span><span class="op">(</span><span class="va">vintages_1</span>, <span class="va">vintages_2</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> No differences</span>
+<span class="r-in"><span><span class="fu">waldo</span><span class="fu">::</span><span class="fu"><a href="https://waldo.r-lib.org/reference/compare.html" class="external-link">compare</a></span><span class="op">(</span><span class="va">vintages_1</span>, <span class="va">vintages_3</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> No differences</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## specifying the format of revision dates</span></span></span>
 <span class="r-in"><span><span class="va">vintages</span> <span class="op">&lt;-</span> <span class="fu">create_vintages</span><span class="op">(</span></span></span>
@@ -155,6 +183,7 @@ non-redundant storage of data.</p>
 <span class="r-in"><span>    periodicity <span class="op">=</span> <span class="fl">4L</span>,</span></span>
 <span class="r-in"><span>    date_format<span class="op">=</span> <span class="st">"%Y-%m-%d"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in create_vintages.default(x = df, type = "long", periodicity = 4L,     date_format = "%Y-%m-%d"):</span> The function requires a data.frame, a matrix or a mts object!</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## including vintage selection</span></span></span>
 <span class="r-in"><span><span class="va">vintages</span> <span class="op">&lt;-</span> <span class="fu">create_vintages</span><span class="op">(</span></span></span>
@@ -164,6 +193,7 @@ non-redundant storage of data.</p>
 <span class="r-in"><span>    date_format<span class="op">=</span> <span class="st">"%Y-%m-%d"</span>,</span></span>
 <span class="r-in"><span>    vintage_selection <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>start<span class="op">=</span><span class="st">"2022-10-31"</span>, end<span class="op">=</span><span class="st">"2023-01-31"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in create_vintages.default(x = df, type = "long", periodicity = 4L,     date_format = "%Y-%m-%d", vintage_selection = c(start = "2022-10-31",         end = "2023-01-31")):</span> The function requires a data.frame, a matrix or a mts object!</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -176,7 +206,7 @@ non-redundant storage of data.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.8.</p>
 </div>
 
     </footer></div>
