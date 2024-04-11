@@ -12,11 +12,11 @@ author: Corentin Lemasson
 abstract: Revision analyses provides important information on the efficiency of preliminary estimates, allowing to identify potential issues and/or improvements that could be made in the compilation process. This package provides a tool to automatically perform a battery of relevant tests on revisions and submit a visual report including both the main results and their interpretation. The tool can perform analysis on different types of revision intervals and on different vintage views.  
 ---
 
-```{r, include = FALSE}
+```{r setup vignette, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  eval = FALSE,
-  comment = "#>"
+    collapse = TRUE,
+    eval = FALSE,
+    comment = "#>"
 )
 ```
 
@@ -35,9 +35,10 @@ This package relies on the Java libraries of [JDemetra+ v3](https://github.com/j
 In addition to a Java version >= 17.0, you must have a recent version of the R packages rJava (>= 1.0.6) and RProtobuf (>=0.4.17) that you can download from CRAN. Depending on your current version of R, you might also need to install another version of Rtools. (>= 3.6). 
 
 This package also depends on the package [rjd3toolkit](https://github.com/rjdemetra/rjd3toolkit) that you must install from GitHub prior to [rjd3revsions](https://github.com/rjdemetra/rjd3revisions).
-```{r}
+
+```{r package installation, echo = TRUE, eval = FALSE}
 remotes::install_github("rjdemetra/rjd3toolkit")
-remotes::install_github("rjdemetra/rjd3revisions")
+remotes::install_github("rjdemetra/rjd3revisions", build_vignettes = TRUE)
 ```
 
 Note that depending on the R packages that are already installed on your computer, you might also be asked to install or re-install a few other packages from CRAN. 
@@ -50,6 +51,8 @@ Finally, this package also suggests the R packages `formattable` and `kableExtra
 
 Your input data must be in a specific format taken from the reference documents of Ares and Pitton (2013). It must have specific column names and date formats as in the table below. Note that missing values can either be mentioned as NA (as in the example below) or not be included in the input at the best convenience of the user.  
 
+### Format 1: long view
+
 | rev_date    | time_period | obs_values  |
 | ----------- | ----------- | ----------- |
 | 2022-07-31  | 2022Q1      | 0.8         |
@@ -59,39 +62,88 @@ Your input data must be in a specific format taken from the reference documents 
 | 2022-08-31  | 2022Q1      | 0.8         |
 | ...         | ...         | ...         |
 
+### Format 2: vertical view
+
+| Period   | 2023/03/31 | 2023/04/30 | 2023/05/31 |
+| -------- | ---------- | ---------- | ---------- |
+| 2022M01  | 15.2       | 15.1       | 15.0       |
+| 2022M02  | 15.0       | 14.9       | 14.9       |
+| ...      | ...        | ...        | ...        |
+| 2023M01  | 13.0       | 13.1       | 13.2       |
+| 2023M02  |            | 12.1       | 12.1       |
+| 2023M03  |            |            | 12.3       |
+
+### Format 3: horizontal view
+
+| Period     | 2022M01 | 2022M02 | ...     | 2023M01 | 2023M02 | 2023M03 |
+| ---------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| 2023/03/31 | 15.2    | 15.0    | ...     | 13.0    |         |         |
+| 2023/04/30 | 15.1    | 14.9    | ...     | 13.1    | 12.1    |         |
+| 2023/05/31 | 15.0    | 14.9    | ...     | 13.2    | 12.1    | 12.3    |
+
+
 Depending on the location of your input data, you can use `create_vintages_from_xlsx()` or `create_vintages_from_csv()`, or the more generic function `create_vintages()` to create the vintages (see section [vintages & revisions](#vintages)) later on. If you plan to use the generic function, you'll first need to put your input data in a data.frame in R as in the example below.
 
-```{r, eval = TRUE}
-# Example
-input_df<-data.frame(rev_date = c(rep("2022-07-31", 4), rep("2022-08-31", 4),
-                                  rep("2022-09-30", 4), rep("2022-10-31", 4),
-                                  rep("2022-11-30", 4), rep("2022-12-31", 4),
-                                  rep("2023-01-31", 4), rep("2023-02-28", 4)),
-                    time_period = c(rep(c("2022Q1", "2022Q2", "2022Q3", "2022Q4"), 8)),
-                    obs_values = c(.8, .2, NA, NA, .8, .1, NA, NA,
-                                   .7, .1, NA, NA, .7, .2, .5, NA,
-                                   .7, .2, .5, NA, .7, .3, .7, NA,
-                                   .7, .2, .7, .4, .7, .3, .7, .3))
+```{r input format, echo = TRUE, eval = TRUE}
+# Long format
+long_view <- data.frame(
+    rev_date = rep(x = c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
+                         "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28"),
+                   each = 4L),
+    time_period = rep(x = c("2022Q1", "2022Q2", "2022Q3", "2022Q4"), times = 8L),
+    obs_values = c(
+        .8, .2, NA, NA, .8, .1, NA, NA,
+        .7, .1, NA, NA, .7, .2, .5, NA,
+        .7, .2, .5, NA, .7, .3, .7, NA,
+        .7, .2, .7, .4, .7, .3, .7, .3
+    )
+)
+
+# Horizontal format
+horizontal_view <- matrix(data = c(.8, .8, .7, .7, .7, .7, .7, .7, .2, .1,
+                            .1, .2, .2, .3, .2, .3, NA, NA, NA, .5, .5, .7, .7,
+                            .7, NA, NA, NA, NA, NA, NA, .4, .3),
+                          ncol = 4)
+colnames(horizontal_view) <- c("2022Q1", "2022Q2", "2022Q3", "2022Q4")
+rownames(horizontal_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
+                               "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28")
+
+# Horizontal format
+vertical_view <- matrix(data = c(.8, .2, NA, NA, .8, .1, NA, NA, .7, .1, NA,
+                                 NA, .7, .2, .5, NA, .7, .2, .5, NA, .7, .3, .7, NA,
+                                 .7, .2, .7, .4, .7, .3, .7, .3),
+                          nrow = 4)
+rownames(vertical_view) <- c("2022Q1", "2022Q2", "2022Q3", "2022Q4")
+colnames(vertical_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
+                               "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28")
 ```
 
 ## Processing
 
-```{r}
+```{r loading package, echo = TRUE, eval = FALSE}
 library("rjd3revisions")
 ```
 
-Once your input data are in the right format, you create the vintages, possibly inspect the revisions and perform the revision analysis
-```{r}
-vintages<-create_vintages(input_df, periodicity = 4)
-# vintages<-create_vintages_from_xlsx("myinput.xlsx", "Sheet1", periodicity=4, vintage.selection=NULL, revdate.format="%d/%m/%Y")
-# vintages<-create_vintages_from_csv("myinput.csv", periodicity=4, separator="\t", vintage.selection=NULL, revdate.format="%Y-%m-%d")
-revisions<-get_revisions(vintages, gap = 1)
-rslt<-revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
+Once your input data are in the right format, you create the vintages:
+
+```{r create vintage, echo = TRUE, eval = TRUE}
+vintages <- create_vintages(long_view, type = "long", periodicity = 4)
+# vintages <- create_vintages_from_xlsx(file = "myinput.xlsx", type = "long", "Sheet1", periodicity = 4, format_date = "%d/%m/%Y")
+# vintages <- create_vintages_from_csv(file = "myinput.csv", periodicity = 4, sep = "\t", format_date = "%Y-%m-%d")
+revisions <- get_revisions(vintages, gap = 1)
+```
+
+possibly inspect the revisions and perform the revision analysis:
+
+```{r revision analysis, echo = TRUE, eval = TRUE}
+revisions <- get_revisions(vintages, gap = 1)
 ```
 
 Finally to create the report and get a summary of the results, you can use
-```{r}
-render_report(rslt)
+
+```{r create report, echo = TRUE, eval = TRUE}
+rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
+# render_report(rslt, output_path = "C:/User/report.pdf", output_format = "pdf_format")
 
 summary(rslt)
 print(rslt)
@@ -137,7 +189,7 @@ Table: Example of horizontal view
 
 Table: Example of diagonal view
 
-Note that in the argument of the function `create_vintages()`, the argument `vintage.selection` allows you to limit the range of revision dates to consider if needed. See ?create_vintages for more details.
+Note that in the argument of the function `create_vintages()`, the argument `vintage_selection` allows you to limit the range of revision dates to consider if needed. See ?create_vintages for more details.
 
 Revisions are easily calculated from vintages by choosing the gap to consider. The function `get_revisions()` will display the revisions according to each view. It is just an informative function that does not need to be run prior the revision analysis.
 
@@ -153,7 +205,7 @@ The function `render_report()` applied on the output of `revision_analysis()` wi
 
 In addition to the function `revision_analysis()`, the user can also perform tests individually if they want to. To list all functions available in the package (and therefore finding the different functions corresponding to the individual tests), you can do
 
-```{r}
+```{r, echo = TRUE, eval = TRUE}
 ls("package:rjd3revisions")
 ```
 

@@ -78,13 +78,13 @@ non-redundant storage of data.
 \examples{
 ## creating the input
 
-df <- data.frame(
-    rev_date = rep(x = c(
-        "2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
-        "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28"
-    ), each = 4L),
+# Long format
+long_view <- data.frame(
+    rev_date = rep(x = c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
+                         "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28"),
+                   each = 4L),
     time_period = rep(x = c("2022Q1", "2022Q2", "2022Q3", "2022Q4"), times = 8L),
-    obs_value = c(
+    obs_values = c(
         .8, .2, NA, NA, .8, .1, NA, NA,
         .7, .1, NA, NA, .7, .2, .5, NA,
         .7, .2, .5, NA, .7, .3, .7, NA,
@@ -92,7 +92,33 @@ df <- data.frame(
     )
 )
 
-vintages <- create_vintages(x = df, type = "long", periodicity = 4L)
+vintages_1 <- create_vintages(x = long_view, type = "long", periodicity = 4)
+
+# Horizontal format
+horizontal_view <- matrix(data = c(.8, .8, .7, .7, .7, .7, .7, .7, .2, .1,
+                            .1, .2, .2, .3, .2, .3, NA, NA, NA, .5, .5, .7, .7,
+                            .7, NA, NA, NA, NA, NA, NA, .4, .3),
+                          ncol = 4)
+colnames(horizontal_view) <- c("2022Q1", "2022Q2", "2022Q3", "2022Q4")
+rownames(horizontal_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
+                               "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28")
+
+vintages_2 <- create_vintages(x = horizontal_view, type = "horizontal", periodicity = 4)
+
+# Horizontal format
+vertical_view <- matrix(data = c(.8, .2, NA, NA, .8, .1, NA, NA, .7, .1, NA,
+                                 NA, .7, .2, .5, NA, .7, .2, .5, NA, .7, .3, .7, NA,
+                                 .7, .2, .7, .4, .7, .3, .7, .3),
+                          nrow = 4)
+rownames(vertical_view) <- c("2022Q1", "2022Q2", "2022Q3", "2022Q4")
+colnames(vertical_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
+                               "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28")
+
+vintages_3 <- create_vintages(x = vertical_view, type = "vertical", periodicity = 4)
+
+waldo::compare(vintages_1, vintages_2)
+waldo::compare(vintages_1, vintages_3)
+
 
 ## specifying the format of revision dates
 vintages <- create_vintages(
