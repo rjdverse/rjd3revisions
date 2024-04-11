@@ -2,9 +2,42 @@
 % Please edit documentation in R/vintages.R
 \name{create_vintages}
 \alias{create_vintages}
+\alias{create_vintages.data.frame}
+\alias{create_vintages.mts}
+\alias{create_vintages.matrix}
+\alias{create_vintages.default}
 \title{Create vintage tables}
 \usage{
 create_vintages(x, ...)
+
+create_vintages.data.frame(
+  x,
+  type = c("long", "horizontal", "vertical"),
+  periodicity,
+  date_format = "\%Y-\%m-\%d",
+  vintage_selection,
+  ...
+)
+
+\method{create_vintages}{mts}(
+  x,
+  type = c("long", "horizontal", "vertical"),
+  periodicity,
+  date_format = "\%Y-\%m-\%d",
+  vintage_selection,
+  ...
+)
+
+\method{create_vintages}{matrix}(
+  x,
+  type = c("long", "horizontal", "vertical"),
+  periodicity,
+  date_format = "\%Y-\%m-\%d",
+  vintage_selection,
+  ...
+)
+
+\method{create_vintages}{default}(x, ...)
 }
 \arguments{
 \item{x}{a formatted object containing the input. It can be of type
@@ -116,13 +149,9 @@ colnames(vertical_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-
 
 vintages_3 <- create_vintages(x = vertical_view, type = "vertical", periodicity = 4)
 
-waldo::compare(vintages_1, vintages_2)
-waldo::compare(vintages_1, vintages_3)
-
-
 ## specifying the format of revision dates
 vintages <- create_vintages(
-    x = df,
+    x = long_view,
     type ="long",
     periodicity = 4L,
     date_format= "\%Y-\%m-\%d"
@@ -130,7 +159,7 @@ vintages <- create_vintages(
 
 ## including vintage selection
 vintages <- create_vintages(
-    x = df,
+    x = long_view,
     type ="long",
     periodicity = 4L,
     date_format= "\%Y-\%m-\%d",
