@@ -120,7 +120,7 @@ colnames(vertical_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-
 
 ## Processing
 
-```{r loading package, echo = TRUE, eval = FALSE}
+```{r loading package, echo = TRUE, eval = TRUE}
 library("rjd3revisions")
 ```
 
