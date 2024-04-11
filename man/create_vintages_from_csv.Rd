@@ -6,30 +6,31 @@
 \usage{
 create_vintages_from_csv(
   file,
+  type = c("long", "horizontal", "vertical"),
   periodicity,
-  separator = ",",
-  vintage.selection = NULL,
-  revdate.format = "\%Y.\%m.\%d"
+  date_format = "\%Y-\%m-\%d",
+  ...
 )
 }
 \arguments{
 \item{file}{character containing the name of the file which the data are
 to be read from.}
 
+\item{type}{character specifying the type of representation of the input
+between `"long"`, `"horizontal"` and `"vertical"` approach.}
+
 \item{periodicity}{periodicity of the time period (12, 4 or 1 for resp.
-monthly,quarterly or annual data)}
+monthly, quarterly or annual data)}
 
-\item{separator}{the field separator character in the input file (default ',')}
+\item{date_format}{\code{character} string corresponding to the format used in
+the input data.frame for the revision dates.}
 
-\item{vintage.selection}{a list specifying the range of revision dates to
-retain. As an example: list(start='2022-02-02',
-end='2022-08-05') would keep all the vintages whose
-revision date is between 02Feb.2022 and 05Aug.2022.
-If NULL (the default), the whole range is selected.}
-
-\item{revdate.format}{character string corresponding to the format used in
-the input data.frame for the revision dates.
-The default is \%Y-\%m-\%d.}
+\item{...}{Arguments to be passed to `read.csv()`, for example:
+* `sep` the field separator character
+* `dec` the character used in the file for decimal points.
+* `row.names` a vector of row names
+* `skip` integer, the number of lines of the data file to skip before beginning to read data.
+* `...`}
 }
 \value{
 an object of class `rjd3rev_vintages`
@@ -39,9 +40,16 @@ Create vintages table from CSV or TXT files
 }
 \examples{
 \dontrun{
-file.name<-"myinput.csv"
-vintages<-create_vintages_from_csv(file.name, 12, separator = ";", revdate.format="\%d/\%m/\%Y")
+file_name <- "myinput.csv"
+vintages <- create_vintages_from_csv(
+    file = file_name,
+    type = "vertical",
+    periodicity = 12,
+    date_format = "\%Y-\%m-\%d",
+    sep = ";"
+)
 }
+
 }
 \seealso{
 [create_vintages_from_xlsx()], [create_vintages()] which this function wraps.

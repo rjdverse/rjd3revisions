@@ -1,2 +1,13 @@
 ^rjd3revisions\.Rproj$
 ^\.Rproj\.user$
+^doc$
+^Meta$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$
+^LICENSE$
+^README\.Rmd$
+
+^TO_DO$
+^\.lintr$

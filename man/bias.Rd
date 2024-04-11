@@ -4,13 +4,13 @@
 \alias{bias}
 \title{Estimate bias using t-test and augmented t-test}
 \usage{
-bias(revisions.view, na.zero = F)
+bias(revisions.view, na.zero = FALSE)
 }
 \arguments{
-\item{revisions.view}{mts object. Vertical or diagonal view of the 
+\item{revisions.view}{mts object. Vertical or diagonal view of the
 `get_revisions()` output}
 
-\item{na.zero}{Boolean whether missing values should be considered as 0 or 
+\item{na.zero}{Boolean whether missing values should be considered as 0 or
 rather as data not (yet) available (the default).}
 }
 \description{
@@ -28,7 +28,7 @@ set.seed(1)
 xt<-cumsum(sample(rnorm(1000,0,1), np, TRUE))
 rev<-rnorm(np*4,0,.1)
 obs_values<-xt
-for(i in 1:4){
+for(i in 1:4) {
   xt<-xt+rev[(1+(i-1)*np):(i*np)]
   obs_values<-c(obs_values,xt)
 }
@@ -41,5 +41,5 @@ bias(revisions$diagonal_view)
 
 }
 \seealso{
-`revision_analysis()`, `get_report()`
+`revision_analysis()`, `render_report()`
 }

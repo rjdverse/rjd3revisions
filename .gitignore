@@ -3,3 +3,9 @@
 .Rhistory
 .RData
 .Ruserdata
+inst/doc
+/doc/
+/Meta/
+docs
+
+TO_DO
