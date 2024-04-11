@@ -51,6 +51,9 @@
 <li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="news/index.html">Changelog</a>
+</li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
@@ -66,6 +69,8 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="rjd3revisions">rjd3revisions<a class="anchor" aria-label="anchor" href="#rjd3revisions"></a>
 </h1></div>
+<!-- badges: start -->
+<!-- badges: end -->
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -82,7 +87,46 @@
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
-<p>First you need to get your input data set as a data.frame in R in a specific format as below. | rev_date | time_period | obs_values | | ———– | ———– | ———– | | 2022-07-31 | 2022Q1 | 0.8 | | 2022-07-31 | 2022Q2 | 0.2 | | 2022-07-31 | 2022Q3 | NA | | 2022-07-31 | 2022Q4 | NA | | 2022-08-31 | 2022Q1 | 0.8 | | … | … | … |</p>
+<p>First you need to get your input data set as a data.frame in R in a specific format as below.</p>
+<table class="table">
+<thead><tr class="header">
+<th>rev_date</th>
+<th>time_period</th>
+<th>obs_values</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>2022-07-31</td>
+<td>2022Q1</td>
+<td>0.8</td>
+</tr>
+<tr class="even">
+<td>2022-07-31</td>
+<td>2022Q2</td>
+<td>0.2</td>
+</tr>
+<tr class="odd">
+<td>2022-07-31</td>
+<td>2022Q3</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td>2022-07-31</td>
+<td>2022Q4</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td>2022-08-31</td>
+<td>2022Q1</td>
+<td>0.8</td>
+</tr>
+<tr class="even">
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+</tbody>
+</table>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example</span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
@@ -109,7 +153,7 @@
 <span><span class="va">rslt</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/revision_analysis.html">revision_analysis</a></span><span class="op">(</span><span class="va">vintages</span>, gap <span class="op">=</span> <span class="fl">1</span>, view <span class="op">=</span> <span class="st">"diagonal"</span>, n.releases <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <p>Finally to create a report and get a summary of the results, you can use</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/get_report.html">get_report</a></span><span class="op">(</span><span class="va">rslt</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/render_report.html">render_report</a></span><span class="op">(</span><span class="va">rslt</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">rslt</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">rslt</span><span class="op">)</span></span>
@@ -119,6 +163,16 @@
 <h2 id="additional-information">Additional information<a class="anchor" aria-label="anchor" href="#additional-information"></a>
 </h2>
 <p>This README.md file gives you a quick example of how to proceed. Consult the vignette (with <code>browseVignettes("rjd3revisions")</code>) and the documentation of each function (for example: <code><a href="reference/create_vintages.html">?create_vintages</a></code>, <code><a href="reference/revision_analysis.html">?revision_analysis</a></code>) to see the current possibilities of the tool.</p>
+</div>
+<div class="section level2">
+<h2 id="package-maintenance-and-contributing">Package Maintenance and contributing<a class="anchor" aria-label="anchor" href="#package-maintenance-and-contributing"></a>
+</h2>
+<p>Any contribution is welcome and should be done through pull requests and/or issues. pull requests should include <strong>updated tests</strong> and <strong>updated documentation</strong>. If functionality is changed, docstrings should be added or updated.</p>
+</div>
+<div class="section level2">
+<h2 id="licensing">Licensing<a class="anchor" aria-label="anchor" href="#licensing"></a>
+</h2>
+<p>The code of this project is licensed under the <a href="https://joinup.ec.europa.eu/page/eupl-text-11-12" class="external-link">European Union Public Licence (EUPL)</a>.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">
@@ -140,6 +194,7 @@
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Corentin Lemasson <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Tanguy Barthelemy <br><small class="roles"> Author </small>  </li>
 </ul>
 </div>
 
@@ -151,7 +206,7 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Corentin Lemasson.</p>
+<p>Developed by Corentin Lemasson, Tanguy Barthelemy.</p>
 </div>
 
 <div class="pkgdown-footer-right">

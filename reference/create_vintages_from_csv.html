@@ -24,6 +24,9 @@
 <li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">Changelog</a>
+</li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -47,10 +50,10 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_vintages_from_csv</span><span class="op">(</span></span>
 <span>  <span class="va">file</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"long"</span>, <span class="st">"horizontal"</span>, <span class="st">"vertical"</span><span class="op">)</span>,</span>
 <span>  <span class="va">periodicity</span>,</span>
-<span>  separator <span class="op">=</span> <span class="st">","</span>,</span>
-<span>  vintage.selection <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  revdate.format <span class="op">=</span> <span class="st">"%Y.%m.%d"</span></span>
+<span>  date_format <span class="op">=</span> <span class="st">"%Y-%m-%d"</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -61,27 +64,28 @@
 to be read from.</p></dd>
 
 
+<dt>type</dt>
+<dd><p>character specifying the type of representation of the input
+between `"long"`, `"horizontal"` and `"vertical"` approach.</p></dd>
+
+
 <dt>periodicity</dt>
 <dd><p>periodicity of the time period (12, 4 or 1 for resp.
-monthly,quarterly or annual data)</p></dd>
+monthly, quarterly or annual data)</p></dd>
 
 
-<dt>separator</dt>
-<dd><p>the field separator character in the input file (default ',')</p></dd>
+<dt>date_format</dt>
+<dd><p><code>character</code> string corresponding to the format used in
+the input data.frame for the revision dates.</p></dd>
 
 
-<dt>vintage.selection</dt>
-<dd><p>a list specifying the range of revision dates to
-retain. As an example: list(start='2022-02-02',
-end='2022-08-05') would keep all the vintages whose
-revision date is between 02Feb.2022 and 05Aug.2022.
-If NULL (the default), the whole range is selected.</p></dd>
-
-
-<dt>revdate.format</dt>
-<dd><p>character string corresponding to the format used in
-the input data.frame for the revision dates.
-The default is %Y-%m-%d.</p></dd>
+<dt>...</dt>
+<dd><p>Arguments to be passed to `read.csv()`, for example:
+* `sep` the field separator character
+* `dec` the character used in the file for decimal points.
+* `row.names` a vector of row names
+* `skip` integer, the number of lines of the data file to skip before beginning to read data.
+* `...`</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -98,13 +102,16 @@ The default is %Y-%m-%d.</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="va">file.name</span><span class="op">&lt;-</span><span class="st">"myinput.csv"</span></span></span>
-<span class="r-in"><span><span class="va">vintages</span><span class="op">&lt;-</span><span class="fu">create_vintages_from_csv</span><span class="op">(</span><span class="va">file.name</span>,</span></span>
-<span class="r-in"><span>                                   periodicity<span class="op">=</span><span class="fl">12</span>,</span></span>
-<span class="r-in"><span>                                   separator <span class="op">=</span> <span class="st">";"</span>,</span></span>
-<span class="r-in"><span>                                   vintage.selection<span class="op">=</span><span class="cn">NULL</span>,</span></span>
-<span class="r-in"><span>                                   revdate.format<span class="op">=</span><span class="st">"%Y-%m-%d"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">file_name</span> <span class="op">&lt;-</span> <span class="st">"myinput.csv"</span></span></span>
+<span class="r-in"><span><span class="va">vintages</span> <span class="op">&lt;-</span> <span class="fu">create_vintages_from_csv</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    file <span class="op">=</span> <span class="va">file_name</span>,</span></span>
+<span class="r-in"><span>    type <span class="op">=</span> <span class="st">"vertical"</span>,</span></span>
+<span class="r-in"><span>    periodicity <span class="op">=</span> <span class="fl">12</span>,</span></span>
+<span class="r-in"><span>    date_format <span class="op">=</span> <span class="st">"%Y-%m-%d"</span>,</span></span>
+<span class="r-in"><span>    sep <span class="op">=</span> <span class="st">";"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -112,7 +119,7 @@ The default is %Y-%m-%d.</p></dd>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Corentin Lemasson.</p>
+  <p></p><p>Developed by Corentin Lemasson, Tanguy Barthelemy.</p>
 </div>
 
 <div class="pkgdown-footer-right">

@@ -4,6 +4,9 @@
     <loc>https://rjdemetra.github.io/rjd3revisions/404.html</loc>
   </url>
   <url>
+    <loc>https://rjdemetra.github.io/rjd3revisions/LICENSE-text.html</loc>
+  </url>
+  <url>
     <loc>https://rjdemetra.github.io/rjd3revisions/articles/index.html</loc>
   </url>
   <url>
@@ -16,7 +19,19 @@
     <loc>https://rjdemetra.github.io/rjd3revisions/index.html</loc>
   </url>
   <url>
+    <loc>https://rjdemetra.github.io/rjd3revisions/news/index.html</loc>
+  </url>
+  <url>
     <loc>https://rjdemetra.github.io/rjd3revisions/reference/bias.html</loc>
+  </url>
+  <url>
+    <loc>https://rjdemetra.github.io/rjd3revisions/reference/check_horizontal.html</loc>
+  </url>
+  <url>
+    <loc>https://rjdemetra.github.io/rjd3revisions/reference/check_long.html</loc>
+  </url>
+  <url>
+    <loc>https://rjdemetra.github.io/rjd3revisions/reference/check_vertical.html</loc>
   </url>
   <url>
     <loc>https://rjdemetra.github.io/rjd3revisions/reference/cointegration.html</loc>
@@ -40,9 +55,6 @@
     <loc>https://rjdemetra.github.io/rjd3revisions/reference/efficiencyModel2.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/get_report.html</loc>
-  </url>
-  <url>
     <loc>https://rjdemetra.github.io/rjd3revisions/reference/get_revisions.html</loc>
   </url>
   <url>
@@ -59,6 +71,9 @@
   </url>
   <url>
     <loc>https://rjdemetra.github.io/rjd3revisions/reference/print.rjd3rev_revision_analysis.html</loc>
+  </url>
+  <url>
+    <loc>https://rjdemetra.github.io/rjd3revisions/reference/render_report.html</loc>
   </url>
   <url>
     <loc>https://rjdemetra.github.io/rjd3revisions/reference/revision_analysis.html</loc>

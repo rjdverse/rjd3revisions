@@ -41,6 +41,9 @@
 <li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">Changelog</a>
+</li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
@@ -217,7 +220,7 @@ analysis</p>
 <p>Finally to create the report and get a summary of the results, you
 can use</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_report.html">get_report</a></span><span class="op">(</span><span class="va">rslt</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/render_report.html">render_report</a></span><span class="op">(</span><span class="va">rslt</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">rslt</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">rslt</span><span class="op">)</span></span>
@@ -437,7 +440,7 @@ number of releases under investigation when diagonal view is selected
 and/or change the default setting about the prior transformation of the
 data (including the possibility to add a prior log-transformation of
 your data).</p>
-<p>The function <code><a href="../reference/get_report.html">get_report()</a></code> applied on the output of
+<p>The function <code><a href="../reference/render_report.html">render_report()</a></code> applied on the output of
 <code><a href="../reference/revision_analysis.html">revision_analysis()</a></code> will generate an enhanced HTML report
 including both a formatted summary of the results and full explanations
 about each tests (which are also included in the vignette below). The
@@ -466,7 +469,7 @@ the function <code><a href="../reference/revision_analysis.html">revision_analys
 functions associated with the individual test will give you the same
 result specific to this test.</p>
 <p>In addition to the visual report that you can get by applying the
-function <code><a href="../reference/get_report.html">get_report()</a></code> on the output of the function
+function <code><a href="../reference/render_report.html">render_report()</a></code> on the output of the function
 <code><a href="../reference/revision_analysis.html">revision_analysis()</a></code>, you can also apply the usual
 <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>, <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> and <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>
 functions to this output. The function <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>, in
@@ -790,7 +793,7 @@ Webel. 2023. “JDemetra+ Documentation.” INSEE; <a href="https://jdemetra-new
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Corentin Lemasson.</p>
+<p>Developed by Corentin Lemasson, Tanguy Barthelemy.</p>
 </div>
 
 <div class="pkgdown-footer-right">
