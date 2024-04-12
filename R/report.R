@@ -70,7 +70,7 @@ render_report <- function(rslt,
                       envir = e,
                       ...)
 
-    if (open_report) utils::browseURL(file)
+    if (open_report) utils::browseURL(output_path)
 
     return(invisible(NULL))
 }
