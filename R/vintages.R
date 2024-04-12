@@ -235,7 +235,9 @@ convert_time_period <- function(x, date_format = "%Y-%m-%d") {
 convert_rev_date <- function(x, date_format = "%Y-%m-%d") {
 
     checkmate::assert_atomic(unique(x), min.len = 2)
-    checkmate::assert_choice(class(x), choices = c("character", "integer", "Date"))
+    if (!inherits(x = x, what = c("character", "integer", "Date", "POSIXt"))) {
+        stop("The revdate column must be of type character, integer, Date or POSIXt.")
+    }
     if (any(is.na(as.Date(x, format = date_format)))) {
         stop("Revisions date not in a correct format. You can specify the format of your date with the argument `format_date`")
     }
