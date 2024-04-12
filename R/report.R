@@ -70,7 +70,14 @@ render_report <- function(rslt,
                       envir = e,
                       ...)
 
-    if (open_report) utils::browseURL(output_path)
+    if (open_report) {
+        if (output_format == "html_document") {
+            ext <- ".html"
+        } else if (output_format == "pdf_document") {
+            ext <- ".pdf"
+        }
+        utils::browseURL(paste0(output_path, ext))
+    }
 
     return(invisible(NULL))
 }
