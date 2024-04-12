@@ -130,7 +130,6 @@ Once your input data are in the right format, you create the vintages:
 vintages <- create_vintages(long_view, type = "long", periodicity = 4)
 # vintages <- create_vintages_from_xlsx(file = "myinput.xlsx", type = "long", "Sheet1", periodicity = 4, format_date = "%d/%m/%Y")
 # vintages <- create_vintages_from_csv(file = "myinput.csv", periodicity = 4, sep = "\t", format_date = "%Y-%m-%d")
-revisions <- get_revisions(vintages, gap = 1)
 ```
 
 possibly inspect the revisions and perform the revision analysis:
@@ -142,7 +141,7 @@ revisions <- get_revisions(vintages, gap = 1)
 Finally to create the report and get a summary of the results, you can use
 
 ```{r create report, echo = TRUE, eval = TRUE}
-# rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
+rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 # render_report(rslt, output_path = "C:/User/report.pdf", output_format = "pdf_format")
 
 # summary(rslt)

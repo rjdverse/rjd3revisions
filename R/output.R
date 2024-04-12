@@ -18,7 +18,7 @@ print.rjd3rev_revision_analysis <- function(x, ...) {
 #' @exportS3Method summary rjd3rev_revision_analysis
 #' @export
 #'
-summary.rjd3rev_revision_analysis <- function(object) {
+summary.rjd3rev_revision_analysis <- function(object, ...) {
 
     x <- object
     if (! requireNamespace("formattable", quietly = TRUE)) {
