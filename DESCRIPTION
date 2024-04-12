@@ -1,7 +1,7 @@
 Package: rjd3revisions
 Type: Package
 Title: Revision analysis with 'JDemetra+ 3.0'
-Version: 1.2.0
+Version: 1.2.1
 Authors@R: c(
     person(given = "Corentin", family = "Lemasson",
            email = "corentin.lemasson@nbb.be", role = c("aut", "cre")), 
@@ -43,6 +43,5 @@ Collate:
     'vintages.R'
     'zzz.R'
 RoxygenNote: 7.3.1
-VignetteBuilder: knitr
 URL: https://rjdemetra.github.io/rjd3revisions/
 Config/testthat/edition: 3

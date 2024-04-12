@@ -130,7 +130,6 @@ Once your input data are in the right format, you create the vintages:
 vintages <- create_vintages(long_view, type = "long", periodicity = 4)
 # vintages <- create_vintages_from_xlsx(file = "myinput.xlsx", type = "long", "Sheet1", periodicity = 4, format_date = "%d/%m/%Y")
 # vintages <- create_vintages_from_csv(file = "myinput.csv", periodicity = 4, sep = "\t", format_date = "%Y-%m-%d")
-revisions <- get_revisions(vintages, gap = 1)
 ```
 
 possibly inspect the revisions and perform the revision analysis:
@@ -142,7 +141,7 @@ revisions <- get_revisions(vintages, gap = 1)
 Finally to create the report and get a summary of the results, you can use
 
 ```{r create report, echo = TRUE, eval = TRUE}
-# rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
+rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 # render_report(rslt, output_path = "C:/User/report.pdf", output_format = "pdf_format")
 
 # summary(rslt)
@@ -197,11 +196,11 @@ Revisions are easily calculated from vintages by choosing the gap to consider. T
 
 The function `revision_analysis()` is the main function of the package. It provides some descriptive statistics and performs a battery of parametric tests which enable the users to detect potential bias (both mean and regression bias) and sources of inefficiency in preliminary estimates. We would conclude to inefficiency in the preliminary estimates when revisions are predictable in some way. Parametric tests are divided into 5 categories: relevancy (check whether preliminary estimates are even worth it), bias, efficiency, orthogonality (correlation at higher lags), and signalVSnoise. This function is robust. If for some reasons, a test fails to process, it is just skipped and a warning is sent to users with the possible cause of failure. The other tests are then performed as usual.
 
-For some of the parametric tests, prior transformation of the vintage data may be important to avoid misleading results. By default, the decision to differentiate the vintage data is performed automatically based on unit root and co-integration tests. More specifically, we focus on the augmented Dickey-Fuller (ADF) test to test the presence of unit root and, for cointegration, we proceed to an ADF test on the residuals of an OLS regression between the two vintages. The results of those tests are also made available in the output of the function (section 'varbased'). By constrast, the choice of log-transformation is left to the discretion of the users based on their knowledge of the series and the diagnostics of the various tests. By default, no log-transformation is considered.
+For some of the parametric tests, prior transformation of the vintage data may be important to avoid misleading results. By default, the decision to differentiate the vintage data is performed automatically based on unit root and co-integration tests. More specifically, we focus on the augmented Dickey-Fuller (ADF) test to test the presence of unit root and, for cointegration, we proceed to an ADF test on the residuals of an OLS regression between the two vintages. The results of those tests are also made available in the output of the function (section 'varbased'). By contrast, the choice of log-transformation is left to the discretion of the users based on their knowledge of the series and the diagnostics of the various tests. By default, no log-transformation is considered.
 
 As part of the arguments of the `revision_analysis()` function, you can choose the view and the gap to consider, restrict the number of releases under investigation when diagonal view is selected and/or change the default setting about the prior transformation of the data (including the possibility to add a prior log-transformation of your data).  
 
-The function `render_report()` applied on the output of `revision_analysis()` will generate an enhanced HTML report including both a formatted summary of the results and full explanations about each tests (which are also included in the vignette below). The formatted summary of the results display the p-value of each test (except for Theil's tests where the value of the statistics is provided) and their interpretation. An appreciation 'good', 'uncertain', 'bad' and 'severe' is indeed associated to each test following the usual statistical interpretation of p-values and the orientation of the tests. This allows a quick visual interpretation of the results and is similar to what is done in the GUI of JDemetra+. 
+The function `render_report()` applied on the output of `revision_analysis()` will generate an enhanced HTML report including both a formatted summary of the results and full explanations about each test (which are also included in the vignette below). The formatted summary of the results display the p-value of each test (except for Theil's tests where the value of the statistics is provided) and their interpretation. An appreciation 'good', 'uncertain', 'bad' and 'severe' is indeed associated to each test following the usual statistical interpretation of p-values and the orientation of the tests. This allows a quick visual interpretation of the results and is similar to what is done in the GUI of JDemetra+. 
 
 In addition to the function `revision_analysis()`, the user can also perform tests individually if they want to. To list all functions available in the package (and therefore finding the different functions corresponding to the individual tests), you can do
 

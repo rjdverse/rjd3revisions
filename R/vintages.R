@@ -235,7 +235,9 @@ convert_time_period <- function(x, date_format = "%Y-%m-%d") {
 convert_rev_date <- function(x, date_format = "%Y-%m-%d") {
 
     checkmate::assert_atomic(unique(x), min.len = 2)
-    checkmate::assert_choice(class(x), choices = c("character", "integer", "Date"))
+    if (!inherits(x = x, what = c("character", "integer", "Date", "POSIXt"))) {
+        stop("The revdate column must be of type character, integer, Date or POSIXt.")
+    }
     if (any(is.na(as.Date(x, format = date_format)))) {
         stop("Revisions date not in a correct format. You can specify the format of your date with the argument `format_date`")
     }
@@ -458,6 +460,7 @@ from_horizontal_to_diagonal <- function(x, periodicity, date_format = "%Y-%m-%d"
 # Create_vintages function ------------------------------------------------------
 
 #' @title Create vintage tables
+#' @rdname create_vintages
 #'
 #' @description
 #' Create vintage tables from data.frame, matrix or mts object in R
@@ -505,19 +508,6 @@ from_horizontal_to_diagonal <- function(x, periodicity, date_format = "%Y-%m-%d"
 #' @param x a formatted object containing the input. It can be of type
 #' `data.frame`, `matrix` or `mts` and must represent one of the multiple
 #' vintage views (selected by the argument `type`.
-#' @param type character specifying the type of representation of the input
-#' between `"long"`, `"horizontal"` and `"vertical"` approach.
-#' @param periodicity periodicity of the time period (12, 4 or 1 for resp.
-#' monthly, quarterly or annual data)
-#' @param date_format \code{character} string corresponding to the format used in
-#' the input data.frame for the revision dates.
-#' @param vintage_selection \code{Date} vector (or a character vector with the
-#' same format as date_format) of length <= 2, specifying the range of revision
-#' dates to retain. As an example:
-#' c(start = "2022-02-02", end = "2022-08-05") or
-#' c(start = as.Date("2022-02-02"), end = as.Date("2022-08-05")) would keep all
-#' the vintages whose revision date is between 02 Feb. 2022 and 05 Aug. 2022.
-#' If missing (by default), the whole range is selected.
 #'
 #' @return an object of class `rjd3rev_vintages` which contains the four
 #' different view of a revision
@@ -563,13 +553,9 @@ from_horizontal_to_diagonal <- function(x, periodicity, date_format = "%Y-%m-%d"
 #'
 #' vintages_3 <- create_vintages(x = vertical_view, type = "vertical", periodicity = 4)
 #'
-#' waldo::compare(vintages_1, vintages_2)
-#' waldo::compare(vintages_1, vintages_3)
-#'
-#'
 #' ## specifying the format of revision dates
 #' vintages <- create_vintages(
-#'     x = df,
+#'     x = long_view,
 #'     type ="long",
 #'     periodicity = 4L,
 #'     date_format= "%Y-%m-%d"
@@ -577,7 +563,7 @@ from_horizontal_to_diagonal <- function(x, periodicity, date_format = "%Y-%m-%d"
 #'
 #' ## including vintage selection
 #' vintages <- create_vintages(
-#'     x = df,
+#'     x = long_view,
 #'     type ="long",
 #'     periodicity = 4L,
 #'     date_format= "%Y-%m-%d",
@@ -588,6 +574,23 @@ create_vintages <- function(x, ...) {
     return(UseMethod("create_vintages", x))
 }
 
+#' @rdname create_vintages
+#' @inheritParams create_vintages
+#'
+#' @param type character specifying the type of representation of the input
+#' between `"long"`, `"horizontal"` and `"vertical"` approach.
+#' @param periodicity periodicity of the time period (12, 4 or 1 for resp.
+#' monthly, quarterly or annual data)
+#' @param date_format \code{character} string corresponding to the format used in
+#' the input data.frame for the revision dates.
+#' @param vintage_selection \code{Date} vector (or a character vector with the
+#' same format as date_format) of length <= 2, specifying the range of revision
+#' dates to retain. As an example:
+#' c(start = "2022-02-02", end = "2022-08-05") or
+#' c(start = as.Date("2022-02-02"), end = as.Date("2022-08-05")) would keep all
+#' the vintages whose revision date is between 02 Feb. 2022 and 05 Aug. 2022.
+#' If missing (by default), the whole range is selected.
+#'
 #' @exportS3Method create_vintages data.frame
 create_vintages.data.frame <- function(
         x,
@@ -650,6 +653,9 @@ create_vintages.data.frame <- function(
     }
 }
 
+#' @rdname create_vintages
+#' @inheritParams create_vintages
+#' @inheritParams create_vintages.data.frame
 #' @exportS3Method create_vintages mts
 create_vintages.mts <- function(
         x,
@@ -709,6 +715,9 @@ create_vintages.mts <- function(
     ))
 }
 
+#' @rdname create_vintages
+#' @inheritParams create_vintages
+#' @inheritParams create_vintages.data.frame
 #' @exportS3Method create_vintages matrix
 create_vintages.matrix <- function(
         x,
@@ -810,15 +819,19 @@ create_vintages.matrix <- function(
     ))
 }
 
+#' @rdname create_vintages
+#' @inheritParams create_vintages
 #' @exportS3Method create_vintages default
 create_vintages.default <- function(x, ...) {
     stop("The function requires a data.frame, a matrix or a mts object!")
 }
 
-#' Create vintages table from CSV or TXT files
+#' @title Create vintages table from CSV or TXT files
+#'
+#' @inheritParams create_vintages
 #' @param file character containing the name of the file which the data are
 #'             to be read from.
-#' @inheritParams create_vintages
+#' @inheritParams create_vintages.data.frame
 #' @param ... Arguments to be passed to `read.csv()`, for example:
 #' * `sep` the field separator character
 #' * `dec` the character used in the file for decimal points.
@@ -914,7 +927,7 @@ create_vintages_from_xlsx<-function(file,
     checkmate::assert_count(x = periodicity, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
     checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
 
-    df <- readxl::read_excel(path = file, ...)
+    df <- as.data.frame(readxl::read_excel(path = file, ...))
 
     return(create_vintages(
         x = df,
