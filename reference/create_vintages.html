@@ -48,7 +48,39 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_vintages</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_vintages</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">create_vintages.data.frame</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"long"</span>, <span class="st">"horizontal"</span>, <span class="st">"vertical"</span><span class="op">)</span>,</span>
+<span>  <span class="va">periodicity</span>,</span>
+<span>  date_format <span class="op">=</span> <span class="st">"%Y-%m-%d"</span>,</span>
+<span>  <span class="va">vintage_selection</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for mts</span></span>
+<span><span class="fu">create_vintages</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"long"</span>, <span class="st">"horizontal"</span>, <span class="st">"vertical"</span><span class="op">)</span>,</span>
+<span>  <span class="va">periodicity</span>,</span>
+<span>  date_format <span class="op">=</span> <span class="st">"%Y-%m-%d"</span>,</span>
+<span>  <span class="va">vintage_selection</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for matrix</span></span>
+<span><span class="fu">create_vintages</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"long"</span>, <span class="st">"horizontal"</span>, <span class="st">"vertical"</span><span class="op">)</span>,</span>
+<span>  <span class="va">periodicity</span>,</span>
+<span>  date_format <span class="op">=</span> <span class="st">"%Y-%m-%d"</span>,</span>
+<span>  <span class="va">vintage_selection</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for default</span></span>
+<span><span class="fu">create_vintages</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -170,30 +202,22 @@ non-redundant storage of data.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">vintages_3</span> <span class="op">&lt;-</span> <span class="fu">create_vintages</span><span class="op">(</span>x <span class="op">=</span> <span class="va">vertical_view</span>, type <span class="op">=</span> <span class="st">"vertical"</span>, periodicity <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">waldo</span><span class="fu">::</span><span class="fu"><a href="https://waldo.r-lib.org/reference/compare.html" class="external-link">compare</a></span><span class="op">(</span><span class="va">vintages_1</span>, <span class="va">vintages_2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> No differences</span>
-<span class="r-in"><span><span class="fu">waldo</span><span class="fu">::</span><span class="fu"><a href="https://waldo.r-lib.org/reference/compare.html" class="external-link">compare</a></span><span class="op">(</span><span class="va">vintages_1</span>, <span class="va">vintages_3</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> No differences</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## specifying the format of revision dates</span></span></span>
 <span class="r-in"><span><span class="va">vintages</span> <span class="op">&lt;-</span> <span class="fu">create_vintages</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    x <span class="op">=</span> <span class="va">df</span>,</span></span>
+<span class="r-in"><span>    x <span class="op">=</span> <span class="va">long_view</span>,</span></span>
 <span class="r-in"><span>    type <span class="op">=</span><span class="st">"long"</span>,</span></span>
 <span class="r-in"><span>    periodicity <span class="op">=</span> <span class="fl">4L</span>,</span></span>
 <span class="r-in"><span>    date_format<span class="op">=</span> <span class="st">"%Y-%m-%d"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in create_vintages.default(x = df, type = "long", periodicity = 4L,     date_format = "%Y-%m-%d"):</span> The function requires a data.frame, a matrix or a mts object!</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## including vintage selection</span></span></span>
 <span class="r-in"><span><span class="va">vintages</span> <span class="op">&lt;-</span> <span class="fu">create_vintages</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    x <span class="op">=</span> <span class="va">df</span>,</span></span>
+<span class="r-in"><span>    x <span class="op">=</span> <span class="va">long_view</span>,</span></span>
 <span class="r-in"><span>    type <span class="op">=</span><span class="st">"long"</span>,</span></span>
 <span class="r-in"><span>    periodicity <span class="op">=</span> <span class="fl">4L</span>,</span></span>
 <span class="r-in"><span>    date_format<span class="op">=</span> <span class="st">"%Y-%m-%d"</span>,</span></span>
 <span class="r-in"><span>    vintage_selection <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>start<span class="op">=</span><span class="st">"2022-10-31"</span>, end<span class="op">=</span><span class="st">"2023-01-31"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in create_vintages.default(x = df, type = "long", periodicity = 4L,     date_format = "%Y-%m-%d", vintage_selection = c(start = "2022-10-31",         end = "2023-01-31")):</span> The function requires a data.frame, a matrix or a mts object!</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
