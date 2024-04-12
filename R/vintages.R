@@ -925,7 +925,7 @@ create_vintages_from_xlsx<-function(file,
     checkmate::assert_count(x = periodicity, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
     checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
 
-    df <- readxl::read_excel(path = file, ...)
+    df <- as.data.frame(readxl::read_excel(path = file, ...))
 
     return(create_vintages(
         x = df,
