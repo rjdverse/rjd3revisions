@@ -6,30 +6,30 @@
 \usage{
 create_vintages_from_xlsx(
   file,
-  sheetname,
+  type = c("long", "horizontal", "vertical"),
   periodicity,
-  vintage.selection = NULL,
-  revdate.format = "\%Y.\%m.\%d"
+  date_format = "\%Y-\%m-\%d",
+  ...
 )
 }
 \arguments{
 \item{file}{character containing the name of the file which the data are
 to be read from.}
 
-\item{sheetname}{character containing the sheet to read}
+\item{type}{character specifying the type of representation of the input
+between `"long"`, `"horizontal"` and `"vertical"` approach.}
 
 \item{periodicity}{periodicity of the time period (12, 4 or 1 for resp.
-monthly,quarterly or annual data)}
+monthly, quarterly or annual data)}
 
-\item{vintage.selection}{a list specifying the range of revision dates to
-retain. As an example: list(start='2022-02-02',
-end='2022-08-05') would keep all the vintages whose
-revision date is between 02Feb.2022 and 05Aug.2022.
-If NULL (the default), the whole range is selected.}
+\item{date_format}{\code{character} string corresponding to the format used in
+the input data.frame for the revision dates.}
 
-\item{revdate.format}{character string corresponding to the format used in
-the input data.frame for the revision dates.
-The default is \%Y-\%m-\%d.}
+\item{...}{Arguments to be passed to `readxl::read_excel()`, for example:
+* `sheet` character containing the sheet to read
+* `range` A cell range to read from
+* `col_names` a boolean to use the first row as column names
+* `...`}
 }
 \value{
 an object of class `rjd3rev_vintages`
@@ -39,14 +39,16 @@ Create vintages table from XLSX files
 }
 \examples{
 \dontrun{
-file.name<-"myinput.xlsx"
-sheet.name<-"Sheet1"
-vintages<-create_vintages_from_xlsx(file.name,
-                                    sheet.name,
-                                    periodicity=12,
-                                    vintage.selection=NULL,
-                                    revdate.format="\%d/\%m/\%Y"))
+file_name <- "myinput.xlsx"
+sheet_name <- "Sheet1"
+vintages <- create_vintages_from_xlsx(
+    file = file_name,
+    type = "horizontal",
+    periodicity = 12L,
+    sheet = sheet_name
+)
 }
+
 }
 \seealso{
 [create_vintages_from_csv()], [create_vintages()] which this function wraps.

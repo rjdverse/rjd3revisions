@@ -16,7 +16,7 @@ RARSLTS<-'JD3_RARslts'
 #' results. By default, the decision to differentiate the vintage data is
 #' performed automatically based on unit root and co-integration tests whose
 #' results can be found found in the results too (section 'varbased'). Finally,
-#' running the function `get_report()` on the output of `revision_analysis()`
+#' running the function `render_report()` on the output of `revision_analysis()`
 #' would give you both a formatted summary of the results and full explanations
 #' about each tests.
 #'
@@ -36,7 +36,7 @@ RARSLTS<-'JD3_RARslts'
 #'                   Allow the user to limit the number of releases under
 #'                   investigation). When `view = "vertical"`, the user is
 #'                   invited to limit the number of vintages upstream through
-#'                   the parameter `vintage.selection` in `create_vintages()`
+#'                   the parameter `vintage_selection` in `create_vintages()`
 #'                   whenever necessary.
 #' @param transf.diff differentiation to apply to the data prior testing. Only
 #'                    used for regressions including vintage data as regressor
@@ -55,7 +55,7 @@ RARSLTS<-'JD3_RARslts'
 #' @import rJava rjd3toolkit
 #'
 #' @seealso `create_vintages()` to create the input object,
-#'          `get_report()` to get a summary and information the tests
+#'          `render_report()` to get a summary and information the tests
 #'
 #' @return an object of class 'JD3_RARslts'
 #'
@@ -81,12 +81,12 @@ RARSLTS<-'JD3_RARslts'
 #' df<-data.frame(rev_date, time_period, obs_values)
 #'
 #' ## Create a `"rjd3rev_vintages"` object with the input
-#' vintages<-create_vintages(df, periodicity = 4, revdate.format= "%Y-%m-%d")
+#' vintages <- create_vintages(x = df, periodicity = 4, date_format = "%Y-%m-%d")
 #' # revisions<-get_revisions(vintages, gap = 1) # just to get a first insight of the revisions
 #'
 #' ## Call using all default parameters
 #' rslt1<-revision_analysis(vintages)
-#' #get_report(rslt1)
+#' #render_report(rslt1)
 #' #summary(rslt1) # formatted summary only
 #'
 #' ## Calls using diagonal view (suited in many situations such as to evaluate GDP estimates)
@@ -94,13 +94,17 @@ RARSLTS<-'JD3_RARslts'
 #' ## performed automatically (if transf.diff is let to its default option) but `transf.log`
 #' ## must be set to TRUE manually whenever a log-transformation of the data is necessary
 #' rslt2<-revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
-#' #get_report(rslt2)
+#' #render_report(rslt2)
 #' #summary(rslt2)
 #'
 #' ## Call to evaluate revisions for a specific range of vintage periods
-#' vintages<-create_vintages(df, periodicity = 4, vintage.selection = list(start="2021-12-31", end="2023-06-30"))
+#' vintages <- create_vintages(
+#'     x = df,
+#'     periodicity = 4,
+#'     vintage_selection = c(start="2021-12-31", end="2023-06-30")
+#' )
 #' rslt3<-revision_analysis(vintages, gap=2, view = "vertical")
-#' #get_report(rslt3)
+#' #render_report(rslt3)
 #' #summary(rslt3)
 #'
 revision_analysis<-function(vintages,
@@ -128,13 +132,14 @@ revision_analysis<-function(vintages,
   ## Select vintage view
   if (view == "vertical") {
     vt<-vintages$vertical_view
-  }else if (view == "diagonal"){
+  } else if (view == "diagonal") {
     n.releases <- min(n.releases, ncol(vintages$diagonal_view))
     vt<-vintages$diagonal_view[, 1:n.releases]
   }
 
   ## Revisions and Vintages Transformation
   rv_notrf<-.get_revisions_view(vt, gap)
+  freq<-stats::frequency(vt)
 
   ### Log transformation
   if (transf.log) {
@@ -153,8 +158,6 @@ revision_analysis<-function(vintages,
   }
 
   ### Differentiation
-  freq<-frequency(vt)
-
   ur<-unitroot(vt, adfk=1, na.zero) # H0: non-stationary
   if (!is.null(ur)) {
     ur_rslt<-t(round(ur, 3))
@@ -193,10 +196,10 @@ revision_analysis<-function(vintages,
   if (transf.diff == "auto") {
     vts<-if (is_stationary) vt else vt_diff
     vtc<-if (is_cointegrated) vt else vt_diff
-  }else if (transf.diff == "forced") {
+  } else if (transf.diff == "forced") {
     vts<-vtc<-vt_diff
     is_stationary<-is_cointegrated<-FALSE
-  }else if (transf.diff == "none") {
+  } else if (transf.diff == "none") {
     vts<-vtc<-vt
     if (!is_stationary || !is_cointegrated) {
       warning("No differentiation considered even though stationarity and/or cointegration might not be present. This can lead to spurious regression.", call.=FALSE)
@@ -303,7 +306,7 @@ revision_analysis<-function(vintages,
   if (!is.null(orth1)) {
     orth1_rslt<-format_reg_output(orth1, is_log, FALSE)
     orth1_m_q<-c(rep("", nrevs), eval_pvals(orth1[, "intercept.pvalue"], h0_good=TRUE))
-    orth1_r_q<-c(rep("", nrevs), eval_pvals(pf(orth1[, "F"], nrevs, orth1[, "N"]-nrevs-1), h0_good=TRUE))
+    orth1_r_q<-c(rep("", nrevs), eval_pvals(stats::pf(orth1[, "F"], nrevs, orth1[, "N"]-nrevs-1), h0_good=TRUE))
     orth1_diagnostics<-regression_diagnostics(orth1)
   } else {
     orth1_rslt<-orth1_diagnostics<-NULL
@@ -352,13 +355,13 @@ revision_analysis<-function(vintages,
                     estimates_friedman=matrix(unlist(fd_test), ncol=2, byrow = TRUE, dimnames = list(colnames(rv), c("value", "p.value"))))
     seas_lb_q<-eval_pvals(seas_rslt$estimates_ljungbox[, "p.value"], h0_good=TRUE)
     seas_fd_q<-eval_pvals(seas_rslt$estimates_friedman[, "p.value"], h0_good=TRUE)
-  }else if (!"try-error" %in% class(lb_test) && freq>1) {
+  } else if (!"try-error" %in% class(lb_test) && freq>1) {
     seas_rslt<-list(info_transformation=seas_trf_str,
                     estimates_ljungbox=matrix(unlist(lb_test), ncol=2, byrow = TRUE, dimnames = list(colnames(rv), c("value", "p.value"))),
                     estimates_friedman=NULL)
     seas_lb_q<-eval_pvals(seas_rslt$estimates_ljungbox[, "p.value"], h0_good=TRUE)
     seas_fd_q<-rep(NA, length(colnames(rv)))
-  }else if (!"try-error" %in% class(fd_test) && freq>1) {
+  } else if (!"try-error" %in% class(fd_test) && freq>1) {
     seas_rslt<-list(info_transformation=seas_trf_str,
                     estimates_ljungbox=NULL,
                     estimates_friedman=matrix(unlist(fd_test), ncol=2, byrow = TRUE, dimnames = list(colnames(rv), c("value", "p.value"))))
@@ -555,19 +558,19 @@ regression_diagnostics<-function(reg_output) {
 
 check_seasonality <- function(x) {
 
-  if (frequency(x)>1) {
+  if (stats::frequency(x)>1) {
     x_diff<-diff(x)
-    lb_pval<-try(seasonality_qs(x_diff, frequency(x))$pvalue, silent=TRUE) # Ljung-Box
-    fd_pval<-try(seasonality_friedman(x_diff, frequency(x))$pvalue, silent=TRUE) # Friedman non-parametric test
+    lb_pval<-try(seasonality_qs(x_diff, stats::frequency(x))$pvalue, silent=TRUE) # Ljung-Box
+    fd_pval<-try(seasonality_friedman(x_diff, stats::frequency(x))$pvalue, silent=TRUE) # Friedman non-parametric test
 
     test_succeeded<-c(!"try-error" %in% class(lb_pval), !"try-error" %in% class(fd_pval))
     if (all(test_succeeded)) {
       pvals<-c(lb_pval, fd_pval)
       seasonality<-ifelse(length(pvals[which(pvals<.05)])==2, TRUE, FALSE)
-    }else if (any(test_succeeded)) {
+    } else if (any(test_succeeded)) {
       if (test_succeeded[1]) {
         seasonality<-ifelse(lb_pval<.01, TRUE, FALSE)
-      }else if (test_succeeded[2]) {
+      } else if (test_succeeded[2]) {
         seasonality<-ifelse(fd_pval<.01, TRUE, FALSE)
       }
     } else {

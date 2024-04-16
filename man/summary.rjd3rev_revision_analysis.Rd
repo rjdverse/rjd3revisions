@@ -4,7 +4,7 @@
 \alias{summary.rjd3rev_revision_analysis}
 \title{Summary function for objects of class "rjd3rev_revision_analysis"}
 \usage{
-\method{summary}{rjd3rev_revision_analysis}(x)
+\method{summary}{rjd3rev_revision_analysis}(object, ...)
 }
 \arguments{
 \item{x}{an object of class "rjd3rev_revision_analysis"}

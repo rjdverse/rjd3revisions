@@ -1,12 +1,12 @@
 Package: rjd3revisions
 Type: Package
 Title: Revision analysis with 'JDemetra+ 3.0'
-Version: 1.1.0
-Authors@R: 
-    person(given = "Corentin",
-           family = "Lemasson",
-           role = c("aut", "cre"),
-           email = "corentin.lemasson@nbb.be")
+Version: 1.2.1
+Authors@R: c(
+    person(given = "Corentin", family = "Lemasson",
+           email = "corentin.lemasson@nbb.be", role = c("aut", "cre")), 
+    person(given = "Tanguy", family = "Barthelemy",
+           email = "tanguy.barthelemy@insee.fr", role = "aut"))
 Description: Interface around 'JDemetra+ 3.x' sa-toolkit 
              (<https://github.com/jdemetra/jdemetra-core>), STACE project.
              It performs a battery of tests on revisions and submit a report 
@@ -16,17 +16,19 @@ Description: Interface around 'JDemetra+ 3.x' sa-toolkit
 Depends:
   R (>= 3.6.0)
 Imports:
-  rJava (>= 1.0-6),
-  rjd3toolkit (>= 3.0.1),
-  knitr,
-  rmarkdown
+    rJava (>= 1.0-6),
+    rjd3toolkit (>= 3.0.1),
+    checkmate
+Suggests: 
+    readxl,
+    formattable,
+    kableExtra,
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
 Remotes:
-  github::rjdemetra/rjd3toolkit
-Suggest:
-  readxl,
-  formattable,
-  kableExtra
-SystemRequirements: Java JRE 17 or higher
+    github::rjdemetra/rjd3toolkit
+SystemRequirements: Java (>= 17)
 License: EUPL
 Encoding: UTF-8
 Collate: 
@@ -36,9 +38,10 @@ Collate:
     'report.R'
     'revision_analysis.R'
     'revisions.R'
+    'simulate.R'
     'tests.R'
     'vintages.R'
     'zzz.R'
 RoxygenNote: 7.3.1
-VignetteBuilder: knitr
 URL: https://rjdemetra.github.io/rjd3revisions/
+Config/testthat/edition: 3

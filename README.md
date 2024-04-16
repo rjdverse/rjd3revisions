@@ -1,4 +1,10 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
 # rjd3revisions
+
+<!-- badges: start -->
+<!-- badges: end -->
 
 ## Installation
 
@@ -19,15 +25,17 @@ remotes::install_github("rjdemetra/rjd3revisions", build_vignettes = TRUE)
 
 ## Usage
 
-First you need to get your input data set as a data.frame in R in a specific format as below.
-| rev_date    | time_period | obs_values  |
-| ----------- | ----------- | ----------- |
-| 2022-07-31  | 2022Q1      | 0.8         |
-| 2022-07-31  | 2022Q2      | 0.2         |
-| 2022-07-31  | 2022Q3      | NA          |
-| 2022-07-31  | 2022Q4      | NA          |
-| 2022-08-31  | 2022Q1      | 0.8         |
-| ...         | ...         | ...         |
+First you need to get your input data set as a data.frame in R in a
+specific format as below.
+
+| rev_date   | time_period | obs_values |
+|------------|-------------|------------|
+| 2022-07-31 | 2022Q1      | 0.8        |
+| 2022-07-31 | 2022Q2      | 0.2        |
+| 2022-07-31 | 2022Q3      | NA         |
+| 2022-07-31 | 2022Q4      | NA         |
+| 2022-08-31 | 2022Q1      | 0.8        |
+| …          | …           | …          |
 
 ``` r
 # Example
@@ -48,7 +56,9 @@ df <- data.frame(
 )
 ```
 
-Then you can create your vintages, inspect revisions if you want and make the analysis 
+Then you can create your vintages, inspect revisions if you want and
+make the analysis
+
 ``` r
 library("rjd3revisions")
 
@@ -58,8 +68,9 @@ rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 ```
 
 Finally to create a report and get a summary of the results, you can use
+
 ``` r
-get_report(rslt)
+render_report(rslt)
 
 summary(rslt)
 print(rslt)
@@ -67,4 +78,20 @@ plot(rslt)
 ```
 
 ## Additional information
-This README.md file gives you a quick example of how to proceed. Consult the vignette (with `browseVignettes("rjd3revisions")`) and the documentation of each function (for example: `?create_vintages`, `?revision_analysis`) to see the current possibilities of the tool.
+
+This README.md file gives you a quick example of how to proceed. Consult
+the vignette (with `browseVignettes("rjd3revisions")`) and the
+documentation of each function (for example: `?create_vintages`,
+`?revision_analysis`) to see the current possibilities of the tool.
+
+## Package Maintenance and contributing
+
+Any contribution is welcome and should be done through pull requests
+and/or issues. pull requests should include **updated tests** and
+**updated documentation**. If functionality is changed, docstrings
+should be added or updated.
+
+## Licensing
+
+The code of this project is licensed under the [European Union Public
+Licence (EUPL)](https://joinup.ec.europa.eu/page/eupl-text-11-12).

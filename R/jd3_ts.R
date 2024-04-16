@@ -2,8 +2,8 @@ ts_r2jd<-function(s) {
   if (is.null(s)) {
     return(NULL)
   }
-  freq<-frequency(s)
-  start<-start(s)
+  freq<-stats::frequency(s)
+  start<-stats::start(s)
   .jcall("jdplus/toolkit/base/r/timeseries/TsUtility", "Ljdplus/toolkit/base/r/timeseries/TsData;", "of",
          as.integer(freq), as.integer(start[1]), as.integer(start[2]), as.double(s))
   }
@@ -21,7 +21,7 @@ ts_jd2r<-function(s) {
   pstart<-.jcall("jdplus/toolkit/base/r/timeseries/TsUtility", "[I", "startPeriod", s)
   jx<-.jcall(s, "Ljdplus/toolkit/base/api/data/DoubleSeq;", "getValues")
   x<-.jcall(jx, "[D", "toArray")
-  ts(x, start=pstart[2:3], frequency=pstart[1])
+  stats::ts(x, start=pstart[2:3], frequency=pstart[1])
 }
 
 matrix_jd2r<-function(s) {

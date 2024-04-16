@@ -41,11 +41,8 @@ RAREVISIONS<-'JD3_RARevisions'
 #' vintages<-create_vintages(df, periodicity = 4)
 #' revisions<-get_revisions(vintages, gap=1)
 #'
-get_revisions<-function(vintages, gap=1) {
-  if (!class(vintages)=="rjd3rev_vintages") {
-    warning("Wrong input. vintages must be an object of class 'rjd3rev_vintages'.")
-    return(NULL)
-  }
+get_revisions<-function(vintages, gap = 1) {
+    checkmate::assert_class(x = vintages, classes = "rjd3rev_vintages")
 
   vv<-.get_revisions_view(vintages$vertical_view, gap)
   hv<-`colnames<-`(t(vv), colnames(vintages$horizontal_view))

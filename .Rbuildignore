@@ -6,3 +6,8 @@
 ^docs$
 ^pkgdown$
 ^\.github$
+^LICENSE$
+^README\.Rmd$
+
+^TO_DO$
+^\.lintr$
