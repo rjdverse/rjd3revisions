@@ -1,4 +1,5 @@
-DFMMODEL<-'JD3_DfmModel'
+#' @include revisions.R
+RARSLTS<-'JD3_RARslts'
 
 
 #' Revision analysis through a battery of tests
@@ -56,7 +57,7 @@ DFMMODEL<-'JD3_DfmModel'
 #' @seealso `create_vintages()` to create the input object,
 #'          `get_report()` to get a summary and information the tests
 #'
-#' @return an object of class `"rjd3rev_revision_analysis"`
+#' @return an object of class 'JD3_RARslts'
 #'
 #' @export
 #'
@@ -116,10 +117,6 @@ revision_analysis<-function(vintages,
   options(scipen = 999)
 
   cl <- match.call()
-
-  out <- list()
-  class(out) <- "rjd3rev_revision_analysis"
-
   view <- match.arg(view)
   transf.diff <- match.arg(transf.diff)
 
@@ -137,8 +134,7 @@ revision_analysis<-function(vintages,
   }
 
   ## Revisions and Vintages Transformation
-  rv_notrf<-get_vd_rev(vt, gap)
-  freq<-frequency(vt)
+  rv_notrf<-.get_revisions_view(vt, gap)
 
   ### Log transformation
   if (transf.log) {
@@ -157,6 +153,8 @@ revision_analysis<-function(vintages,
   }
 
   ### Differentiation
+  freq<-frequency(vt)
+
   ur<-unitroot(vt, adfk=1, na.zero) # H0: non-stationary
   if (!is.null(ur)) {
     ur_rslt<-t(round(ur, 3))
@@ -432,22 +430,29 @@ revision_analysis<-function(vintages,
                             efficiency2 = eff2_diagnostics, orthogonality1 = orth1_diagnostics,
                             orthogonality2 = orth2_diagnostics)
 
-  out$call <- cl
-  out$revisions <- rv_notrf
-  out$descriptive.statistics <- ds
-  out$summary <- summary_table
-  out$summary.diagnostics <- diagnostics_table
-  out$relevancy <- list(theil=theil_rslt)
-  out$bias <- list(t_ta_test=ta_rslt, slope_and_drift=sd_rslt)
-  out$efficiency <- list(efficiency1=eff1_rslt, efficiency2=eff2_rslt)
-  out$orthogonality <- list(orthogonality1=orth1_rslt, orthogonality2=orth2_rslt,
-                            autocorrelation_test=ac_rslt, seasonality_test=seas_rslt)
-  out$signalnoise <- list(signal_noise=sn_rslt)
-  out$varbased<-var_based_rslt
-
   options(scipen = 0)
 
-  return(out)
+  return(
+      structure(list(
+          call=cl,
+          revisions=rv_notrf,
+          descriptive.statistics=ds,
+          summary=summary_table,
+          summary.diagnostics=diagnostics_table,
+          relevancy=list(theil=theil_rslt),
+          bias=list(t_ta_test=ta_rslt,
+                    slope_and_drift=sd_rslt),
+          efficiency=list(efficiency1=eff1_rslt,
+                          efficiency2=eff2_rslt),
+          orthogonality=list(orthogonality1=orth1_rslt,
+                             orthogonality2=orth2_rslt,
+                             autocorrelation_test=ac_rslt,
+                             seasonality_test=seas_rslt),
+          signalnoise=list(signal_noise=sn_rslt),
+          varbased=var_based_rslt),
+          class = REVRSLTS)
+  )
+
 }
 
 
@@ -546,21 +551,6 @@ regression_diagnostics<-function(reg_output) {
   rslt<-`colnames<-`(data.frame(tests, tests_rslts, row.names = lbl), c("Test", rownames(reg_output)))
 
   return(rslt)
-}
-
-get_vd_rev <- function(vt, gap) {
-  n<-dim(vt)[2]
-
-  idx1<- (gap+1):n
-  idx0<-1:(n-gap)
-
-  rev<-vt[, idx1, drop=FALSE]-vt[, idx0, drop=FALSE]
-
-  w<-sapply(colnames(vt), function(s) paste0("[", s, "]"))
-  rw<-mapply(function(a, b) paste(a, b, sep="-"), w[idx1], w[idx0])
-
-  rev<-`colnames<-`(rev, rw)
-  return(rev)
 }
 
 check_seasonality <- function(x) {

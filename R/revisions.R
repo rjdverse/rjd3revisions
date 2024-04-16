@@ -1,3 +1,20 @@
+RAREVISIONS<-'JD3_RARevisions'
+
+.get_revisions_view <- function(vt, gap) {
+    n<-dim(vt)[2]
+
+    idx1<- (gap+1):n
+    idx0<-1:(n-gap)
+
+    rev<-vt[, idx1, drop=FALSE]-vt[, idx0, drop=FALSE]
+
+    w<-sapply(colnames(vt), function(s) paste0("[", s, "]"))
+    rw<-mapply(FUN = function(a, b) paste(a, b, sep = "-"), w[idx1], w[idx0])
+
+    rev<-`colnames<-`(rev, rw)
+    return(rev)
+}
+
 #' Calculate revisions from vintages
 #'
 #' @param vintages an object of class `"rjd3rev_vintages"`
@@ -30,24 +47,111 @@ get_revisions<-function(vintages, gap=1) {
     return(NULL)
   }
 
-  get_vd_rev <- function(vt, gap) {
-    n<-dim(vt)[2]
+  vv<-.get_revisions_view(vintages$vertical_view, gap)
+  hv<-`colnames<-`(t(vv), colnames(vintages$horizontal_view))
+  dv<-.get_revisions_view(vintages$diagonal_view, gap)
 
-    idx1<- (gap+1):n
-    idx0<-1:(n-gap)
+  return(structure(list(
+      vertical_view=vv,
+      horizontal_view=hv,
+      diagonal_view=dv),
+      class = RAREVISIONS))
+}
 
-    rev<-vt[, idx1, drop=FALSE]-vt[, idx0, drop=FALSE]
+#' Plot function for objects of class "JD3_RARevisions"
+#'
+#' @param x an object of class "JD3_RARevisions"
+#' @param view view to plot. By default, the vertical view is considered.
+#' @param n_rev number of revision dates to consider. For the vertical and
+#'   horizontal view, the lasts n_rev revisions are plotted. For the diagonal
+#'   view, the revisions between the first n_rev releases are plotted. The
+#'   maximum number of n_rev is 5.
+#' @param \dots further arguments passed to ts.plot().
+#' @export
+#'
+plot.JD3_RARevisions <- function(x, view = c("vertical", "horizontal", "diagonal"), n_rev = 2, ...) {
 
-    w<-sapply(colnames(vt), function(s) paste0("[", s, "]"))
-    rw<-mapply(FUN = function(a, b) paste(a, b, sep = "-"), w[idx1], w[idx0])
+    view <- match.arg(view)
+    if(view == "horizontal") view <- "vertical"
 
-    rev<-`colnames<-`(rev, rw)
-    return(rev)
-  }
+    rev <- x[[paste0(view,"_view")]]
+    nc <- ncol(rev)
+    n_rev <- min(n_rev, nc, 5)
+    if(view == "vertical"){
+        rev <- rev[, (nc-n_rev+1):nc]
+    }else{
+        rev <- rev[, 1:n_rev]
+    }
 
-  vr<-get_vd_rev(vintages$vertical_view, gap)
-  hr<-`colnames<-`(t(vr), colnames(vintages$horizontal_view))
-  dr<-get_vd_rev(vintages$diagonal_view, gap)
+    ts.plot(rev, gpars=list(xlab="", ylab="", col=c(1:nc), type="h", lwd=2, ...))
+    legend("topleft", bty="n", lty=1, lwd=2, col=c(1:nc), legend=colnames(rev))
+    title(main = "Revisions size")
+}
 
-  return(list(vertical_view=vr, horizontal_view=hr, diagonal_view=dr))
+
+#' Print function for objects of class "JD3_RARevisions"
+#'
+#' @param x an object of class "JD3_RARevisions".
+#' @param view view to print. By default, an extract of all views are printed.
+#' @param n_row number of (last) rows to subset. For the horizontal view,
+#'   corresponds to the number of columns to subset.
+#' @param n_col number of columns to subset. Can be either the last n columns
+#'   (verical view), the last n rows (horizontal view) or the first n columns
+#'   (diagonal view).
+#' @param \dots further arguments passed to or from other methods.
+#' @export
+#'
+print.JD3_RARevisions <- function(x,
+                                  view = c("all", "vertical", "horizontal",
+                                              "diagonal"),
+                                  n_row = 12,
+                                  n_col = 3,
+                                  ...) {
+
+    view <- match.arg(view)
+
+    n_col_tot <- ncol(x$vertical_view)
+    n_row_tot <- nrow(x$vertical_view)
+    n_col <- min(n_col_tot, n_col)
+    n_row <- min(n_row_tot, n_row)
+    freq <- frequency(x$vertical_view)
+    end_period <- end(x$vertical_view)
+
+    if(view %in% c("all", "vertical")){
+        cat("Vertical view (extract) :\n")
+        print(ts(x$vertical_view[(n_row_tot-n_row+1):n_row_tot,
+                                 (n_col_tot-n_col+1):n_col_tot],
+                 frequency = freq,
+                 end = end_period))
+    }
+
+    if(view %in% c("all", "horizontal")){
+        cat("\nHorizontal view (extract):\n")
+        print(x$horizontal_view[(n_col_tot-n_col+1):n_col_tot,
+                                (n_row_tot-n_row+1):n_row_tot])
+    }
+
+
+    if(view %in% c("all", "diagonal")){
+        cat("\nDiagonal view (extract):\n")
+        print(ts(x$diagonal_view[1:n_row,
+                                 1:n_col],
+                 frequency = freq,
+                 end = end_period))
+    }
+}
+
+
+#' Summary function for objects of class "JD3_RARevisions"
+#'
+#' @param x an object of class "JD3_RARevisions".
+#' @param \dots further arguments passed to or from other methods.
+#' @export
+#'
+summary.JD3_RARevisions <- function(x, ...) {
+    cat("Number of releases: ", ncol(x$vertical_view))
+    cat("\nCovered period:")
+    cat("\n \tFrom: ", start(x$vertical_view))
+    cat("\n \tTo: ", end(x$vertical_view))
+    cat("\nFrequency: ", freq)
 }

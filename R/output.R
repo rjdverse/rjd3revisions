@@ -33,21 +33,4 @@ summary.rjd3rev_revision_analysis<- function(x) {
   }
 }
 
-#' Plot function for objects of class "rjd3rev_revision_analysis"
-#'
-#' @param x an object of class "rjd3rev_revision_analysis"
-#' @param \dots further arguments passed to or from other methods.
-#' @export
-#'
-plot.rjd3rev_revision_analysis <- function(x, ...) {
-  rev<-x$revisions
-  nc<-ncol(rev)
-  if (nc>4) {
-    rev<-rev[, 1:4]
-    nc<-4
-  }
 
-  ts.plot(rev, gpars=list(xlab="", ylab="", col=c(1:nc), type="h", lwd=2, ...))
-  legend("topleft", bty="n", lty=1, lwd=2, col=c(1:nc), legend=colnames(rev))
-  title(main = "Size of Revisions")
-}

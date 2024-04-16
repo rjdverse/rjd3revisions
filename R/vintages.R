@@ -289,3 +289,75 @@ d2t<-function(d, periodicity) {
   }
   return(NULL)
 }
+
+#' Print function for objects of class "rjd3rev_vintages"
+#'
+#' @param x an object of class "rjd3rev_vintages".
+#' @param view view to print. By default, an extract of all views are printed.
+#' @param n_row number of (last) rows to subset. For the horizontal view,
+#'   corresponds to the number of columns to subset.
+#' @param n_col number of columns to subset. Can be either the last n columns
+#'   (verical view), the last n rows (horizontal view) or the first n columns
+#'   (diagonal view).
+#' @param \dots further arguments passed to or from other methods.
+#' @export
+#'
+print.rjd3rev_vintages <- function(x,
+                                  view = c("all", "vertical", "horizontal",
+                                           "diagonal"),
+                                  n_row = 12,
+                                  n_col = 3,
+                                  ...) {
+
+    view <- match.arg(view)
+
+    n_col_tot <- ncol(x$vertical_view)
+    n_row_tot <- nrow(x$vertical_view)
+    n_col <- min(n_col_tot, n_col)
+    n_row <- min(n_row_tot, n_row)
+    freq <- frequency(x$vertical_view)
+    end_period <- end(x$vertical_view)
+
+    if(view %in% c("all", "vertical")){
+        cat("Vertical view (extract) :\n")
+        print(ts(x$vertical_view[(n_row_tot-n_row+1):n_row_tot,
+                                 (n_col_tot-n_col+1):n_col_tot],
+                 frequency = freq,
+                 end = end_period))
+    }
+
+    if(view %in% c("all", "horizontal")){
+        cat("\nHorizontal view (extract):\n")
+        print(x$horizontal_view[(n_col_tot-n_col+1):n_col_tot,
+                                (n_row_tot-n_row+1):n_row_tot])
+    }
+
+
+    if(view %in% c("all", "diagonal")){
+        cat("\nDiagonal view (extract):\n")
+        print(ts(x$diagonal_view[1:n_row,
+                                 1:n_col],
+                 frequency = freq,
+                 end = end_period))
+    }
+}
+
+
+#' Summary function for objects of class "rjd3rev_vintages"
+#'
+#' @param x an object of class "rjd3rev_vintages".
+#' @param \dots further arguments passed to or from other methods.
+#' @export
+#'
+summary.rjd3rev_vintages <- function(x, ...) {
+    cat("Number of releases: ", ncol(x$vertical_view))
+    cat("\nCovered period:")
+    cat("\n \tFrom: ", start(x$vertical_view))
+    cat("\n \tTo: ", end(x$vertical_view))
+    cat("\nFrequency: ", freq)
+}
+
+
+
+
+
