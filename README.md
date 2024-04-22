@@ -8,6 +8,9 @@
 
 ## Installation
 
+Running rjd3 packages requires Java 17 or higher. How to set up such a configuration 
+in R is explained [here](https://jdemetra-new-documentation.netlify.app/#installing-the-software) 
+
 To get the current stable version (from the latest release):
 
 ``` r
@@ -96,7 +99,7 @@ colnames(vertical_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-
                                "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28")
 ```
 
-Then you can create your vintages, inspect revisions if you want and
+Then you can create your vintages, inspect revisions (optional) and
 make the analysis
 
 ``` r
