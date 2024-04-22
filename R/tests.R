@@ -51,6 +51,27 @@ vecmAllNames<-function(lag) {
   return(c(t, m))
 }
 
+matrix_jd2r<-function(s) {
+    if (is.jnull(s)) {
+        return(NULL)
+    }
+    nr<-.jcall(s, "I", "getRowsCount")
+    nc<-.jcall(s, "I", "getColumnsCount")
+    d<-.jcall(s, "[D", "toArray")
+    return(array(d, dim=c(nr, nc)))
+}
+
+matrix_r2jd<-function(s) {
+    if (is.null(s))
+        return(.jnull("jdplus/toolkit/base/api/math/matrices/Matrix"))
+    if (!is.matrix(s)) {
+        s<-matrix(s, nrow=length(s), ncol=1)
+    }
+    sdim<-dim(s)
+    return(.jcall("jdplus/toolkit/base/api/math/matrices/Matrix", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "of", as.double(s), as.integer(sdim[1]), as.integer(sdim[2])))
+}
+
+
 #' Descriptive statistics
 #'
 #' @param revisions.view mts object. Vertical or diagonal view of the
@@ -717,6 +738,16 @@ cointegration<-function(vintages.view, adfk=1, na.zero= FALSE) {
   colnames(eg)<-egNames
   rownames(eg)<-get_rownames_diag(q, adfk)
   return(eg)
+}
+
+get_rownames_diag <- function(vt, gap) {
+    # Example for n=4: v1_v2, v1_v3, v1_v4, v2_v3, v2_v4, v3_v4
+    n<-ncol(vt)
+    idx1<-rep(1:(n-gap), (n-gap):1)
+    idx0<-sequence((n-gap):1)+rep(1:(n-gap), (n-gap):1)
+    w<-sapply(colnames(vt), function(s) paste0("[", s, "]"))
+    rw<-mapply(function(a, b) paste(a, b, sep="_"), w[idx1], w[idx0])
+    return(rw)
 }
 
 #' Vector error correction model (VECM)

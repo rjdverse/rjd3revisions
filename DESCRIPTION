@@ -1,7 +1,7 @@
 Package: rjd3revisions
 Type: Package
 Title: Revision analysis with 'JDemetra+ 3.0'
-Version: 1.2.1
+Version: 1.3.0
 Authors@R: c(
     person(given = "Corentin", family = "Lemasson",
            email = "corentin.lemasson@nbb.be", role = c("aut", "cre")), 
@@ -32,12 +32,9 @@ SystemRequirements: Java (>= 17)
 License: EUPL
 Encoding: UTF-8
 Collate: 
-    'jd3_ts.R'
-    'jd3_rslts.R'
-    'output.R'
     'report.R'
-    'revision_analysis.R'
     'revisions.R'
+    'revision_analysis.R'
     'simulate.R'
     'tests.R'
     'vintages.R'
