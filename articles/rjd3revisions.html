@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">rjd3revisions</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -102,7 +102,7 @@ details on the main functions. In particular, it is important to mention
 beforehand that your input data must first be set in a specific format
 described in the sub-section on the <a href="#input_format">input
 data</a>. The fourth section is theoretical and describes each test
-being performed by the main function <code><a href="../reference/revision_analysis.html">revision_analysis()</a></code>
+being performed by the main function <code>revision_analysis()</code>
 (they could also be performed individually) and how to interpret them.
 Finally, you will find out all the reference papers in the last
 section.</p>
@@ -124,8 +124,8 @@ version of R, you might also need to install another version of Rtools.
 <p>This package also depends on the package <a href="https://github.com/rjdemetra/rjd3toolkit" class="external-link">rjd3toolkit</a> that you
 must install from GitHub prior to <a href="https://github.com/rjdemetra/rjd3revisions" class="external-link">rjd3revsions</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"rjdemetra/rjd3toolkit"</span><span class="op">)</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"rjdemetra/rjd3revisions"</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"rjdemetra/rjd3toolkit@*release"</span><span class="op">)</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"rjdemetra/rjd3revisions@*release"</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>Note that depending on the R packages that are already installed on
 your computer, you might also be asked to install or re-install a few
 other packages from CRAN.</p>
@@ -321,7 +321,7 @@ data.frame in R as in the example below.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">horizontal_view</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022-07-31"</span>, <span class="st">"2022-08-31"</span>, <span class="st">"2022-09-30"</span>, <span class="st">"2022-10-31"</span>,</span>
 <span>                               <span class="st">"2022-11-30"</span>, <span class="st">"2022-12-31"</span>, <span class="st">"2023-01-31"</span>, <span class="st">"2023-02-28"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Horizontal format</span></span>
+<span><span class="co"># Vertical format</span></span>
 <span><span class="va">vertical_view</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.8</span>, <span class="fl">.2</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">.8</span>, <span class="fl">.1</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">.7</span>, <span class="fl">.1</span>, <span class="cn">NA</span>,</span>
 <span>                                 <span class="cn">NA</span>, <span class="fl">.7</span>, <span class="fl">.2</span>, <span class="fl">.5</span>, <span class="cn">NA</span>, <span class="fl">.7</span>, <span class="fl">.2</span>, <span class="fl">.5</span>, <span class="cn">NA</span>, <span class="fl">.7</span>, <span class="fl">.3</span>, <span class="fl">.7</span>, <span class="cn">NA</span>,</span>
 <span>                                 <span class="fl">.7</span>, <span class="fl">.2</span>, <span class="fl">.7</span>, <span class="fl">.4</span>, <span class="fl">.7</span>, <span class="fl">.3</span>, <span class="fl">.7</span>, <span class="fl">.3</span><span class="op">)</span>,</span>
@@ -341,24 +341,32 @@ vintages:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vintages</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_vintages.html">create_vintages</a></span><span class="op">(</span><span class="va">long_view</span>, type <span class="op">=</span> <span class="st">"long"</span>, periodicity <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span><span class="co"># vintages &lt;- create_vintages_from_xlsx(file = "myinput.xlsx", type = "long", "Sheet1", periodicity = 4, format_date = "%d/%m/%Y")</span></span>
-<span><span class="co"># vintages &lt;- create_vintages_from_csv(file = "myinput.csv", periodicity = 4, sep = "\t", format_date = "%Y-%m-%d")</span></span></code></pre></div>
+<span><span class="co"># vintages &lt;- create_vintages_from_csv(file = "myinput.csv", periodicity = 4, sep = "\t", format_date = "%Y-%m-%d")</span></span>
+<span></span>
+<span><span class="co"># print(vintages) # extract of the vintages according to the different views</span></span>
+<span><span class="co"># summary(vintages) # metadata about vintages</span></span></code></pre></div>
 <p>possibly inspect the revisions and perform the revision analysis:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">revisions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_revisions.html">get_revisions</a></span><span class="op">(</span><span class="va">vintages</span>, gap <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">revisions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_revisions.html">get_revisions</a></span><span class="op">(</span><span class="va">vintages</span>, gap <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># plot(revisions)</span></span>
+<span></span>
+<span><span class="co"># print(revisions) # extract of the revisions according to the different views</span></span>
+<span><span class="co"># summary(revisions) # metadata about revisions</span></span></code></pre></div>
 <p>Finally to create the report and get a summary of the results, you
 can use</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">rslt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/revision_analysis.html">revision_analysis</a></span><span class="op">(</span><span class="va">vintages</span>, gap <span class="op">=</span> <span class="fl">1</span>, view <span class="op">=</span> <span class="st">"diagonal"</span>, n.releases <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">rslt</span> <span class="op">&lt;-</span> <span class="fu">revision_analysis</span><span class="op">(</span><span class="va">vintages</span>, gap <span class="op">=</span> <span class="fl">1</span>, view <span class="op">=</span> <span class="st">"diagonal"</span>, n.releases <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Slope and drift could not be performed</span></span>
 <span><span class="co">#&gt; Warning: efficiencyModel1 could not be performed</span></span>
 <span><span class="co">#&gt; Warning: efficiencyModel2 could not be performed</span></span>
 <span><span class="co">#&gt; Warning: orthogonallyModel1 could not be performed</span></span>
 <span><span class="co">#&gt; Warning: orthogonallyModel2 could not be performed</span></span>
+<span></span>
 <span><span class="co"># render_report(rslt, output_path = "C:/User/report.pdf", output_format = "pdf_format")</span></span>
 <span></span>
 <span><span class="co"># summary(rslt)</span></span>
-<span><span class="co"># print(rslt)</span></span>
-<span><span class="co"># plot(rslt)</span></span></code></pre></div>
+<span><span class="co"># print(rslt)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="details-on-the-main-functions">Details on the main functions<a class="anchor" aria-label="anchor" href="#details-on-the-main-functions"></a>
@@ -544,7 +552,7 @@ that does not need to be run prior the revision analysis.</p>
 <div class="section level4">
 <h4 id="revision-analysis-reporting">Revision analysis &amp; reporting<a class="anchor" aria-label="anchor" href="#revision-analysis-reporting"></a>
 </h4>
-<p>The function <code><a href="../reference/revision_analysis.html">revision_analysis()</a></code> is the main function of
+<p>The function <code>revision_analysis()</code> is the main function of
 the package. It provides some descriptive statistics and performs a
 battery of parametric tests which enable the users to detect potential
 bias (both mean and regression bias) and sources of inefficiency in
@@ -568,14 +576,14 @@ tests are also made available in the output of the function (section
 the discretion of the users based on their knowledge of the series and
 the diagnostics of the various tests. By default, no log-transformation
 is considered.</p>
-<p>As part of the arguments of the <code><a href="../reference/revision_analysis.html">revision_analysis()</a></code>
+<p>As part of the arguments of the <code>revision_analysis()</code>
 function, you can choose the view and the gap to consider, restrict the
 number of releases under investigation when diagonal view is selected
 and/or change the default setting about the prior transformation of the
 data (including the possibility to add a prior log-transformation of
 your data).</p>
 <p>The function <code><a href="../reference/render_report.html">render_report()</a></code> applied on the output of
-<code><a href="../reference/revision_analysis.html">revision_analysis()</a></code> will generate an enhanced HTML report
+<code>revision_analysis()</code> will generate an enhanced HTML report
 including both a formatted summary of the results and full explanations
 about each test (which are also included in the vignette below). The
 formatted summary of the results display the p-value of each test
@@ -585,7 +593,7 @@ and their interpretation. An appreciation ‘good’, ‘uncertain’, ‘bad’
 statistical interpretation of p-values and the orientation of the tests.
 This allows a quick visual interpretation of the results and is similar
 to what is done in the GUI of JDemetra+.</p>
-<p>In addition to the function <code><a href="../reference/revision_analysis.html">revision_analysis()</a></code>, the
+<p>In addition to the function <code>revision_analysis()</code>, the
 user can also perform tests individually if they want to. To list all
 functions available in the package (and therefore finding the different
 functions corresponding to the individual tests), you can do</p>
@@ -610,18 +618,19 @@ more information and examples over the various functions.</p>
 <h3 id="output">Output<a class="anchor" aria-label="anchor" href="#output"></a>
 </h3>
 <p>The detailed results of each test are part of the output returned by
-the function <code><a href="../reference/revision_analysis.html">revision_analysis()</a></code>. Alternatively, the
+the function <code>revision_analysis()</code>. Alternatively, the
 functions associated with the individual test will give you the same
 result specific to this test.</p>
 <p>In addition to the visual report that you can get by applying the
 function <code><a href="../reference/render_report.html">render_report()</a></code> on the output of the function
-<code><a href="../reference/revision_analysis.html">revision_analysis()</a></code>, you can also apply the usual
-<code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>, <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> and <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>
-functions to this output. The function <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>, in
-particular, will print only the formatted table of the report with the
-main results. The <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> will provide the same unformatted
-information together with some extra ones and <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> will
-plot the revisions over time.</p>
+<code>revision_analysis()</code>, you can also apply the usual
+<code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> and <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> functions to this
+output. The function <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>, in particular, will print
+only the formatted table of the report with the main results. The
+<code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> will provide the same unformatted information
+together with some extra ones. Finally the <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> function
+applied to the output of the function <code><a href="../reference/get_revisions.html">get_revisions()</a></code> will
+provide you with a visual of the revisions over time.</p>
 </div>
 </div>
 <div class="section level2">

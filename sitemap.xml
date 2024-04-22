@@ -67,16 +67,19 @@
     <loc>https://rjdemetra.github.io/rjd3revisions/reference/orthogonallyModel2.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/plot.rjd3rev_revision_analysis.html</loc>
+    <loc>https://rjdemetra.github.io/rjd3revisions/reference/plot.rjd3rev_revisions.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/print.rjd3rev_revision_analysis.html</loc>
+    <loc>https://rjdemetra.github.io/rjd3revisions/reference/print.rjd3rev_revisions.html</loc>
+  </url>
+  <url>
+    <loc>https://rjdemetra.github.io/rjd3revisions/reference/print.rjd3rev_rslts.html</loc>
+  </url>
+  <url>
+    <loc>https://rjdemetra.github.io/rjd3revisions/reference/print.rjd3rev_vintages.html</loc>
   </url>
   <url>
     <loc>https://rjdemetra.github.io/rjd3revisions/reference/render_report.html</loc>
-  </url>
-  <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/revision_analysis.html</loc>
   </url>
   <url>
     <loc>https://rjdemetra.github.io/rjd3revisions/reference/signalnoise.html</loc>
@@ -85,7 +88,13 @@
     <loc>https://rjdemetra.github.io/rjd3revisions/reference/slope_and_drift.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/summary.rjd3rev_revision_analysis.html</loc>
+    <loc>https://rjdemetra.github.io/rjd3revisions/reference/summary.rjd3rev_revisions.html</loc>
+  </url>
+  <url>
+    <loc>https://rjdemetra.github.io/rjd3revisions/reference/summary.rjd3rev_rslts.html</loc>
+  </url>
+  <url>
+    <loc>https://rjdemetra.github.io/rjd3revisions/reference/summary.rjd3rev_vintages.html</loc>
   </url>
   <url>
     <loc>https://rjdemetra.github.io/rjd3revisions/reference/theil.html</loc>
