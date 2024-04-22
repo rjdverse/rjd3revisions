@@ -1,6 +1,4 @@
-#' @include revisions.R
-
-# revision_analysis function ---------------------------------------------------
+# #' @include revisions.R
 
 #' Revision analysis through a battery of tests
 #'
@@ -51,7 +49,6 @@
 #'                  1 and 2 respectively.
 #' @param na.zero Boolean whether missing values should be considered as 0 or
 #'                rather as data not yet available (the default).
-#'
 #' @import rJava rjd3toolkit
 #'
 #' @seealso `create_vintages()` to create the input object,

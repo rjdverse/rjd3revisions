@@ -1,7 +1,7 @@
 Package: rjd3revisions
 Type: Package
 Title: Revision analysis with 'JDemetra+ 3.0'
-Version: 1.3.0
+Version: 1.3.1
 Authors@R: c(
     person(given = "Corentin", family = "Lemasson",
            email = "corentin.lemasson@nbb.be", role = c("aut", "cre")), 
