@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">rjd3revisions</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -102,7 +102,7 @@ details on the main functions. In particular, it is important to mention
 beforehand that your input data must first be set in a specific format
 described in the sub-section on the <a href="#input_format">input
 data</a>. The fourth section is theoretical and describes each test
-being performed by the main function <code>revision_analysis()</code>
+being performed by the main function <code><a href="../reference/revision_analysis.html">revision_analysis()</a></code>
 (they could also be performed individually) and how to interpret them.
 Finally, you will find out all the reference papers in the last
 section.</p>
@@ -356,7 +356,7 @@ vintages:</p>
 <p>Finally to create the report and get a summary of the results, you
 can use</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">rslt</span> <span class="op">&lt;-</span> <span class="fu">revision_analysis</span><span class="op">(</span><span class="va">vintages</span>, gap <span class="op">=</span> <span class="fl">1</span>, view <span class="op">=</span> <span class="st">"diagonal"</span>, n.releases <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">rslt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/revision_analysis.html">revision_analysis</a></span><span class="op">(</span><span class="va">vintages</span>, gap <span class="op">=</span> <span class="fl">1</span>, view <span class="op">=</span> <span class="st">"diagonal"</span>, n.releases <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Slope and drift could not be performed</span></span>
 <span><span class="co">#&gt; Warning: efficiencyModel1 could not be performed</span></span>
 <span><span class="co">#&gt; Warning: efficiencyModel2 could not be performed</span></span>
@@ -552,7 +552,7 @@ that does not need to be run prior the revision analysis.</p>
 <div class="section level4">
 <h4 id="revision-analysis-reporting">Revision analysis &amp; reporting<a class="anchor" aria-label="anchor" href="#revision-analysis-reporting"></a>
 </h4>
-<p>The function <code>revision_analysis()</code> is the main function of
+<p>The function <code><a href="../reference/revision_analysis.html">revision_analysis()</a></code> is the main function of
 the package. It provides some descriptive statistics and performs a
 battery of parametric tests which enable the users to detect potential
 bias (both mean and regression bias) and sources of inefficiency in
@@ -576,14 +576,14 @@ tests are also made available in the output of the function (section
 the discretion of the users based on their knowledge of the series and
 the diagnostics of the various tests. By default, no log-transformation
 is considered.</p>
-<p>As part of the arguments of the <code>revision_analysis()</code>
+<p>As part of the arguments of the <code><a href="../reference/revision_analysis.html">revision_analysis()</a></code>
 function, you can choose the view and the gap to consider, restrict the
 number of releases under investigation when diagonal view is selected
 and/or change the default setting about the prior transformation of the
 data (including the possibility to add a prior log-transformation of
 your data).</p>
 <p>The function <code><a href="../reference/render_report.html">render_report()</a></code> applied on the output of
-<code>revision_analysis()</code> will generate an enhanced HTML report
+<code><a href="../reference/revision_analysis.html">revision_analysis()</a></code> will generate an enhanced HTML report
 including both a formatted summary of the results and full explanations
 about each test (which are also included in the vignette below). The
 formatted summary of the results display the p-value of each test
@@ -593,7 +593,7 @@ and their interpretation. An appreciation ‘good’, ‘uncertain’, ‘bad’
 statistical interpretation of p-values and the orientation of the tests.
 This allows a quick visual interpretation of the results and is similar
 to what is done in the GUI of JDemetra+.</p>
-<p>In addition to the function <code>revision_analysis()</code>, the
+<p>In addition to the function <code><a href="../reference/revision_analysis.html">revision_analysis()</a></code>, the
 user can also perform tests individually if they want to. To list all
 functions available in the package (and therefore finding the different
 functions corresponding to the individual tests), you can do</p>
@@ -618,12 +618,12 @@ more information and examples over the various functions.</p>
 <h3 id="output">Output<a class="anchor" aria-label="anchor" href="#output"></a>
 </h3>
 <p>The detailed results of each test are part of the output returned by
-the function <code>revision_analysis()</code>. Alternatively, the
+the function <code><a href="../reference/revision_analysis.html">revision_analysis()</a></code>. Alternatively, the
 functions associated with the individual test will give you the same
 result specific to this test.</p>
 <p>In addition to the visual report that you can get by applying the
 function <code><a href="../reference/render_report.html">render_report()</a></code> on the output of the function
-<code>revision_analysis()</code>, you can also apply the usual
+<code><a href="../reference/revision_analysis.html">revision_analysis()</a></code>, you can also apply the usual
 <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> and <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> functions to this
 output. The function <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>, in particular, will print
 only the formatted table of the report with the main results. The
