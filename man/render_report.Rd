@@ -18,6 +18,8 @@ of the function `revision_analysis()`}
 
 \item{output_path}{path or name of the output file containing the report}
 
+\item{output_format}{either an HTML document (default) or a PDF document}
+
 \item{open_report}{Boolean. Default is TRUE meaning that the report will
 open automatically after being generated.}
 
@@ -52,7 +54,7 @@ df <- data.frame(rev_date, time_period, obs_values)
 vintages <- create_vintages(df, periodicity = 4)
 rslt <- revision_analysis(vintages, view = "diagonal")
 \dontrun{
-render_report(rslt)
+render_report(rslt, output_path = "C:/Users/xxx")
 }
 
 }

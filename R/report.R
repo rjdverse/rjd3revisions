@@ -3,6 +3,7 @@
 #' @param rslt an object of class `"rjd3rev_vintages"` which is the output
 #'             of the function `revision_analysis()`
 #' @param output_path path or name of the output file containing the report
+#' @param output_format either an HTML document (default) or a PDF document
 #' @param open_report Boolean. Default is TRUE meaning that the report will
 #'                    open automatically after being generated.
 #' @param ... Arguments to be passed to `rmarkdown::render()`, for example:
@@ -37,7 +38,7 @@
 #' vintages <- create_vintages(df, periodicity = 4)
 #' rslt <- revision_analysis(vintages, view = "diagonal")
 #' \dontrun{
-#' render_report(rslt)
+#' render_report(rslt, output_path = "C:/Users/xxx")
 #' }
 #'
 render_report <- function(rslt,
@@ -47,7 +48,7 @@ render_report <- function(rslt,
                           ...) {
 
     # Check input
-    checkmate::assert_class(rslt, "rjd3rev_revision_analysis")
+    checkmate::assert_class(rslt, "rjd3rev_rslts")
 
     # Check output_format
     output_format <- match.arg(output_format)

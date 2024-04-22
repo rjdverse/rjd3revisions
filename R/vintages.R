@@ -735,6 +735,12 @@ create_vintages.matrix <- function(
     checkmate::assert_count(x = periodicity, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
     checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
 
+    # Check if date in first column
+    if(!is.numeric(x[,1])){
+        rownames(x) <- x[,1]
+        x <- as.matrix(x[,-1])
+    }
+
     if (type == "long") {
         stop("Wrong type for mts data.")
     } else if (type == "horizontal") {
@@ -911,7 +917,6 @@ create_vintages_from_csv <- function(file,
 create_vintages_from_xlsx<-function(file,
                                     type = c("long", "horizontal", "vertical"),
                                     periodicity,
-                                    date_format = "%Y-%m-%d",
                                     ...) {
     if (!requireNamespace("readxl", quietly = TRUE)) {
         stop("package 'readxl' must be installed to run the function 'create_vintages_from_xlsx'")
@@ -932,78 +937,76 @@ create_vintages_from_xlsx<-function(file,
     return(create_vintages(
         x = df,
         type = type,
-        periodicity = periodicity,
-        date_format = date_format
+        periodicity = periodicity
     ))
 }
 
-#' Print function for objects of class "rjd3rev_vintages"
+# Generic functions ------------------------------------------------------------
+
+#' Print function for objects of class `"rjd3rev_vintages"`
 #'
-#' @param x an object of class "rjd3rev_vintages".
-#' @param view view to print. By default, an extract of all views are printed.
-#' @param n_row number of (last) rows to subset. For the horizontal view,
-#'   corresponds to the number of columns to subset.
-#' @param n_col number of columns to subset. Can be either the last n columns
+#' @param x an object of class `"rjd3rev_vintages"`.
+#' @param n_row number of last rows to display. For the horizontal view,
+#'   corresponds to the number of columns.
+#' @param n_col number of columns to display. Can be either the last n columns
 #'   (verical view), the last n rows (horizontal view) or the first n columns
-#'   (diagonal view).
-#' @param \dots further arguments passed to or from other methods.
+#'   (diagonal view). This argument is not used for the long view.
+#' @param \dots further arguments passed to the print() function.
+#' @exportS3Method print rjd3rev_vintages
 #' @export
 #'
 print.rjd3rev_vintages <- function(x,
-                                  view = c("all", "vertical", "horizontal",
-                                           "diagonal"),
-                                  n_row = 12,
-                                  n_col = 3,
-                                  ...) {
+                                   n_row = 8,
+                                   n_col = 3,
+                                   ...) {
 
-    view <- match.arg(view)
+    # Check counts
+    checkmate::assert_count(x = n_row, positive = TRUE, na.ok = FALSE, null.ok = FALSE, .var.name = "n_row")
+    checkmate::assert_count(x = n_col, positive = TRUE, na.ok = FALSE, null.ok = FALSE, .var.name = "n_col")
 
-    n_col_tot <- ncol(x$vertical_view)
-    n_row_tot <- nrow(x$vertical_view)
+    vv <- x$vertical_view
+    n_col_tot <- ncol(vv)
+    n_row_tot <- nrow(vv)
+    n_row_long_tot <- nrow(x$long_view)
     n_col <- min(n_col_tot, n_col)
     n_row <- min(n_row_tot, n_row)
-    freq <- frequency(x$vertical_view)
-    end_period <- end(x$vertical_view)
+    n_row_long <- min(n_row_long_tot, n_row)
+    freq <- stats::frequency(vv)
+    end_period <- stats::end(vv)
+    is_extract <- ifelse(n_col < n_col_tot || n_row < n_row_tot || n_row_long < n_row_long_tot, TRUE, FALSE)
 
-    if(view %in% c("all", "vertical")){
-        cat("Vertical view (extract) :\n")
-        print(ts(x$vertical_view[(n_row_tot-n_row+1):n_row_tot,
-                                 (n_col_tot-n_col+1):n_col_tot],
-                 frequency = freq,
-                 end = end_period))
-    }
+    extract_lv <- x$long_view[(n_row_long_tot-n_row_long+1):n_row_long_tot,]; rownames(extract_lv) <- NULL
+    extract_vv <- stats::ts(x$vertical_view[(n_row_tot-n_row+1):n_row_tot, (n_col_tot-n_col+1):n_col_tot],
+                            frequency = freq,
+                            end = end_period)
+    extract_hv <- x$horizontal_view[(n_col_tot-n_col+1):n_col_tot, (n_row_tot-n_row+1):n_row_tot]
+    extract_dv <- stats::ts(x$diagonal_view[1:n_row, 1:n_col],
+                            frequency = freq,
+                            end = end_period)
 
-    if(view %in% c("all", "horizontal")){
-        cat("\nHorizontal view (extract):\n")
-        print(x$horizontal_view[(n_col_tot-n_col+1):n_col_tot,
-                                (n_row_tot-n_row+1):n_row_tot])
-    }
-
-
-    if(view %in% c("all", "diagonal")){
-        cat("\nDiagonal view (extract):\n")
-        print(ts(x$diagonal_view[1:n_row,
-                                 1:n_col],
-                 frequency = freq,
-                 end = end_period))
-    }
+    print(list(extract = is_extract,
+               long_view = extract_lv,
+               vertical_view=extract_vv,
+               horizontal_view=extract_hv,
+               diagonal_view=extract_dv, ...))
 }
-
 
 #' Summary function for objects of class "rjd3rev_vintages"
 #'
 #' @param x an object of class "rjd3rev_vintages".
 #' @param \dots further arguments passed to or from other methods.
+#' @exportS3Method summary rjd3rev_vintages
 #' @export
 #'
-summary.rjd3rev_vintages <- function(x, ...) {
-    cat("Number of releases: ", ncol(x$vertical_view))
+summary.rjd3rev_vintages <- function(object, ...) {
+    x <- object
+    vv <- x$vertical_view
+    cat("Number of releases: ", ncol(vv))
     cat("\nCovered period:")
-    cat("\n \tFrom: ", start(x$vertical_view))
-    cat("\n \tTo: ", end(x$vertical_view))
-    cat("\nFrequency: ", freq)
+    cat("\n \tFrom: ", stats::start(vv))
+    cat("\n \tTo: ", stats::end(vv))
+    cat("\nFrequency: ", stats::frequency(vv))
 }
-
 
 
 

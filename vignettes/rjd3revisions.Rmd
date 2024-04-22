@@ -37,8 +37,8 @@ In addition to a Java version >= 17.0, you must have a recent version of the R p
 This package also depends on the package [rjd3toolkit](https://github.com/rjdemetra/rjd3toolkit) that you must install from GitHub prior to [rjd3revsions](https://github.com/rjdemetra/rjd3revisions).
 
 ```{r package installation, echo = TRUE, eval = FALSE}
-remotes::install_github("rjdemetra/rjd3toolkit")
-remotes::install_github("rjdemetra/rjd3revisions", build_vignettes = TRUE)
+remotes::install_github("rjdemetra/rjd3toolkit@*release")
+remotes::install_github("rjdemetra/rjd3revisions@*release", build_vignettes = TRUE)
 ```
 
 Note that depending on the R packages that are already installed on your computer, you might also be asked to install or re-install a few other packages from CRAN. 
@@ -108,7 +108,7 @@ colnames(horizontal_view) <- c("2022Q1", "2022Q2", "2022Q3", "2022Q4")
 rownames(horizontal_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
                                "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28")
 
-# Horizontal format
+# Vertical format
 vertical_view <- matrix(data = c(.8, .2, NA, NA, .8, .1, NA, NA, .7, .1, NA,
                                  NA, .7, .2, .5, NA, .7, .2, .5, NA, .7, .3, .7, NA,
                                  .7, .2, .7, .4, .7, .3, .7, .3),
@@ -130,23 +130,31 @@ Once your input data are in the right format, you create the vintages:
 vintages <- create_vintages(long_view, type = "long", periodicity = 4)
 # vintages <- create_vintages_from_xlsx(file = "myinput.xlsx", type = "long", "Sheet1", periodicity = 4, format_date = "%d/%m/%Y")
 # vintages <- create_vintages_from_csv(file = "myinput.csv", periodicity = 4, sep = "\t", format_date = "%Y-%m-%d")
+
+# print(vintages) # extract of the vintages according to the different views
+# summary(vintages) # metadata about vintages
 ```
 
 possibly inspect the revisions and perform the revision analysis:
 
 ```{r revision analysis, echo = TRUE, eval = TRUE}
 revisions <- get_revisions(vintages, gap = 1)
+
+# plot(revisions)
+
+# print(revisions) # extract of the revisions according to the different views
+# summary(revisions) # metadata about revisions
 ```
 
 Finally to create the report and get a summary of the results, you can use
 
 ```{r create report, echo = TRUE, eval = TRUE}
 rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
+
 # render_report(rslt, output_path = "C:/User/report.pdf", output_format = "pdf_format")
 
 # summary(rslt)
 # print(rslt)
-# plot(rslt)
 ```
 
 ## Details on the main functions
@@ -214,7 +222,7 @@ Use help(‘name of the functions’) or ?‘name of the functions’ for more i
 
 The detailed results of each test are part of the output returned by the function `revision_analysis()`. Alternatively, the functions associated with the individual test will give you the same result specific to this test. 
 
-In addition to the visual report that you can get by applying the function `render_report()` on the output of the function `revision_analysis()`, you can also apply the usual `summary()`, `print()` and `plot()` functions to this output. The function `summary()`, in particular, will print only the formatted table of the report with the main results. The `print()` will provide the same unformatted information together with some extra ones and `plot()` will plot the revisions over time.
+In addition to the visual report that you can get by applying the function `render_report()` on the output of the function `revision_analysis()`, you can also apply the usual `summary()` and `print()` functions to this output. The function `summary()`, in particular, will print only the formatted table of the report with the main results. The `print()` will provide the same unformatted information together with some extra ones. Finally the `plot()` function applied to the output of the function `get_revisions()` will provide you with a visual of the revisions over time.
 
 # Tests description and interpretation
 
