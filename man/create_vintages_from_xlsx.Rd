@@ -21,7 +21,7 @@ between `"long"`, `"horizontal"` and `"vertical"` approach.}
 \item{periodicity}{periodicity of the time period (12, 4 or 1 for resp.
 monthly, quarterly or annual data)}
 
-\item{...}{Arguments to be passed to `readxl::read_excel()`, for example:
+\item{\dots}{Arguments to be passed to `readxl::read_excel()`, for example:
 * `sheet` character containing the sheet to read
 * `range` A cell range to read from
 * `col_names` a boolean to use the first row as column names

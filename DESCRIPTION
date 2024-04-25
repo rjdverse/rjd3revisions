@@ -18,7 +18,12 @@ Depends:
 Imports:
     rJava (>= 1.0-6),
     rjd3toolkit (>= 3.0.1),
-    checkmate
+    checkmate, 
+    tools, 
+    utils, 
+    stats, 
+    grDevices, 
+    graphics
 Suggests: 
     readxl,
     formattable,

@@ -838,7 +838,7 @@ create_vintages.default <- function(x, ...) {
 #' @param file character containing the name of the file which the data are
 #'             to be read from.
 #' @inheritParams create_vintages.data.frame
-#' @param ... Arguments to be passed to `read.csv()`, for example:
+#' @param \dots Arguments to be passed to `read.csv()`, for example:
 #' * `sep` the field separator character
 #' * `dec` the character used in the file for decimal points.
 #' * `row.names` a vector of row names
@@ -891,7 +891,7 @@ create_vintages_from_csv <- function(file,
 #' Create vintages table from XLSX files
 #'
 #' @inheritParams create_vintages_from_csv
-#' @param ... Arguments to be passed to `readxl::read_excel()`, for example:
+#' @param \dots Arguments to be passed to `readxl::read_excel()`, for example:
 #' * `sheet` character containing the sheet to read
 #' * `range` A cell range to read from
 #' * `col_names` a boolean to use the first row as column names
@@ -952,6 +952,7 @@ create_vintages_from_xlsx<-function(file,
 #'   (verical view), the last n rows (horizontal view) or the first n columns
 #'   (diagonal view). This argument is not used for the long view.
 #' @param \dots further arguments passed to the print() function.
+#'
 #' @exportS3Method print rjd3rev_vintages
 #' @export
 #'
@@ -993,12 +994,14 @@ print.rjd3rev_vintages <- function(x,
 
 #' Summary function for objects of class "rjd3rev_vintages"
 #'
-#' @param x an object of class "rjd3rev_vintages".
+#' @param object an object of class "rjd3rev_vintages".
 #' @param \dots further arguments passed to or from other methods.
+#'
 #' @exportS3Method summary rjd3rev_vintages
 #' @export
 #'
 summary.rjd3rev_vintages <- function(object, ...) {
+
     x <- object
     vv <- x$vertical_view
     cat("Number of releases: ", ncol(vv))
@@ -1006,8 +1009,71 @@ summary.rjd3rev_vintages <- function(object, ...) {
     cat("\n \tFrom: ", stats::start(vv))
     cat("\n \tTo: ", stats::end(vv))
     cat("\nFrequency: ", stats::frequency(vv))
+
+    return(invisible(NULL))
 }
 
+#' @title View function for objects of class "rjd3rev_vintages"
+#'
+#' @description
+#' Display the different view in a different panel to visualise the data in a table / matrix format
+#'
+#'
+#' @param x an object of class "rjd3rev_vintages".
+#' @param type type of view to display
+#' @param \dots further arguments passed to or from other methods.
+#'
+#' @details
+#' Generate the view of the vintages in different format. With the type argument, you can choose the view to display. You can choose between the long, horizontal, vertical and diagonal view.
+#'
+#' @importFrom utils View
+#' @exportS3Method View rjd3rev_vintages
+#' @export
+#'
+View.rjd3rev_vintages <- function(
+        x,
+        type = c("all", "long", "horizontal", "vertical", "diagonal"),
+        title = "",
+        ...
+) {
+    # Check type
+    type <- match.arg(type)
 
+    if (type %in% c("all", "long")) utils::View(x$long_view, title = paste(title, "Long view"))
+    if (type %in% c("all", "horizontal")) utils::View(x$horizontal_view, title = paste(title, "Horizontal view"))
+    if (type %in% c("all", "vertical")) utils::View(x$vertical_view, title = paste(title, "Vertical view"))
+    if (type %in% c("all", "diagonal")) utils::View(x$diagonal_view, title = paste(title, "Diagonal view"))
 
+    return(invisible(NULL))
+}
 
+#' @title Plot function for objects of class "rjd3rev_vintages"
+#'
+#' @param x an object of class "rjd3rev_vintages".
+#' @param col a color vector of the same length as the number of releases
+#' @param \dots further arguments passed to or from other methods.
+#'
+#' @importFrom stats ts.plot
+#' @importFrom grDevices palette.colors
+#' @exportS3Method plot rjd3rev_vintages
+#' @export
+#'
+plot.rjd3rev_vintages <- function(x, col, ...) {
+    if (missing(col)) {
+        col <- grDevices::palette.colors(n = ncol(x$vertical_view))
+    }
+    par(mar=c(5.1, 4.1, 4.1, 8.1), xpd = TRUE)
+    stats::ts.plot(x$vertical_view, gpars = list(col = col, ...))
+    graphics::legend(
+        x = "topright",
+        legend = colnames(my_vintages$vertical_view),
+        pch = 16,
+        col = col,
+        xpd = TRUE,
+        inset=c(-0.2,0),
+        bty = "n",
+        title = "Release dates:"
+    )
+
+    return(invisible(NULL))
+}
