@@ -1,3 +1,15 @@
+<style>
+
+p {
+    margin: 100px -100px;
+}
+
+h2 {
+    margin: 100px -100px;
+}
+
+</style>
+
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
