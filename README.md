@@ -1,19 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-``` css
-
-p {
-  font-size: 56px;
-}
-```
-
-<style type="text/css">
-&#10;p {
-  font-size: 56px;
-}
-&#10;</style>
-
 # rjd3revisions
 
 <!-- badges: start -->

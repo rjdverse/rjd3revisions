@@ -14,15 +14,6 @@ knitr::opts_chunk$set(
 ```
 
 
-```{css}
-
-p {
-  font-size: 56px;
-}
-
-```
-
-
 # rjd3revisions
 
 <!-- badges: start -->
