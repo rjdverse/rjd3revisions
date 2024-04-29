@@ -126,7 +126,10 @@ descriptive_statistics <- function(revisions.view, rounding = 3) {
 
     ds <- apply(revisions.view, 2, descriptive_statistics_one)
 
-    return(`rownames <- `(round(ds, rounding), descriptiveStatNames))
+    output <- round(ds, rounding)
+    rownames(output) <- descriptiveStatNames
+
+    return(output)
 }
 
 #' Theil's Inequality Coefficient U1

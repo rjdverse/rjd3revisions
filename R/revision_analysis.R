@@ -83,16 +83,16 @@
 #'
 #' ## Call using all default parameters
 #' rslt1 <- revision_analysis(vintages)
-#' #render_report(rslt1)
-#' #summary(rslt1) # formatted summary only
+#' # render_report(rslt1)
+#' # summary(rslt1) # formatted summary only
 #'
 #' ## Calls using diagonal view (suited in many situations such as to evaluate GDP estimates)
 #' ## Note: when input are not growth rates but the gross series, differentiation is
 #' ## performed automatically (if transf.diff is let to its default option) but `transf.log`
 #' ## must be set to TRUE manually whenever a log-transformation of the data is necessary
 #' rslt2 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
-#' #render_report(rslt2)
-#' #summary(rslt2)
+#' # render_report(rslt2)
+#' # summary(rslt2)
 #'
 #' ## Call to evaluate revisions for a specific range of vintage periods
 #' vintages <- create_vintages(
@@ -229,9 +229,9 @@ revision_analysis <- function(vintages,
 
     # VAR-based Analysis
     vecm_test <- vecm(vt, lag = 2, model = "none", na.zero) ## VECM
-    var_based_rslt <- ist(unit_root_test = ur_test,
-                          cointegration_test = coint_test,
-                          vecm = vecm_test)
+    var_based_rslt <- list(unit_root_test = ur_test,
+                           cointegration_test = coint_test,
+                           vecm = vecm_test)
 
     # Output
     lbl <- c(paste("Relevancy - Theil", theil_infos$U_det), "Bias1 T-test", "Bias2 Augmented T-test",
@@ -651,9 +651,9 @@ regression_diagnostics <- function(reg_output) {
     lbl <- c("Jarque-Bera", "Breusch-Pagan", "White", "ARCH")
     tests <- c("Normality", rep("Homoskedasticity", 3))
     tests_rslts <- rbind(jb, bp, wh, arch)
+    colnames(tests_rslts) <- rownames(reg_output)
 
-    rslt <- `colnames <- `(data.frame(tests, tests_rslts, row.names = lbl), c("Test", rownames(reg_output)))
-
+    rslt <- data.frame(Test = tests, tests_rslts, row.names = lbl)
     return(rslt)
 }
 

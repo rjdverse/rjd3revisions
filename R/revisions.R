@@ -32,9 +32,11 @@ get_revisions <- function(vintages, gap = 1) {
     checkmate::assert_class(x = vintages, classes = "rjd3rev_vintages")
     checkmate::assert_count(x = gap, positive = TRUE, na.ok = FALSE, null.ok = FALSE, .var.name = "gap")
 
-    vv <- get_revisions_view(vintages$vertical_view, gap)
-    hv <- `colnames <- `(t(vv), colnames(vintages$horizontal_view))
     dv <- get_revisions_view(vintages$diagonal_view, gap)
+    vv <- get_revisions_view(vintages$vertical_view, gap)
+
+    hv <- t(vv)
+    colnames(hv) <- colnames(vintages$horizontal_view)
 
     return(structure(list(
         vertical_view = vv,
@@ -56,7 +58,7 @@ get_revisions_view <- function(vt, gap) {
     w <- sapply(colnames(vt), function(s) paste0("[", s, "]"))
     rw <- mapply(FUN = function(a, b) paste(a, b, sep = "-"), w[idx1], w[idx0])
 
-    rev <- `colnames <- `(rev, rw)
+    colnames(rev) <- rw
     return(rev)
 }
 

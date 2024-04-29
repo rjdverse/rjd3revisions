@@ -150,8 +150,12 @@ Finally to create the report and get a summary of the results, you can use
 
 ```{r create report, echo = TRUE, eval = TRUE}
 rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
-
-# render_report(rslt, output_path = "C:/User/report.pdf", output_format = "pdf_format")
+# render_report(
+#     rslt,
+#     output_file = "my_report",
+#     output_dir = "C:/Users/xxx",
+#     output_format = "pdf_document"
+# )
 
 # summary(rslt)
 # print(rslt)
