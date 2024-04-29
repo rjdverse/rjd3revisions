@@ -86,7 +86,7 @@ plot.rjd3rev_revisions <- function(x, view = c("vertical", "diagonal"), n_rev = 
     rev <- x[[paste0(view,"_view")]]
     nc <- ncol(rev)
     n_rev <- min(n_rev, nc, 5)
-    if(view == "vertical") {
+    if (view == "vertical") {
         rev <- rev[, (nc-n_rev+1):nc, drop = FALSE]
     } else {
         rev <- rev[, 1:n_rev, drop = FALSE]

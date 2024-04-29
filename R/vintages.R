@@ -731,7 +731,7 @@ create_vintages.matrix <- function(
     checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
 
     # Check if date in first column
-    if(!is.numeric(x[,1])) {
+    if (!is.numeric(x[,1])) {
         rownames(x) <- x[,1]
         x <- as.matrix(x[,-1])
     }

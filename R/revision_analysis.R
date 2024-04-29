@@ -136,7 +136,7 @@ revision_analysis <- function(vintages,
     vt <- vintages_info$vt
     rv <- get_revisions_view(vt, gap)
     is_log <- vintages_info$is_log
-    if(is_log) rv_notrf <- get_revisions_view(exp(vt), gap) else rv_notrf <- rv
+    if (is_log) rv_notrf <- get_revisions_view(exp(vt), gap) else rv_notrf <- rv
 
     ## Differentiation
     freq<-stats::frequency(vt)
