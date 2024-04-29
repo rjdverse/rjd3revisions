@@ -315,7 +315,7 @@ from_vertical_to_long <- function(x, date_format = "%Y-%m-%d") {
     rownames(vertical) <- as.character(time_period)
 
     long <- stats::reshape(
-        data = data.frame(time = rownames(vertical), vertical, check.names = FALSE) ,
+        data = data.frame(time = rownames(vertical), vertical, check.names = FALSE),
         direction = "long",
         varying = colnames(vertical),
         v.names = "obs_values",
@@ -369,7 +369,7 @@ from_horizontal_to_long <- function(x, date_format = "%Y-%m-%d") {
     horizontal <- check_horizontal(x, date_format = date_format)
 
     long <- stats::reshape(
-        data = data.frame(revdate = rownames(horizontal), horizontal, check.names = FALSE) ,
+        data = data.frame(revdate = rownames(horizontal), horizontal, check.names = FALSE),
         direction = "long",
         varying = colnames(horizontal),
         v.names = "obs_values",
@@ -731,9 +731,9 @@ create_vintages.matrix <- function(
     checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
 
     # Check if date in first column
-    if (!is.numeric(x[,1])) {
-        rownames(x) <- x[,1]
-        x <- as.matrix(x[,-1])
+    if (!is.numeric(x[, 1])) {
+        rownames(x) <- x[, 1]
+        x <- as.matrix(x[, -1])
     }
 
     if (type == "long") {
@@ -971,7 +971,7 @@ print.rjd3rev_vintages <- function(x,
     end_period <- stats::end(vv)
     is_extract <- ifelse(n_col < n_col_tot || n_row < n_row_tot || n_row_long < n_row_long_tot, TRUE, FALSE)
 
-    extract_lv <- x$long_view[(n_row_long_tot - n_row_long + 1):n_row_long_tot,]
+    extract_lv <- x$long_view[(n_row_long_tot - n_row_long + 1):n_row_long_tot, ]
     rownames(extract_lv) <- NULL
     extract_vv <- stats::ts(x$vertical_view[(n_row_tot - n_row + 1):n_row_tot, (n_col_tot - n_col + 1):n_col_tot],
                             frequency = freq,
@@ -1068,7 +1068,7 @@ plot.rjd3rev_vintages <- function(x, col, ...) {
         pch = 16,
         col = col,
         xpd = TRUE,
-        inset = c(-0.2,0),
+        inset = c(-0.2, 0),
         bty = "n",
         title = "Release dates:"
     )

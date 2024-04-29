@@ -175,7 +175,7 @@ revision_analysis <- function(vintages,
     ### Theil tests (U1 and U2)
     U1 <- theil(vt, gap, na.zero)
     U2 <- theil2(vt, gap, na.zero)
-    theil_infos <- theil_test_evaluator(U1, U2, N = ds["N",], n_test = ncol(rv))
+    theil_infos <- theil_test_evaluator(U1, U2, N = ds["N", ], n_test = ncol(rv))
 
     ## II. Bias (mean and regression bias)
 
@@ -186,7 +186,7 @@ revision_analysis <- function(vintages,
     ### Slope and drift
     sd_test <- slope_and_drift(vtc, gap, na.zero)
     sd_infos <- sd_test_evaluator(sd_test, is_log, is_cointegrated, delta_diff,
-                                  n_test = ncol(vtc[,-c(1:gap),drop = FALSE]))
+                                  n_test = ncol(vtc[, -c(1:gap), drop = FALSE]))
 
     ## III. Efficiency
 
@@ -204,12 +204,12 @@ revision_analysis <- function(vintages,
     ### Regression of latter revisions (Rv) on previous revisions (Rv_1, Rv_2,...Rv_p)
     orth1_test <- orthogonallyModel1(rv, nrevs, na.zero)
     orth1_infos <- orth1_test_evaluator(orth1_test, is_log, nrevs, ncol_rv = ncol(rv),
-                                        n_test = ncol(rv[,-c(1:nrevs),drop = FALSE]))
+                                        n_test = ncol(rv[, -c(1:nrevs), drop = FALSE]))
 
     ### Regression model of latter revisions (Rv) on previous revisions at a specific version (Rv_k)
     orth2_test <- orthogonallyModel2(rv, ref, na.zero)
     orth2_infos <- orth2_test_evaluator(orth2_test, is_log, ref, ncol_rv = ncol(rv),
-                                        n_test = ncol(rv[,-c(1:ref),drop = FALSE]))
+                                        n_test = ncol(rv[, -c(1:ref), drop = FALSE]))
 
     ### Autocorrelation test
     ac_test <- try(apply(rv, 2, function(x) ljungbox(x[!is.na(x)], k = 2)), silent = TRUE) # Ljung-Box up to k

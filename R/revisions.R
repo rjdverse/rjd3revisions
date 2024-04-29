@@ -83,7 +83,7 @@ plot.rjd3rev_revisions <- function(x, view = c("vertical", "diagonal"), n_rev = 
     # Check counts
     checkmate::assert_count(x = n_rev, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
 
-    rev <- x[[paste0(view,"_view")]]
+    rev <- x[[paste0(view, "_view")]]
     nc <- ncol(rev)
     n_rev <- min(n_rev, nc, 5)
     if (view == "vertical") {
