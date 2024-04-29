@@ -971,7 +971,8 @@ print.rjd3rev_vintages <- function(x,
     end_period <- stats::end(vv)
     is_extract <- ifelse(n_col < n_col_tot || n_row < n_row_tot || n_row_long < n_row_long_tot, TRUE, FALSE)
 
-    extract_lv <- x$long_view[(n_row_long_tot-n_row_long+1):n_row_long_tot,]; rownames(extract_lv) <- NULL
+    extract_lv <- x$long_view[(n_row_long_tot-n_row_long+1):n_row_long_tot,]
+    rownames(extract_lv) <- NULL
     extract_vv <- stats::ts(x$vertical_view[(n_row_tot-n_row+1):n_row_tot, (n_col_tot-n_col+1):n_col_tot],
                             frequency = freq,
                             end = end_period)
@@ -980,11 +981,16 @@ print.rjd3rev_vintages <- function(x,
                             frequency = freq,
                             end = end_period)
 
-    print(list(extract = is_extract,
-               long_view = extract_lv,
-               vertical_view=extract_vv,
-               horizontal_view=extract_hv,
-               diagonal_view=extract_dv, ...))
+    print(list(
+        extract = is_extract,
+        long_view = extract_lv,
+        vertical_view = extract_vv,
+        horizontal_view = extract_hv,
+        diagonal_view = extract_dv,
+        ...
+    ))
+
+    return(invisible(NULL))
 }
 
 #' Summary function for objects of class "rjd3rev_vintages"

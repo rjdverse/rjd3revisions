@@ -96,7 +96,7 @@ simulate_long <- function(n_period = 50,
         ))
     }
 
-    long <- long[order(long$rev_date , long$time_period  ), ]
+    long <- long[order(long$rev_date , long$time_period), ]
     rownames(long) <- NULL
 
     return(long)

@@ -2,8 +2,6 @@ linters: linters_with_defaults(
         indentation_linter = lintr::indentation_linter(indent = 4L),
         infix_spaces_linter = NULL,
         commas_linter = NULL,
-        #spaces_inside_linter = NULL,
-        #semicolon_linter = NULL,
         cyclocomp_linter = NULL,
         object_usage_linter = NULL,
         object_name_linter = NULL,
