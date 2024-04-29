@@ -14,29 +14,30 @@ Description: Interface around 'JDemetra+ 3.x' sa-toolkit
              potential bias and sources of inefficiency in preliminary 
              estimates.
 Depends:
-  R (>= 3.6.0)
+    R (>= 3.6.0)
 Imports:
     rJava (>= 1.0-6),
     rjd3toolkit (>= 3.0.1),
-    checkmate, 
-    tools, 
-    utils, 
-    stats, 
-    grDevices, 
+    checkmate,
+    tools,
+    utils,
+    stats,
+    grDevices,
     graphics
 Suggests: 
-    readxl,
-    formattable,
     kableExtra,
     testthat (>= 3.0.0),
     knitr,
-    rmarkdown
+    rmarkdown,
+    readxl,
+    formattable
 Remotes:
     github::rjdemetra/rjd3toolkit
 SystemRequirements: Java (>= 17)
 License: EUPL
 Encoding: UTF-8
 Collate: 
+    'rjd3revisions-package.R'
     'report.R'
     'revisions.R'
     'revision_analysis.R'
@@ -47,3 +48,4 @@ Collate:
 RoxygenNote: 7.3.1
 URL: https://rjdemetra.github.io/rjd3revisions/
 Config/testthat/edition: 3
+VignetteBuilder: knitr
