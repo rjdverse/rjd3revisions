@@ -736,7 +736,7 @@ create_vintages.matrix <- function(
     checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
 
     # Check if date in first column
-    if(!is.numeric(x[,1])){
+    if(!is.numeric(x[,1])) {
         rownames(x) <- x[,1]
         x <- as.matrix(x[,-1])
     }
@@ -1026,7 +1026,6 @@ summary.rjd3rev_vintages <- function(object, ...) {
 #' @details
 #' Generate the view of the vintages in different format. With the type argument, you can choose the view to display. You can choose between the long, horizontal, vertical and diagonal view.
 #'
-#' @importFrom utils View
 #' @exportS3Method View rjd3rev_vintages
 #' @export
 #'
@@ -1053,8 +1052,6 @@ View.rjd3rev_vintages <- function(
 #' @param col a color vector of the same length as the number of releases
 #' @param \dots further arguments passed to or from other methods.
 #'
-#' @importFrom stats ts.plot
-#' @importFrom grDevices palette.colors
 #' @exportS3Method plot rjd3rev_vintages
 #' @export
 #'
@@ -1062,11 +1059,11 @@ plot.rjd3rev_vintages <- function(x, col, ...) {
     if (missing(col)) {
         col <- grDevices::palette.colors(n = ncol(x$vertical_view))
     }
-    par(mar=c(5.1, 4.1, 4.1, 8.1), xpd = TRUE)
+    graphics::par(mar=c(5.1, 4.1, 4.1, 8.1), xpd = TRUE)
     stats::ts.plot(x$vertical_view, gpars = list(col = col, ...))
     graphics::legend(
         x = "topright",
-        legend = colnames(my_vintages$vertical_view),
+        legend = colnames(x$vertical_view),
         pch = 16,
         col = col,
         xpd = TRUE,
