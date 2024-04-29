@@ -2,7 +2,7 @@ linters: linters_with_defaults(
         indentation_linter = lintr::indentation_linter(indent = 4L),
         #indentation_linter = NULL,
         infix_spaces_linter = NULL,
-        trailing_whitespace_linter = NULL,
+        #trailing_whitespace_linter = NULL,
         paren_body_linter = NULL,
         function_left_parentheses_linter = NULL,
         spaces_left_parentheses_linter = NULL,

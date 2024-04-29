@@ -58,13 +58,13 @@ if (!requireNamespace("kableExtra", quietly=TRUE)) {
                                             ifelse(substr(x, 1, 1) == "S", TRUE, FALSE)))
     }
     nc <- ncol(main_results)
-    main_results[, -1L]<-apply(X = main_results[, -1L, drop = FALSE], 
-                               MARGIN = 2L, 
+    main_results[, -1L]<-apply(X = main_results[, -1L, drop = FALSE],
+                               MARGIN = 2L,
                                FUN = format_font)
     if (getOption("knitr.table.format") == "latex") {
-        rownames(main_results) <- gsub(x = rownames(main_results), 
-                                       pattern = "_", 
-                                       replacement = "\\_", 
+        rownames(main_results) <- gsub(x = rownames(main_results),
+                                       pattern = "_",
+                                       replacement = "\\_",
                                        fixed = TRUE)
     }
     kableExtra::kable_minimal(knitr::kable(main_results, escape = FALSE))
