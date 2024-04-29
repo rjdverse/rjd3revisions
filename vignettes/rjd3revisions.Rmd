@@ -101,8 +101,8 @@ long_view <- data.frame(
 
 # Horizontal format
 horizontal_view <- matrix(data = c(.8, .8, .7, .7, .7, .7, .7, .7, .2, .1,
-                            .1, .2, .2, .3, .2, .3, NA, NA, NA, .5, .5, .7, .7,
-                            .7, NA, NA, NA, NA, NA, NA, .4, .3),
+                                   .1, .2, .2, .3, .2, .3, NA, NA, NA, .5, .5, .7, .7,
+                                   .7, NA, NA, NA, NA, NA, NA, .4, .3),
                           ncol = 4)
 colnames(horizontal_view) <- c("2022Q1", "2022Q2", "2022Q3", "2022Q4")
 rownames(horizontal_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
@@ -112,10 +112,10 @@ rownames(horizontal_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-1
 vertical_view <- matrix(data = c(.8, .2, NA, NA, .8, .1, NA, NA, .7, .1, NA,
                                  NA, .7, .2, .5, NA, .7, .2, .5, NA, .7, .3, .7, NA,
                                  .7, .2, .7, .4, .7, .3, .7, .3),
-                          nrow = 4)
+                        nrow = 4)
 rownames(vertical_view) <- c("2022Q1", "2022Q2", "2022Q3", "2022Q4")
 colnames(vertical_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
-                               "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28")
+                             "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28")
 ```
 
 ## Processing

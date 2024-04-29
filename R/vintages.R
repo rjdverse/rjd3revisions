@@ -68,12 +68,10 @@ check_vertical <- function(x, ...) {
 }
 
 #' @exportS3Method check_vertical mts
-check_vertical.mts <- function(
-        x,
-        periodicity,
-        date_format = "%Y-%m-%d",
-        ...
-) {
+check_vertical.mts <- function(x,
+                               periodicity,
+                               date_format = "%Y-%m-%d",
+                               ...) {
     # Check data type
     checkmate::assert_matrix(x, mode = "numeric")
 
@@ -103,8 +101,8 @@ check_vertical.matrix <- function(
         x,
         periodicity,
         date_format = "%Y-%m-%d",
-        ...
-) {
+        ...) {
+
     # Check periodicity
     checkmate::assert_count(x = periodicity, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
     checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
@@ -598,8 +596,7 @@ create_vintages.data.frame <- function(
         periodicity,
         date_format = "%Y-%m-%d",
         vintage_selection,
-        ...
-) {
+        ...) {
 
     # Check type
     type <- match.arg(type)
@@ -663,8 +660,7 @@ create_vintages.mts <- function(
         periodicity,
         date_format = "%Y-%m-%d",
         vintage_selection,
-        ...
-) {
+        ...) {
 
     # Check type
     type <- match.arg(type)
@@ -725,8 +721,7 @@ create_vintages.matrix <- function(
         periodicity,
         date_format = "%Y-%m-%d",
         vintage_selection,
-        ...
-) {
+        ...) {
 
     # Check type
     type <- match.arg(type)
@@ -1033,8 +1028,8 @@ View.rjd3rev_vintages <- function(
         x,
         type = c("all", "long", "horizontal", "vertical", "diagonal"),
         title = "",
-        ...
-) {
+        ...) {
+
     # Check type
     type <- match.arg(type)
 

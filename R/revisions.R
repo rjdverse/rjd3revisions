@@ -37,10 +37,10 @@ get_revisions <- function(vintages, gap = 1) {
     dv<-get_revisions_view(vintages$diagonal_view, gap)
 
     return(structure(list(
-      vertical_view=vv,
-      horizontal_view=hv,
-      diagonal_view=dv),
-      class = "rjd3rev_revisions"))
+        vertical_view=vv,
+        horizontal_view=hv,
+        diagonal_view=dv
+    ), class = "rjd3rev_revisions"))
 }
 
 
@@ -51,7 +51,7 @@ get_revisions_view <- function(vt, gap) {
     idx1<- (gap+1):n
     idx0<-1:(n-gap)
 
-    rev<-vt[, idx1, drop=FALSE]-vt[, idx0, drop=FALSE]
+    rev<-vt[, idx1, drop = FALSE]-vt[, idx0, drop = FALSE]
 
     w<-sapply(colnames(vt), function(s) paste0("[", s, "]"))
     rw<-mapply(FUN = function(a, b) paste(a, b, sep = "-"), w[idx1], w[idx0])

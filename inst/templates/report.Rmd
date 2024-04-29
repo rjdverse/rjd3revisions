@@ -34,11 +34,11 @@ For some parametric tests, transformation may be important to avoid misleading r
 ```{r descriptivetable, echo = FALSE}
 selection <- c("N", "mean revision", "st.dev.", "% positive", "% zero", "% negative")
 
-if (!requireNamespace("kableExtra", quietly=TRUE)) {
-  knitr::kable(descriptive_statistics[selection, , drop = FALSE])
-  warning("Please install kableExtra: install.packages('kableExtra') to get more visual table output")
+if (!requireNamespace("kableExtra", quietly = TRUE)) {
+    knitr::kable(descriptive_statistics[selection, , drop = FALSE])
+    warning("Please install kableExtra: install.packages('kableExtra') to get more visual table output")
 } else {
-  kableExtra::kable_minimal(knitr::kable(descriptive_statistics[selection, , drop=FALSE]))
+    kableExtra::kable_minimal(knitr::kable(descriptive_statistics[selection, , drop = FALSE]))
 }
 ```
 
@@ -47,27 +47,27 @@ if (!requireNamespace("kableExtra", quietly=TRUE)) {
 
 ```{r summarytable, echo = FALSE}
 if (!requireNamespace("kableExtra", quietly=TRUE)) {
-  knitr::kable(main_results)
+    knitr::kable(main_results)
 } else {
-  format_font <- function(x) {
-    kableExtra::cell_spec(x,
-                          color = ifelse(is.na(x), "black",
-                                  ifelse(substr(x, 1, 1) == "G", "green",
-                                  ifelse(substr(x, 1, 1) == "U", "orange", "red"))),
-                          bold = ifelse(is.na(x), FALSE,
-                                 ifelse(substr(x, 1, 1) == "S", TRUE, FALSE)))
-  }
-  nc <- ncol(main_results)
-  main_results[, -1L]<-apply(X = main_results[, -1L, drop = FALSE], 
-                            MARGIN = 2L, 
-                            FUN = format_font)
-  if (getOption("knitr.table.format") == "latex") {
-      rownames(main_results) <- gsub(x = rownames(main_results), 
-                                     pattern = "_", 
-                                     replacement = "\\_", 
-                                     fixed = TRUE)
-  }
-  kableExtra::kable_minimal(knitr::kable(main_results, escape = FALSE))
+    format_font <- function(x) {
+        kableExtra::cell_spec(x,
+                              color = ifelse(is.na(x), "black",
+                                             ifelse(substr(x, 1, 1) == "G", "green",
+                                                    ifelse(substr(x, 1, 1) == "U", "orange", "red"))),
+                              bold = ifelse(is.na(x), FALSE,
+                                            ifelse(substr(x, 1, 1) == "S", TRUE, FALSE)))
+    }
+    nc <- ncol(main_results)
+    main_results[, -1L]<-apply(X = main_results[, -1L, drop = FALSE], 
+                               MARGIN = 2L, 
+                               FUN = format_font)
+    if (getOption("knitr.table.format") == "latex") {
+        rownames(main_results) <- gsub(x = rownames(main_results), 
+                                       pattern = "_", 
+                                       replacement = "\\_", 
+                                       fixed = TRUE)
+    }
+    kableExtra::kable_minimal(knitr::kable(main_results, escape = FALSE))
 }
 ```
 
