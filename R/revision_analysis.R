@@ -122,10 +122,10 @@ revision_analysis <- function(vintages,
   transf.diff <- match.arg(transf.diff)
 
   if (is.null(vintages)) stop("No vintage found!")
-  if (view == "diagonal"){
+  if (view == "diagonal") {
       if (ncol(vintages$diagonal_view) < (gap+1)) stop("The number of releases must be >= (1+gap)")
       if (n.releases < (gap+1)) stop("'n.releases' must be >= (1+gap)")
-  }else{
+  } else {
       if (ncol(vintages$vertical_view) < (gap+1)) stop("The number of vintages must be >= (1+gap)")
   }
 
@@ -288,7 +288,7 @@ revision_analysis <- function(vintages,
 }
 
 # get_vintages_view function ---------------------------------------------------
-get_vintages_view <- function(vintages, transf.log, view, n.releases){
+get_vintages_view <- function(vintages, transf.log, view, n.releases) {
 
     if (view == "vertical") {
         vt<-vintages$vertical_view
@@ -314,7 +314,7 @@ get_vintages_view <- function(vintages, transf.log, view, n.releases){
 
 
 # test interpretors / evaluators -----------------------------------------------
-ur_test_intepretor <- function(ur){
+ur_test_intepretor <- function(ur) {
     if (!is.null(ur)) {
         ur_rslt<-t(round(ur, 3))
         ur_ADFpvals<-ur[, "ADF.pvalue"]
@@ -327,7 +327,7 @@ ur_test_intepretor <- function(ur){
     return(is_stationary)
 }
 
-coint_test_interpretor <- function(coint, is_stationary){
+coint_test_interpretor <- function(coint, is_stationary) {
     if (is_stationary) {
         is_cointegrated<-TRUE
     } else {
@@ -368,7 +368,7 @@ seasonality_test <- function(x) {
     return(seasonality)
 }
 
-theil_test_evaluator <- function(U1, U2, N, n_test){
+theil_test_evaluator <- function(U1, U2, N, n_test) {
     if (!is.null(U1)) {
         theil_rslt<-round(rbind(N, U1), 3)
         if (!is.null(U2) && !all(is.nan(U2))==TRUE) {
@@ -389,7 +389,7 @@ theil_test_evaluator <- function(U1, U2, N, n_test){
     return(list(theil_rslt=theil_rslt, theil_q=theil_q, U_det=U_det, theil_trf="None"))
 }
 
-tat_test_evaluator <- function(tat, is_log, n_test){
+tat_test_evaluator <- function(tat, is_log, n_test) {
     if (!is.null(tat)) {
         tat_rslt<-t(round(tat, 3))
         t_q<-eval_pvals(tat[, "pvalue"], h0_good=TRUE)
@@ -404,7 +404,7 @@ tat_test_evaluator <- function(tat, is_log, n_test){
     return(list(tat_rslt=tat_rslt, t_q=t_q, at_q=at_q, tat_trf=tat_trf))
 }
 
-sd_test_evaluator <- function(sd, is_log, is_cointegrated, delta_diff, n_test){
+sd_test_evaluator <- function(sd, is_log, is_cointegrated, delta_diff, n_test) {
     if (!is.null(sd)) {
         sd_rslt<-format_reg_output(sd, is_log, !is_cointegrated)
         sd_m_q<-eval_pvals(sd[, "intercept.pvalue"], h0_good=TRUE)
@@ -424,7 +424,7 @@ sd_test_evaluator <- function(sd, is_log, is_cointegrated, delta_diff, n_test){
                 sd_diagnostics=sd_diagnostics, sd_trf=sd_trf))
 }
 
-eff1_test_evaluator <- function(eff1, is_log, is_stationary, delta_diff, n_test){
+eff1_test_evaluator <- function(eff1, is_log, is_stationary, delta_diff, n_test) {
 
     if (!is.null(eff1)) {
         eff1_rslt<-format_reg_output(eff1, is_log, !is_stationary)
@@ -445,7 +445,7 @@ eff1_test_evaluator <- function(eff1, is_log, is_stationary, delta_diff, n_test)
                 eff1_diagnostics=eff1_diagnostics, eff1_trf=eff1_trf))
 }
 
-eff2_test_evaluator <- function(eff2, is_log, n_test){
+eff2_test_evaluator <- function(eff2, is_log, n_test) {
     if (!is.null(eff2)) {
         eff2_rslt<-format_reg_output(eff2, is_log, FALSE)
         eff2_m_q<-c("", eval_pvals(eff2[, "intercept.pvalue"], h0_good=TRUE))
@@ -462,7 +462,7 @@ eff2_test_evaluator <- function(eff2, is_log, n_test){
                 eff2_diagnostics=eff2_diagnostics, eff2_trf=eff2_trf))
 }
 
-orth1_test_evaluator <- function(orth1, is_log, nrevs, ncol_rv, n_test){
+orth1_test_evaluator <- function(orth1, is_log, nrevs, ncol_rv, n_test) {
     if (!is.null(orth1)) {
         orth1_rslt<-format_reg_output(orth1, is_log, FALSE)
         orth1_m_q<-c(rep("", nrevs), eval_pvals(orth1[, "intercept.pvalue"], h0_good=TRUE))
@@ -480,7 +480,7 @@ orth1_test_evaluator <- function(orth1, is_log, nrevs, ncol_rv, n_test){
                 orth1_diagnostics=orth1_diagnostics, orth1_trf=orth1_trf))
 }
 
-orth2_test_evaluator <- function(orth2, is_log, ref, ncol_rv, n_test){
+orth2_test_evaluator <- function(orth2, is_log, ref, ncol_rv, n_test) {
     if (!is.null(orth2)) {
         orth2_rslt<-format_reg_output(orth2, is_log, FALSE)
         orth2_m_q<-c(rep("", ref), eval_pvals(orth2[, "intercept.pvalue"], h0_good=TRUE))
@@ -498,7 +498,7 @@ orth2_test_evaluator <- function(orth2, is_log, ref, ncol_rv, n_test){
                 orth2_diagnostics=orth2_diagnostics, orth2_trf=orth2_trf))
 }
 
-ac_test_evaluator <- function(ac, is_log, cnames, n_test){
+ac_test_evaluator <- function(ac, is_log, cnames, n_test) {
     ac_trf<-ifelse(is_log, "Log", "None")
     ac_trf_str<-ifelse(ac_trf == "Log", get_info_transformation(TRUE, FALSE), get_info_transformation(FALSE, FALSE))
 
@@ -515,7 +515,7 @@ ac_test_evaluator <- function(ac, is_log, cnames, n_test){
     return(list(ac_rslt=ac_rslt, ac_q=ac_q, ac_trf=ac_trf))
 }
 
-seas_tests_evaluator <- function(lb_test, fd_test, is_log, cnames, freq, n_test){
+seas_tests_evaluator <- function(lb_test, fd_test, is_log, cnames, freq, n_test) {
     seas_trf<- ifelse(is_log, "Delta-Log 1", "Delta 1")
     seas_trf_str<-ifelse(seas_trf == "Delta-Log 1", get_info_transformation(TRUE, TRUE), get_info_transformation(FALSE, TRUE))
 
@@ -545,7 +545,7 @@ seas_tests_evaluator <- function(lb_test, fd_test, is_log, cnames, freq, n_test)
     return(list(seas_rslt=seas_rslt, seas_lb_q=seas_lb_q, seas_fd_q=seas_fd_q, seas_trf=seas_trf))
 }
 
-sn_test_evaluator <- function(sn, is_log, is_stationary, delta_diff, n_test){
+sn_test_evaluator <- function(sn, is_log, is_stationary, delta_diff, n_test) {
 
     if (!is.null(sn)) {
         sn_rslt<-list(info_transformation=get_info_transformation(is_log, !is_stationary),
@@ -697,4 +697,3 @@ summary.rjd3rev_rslts <- function(object, ...) {
         return(list(formattable::formattable(x$summary, apply(x$summary[, 2:nc, drop=FALSE], 2, format_font))))
     }
 }
-
