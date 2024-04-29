@@ -244,9 +244,9 @@ U1 is bounded between 0 and 1. The closer the value of U1 is to zero, the better
 
 The second statistic, U2, is given by
 $$
-U_2=\frac{\sqrt{\sum^n_{t=1}\left(\frac{P_{t+1}-L_{t+1}}{L_t}\right)^2}}{\sqrt{\sum^n_{t=1}\left(\frac{L_{t+1}-L_t}{L_t}\right)^2}}
+U_2=\frac{\sqrt{\sum^n_{t=1}\left(\frac{P_{t + 1}-L_{t + 1}}{L_t}\right)^2}}{\sqrt{\sum^n_{t=1}\left(\frac{L_{t + 1}-L_t}{L_t}\right)^2}}
 $$
-The interpretation of U2 differs from U1. The value of 1 is no longer the upper bound of the statistic but a threshold above (below) which the preliminary estimates is less (more) accurate than the naïve random walk forecast repeating the last observed value (considering $P_{t+1}=L_t$). Whenever it can be calculated ($L_t \neq 0 ~\forall t$), the U2 statistic is the preferred option to evaluate the relevancy of the preliminary estimates.
+The interpretation of U2 differs from U1. The value of 1 is no longer the upper bound of the statistic but a threshold above (below) which the preliminary estimates is less (more) accurate than the naïve random walk forecast repeating the last observed value (considering $P_{t + 1}=L_t$). Whenever it can be calculated ($L_t \neq 0 ~\forall t$), the U2 statistic is the preferred option to evaluate the relevancy of the preliminary estimates.
 
 
 ## Bias
@@ -277,7 +277,7 @@ t_{adj}=\frac{\overline{R}}{\sqrt{\frac{s^2(1+\hat{\gamma})}{n(1-\hat{\gamma})}}
 $$
 where
 $$
-\hat{\gamma}=\frac{\sum^{n-1}_{t=1}(R_t-\overline{R})(R_{t+1}-\overline{R})}{\sum^n_{t=1}(R_t-\overline{R})^2}
+\hat{\gamma}=\frac{\sum^{n-1}_{t=1}(R_t-\overline{R})(R_{t + 1}-\overline{R})}{\sum^n_{t=1}(R_t-\overline{R})^2}
 $$
 
 ### Slope and drift

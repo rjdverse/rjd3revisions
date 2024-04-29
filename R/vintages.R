@@ -909,10 +909,10 @@ create_vintages_from_csv <- function(file,
 #' )
 #' }
 #'
-create_vintages_from_xlsx<-function(file,
-                                    type = c("long", "horizontal", "vertical"),
-                                    periodicity,
-                                    ...) {
+create_vintages_from_xlsx <- function(file,
+                                      type = c("long", "horizontal", "vertical"),
+                                      periodicity,
+                                      ...) {
     if (!requireNamespace("readxl", quietly = TRUE)) {
         stop("package 'readxl' must be installed to run the function 'create_vintages_from_xlsx'")
     }
@@ -971,12 +971,12 @@ print.rjd3rev_vintages <- function(x,
     end_period <- stats::end(vv)
     is_extract <- ifelse(n_col < n_col_tot || n_row < n_row_tot || n_row_long < n_row_long_tot, TRUE, FALSE)
 
-    extract_lv <- x$long_view[(n_row_long_tot-n_row_long+1):n_row_long_tot,]
+    extract_lv <- x$long_view[(n_row_long_tot - n_row_long + 1):n_row_long_tot,]
     rownames(extract_lv) <- NULL
-    extract_vv <- stats::ts(x$vertical_view[(n_row_tot-n_row+1):n_row_tot, (n_col_tot-n_col+1):n_col_tot],
+    extract_vv <- stats::ts(x$vertical_view[(n_row_tot - n_row + 1):n_row_tot, (n_col_tot - n_col + 1):n_col_tot],
                             frequency = freq,
                             end = end_period)
-    extract_hv <- x$horizontal_view[(n_col_tot-n_col+1):n_col_tot, (n_row_tot-n_row+1):n_row_tot]
+    extract_hv <- x$horizontal_view[(n_col_tot - n_col + 1):n_col_tot, (n_row_tot - n_row + 1):n_row_tot]
     extract_dv <- stats::ts(x$diagonal_view[1:n_row, 1:n_col],
                             frequency = freq,
                             end = end_period)
@@ -1060,7 +1060,7 @@ plot.rjd3rev_vintages <- function(x, col, ...) {
     if (missing(col)) {
         col <- grDevices::palette.colors(n = ncol(x$vertical_view))
     }
-    graphics::par(mar=c(5.1, 4.1, 4.1, 8.1), xpd = TRUE)
+    graphics::par(mar = c(5.1, 4.1, 4.1, 8.1), xpd = TRUE)
     stats::ts.plot(x$vertical_view, gpars = list(col = col, ...))
     graphics::legend(
         x = "topright",
@@ -1068,7 +1068,7 @@ plot.rjd3rev_vintages <- function(x, col, ...) {
         pch = 16,
         col = col,
         xpd = TRUE,
-        inset=c(-0.2,0),
+        inset = c(-0.2,0),
         bty = "n",
         title = "Release dates:"
     )

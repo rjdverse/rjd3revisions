@@ -111,7 +111,7 @@ the analysis
 library("rjd3revisions")
 
 vintages <- create_vintages(df, periodicity = 4)
-# revisions<-get_revisions(vintages, gap = 2)
+# revisions <- get_revisions(vintages, gap = 2)
 # plot(revisions)
 rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 ```
