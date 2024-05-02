@@ -20,6 +20,8 @@
 #' )
 #' check_long(long_format)
 #'
+#' @rdname check_long
+#'
 check_long <- function(x, date_format = "%Y-%m-%d") {
 
     # Check input
@@ -48,6 +50,7 @@ check_long <- function(x, date_format = "%Y-%m-%d") {
 #' monthly, quarterly or annual data)
 #' @param date_format \code{character} string corresponding to the format used in
 #' the input data.frame for the revision dates.
+#' @param ... Arguments to be passed to `check_vertical` according to the class of the object `x`
 #'
 #' @return the same input but in a ts object and with revision date formatted
 #' @export
@@ -63,11 +66,17 @@ check_long <- function(x, date_format = "%Y-%m-%d") {
 #' vertical_format <- rjd3revisions:::from_long_to_vertical(long_format, periodicity = 12L)
 #' check_vertical(vertical_format)
 #'
+#' @rdname check_vertical
+#'
 check_vertical <- function(x, ...) {
     return(UseMethod("check_vertical", x))
 }
 
 #' @exportS3Method check_vertical mts
+#' @method check_vertical mts
+#'
+#' @rdname check_vertical
+#'
 check_vertical.mts <- function(x,
                                periodicity,
                                date_format = "%Y-%m-%d",
@@ -92,11 +101,19 @@ check_vertical.mts <- function(x,
 }
 
 #' @exportS3Method check_vertical data.frame
+#' @method check_vertical data.frame
+#'
+#' @rdname check_vertical
+#'
 check_vertical.data.frame <- function(x, ...) {
     return(UseMethod("check_vertical", as.matrix(x)))
 }
 
 #' @exportS3Method check_vertical matrix
+#' @method check_vertical matrix
+#'
+#' @rdname check_vertical
+#'
 check_vertical.matrix <- function(
         x,
         periodicity,
@@ -159,6 +176,10 @@ check_vertical.matrix <- function(
 }
 
 #' @exportS3Method check_vertical default
+#' @method check_vertical default
+#'
+#' @rdname check_vertical
+#'
 check_vertical.default <- function(x, ...) {
     stop("The function requires a matrix or a mts object!")
 }
@@ -168,7 +189,7 @@ check_vertical.default <- function(x, ...) {
 #' @param x a formatted \code{data.frame} containing the input in the horizontal format
 #' @param date_format \code{character} string corresponding to the format used in
 #' the input data.frame for the revision dates.
-#'
+#' @param ... Arguments to be passed to `check_horizontal` according to the class of the object `x`
 #' @return the same input but with date formatted
 #' @export
 #'
@@ -183,16 +204,26 @@ check_vertical.default <- function(x, ...) {
 #' horizontal_format <- rjd3revisions:::from_long_to_horizontal(long_format)
 #' check_horizontal(horizontal_format)
 #'
+#' @rdname check_horizontal
+#'
 check_horizontal <- function(x, ...) {
     return(UseMethod("check_horizontal", x))
 }
 
 #' @exportS3Method check_horizontal data.frame
+#' @method check_horizontal data.frame
+#'
+#' @rdname check_horizontal
+#'
 check_horizontal.data.frame <- function(x, ...) {
     return(UseMethod("check_horizontal", as.matrix(x)))
 }
 
 #' @exportS3Method check_horizontal matrix
+#' @method check_horizontal matrix
+#'
+#' @rdname check_horizontal
+#'
 check_horizontal.matrix <- function(x, date_format = "%Y-%m-%d") {
     horizontal <- x
     colnames(horizontal) <- as.character(convert_time_period(x = colnames(horizontal), date_format = date_format))
@@ -202,6 +233,10 @@ check_horizontal.matrix <- function(x, date_format = "%Y-%m-%d") {
 }
 
 #' @exportS3Method check_horizontal default
+#' @method check_horizontal default
+#'
+#' @rdname check_horizontal
+#'
 check_horizontal.default <- function(x, ...) {
     stop("The function requires a matrix or a mts object!")
 }
@@ -506,6 +541,20 @@ from_horizontal_to_diagonal <- function(x, periodicity, date_format = "%Y-%m-%d"
 #' @param x a formatted object containing the input. It can be of type
 #' `data.frame`, `matrix` or `mts` and must represent one of the multiple
 #' vintage views (selected by the argument `type`.
+#' @param type character specifying the type of representation of the input
+#' between `"long"`, `"horizontal"` and `"vertical"` approach.
+#' @param periodicity periodicity of the time period (12, 4 or 1 for resp.
+#' monthly, quarterly or annual data)
+#' @param date_format \code{character} string corresponding to the format used in
+#' the input data.frame for the revision dates.
+#' @param vintage_selection \code{Date} vector (or a character vector with the
+#' same format as date_format) of length <= 2, specifying the range of revision
+#' dates to retain. As an example:
+#' c(start = "2022-02-02", end = "2022-08-05") or
+#' c(start = as.Date("2022-02-02"), end = as.Date("2022-08-05")) would keep all
+#' the vintages whose revision date is between 02 Feb. 2022 and 05 Aug. 2022.
+#' If missing (by default), the whole range is selected.
+#' @param ... Arguments to be passed to `create_vintages` according to the class of the object `x`
 #'
 #' @return an object of class `rjd3rev_vintages` which contains the four
 #' different view of a revision
@@ -573,23 +622,10 @@ create_vintages <- function(x, ...) {
 }
 
 #' @rdname create_vintages
-#' @inheritParams create_vintages
-#'
-#' @param type character specifying the type of representation of the input
-#' between `"long"`, `"horizontal"` and `"vertical"` approach.
-#' @param periodicity periodicity of the time period (12, 4 or 1 for resp.
-#' monthly, quarterly or annual data)
-#' @param date_format \code{character} string corresponding to the format used in
-#' the input data.frame for the revision dates.
-#' @param vintage_selection \code{Date} vector (or a character vector with the
-#' same format as date_format) of length <= 2, specifying the range of revision
-#' dates to retain. As an example:
-#' c(start = "2022-02-02", end = "2022-08-05") or
-#' c(start = as.Date("2022-02-02"), end = as.Date("2022-08-05")) would keep all
-#' the vintages whose revision date is between 02 Feb. 2022 and 05 Aug. 2022.
-#' If missing (by default), the whole range is selected.
 #'
 #' @exportS3Method create_vintages data.frame
+#' @method create_vintages data.frame
+#'
 create_vintages.data.frame <- function(
         x,
         type = c("long", "horizontal", "vertical"),
@@ -651,9 +687,10 @@ create_vintages.data.frame <- function(
 }
 
 #' @rdname create_vintages
-#' @inheritParams create_vintages
-#' @inheritParams create_vintages.data.frame
+#'
 #' @exportS3Method create_vintages mts
+#' @method create_vintages mts
+#'
 create_vintages.mts <- function(
         x,
         type = c("long", "horizontal", "vertical"),
@@ -712,9 +749,10 @@ create_vintages.mts <- function(
 }
 
 #' @rdname create_vintages
-#' @inheritParams create_vintages
-#' @inheritParams create_vintages.data.frame
+#'
 #' @exportS3Method create_vintages matrix
+#' @method create_vintages matrix
+#'
 create_vintages.matrix <- function(
         x,
         type = c("long", "horizontal", "vertical"),
@@ -821,8 +859,10 @@ create_vintages.matrix <- function(
 }
 
 #' @rdname create_vintages
-#' @inheritParams create_vintages
+#'
 #' @exportS3Method create_vintages default
+#' @method create_vintages default
+#'
 create_vintages.default <- function(x, ...) {
     stop("The function requires a data.frame, a matrix or a mts object!")
 }
@@ -833,7 +873,7 @@ create_vintages.default <- function(x, ...) {
 #' @param file character containing the name of the file which the data are
 #'             to be read from.
 #' @inheritParams create_vintages.data.frame
-#' @param \dots Arguments to be passed to `read.csv()`, for example:
+#' @param ... Arguments to be passed to `read.csv()`, for example:
 #' * `sep` the field separator character
 #' * `dec` the character used in the file for decimal points.
 #' * `row.names` a vector of row names
@@ -886,7 +926,7 @@ create_vintages_from_csv <- function(file,
 #' Create vintages table from XLSX files
 #'
 #' @inheritParams create_vintages_from_csv
-#' @param \dots Arguments to be passed to `readxl::read_excel()`, for example:
+#' @param ... Arguments to be passed to `readxl::read_excel()`, for example:
 #' * `sheet` character containing the sheet to read
 #' * `range` A cell range to read from
 #' * `col_names` a boolean to use the first row as column names
@@ -946,9 +986,11 @@ create_vintages_from_xlsx <- function(file,
 #' @param n_col number of columns to display. Can be either the last n columns
 #'   (verical view), the last n rows (horizontal view) or the first n columns
 #'   (diagonal view). This argument is not used for the long view.
-#' @param \dots further arguments passed to the print() function.
+#' @param ... further arguments passed to the print() function.
 #'
 #' @exportS3Method print rjd3rev_vintages
+#' @method print rjd3rev_vintages
+#'
 #' @export
 #'
 print.rjd3rev_vintages <- function(x,
@@ -996,9 +1038,10 @@ print.rjd3rev_vintages <- function(x,
 #' Summary function for objects of class "rjd3rev_vintages"
 #'
 #' @param object an object of class "rjd3rev_vintages".
-#' @param \dots further arguments passed to or from other methods.
+#' @param ... further arguments passed to or from other methods.
 #'
 #' @exportS3Method summary rjd3rev_vintages
+#' @method summary rjd3rev_vintages
 #' @export
 #'
 summary.rjd3rev_vintages <- function(object, ...) {
@@ -1017,27 +1060,31 @@ summary.rjd3rev_vintages <- function(object, ...) {
 #' @title View function for objects of class "rjd3rev_vintages"
 #'
 #' @description
-#' Display the different view in a different panel to visualise the data in a table / matrix format
+#' Display the different view in a different panel to visualize the data in a table / matrix format
 #'
 #'
 #' @param x an object of class "rjd3rev_vintages".
 #' @param type type of view to display
-#' @param \dots further arguments passed to or from other methods.
+#' @param ... further arguments passed to the `View` method.
 #'
 #' @details
 #' Generate the view of the vintages in different format. With the type argument, you can choose the view to display. You can choose between the long, horizontal, vertical and diagonal view.
 #'
 #' @exportS3Method View rjd3rev_vintages
+#' @method View rjd3rev_vintages
 #' @export
 #'
 View.rjd3rev_vintages <- function(
         x,
         type = c("all", "long", "horizontal", "vertical", "diagonal"),
-        title = "",
         ...) {
 
     # Check type
     type <- match.arg(type)
+
+    if (missing(title)) {
+        title <- ""
+    }
 
     if (type %in% c("all", "long")) utils::View(x$long_view, title = paste(title, "Long view"))
     if (type %in% c("all", "horizontal")) utils::View(x$horizontal_view, title = paste(title, "Horizontal view"))
@@ -1051,9 +1098,10 @@ View.rjd3rev_vintages <- function(
 #'
 #' @param x an object of class "rjd3rev_vintages".
 #' @param col a color vector of the same length as the number of releases
-#' @param \dots further arguments passed to or from other methods.
+#' @param ... further arguments passed to or from other methods.
 #'
 #' @exportS3Method plot rjd3rev_vintages
+#' @method plot rjd3rev_vintages
 #' @export
 #'
 plot.rjd3rev_vintages <- function(x, col, ...) {
