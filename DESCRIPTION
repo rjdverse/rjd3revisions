@@ -46,6 +46,7 @@ Collate:
     'vintages.R'
     'zzz.R'
 RoxygenNote: 7.3.1
-URL: https://rjdemetra.github.io/rjd3revisions/
+URL: https://github.com/rjdemetra/rjd3revisions, https://rjdemetra.github.io/rjd3revisions/
+BugReports: https://github.com/rjdemetra/rjd3revisions/issues
 Config/testthat/edition: 3
 VignetteBuilder: knitr
