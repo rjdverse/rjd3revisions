@@ -403,7 +403,7 @@ efficiencyModel1 <- function(vintages.view, gap = 1, na.zero = FALSE) {
 
 #' Efficiency Model 2
 #'
-#' Linear regression model of Rv on R{v-1}
+#' Linear regression model of R_v on R_\{v-1\}
 #'
 #' @param vintages.view mts object. Vertical or diagonal view of the
 #'                      `create_vintages()` output
@@ -467,7 +467,7 @@ efficiencyModel2 <- function(vintages.view, gap = 1, na.zero = FALSE) {
 
 #' Orthogonally Model 1
 #'
-#' Linear regression model of Rv on R_{v-1},...,R_{v-p}. (p=nrevs)
+#' Linear regression model of R_v on R_\{v-1\},...,R_\{v-p\}. (p=nrevs)
 #'
 #' @param revisions.view mts object. Vertical or diagonal view of the
 #'                       `get_revisions()` output
@@ -527,7 +527,7 @@ orthogonallyModel1 <- function(revisions.view, nrevs = 1, na.zero = FALSE) {
 
 #' Orthogonally Model 2
 #'
-#' Linear regression model of R_v on R_{v-k} (k = reference)
+#' Linear regression model of R_v on R_\{v-k\} (k = reference)
 #'
 #' @param revisions.view mts object. Vertical or diagonal view of the
 #'                       `get_revisions()` output
