@@ -9,7 +9,7 @@
 \arguments{
 \item{object}{an object of class "rjd3rev_vintages".}
 
-\item{\dots}{further arguments passed to or from other methods.}
+\item{...}{further arguments passed to or from other methods.}
 }
 \description{
 Summary function for objects of class "rjd3rev_vintages"

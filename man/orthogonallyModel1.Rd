@@ -16,7 +16,7 @@ orthogonallyModel1(revisions.view, nrevs = 1, na.zero = FALSE)
 rather as data not (yet) available (the default).}
 }
 \description{
-Linear regression model of Rv on R_{v-1},...,R_{v-p}. (p=nrevs)
+Linear regression model of R_v on R_\{v-1\},...,R_\{v-p\}. (p=nrevs)
 }
 \examples{
 ## Simulated data

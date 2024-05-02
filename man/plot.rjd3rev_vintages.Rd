@@ -11,7 +11,7 @@
 
 \item{col}{a color vector of the same length as the number of releases}
 
-\item{\dots}{further arguments passed to or from other methods.}
+\item{...}{further arguments passed to or from other methods.}
 }
 \description{
 Plot function for objects of class "rjd3rev_vintages"

@@ -4,22 +4,17 @@
 \alias{View.rjd3rev_vintages}
 \title{View function for objects of class "rjd3rev_vintages"}
 \usage{
-View.rjd3rev_vintages(
-  x,
-  type = c("all", "long", "horizontal", "vertical", "diagonal"),
-  title = "",
-  ...
-)
+\method{View}{rjd3rev_vintages}(x, type = c("all", "long", "horizontal", "vertical", "diagonal"), ...)
 }
 \arguments{
 \item{x}{an object of class "rjd3rev_vintages".}
 
 \item{type}{type of view to display}
 
-\item{\dots}{further arguments passed to or from other methods.}
+\item{...}{further arguments passed to the `View` method.}
 }
 \description{
-Display the different view in a different panel to visualise the data in a table / matrix format
+Display the different view in a different panel to visualize the data in a table / matrix format
 }
 \details{
 Generate the view of the vintages in different format. With the type argument, you can choose the view to display. You can choose between the long, horizontal, vertical and diagonal view.

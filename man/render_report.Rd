@@ -17,6 +17,8 @@ render_report(
 \item{rslt}{an object of class `"rjd3rev_vintages"` which is the output
 of the function `revision_analysis()`}
 
+\item{output_file}{path or name of the output file containing the report}
+
 \item{output_dir}{path of the dir containing the output file (Optional)}
 
 \item{output_format}{either an HTML document (default) or a PDF document}
@@ -27,8 +29,6 @@ open automatically after being generated.}
 \item{...}{Arguments to be passed to `rmarkdown::render()`, for example:
 * `output_options` List of output options that can override the options specified in metadata
 * `...`}
-
-\item{output_path}{path or name of the output file containing the report}
 }
 \description{
 Generate report on Revision Analysis

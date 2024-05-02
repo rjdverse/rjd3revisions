@@ -25,7 +25,7 @@ monthly, quarterly or annual data)}
 \item{date_format}{\code{character} string corresponding to the format used in
 the input data.frame for the revision dates.}
 
-\item{\dots}{Arguments to be passed to `read.csv()`, for example:
+\item{...}{Arguments to be passed to `read.csv()`, for example:
 * `sep` the field separator character
 * `dec` the character used in the file for decimal points.
 * `row.names` a vector of row names

@@ -18,7 +18,7 @@ vintages consecutively.}
 rather as data not (yet) available (the default).}
 }
 \description{
-Linear regression model of Rv on R{v-1}
+Linear regression model of R_v on R_\{v-1\}
 }
 \examples{
 ## Simulated data

@@ -16,7 +16,7 @@ orthogonallyModel2(revisions.view, reference = 1, na.zero = FALSE)
 rather as data not (yet) available (the default).}
 }
 \description{
-Linear regression model of R_v on R_{v-k} (k = reference)
+Linear regression model of R_v on R_\{v-k\} (k = reference)
 }
 \examples{
 ## Simulated data
