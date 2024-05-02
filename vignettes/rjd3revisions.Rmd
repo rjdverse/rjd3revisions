@@ -98,6 +98,7 @@ long_view <- data.frame(
         .7, .2, .7, .4, .7, .3, .7, .3
     )
 )
+print(long_view)
 
 # Horizontal format
 horizontal_view <- matrix(data = c(.8, .8, .7, .7, .7, .7, .7, .7, .2, .1,
@@ -107,6 +108,7 @@ horizontal_view <- matrix(data = c(.8, .8, .7, .7, .7, .7, .7, .7, .2, .1,
 colnames(horizontal_view) <- c("2022Q1", "2022Q2", "2022Q3", "2022Q4")
 rownames(horizontal_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
                                "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28")
+print(horizontal_view)
 
 # Vertical format
 vertical_view <- matrix(data = c(.8, .2, NA, NA, .8, .1, NA, NA, .7, .1, NA,
@@ -116,6 +118,7 @@ vertical_view <- matrix(data = c(.8, .2, NA, NA, .8, .1, NA, NA, .7, .1, NA,
 rownames(vertical_view) <- c("2022Q1", "2022Q2", "2022Q3", "2022Q4")
 colnames(vertical_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
                              "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28")
+print(vertical_view)
 ```
 
 ## Processing
@@ -127,12 +130,14 @@ library("rjd3revisions")
 Once your input data are in the right format, you create the vintages:
 
 ```{r create vintage, echo = TRUE, eval = TRUE}
-vintages <- create_vintages(long_view, type = "long", periodicity = 4)
+long_view <- rjd3revisions:::simulate_long(periodicity = 4L)
+
+vintages <- create_vintages(long_view, type = "long", periodicity = 4L)
 # vintages <- create_vintages_from_xlsx(file = "myinput.xlsx", type = "long", "Sheet1", periodicity = 4, format_date = "%d/%m/%Y")
 # vintages <- create_vintages_from_csv(file = "myinput.csv", periodicity = 4, sep = "\t", format_date = "%Y-%m-%d")
 
-# print(vintages) # extract of the vintages according to the different views
-# summary(vintages) # metadata about vintages
+print(vintages) # extract of the vintages according to the different views
+summary(vintages) # metadata about vintages
 ```
 
 possibly inspect the revisions and perform the revision analysis:
@@ -146,19 +151,24 @@ revisions <- get_revisions(vintages, gap = 1)
 # summary(revisions) # metadata about revisions
 ```
 
-Finally to create the report and get a summary of the results, you can use
+Finally to create the report and get a summary of the results, you can use the function `revision_analysis`{.r}
 
 ```{r create report, echo = TRUE, eval = TRUE}
 rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
-# render_report(
-#     rslt,
-#     output_file = "my_report",
-#     output_dir = "C:/Users/xxx",
-#     output_format = "pdf_document"
-# )
 
-# summary(rslt)
-# print(rslt)
+summary(rslt)
+print(rslt)
+```
+
+To export the report in pdf or html format, you can use the function `render_report`{.r}
+
+```{r export report, echo = TRUE, eval = FALSE}
+render_report(
+    rslt,
+    output_file = "my_report",
+    output_dir = "C:/Users/xxx",
+    output_format = "pdf_document"
+)
 ```
 
 ## Details on the main functions
