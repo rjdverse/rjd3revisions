@@ -22,24 +22,24 @@ Linear regression model of a latter vintage (L) on a preliminary vintage (P)
 }
 \examples{
 ## Simulated data
-period_range<-seq(as.Date('2011-01-01'),as.Date('2020-10-01'),by='quarter')
-qtr<-(as.numeric(substr(period_range,6,7))+2)/3
-time_period<-rep(paste0(format(period_range, "\%Y"), "Q", qtr),5)
-np<-length(period_range)
-rev_date<-c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np),
+period_range <- seq(as.Date('2011-01-01'),as.Date('2020-10-01'),by='quarter')
+qtr <- (as.numeric(substr(period_range,6,7))+2)/3
+time_period <- rep(paste0(format(period_range, "\%Y"), "Q", qtr),5)
+np <- length(period_range)
+rev_date <- c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np),
             rep("2022-12-31",np), rep("2023-06-30",np))
 set.seed(1)
-xt<-cumsum(sample(rnorm(1000,0,1), np, TRUE))
-rev<-rnorm(np*4,0,.1)
-obs_values<-xt
+xt <- cumsum(sample(rnorm(1000,0,1), np, TRUE))
+rev <- rnorm(np*4,0,.1)
+obs_values <- xt
 for(i in 1:4) {
-  xt<-xt+rev[(1+(i-1)*np):(i*np)]
-  obs_values<-c(obs_values,xt)
+  xt <- xt+rev[(1+(i-1)*np):(i*np)]
+  obs_values <- c(obs_values,xt)
 }
-df<-data.frame(rev_date, time_period, obs_values)
+df <- data.frame(rev_date, time_period, obs_values)
 
 ## Create vintage and test
-vintages<-create_vintages(df, periodicity = 4)
+vintages <- create_vintages(df, periodicity = 4)
 slope_and_drift(vintages$diagonal_view)
 
 }
