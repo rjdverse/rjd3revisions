@@ -2,7 +2,7 @@
 #'
 #' @param rslt an object of class `"rjd3rev_vintages"` which is the output
 #'             of the function `revision_analysis()`
-#' @param output_path path or name of the output file containing the report
+#' @param output_file path or name of the output file containing the report
 #' @param output_dir path of the dir containing the output file (Optional)
 #' @param output_format either an HTML document (default) or a PDF document
 #' @param open_report Boolean. Default is TRUE meaning that the report will
