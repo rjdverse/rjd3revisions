@@ -676,7 +676,8 @@ print.rjd3rev_rslts <- function(x, ...) {
 
 #' Summary function for objects of class "rjd3rev_rslts"
 #'
-#' @param x an object of class "rjd3rev_rslts"
+#' @param object an object of class "rjd3rev_rslts"
+#' @param ... further arguments passed to or from other methods.
 #' @exportS3Method summary rjd3rev_rslts
 #' @export
 #'

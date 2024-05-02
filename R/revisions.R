@@ -145,7 +145,8 @@ print.rjd3rev_revisions <- function(x, n_row = 12, n_col = 3, ...) {
 
 #' Summary function for objects of class "rjd3rev_revisions"
 #'
-#' @param x an object of class "rjd3rev_revisions".
+#' @param object an object of class "rjd3rev_revisions".
+#' @param ... further arguments passed to or from other methods.
 #' @exportS3Method summary rjd3rev_revisions
 #' @export
 #'
