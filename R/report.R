@@ -55,7 +55,6 @@ render_report <- function(rslt,
     template_file <- system.file("templates/report.Rmd", package = "rjd3revisions")
 
     # Check dir
-    print("gi")
     if (missing(output_dir)) {
         output_dir <- dirname(output_file)
     }
