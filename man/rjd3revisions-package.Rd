@@ -11,7 +11,7 @@ Interface around 'JDemetra+ 3.x' sa-toolkit (\url{https://github.com/jdemetra/jd
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://rjdemetra.github.io/rjd3revisions/}
+  \item \url{https://rjdverse.github.io/rjd3revisions/}
 }
 
 }

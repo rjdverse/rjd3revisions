@@ -16,15 +16,15 @@ To get the current stable version (from the latest release):
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("rjdemetra/rjd3toolkit@*release")
-remotes::install_github("rjdemetra/rjd3revisions@*release", build_vignettes = TRUE)
+remotes::install_github("rjdverse/rjd3toolkit@*release")
+remotes::install_github("rjdverse/rjd3revisions@*release", build_vignettes = TRUE)
 ```
 
 To get the current development version from GitHub:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("rjdemetra/rjd3revisions", build_vignettes = TRUE)
+remotes::install_github("rjdverse/rjd3revisions", build_vignettes = TRUE)
 ```
 
 ## Usage

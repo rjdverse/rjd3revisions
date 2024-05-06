@@ -30,15 +30,15 @@ The next section helps with the installation of the package. The third section d
 
 # Installation settings
 
-This package relies on the Java libraries of [JDemetra+ v3](https://github.com/jdemetra/jdplus-main) and on the package [rjd3toolkit](https://github.com/rjdemetra/rjd3toolkit) of [RJDemetra](https://github.com/rjdemetra). Prior the installation, you must ensure to have a Java version >= 17.0 on your computer. If you need to use a portable version of Java to fill this request, you can follow the instructions in the [installation manual](https://github.com/jdemetra/rjdemetra/wiki/Installation-manual) of RJDemetra.
+This package relies on the Java libraries of [JDemetra+ v3](https://github.com/jdemetra/jdplus-main) and on the package [rjd3toolkit](https://github.com/rjdverse/rjd3toolkit) of [rjdverse](https://github.com/rjdverse). Prior the installation, you must ensure to have a Java version >= 17.0 on your computer. If you need to use a portable version of Java to fill this request, you can follow the instructions in the [installation manual](https://github.com/jdemetra/rjdemetra/wiki/Installation-manual) of RJDemetra.
 
 In addition to a Java version >= 17.0, you must have a recent version of the R packages rJava (>= 1.0.6) and RProtobuf (>=0.4.17) that you can download from CRAN. Depending on your current version of R, you might also need to install another version of Rtools. (>= 3.6). 
 
-This package also depends on the package [rjd3toolkit](https://github.com/rjdemetra/rjd3toolkit) that you must install from GitHub prior to [rjd3revsions](https://github.com/rjdemetra/rjd3revisions).
+This package also depends on the package [rjd3toolkit](https://github.com/rjdverse/rjd3toolkit) that you must install from GitHub prior to [rjd3revsions](https://github.com/rjdverse/rjd3revisions).
 
 ```{r package installation, echo = TRUE, eval = FALSE}
-remotes::install_github("rjdemetra/rjd3toolkit@*release")
-remotes::install_github("rjdemetra/rjd3revisions@*release", build_vignettes = TRUE)
+remotes::install_github("rjdverse/rjd3toolkit@*release")
+remotes::install_github("rjdverse/rjd3revisions@*release", build_vignettes = TRUE)
 ```
 
 Note that depending on the R packages that are already installed on your computer, you might also be asked to install or re-install a few other packages from CRAN. 
