@@ -34,11 +34,11 @@ For some parametric tests, transformation may be important to avoid misleading r
 ```{r descriptivetable, echo = FALSE}
 selection <- c("N", "mean revision", "st.dev.", "% positive", "% zero", "% negative")
 
-if (!requireNamespace("kableExtra", quietly=TRUE)) {
-  knitr::kable(descriptive_statistics[selection, , drop = FALSE])
-  warning("Please install kableExtra: install.packages('kableExtra') to get more visual table output")
+if (!requireNamespace("kableExtra", quietly = TRUE)) {
+    knitr::kable(descriptive_statistics[selection, , drop = FALSE])
+    warning("Please install kableExtra: install.packages('kableExtra') to get more visual table output")
 } else {
-  kableExtra::kable_minimal(knitr::kable(descriptive_statistics[selection, , drop=FALSE]))
+    kableExtra::kable_minimal(knitr::kable(descriptive_statistics[selection, , drop = FALSE]))
 }
 ```
 
@@ -46,28 +46,28 @@ if (!requireNamespace("kableExtra", quietly=TRUE)) {
 # Main Results
 
 ```{r summarytable, echo = FALSE}
-if (!requireNamespace("kableExtra", quietly=TRUE)) {
-  knitr::kable(main_results)
+if (!requireNamespace("kableExtra", quietly = TRUE)) {
+    knitr::kable(main_results)
 } else {
-  format_font <- function(x) {
-    kableExtra::cell_spec(x,
-                          color = ifelse(is.na(x), "black",
-                                  ifelse(substr(x, 1, 1) == "G", "green",
-                                  ifelse(substr(x, 1, 1) == "U", "orange", "red"))),
-                          bold = ifelse(is.na(x), FALSE,
-                                 ifelse(substr(x, 1, 1) == "S", TRUE, FALSE)))
-  }
-  nc <- ncol(main_results)
-  main_results[, -1L]<-apply(X = main_results[, -1L, drop = FALSE], 
-                            MARGIN = 2L, 
-                            FUN = format_font)
-  if (getOption("knitr.table.format") == "latex") {
-      rownames(main_results) <- gsub(x = rownames(main_results), 
-                                     pattern = "_", 
-                                     replacement = "\\_", 
-                                     fixed = TRUE)
-  }
-  kableExtra::kable_minimal(knitr::kable(main_results, escape = FALSE))
+    format_font <- function(x) {
+        kableExtra::cell_spec(x,
+                              color = ifelse(is.na(x), "black",
+                                             ifelse(substr(x, 1, 1) == "G", "green",
+                                                    ifelse(substr(x, 1, 1) == "U", "orange", "red"))),
+                              bold = ifelse(is.na(x), FALSE,
+                                            ifelse(substr(x, 1, 1) == "S", TRUE, FALSE)))
+    }
+    nc <- ncol(main_results)
+    main_results[, -1L] <- apply(X = main_results[, -1L, drop = FALSE],
+                                 MARGIN = 2L,
+                                 FUN = format_font)
+    if (getOption("knitr.table.format") == "latex") {
+        rownames(main_results) <- gsub(x = rownames(main_results),
+                                       pattern = "_",
+                                       replacement = "\\_",
+                                       fixed = TRUE)
+    }
+    kableExtra::kable_minimal(knitr::kable(main_results, escape = FALSE))
 }
 ```
 
@@ -89,10 +89,10 @@ U1 is bounded between 0 and 1. The closer the value of U1 is to zero, the better
 The second statistic, U2, is given by
 
 $$
-U_2=\frac{\sqrt{\sum^n_{t=1}\left(\frac{P_{t+1}-L_{t+1}}{L_t}\right)^2}}{\sqrt{\sum^n_{t=1}\left(\frac{L_{t+1}-L_t}{L_t}\right)^2}}
+U_2=\frac{\sqrt{\sum^n_{t=1}\left(\frac{P_{t + 1}-L_{t + 1}}{L_t}\right)^2}}{\sqrt{\sum^n_{t=1}\left(\frac{L_{t + 1}-L_t}{L_t}\right)^2}}
 $$
 
-The interpretation of U2 differs from U1. The value of 1 is no longer the upper bound of the statistic but a threshold above (below) which the preliminary estimates is less (more) accurate than the naïve random walk forecast repeating the last observed value (considering $P_{t+1}=L_t$). Whenever it can be calculated ($L_t \neq 0 ~\forall t$), the U2 statistic is the preferred option to evaluate the relevancy of the preliminary estimates.
+The interpretation of U2 differs from U1. The value of 1 is no longer the upper bound of the statistic but a threshold above (below) which the preliminary estimates is less (more) accurate than the naïve random walk forecast repeating the last observed value (considering $P_{t + 1}=L_t$). Whenever it can be calculated ($L_t \neq 0 ~\forall t$), the U2 statistic is the preferred option to evaluate the relevancy of the preliminary estimates.
 
 
 ## II. Bias
@@ -132,7 +132,7 @@ $$
 where
 
 $$
-\hat{\gamma}=\frac{\sum^{n-1}_{t=1}(R_t-\overline{R})(R_{t+1}-\overline{R})}{\sum^n_{t=1}(R_t-\overline{R})^2}
+\hat{\gamma}=\frac{\sum^{n-1}_{t=1}(R_t-\overline{R})(R_{t + 1}-\overline{R})}{\sum^n_{t=1}(R_t-\overline{R})^2}
 $$
 
 ### II.3. Slope and drift

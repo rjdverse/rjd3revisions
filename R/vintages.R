@@ -1,464 +1,4 @@
 
-# Check functions --------------------------------------------------------------
-
-#' Check long format
-#'
-#' @param x a formatted \code{data.frame} containing the input in the long format
-#' @param date_format \code{character} string corresponding to the format used in
-#' the input data.frame for the revision dates.
-#'
-#' @return the same input but with column and date formatted
-#' @export
-#'
-#' @examples
-#'
-#' long_format <- rjd3revisions:::simulate_long(
-#'     start_period = as.Date("2020-01-01"),
-#'     n_period = 24,
-#'     n_revision = 6,
-#'     periodicity = 12L
-#' )
-#' check_long(long_format)
-#'
-check_long <- function(x, date_format = "%Y-%m-%d") {
-
-    # Check input
-    checkmate::assert_data_frame(x, ncols = 3L)
-    checkmate::assert_numeric(x[, 3, drop = TRUE], .var.name = "The third column")
-
-    rev_date <- convert_rev_date(x = x[, 1, drop = TRUE], date_format = date_format)
-    time_period <- convert_time_period(x = x[, 2, drop = TRUE], date_format = date_format)
-
-    # Long format
-    long <- x
-
-    colnames(long) <- c("revdate", "time", "obs_values")
-    long$revdate <- rev_date
-    long$time <- time_period
-    long <- long[order(long$revdate, long$time), ]
-    rownames(long) <- NULL
-
-    return(long)
-}
-
-#' Check vertical format
-#'
-#' @param x a formatted \code{data.frame} containing the input in the vertical format
-#' @param periodicity periodicity of the time period (12, 4 or 1 for resp.
-#' monthly, quarterly or annual data)
-#' @param date_format \code{character} string corresponding to the format used in
-#' the input data.frame for the revision dates.
-#'
-#' @return the same input but in a ts object and with revision date formatted
-#' @export
-#'
-#' @examples
-#'
-#' long_format <- rjd3revisions:::simulate_long(
-#'     start_period = as.Date("2020-01-01"),
-#'     n_period = 24,
-#'     n_revision = 6,
-#'     periodicity = 12L
-#' )
-#' vertical_format <- rjd3revisions:::from_long_to_vertical(long_format, periodicity = 12L)
-#' check_vertical(vertical_format)
-#'
-check_vertical <- function(x, ...) {
-    return(UseMethod("check_vertical", x))
-}
-
-#' @exportS3Method check_vertical mts
-check_vertical.mts <- function(
-        x,
-        periodicity,
-        date_format = "%Y-%m-%d",
-        ...
-) {
-    # Check data type
-    checkmate::assert_matrix(x, mode = "numeric")
-
-    # Check frequency
-    checkmate::assert_choice(x = stats::frequency(x), choices = c(1L, 4L, 12L))
-    if (!missing(periodicity)) {
-        # Check periodicity
-        checkmate::assert_count(x = periodicity, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
-        checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
-        checkmate::assert_set_equal(x = stats::frequency(x), y = periodicity)
-    }
-
-    # Vertical format
-    vertical <- x
-    colnames(vertical) <- as.character(convert_rev_date(x = colnames(vertical), date_format = date_format))
-
-    return(vertical)
-}
-
-#' @exportS3Method check_vertical data.frame
-check_vertical.data.frame <- function(x, ...) {
-    return(UseMethod("check_vertical", as.matrix(x)))
-}
-
-#' @exportS3Method check_vertical matrix
-check_vertical.matrix <- function(
-        x,
-        periodicity,
-        date_format = "%Y-%m-%d",
-        ...
-) {
-    # Check periodicity
-    checkmate::assert_count(x = periodicity, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
-    checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
-
-    # Check data type
-    checkmate::assert_matrix(x, mode = "numeric")
-    if (length(rownames(x)) == 0 || length(colnames(x)) == 0) {
-        stop("Revisions dates or time periods are missing.")
-    }
-
-    # Vertical format
-    vertical <- x
-
-    # Check date periods
-    real_time_period <- convert_time_period(x = rownames(vertical), date_format = date_format)
-
-    start_year <- as.integer(format(x = min(real_time_period), format = "%Y"))
-    start_month <- as.integer(format(x = min(real_time_period), format = "%m"))
-
-    if (periodicity == 12L) {
-        start <- c(start_year, start_month)
-        theo_time_period <- seq.Date(
-            from = min(real_time_period),
-            by = "month",
-            length.out = nrow(x)
-        )
-    } else if (periodicity == 4L) {
-        start <- c(start_year, 1L + ((start_month - 1L) %/% 3L))
-        theo_time_period <- seq.Date(
-            from = min(real_time_period),
-            by = "quarter",
-            length.out = nrow(x)
-        )
-    } else if (periodicity == 1L) {
-        start <- c(start_year, 1L + ((start_month - 1L) %/% 3L))
-        theo_time_period <- seq.Date(
-            from = min(real_time_period),
-            by = "year",
-            length.out = nrow(x)
-        )
-    }
-    checkmate::assert_set_equal(x = real_time_period, y = theo_time_period)
-
-    colnames(vertical) <- as.character(convert_rev_date(x = colnames(vertical), date_format = date_format))
-    rownames(vertical) <- as.character(convert_time_period(x = rownames(vertical), date_format = date_format))
-
-    vertical <- stats::ts(
-        data = vertical[as.character(theo_time_period), ],
-        start = start,
-        frequency = periodicity
-    )
-
-    return(vertical)
-}
-
-#' @exportS3Method check_vertical default
-check_vertical.default <- function(x, ...) {
-    stop("The function requires a matrix or a mts object!")
-}
-
-#' Check horizontal format
-#'
-#' @param x a formatted \code{data.frame} containing the input in the horizontal format
-#' @param date_format \code{character} string corresponding to the format used in
-#' the input data.frame for the revision dates.
-#'
-#' @return the same input but with date formatted
-#' @export
-#'
-#' @examples
-#'
-#' long_format <- rjd3revisions:::simulate_long(
-#'     start_period = as.Date("2020-01-01"),
-#'     n_period = 24,
-#'     n_revision = 6,
-#'     periodicity = 12L
-#' )
-#' horizontal_format <- rjd3revisions:::from_long_to_horizontal(long_format)
-#' check_horizontal(horizontal_format)
-#'
-check_horizontal <- function(x, ...) {
-    return(UseMethod("check_horizontal", x))
-}
-
-#' @exportS3Method check_horizontal data.frame
-check_horizontal.data.frame <- function(x, ...) {
-    return(UseMethod("check_horizontal", as.matrix(x)))
-}
-
-#' @exportS3Method check_horizontal matrix
-check_horizontal.matrix <- function(x, date_format = "%Y-%m-%d") {
-    horizontal <- x
-    colnames(horizontal) <- as.character(convert_time_period(x = colnames(horizontal), date_format = date_format))
-    rownames(horizontal) <- as.character(convert_rev_date(x = rownames(horizontal), date_format = date_format))
-
-    return(horizontal)
-}
-
-#' @exportS3Method check_horizontal default
-check_horizontal.default <- function(x, ...) {
-    stop("The function requires a matrix or a mts object!")
-}
-
-
-# Convert_functions ------------------------------------------------------------
-
-convert_time_period <- function(x, date_format = "%Y-%m-%d") {
-    check_quarter <- all(grepl(pattern = "^\\d{4}( ?[TtQq]?0?[1-4])?$", x = x))
-    check_month <- all(grepl(pattern = "^\\d{4}( ?[Mm]?(1[0-2]|0?[1-9]))?$", x = x))
-    check_date <- !(any(is.na(as.Date(x, format = date_format))))
-
-    if (check_date) {
-        return(as.Date(x, format = date_format))
-    } else if (check_month) {
-        year <- regmatches(x, regexpr(pattern = "^\\d{4}", text = x))
-        month <- regmatches(x, regexpr(pattern = "\\d{1,2}$", text = x))
-        return(as.Date(paste(year, month, "01", sep = "-")))
-    } else if (check_quarter) {
-        year <- regmatches(x, regexpr("^\\d{4}", x))
-        quarter <- regmatches(x, regexpr(pattern = "\\d{1,2}$", text = x))
-        month <- 3 * as.integer(quarter) - 2
-        return(as.Date(paste(year, month, "01", sep = "-")))
-    } else {
-        stop("Time periods not in a correct format. Examples of correct formats are 2023M1, 2023 M07 2023 Q1, 2023 m12, 2023q01, 2023 T2, 2023 or you can specify the format of your date with the argument `format_date`")
-    }
-}
-
-convert_rev_date <- function(x, date_format = "%Y-%m-%d") {
-
-    checkmate::assert_atomic(unique(x), min.len = 2)
-    if (!inherits(x = x, what = c("character", "integer", "Date", "POSIXt"))) {
-        stop("The revdate column must be of type character, integer, Date or POSIXt.")
-    }
-    if (any(is.na(as.Date(x, format = date_format)))) {
-        stop("Revisions date not in a correct format. You can specify the format of your date with the argument `format_date`")
-    }
-    return(as.Date(x, format = date_format))
-}
-
-from_long_to_vertical <- function(x, periodicity, date_format = "%Y-%m-%d") {
-    # Check input
-    x <- check_long(x = x, date_format = date_format)
-
-    # Check periodicity
-    checkmate::assert_count(x = periodicity, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
-    checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
-
-    vertical <- stats::reshape(
-        data = x,
-        timevar = "revdate",
-        idvar = "time",
-        direction = "wide",
-        varying = list(as.character(unique(x$revdate)))
-    )
-
-    time_periods <- vertical$time
-    vertical <- as.matrix(vertical[, -1])
-    rownames(vertical) <- as.character(time_periods)
-    return(check_vertical(x = vertical, periodicity = periodicity, date_format = date_format))
-}
-
-from_long_to_horizontal <- function(x, date_format = "%Y-%m-%d") {
-    # Check input
-    x <- check_long(x = x, date_format = date_format)
-
-    horizontal <- stats::reshape(
-        data = x,
-        timevar = "time",
-        idvar = "revdate",
-        direction = "wide",
-        varying = list(as.character(unique(x$time)))
-    )
-    revdate <- horizontal$revdate
-    horizontal <- as.matrix(horizontal[, -1])
-    rownames(horizontal) <- as.character(revdate)
-    return(horizontal)
-}
-
-from_long_to_diagonal <- function(x, periodicity, date_format = "%Y-%m-%d") {
-    # Check input
-    x <- check_long(x = x, date_format = date_format)
-
-    # Check periodicity
-    checkmate::assert_count(x = periodicity, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
-    checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
-
-    horizontal <- from_long_to_horizontal(x = x)
-    diagonal <- from_horizontal_to_diagonal(x = horizontal, periodicity = periodicity)
-    return(diagonal)
-}
-
-from_vertical_to_long <- function(x, date_format = "%Y-%m-%d") {
-    # Check input
-    x <- check_vertical(x = x, date_format = date_format)
-
-    vertical <- t(t(x))
-    if (stats::frequency(x) == 12L) {
-        time_period <- seq.Date(
-            from = as.Date(paste0(stats::start(x)[1], "-", stats::start(x)[2], "-01")),
-            by = "month",
-            length.out = nrow(x)
-        )
-    } else if (stats::frequency(x) == 4L) {
-        time_period <- seq.Date(
-            from = as.Date(paste0(stats::start(x)[1], "-", 3 * stats::start(x)[2] - 2, "-01")),
-            by = "quarter",
-            length.out = nrow(x)
-        )
-    }
-    rownames(vertical) <- as.character(time_period)
-
-    long <- stats::reshape(
-        data = data.frame(time = rownames(vertical), vertical, check.names = FALSE) ,
-        direction = "long",
-        varying = colnames(vertical),
-        v.names = "obs_values",
-        idvar = "time",
-        ids = rownames(vertical),
-        timevar = "revdate",
-        times = colnames(vertical)
-    )
-    long <- long[, c("revdate", "time", "obs_values")]
-    long$revdate <- convert_rev_date(long$revdate, date_format)
-    long$time <- convert_time_period(long$time, date_format)
-    long <- long[order(long$revdate, long$time), ]
-    rownames(long) <- NULL
-
-    return(long)
-}
-
-from_vertical_to_horizontal <- function(x, date_format = "%Y-%m-%d") {
-    # Check input
-    x <- check_vertical(x = x, date_format = date_format)
-
-    horizontal <- t(x)
-    if (stats::frequency(x) == 12L) {
-        time_period <- seq.Date(
-            from = as.Date(paste0(stats::start(x)[1], "-", stats::start(x)[2], "-01")),
-            by = "month",
-            length.out = nrow(x)
-        )
-    } else if (stats::frequency(x) == 4L) {
-        time_period <- seq.Date(
-            from = as.Date(paste0(stats::start(x)[1], "-", 3 * stats::start(x)[2] - 2, "-01")),
-            by = "quarter",
-            length.out = nrow(x)
-        )
-    }
-    colnames(horizontal) <- as.character(time_period)
-    return(horizontal)
-}
-
-from_vertical_to_diagonal <- function(x, date_format = "%Y-%m-%d") {
-    # Check input
-    x <- check_vertical(x, date_format)
-
-    horizontal <- from_vertical_to_horizontal(x, date_format)
-    diagonal <- from_horizontal_to_diagonal(x = horizontal, stats::frequency(x))
-    return(diagonal)
-}
-
-from_horizontal_to_long <- function(x, date_format = "%Y-%m-%d") {
-
-    horizontal <- check_horizontal(x, date_format = date_format)
-
-    long <- stats::reshape(
-        data = data.frame(revdate = rownames(horizontal), horizontal, check.names = FALSE) ,
-        direction = "long",
-        varying = colnames(horizontal),
-        v.names = "obs_values",
-        idvar = "revdate",
-        ids = rownames(horizontal),
-        timevar = "time",
-        times = colnames(horizontal)
-    )
-    long <- long[, c("revdate", "time", "obs_values")]
-    long$revdate <- convert_rev_date(long$revdate, date_format)
-    long$time <- convert_time_period(long$time, date_format)
-    long <- long[order(long$revdate, long$time), ]
-    rownames(long) <- NULL
-
-    return(long)
-}
-
-from_horizontal_to_vertical <- function(x, periodicity, date_format = "%Y-%m-%d") {
-    # Check input
-    horizontal <- check_horizontal(x = x, date_format = date_format)
-
-    # Check periodicity
-    checkmate::assert_count(x = periodicity, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
-    checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
-
-    return(check_vertical(x = t(horizontal), periodicity = periodicity, date_format = date_format))
-}
-
-from_horizontal_to_diagonal <- function(x, periodicity, date_format = "%Y-%m-%d") {
-    # Check input
-    horizontal <- check_horizontal(x = x, date_format = date_format)
-
-    # Check periodicity
-    checkmate::assert_count(x = periodicity, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
-    checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
-
-    diagonal <- apply(
-        X = horizontal,
-        MARGIN = 2,
-        FUN = function(.x) .x[order(is.na(.x))],
-        simplify  = FALSE
-    )
-    diagonal <- do.call(what = rbind, diagonal)
-    colnames(diagonal) <- paste0("Release[", seq_len(ncol(diagonal)), "]")
-
-    real_time_period <- convert_time_period(x = rownames(diagonal), date_format = date_format)
-
-    start_year <- as.integer(format(min(real_time_period), format = "%Y"))
-    start_month <- as.integer(format(min(real_time_period), format = "%m"))
-
-    if (periodicity == 12L) {
-        start <- c(start_year, start_month)
-        theo_time_period <- seq.Date(
-            from = min(real_time_period),
-            by = "month",
-            length.out = ncol(x)
-        )
-    } else if (periodicity == 4L) {
-        start <- c(start_year, 1L + ((start_month - 1L) %/% 3L))
-        theo_time_period <- seq.Date(
-            from = min(real_time_period),
-            by = "quarter",
-            length.out = ncol(x)
-        )
-    } else if (periodicity == 1L) {
-        start <- c(start_year, 1L + ((start_month - 1L) %/% 3L))
-        theo_time_period <- seq.Date(
-            from = min(real_time_period),
-            by = "year",
-            length.out = ncol(x)
-        )
-    }
-    checkmate::assert_set_equal(x = real_time_period, y = theo_time_period)
-
-    diagonal <- stats::ts(
-        data = diagonal[as.character(theo_time_period), ],
-        start = start,
-        frequency = periodicity
-    )
-
-    return(diagonal)
-}
-
-
-
-# Create_vintages function ------------------------------------------------------
-
 #' @title Create vintage tables
 #' @rdname create_vintages
 #'
@@ -508,6 +48,20 @@ from_horizontal_to_diagonal <- function(x, periodicity, date_format = "%Y-%m-%d"
 #' @param x a formatted object containing the input. It can be of type
 #' `data.frame`, `matrix` or `mts` and must represent one of the multiple
 #' vintage views (selected by the argument `type`.
+#' @param type character specifying the type of representation of the input
+#' between `"long"`, `"horizontal"` and `"vertical"` approach.
+#' @param periodicity periodicity of the time period (12, 4 or 1 for resp.
+#' monthly, quarterly or annual data)
+#' @param date_format \code{character} string corresponding to the format used in
+#' the input data.frame for the revision dates.
+#' @param vintage_selection \code{Date} vector (or a character vector with the
+#' same format as date_format) of length <= 2, specifying the range of revision
+#' dates to retain. As an example:
+#' c(start = "2022-02-02", end = "2022-08-05") or
+#' c(start = as.Date("2022-02-02"), end = as.Date("2022-08-05")) would keep all
+#' the vintages whose revision date is between 02 Feb. 2022 and 05 Aug. 2022.
+#' If missing (by default), the whole range is selected.
+#' @param ... Arguments to be passed to `create_vintages` according to the class of the object `x`
 #'
 #' @return an object of class `rjd3rev_vintages` which contains the four
 #' different view of a revision
@@ -575,31 +129,17 @@ create_vintages <- function(x, ...) {
 }
 
 #' @rdname create_vintages
-#' @inheritParams create_vintages
-#'
-#' @param type character specifying the type of representation of the input
-#' between `"long"`, `"horizontal"` and `"vertical"` approach.
-#' @param periodicity periodicity of the time period (12, 4 or 1 for resp.
-#' monthly, quarterly or annual data)
-#' @param date_format \code{character} string corresponding to the format used in
-#' the input data.frame for the revision dates.
-#' @param vintage_selection \code{Date} vector (or a character vector with the
-#' same format as date_format) of length <= 2, specifying the range of revision
-#' dates to retain. As an example:
-#' c(start = "2022-02-02", end = "2022-08-05") or
-#' c(start = as.Date("2022-02-02"), end = as.Date("2022-08-05")) would keep all
-#' the vintages whose revision date is between 02 Feb. 2022 and 05 Aug. 2022.
-#' If missing (by default), the whole range is selected.
 #'
 #' @exportS3Method create_vintages data.frame
+#' @method create_vintages data.frame
+#'
 create_vintages.data.frame <- function(
         x,
         type = c("long", "horizontal", "vertical"),
         periodicity,
         date_format = "%Y-%m-%d",
         vintage_selection,
-        ...
-) {
+        ...) {
 
     # Check type
     type <- match.arg(type)
@@ -654,17 +194,17 @@ create_vintages.data.frame <- function(
 }
 
 #' @rdname create_vintages
-#' @inheritParams create_vintages
-#' @inheritParams create_vintages.data.frame
+#'
 #' @exportS3Method create_vintages mts
+#' @method create_vintages mts
+#'
 create_vintages.mts <- function(
         x,
         type = c("long", "horizontal", "vertical"),
         periodicity,
         date_format = "%Y-%m-%d",
         vintage_selection,
-        ...
-) {
+        ...) {
 
     # Check type
     type <- match.arg(type)
@@ -716,17 +256,17 @@ create_vintages.mts <- function(
 }
 
 #' @rdname create_vintages
-#' @inheritParams create_vintages
-#' @inheritParams create_vintages.data.frame
+#'
 #' @exportS3Method create_vintages matrix
+#' @method create_vintages matrix
+#'
 create_vintages.matrix <- function(
         x,
         type = c("long", "horizontal", "vertical"),
         periodicity,
         date_format = "%Y-%m-%d",
         vintage_selection,
-        ...
-) {
+        ...) {
 
     # Check type
     type <- match.arg(type)
@@ -736,9 +276,9 @@ create_vintages.matrix <- function(
     checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
 
     # Check if date in first column
-    if(!is.numeric(x[,1])){
-        rownames(x) <- x[,1]
-        x <- as.matrix(x[,-1])
+    if (!is.numeric(x[, 1])) {
+        rownames(x) <- x[, 1]
+        x <- as.matrix(x[, -1])
     }
 
     if (type == "long") {
@@ -826,8 +366,10 @@ create_vintages.matrix <- function(
 }
 
 #' @rdname create_vintages
-#' @inheritParams create_vintages
+#'
 #' @exportS3Method create_vintages default
+#' @method create_vintages default
+#'
 create_vintages.default <- function(x, ...) {
     stop("The function requires a data.frame, a matrix or a mts object!")
 }
@@ -914,10 +456,10 @@ create_vintages_from_csv <- function(file,
 #' )
 #' }
 #'
-create_vintages_from_xlsx<-function(file,
-                                    type = c("long", "horizontal", "vertical"),
-                                    periodicity,
-                                    ...) {
+create_vintages_from_xlsx <- function(file,
+                                      type = c("long", "horizontal", "vertical"),
+                                      periodicity,
+                                      ...) {
     if (!requireNamespace("readxl", quietly = TRUE)) {
         stop("package 'readxl' must be installed to run the function 'create_vintages_from_xlsx'")
     }
@@ -951,8 +493,11 @@ create_vintages_from_xlsx<-function(file,
 #' @param n_col number of columns to display. Can be either the last n columns
 #'   (verical view), the last n rows (horizontal view) or the first n columns
 #'   (diagonal view). This argument is not used for the long view.
-#' @param \dots further arguments passed to the print() function.
+#' @param ... further arguments passed to the print() function.
+#'
 #' @exportS3Method print rjd3rev_vintages
+#' @method print rjd3rev_vintages
+#'
 #' @export
 #'
 print.rjd3rev_vintages <- function(x,
@@ -975,30 +520,39 @@ print.rjd3rev_vintages <- function(x,
     end_period <- stats::end(vv)
     is_extract <- ifelse(n_col < n_col_tot || n_row < n_row_tot || n_row_long < n_row_long_tot, TRUE, FALSE)
 
-    extract_lv <- x$long_view[(n_row_long_tot-n_row_long+1):n_row_long_tot,]; rownames(extract_lv) <- NULL
-    extract_vv <- stats::ts(x$vertical_view[(n_row_tot-n_row+1):n_row_tot, (n_col_tot-n_col+1):n_col_tot],
+    extract_lv <- x$long_view[(n_row_long_tot - n_row_long + 1):n_row_long_tot, ]
+    rownames(extract_lv) <- NULL
+    extract_vv <- stats::ts(x$vertical_view[(n_row_tot - n_row + 1):n_row_tot, (n_col_tot - n_col + 1):n_col_tot],
                             frequency = freq,
                             end = end_period)
-    extract_hv <- x$horizontal_view[(n_col_tot-n_col+1):n_col_tot, (n_row_tot-n_row+1):n_row_tot]
+    extract_hv <- x$horizontal_view[(n_col_tot - n_col + 1):n_col_tot, (n_row_tot - n_row + 1):n_row_tot]
     extract_dv <- stats::ts(x$diagonal_view[1:n_row, 1:n_col],
                             frequency = freq,
                             end = end_period)
 
-    print(list(extract = is_extract,
-               long_view = extract_lv,
-               vertical_view=extract_vv,
-               horizontal_view=extract_hv,
-               diagonal_view=extract_dv, ...))
+    print(list(
+        extract = is_extract,
+        long_view = extract_lv,
+        vertical_view = extract_vv,
+        horizontal_view = extract_hv,
+        diagonal_view = extract_dv,
+        ...
+    ))
+
+    return(invisible(NULL))
 }
 
 #' Summary function for objects of class "rjd3rev_vintages"
 #'
-#' @param x an object of class "rjd3rev_vintages".
-#' @param \dots further arguments passed to or from other methods.
+#' @param object an object of class "rjd3rev_vintages".
+#' @param ... further arguments passed to or from other methods.
+#'
 #' @exportS3Method summary rjd3rev_vintages
+#' @method summary rjd3rev_vintages
 #' @export
 #'
 summary.rjd3rev_vintages <- function(object, ...) {
+
     x <- object
     vv <- x$vertical_view
     cat("Number of releases: ", ncol(vv))
@@ -1006,8 +560,73 @@ summary.rjd3rev_vintages <- function(object, ...) {
     cat("\n \tFrom: ", stats::start(vv))
     cat("\n \tTo: ", stats::end(vv))
     cat("\nFrequency: ", stats::frequency(vv))
+
+    return(invisible(NULL))
 }
 
+#' @title View function for objects of class "rjd3rev_vintages"
+#'
+#' @description
+#' Display the different view in a different panel to visualize the data in a table / matrix format
+#'
+#'
+#' @param x an object of class "rjd3rev_vintages".
+#' @param type type of view to display
+#' @param ... further arguments passed to the `View` method.
+#'
+#' @details
+#' Generate the view of the vintages in different format. With the type argument, you can choose the view to display. You can choose between the long, horizontal, vertical and diagonal view.
+#'
+#' @exportS3Method View rjd3rev_vintages
+#' @method View rjd3rev_vintages
+#' @export
+#'
+View.rjd3rev_vintages <- function(
+        x,
+        type = c("all", "long", "horizontal", "vertical", "diagonal"),
+        ...) {
 
+    # Check type
+    type <- match.arg(type)
 
+    if (missing(title)) {
+        title <- ""
+    }
 
+    if (type %in% c("all", "long")) utils::View(x$long_view, title = paste(title, "Long view"))
+    if (type %in% c("all", "horizontal")) utils::View(x$horizontal_view, title = paste(title, "Horizontal view"))
+    if (type %in% c("all", "vertical")) utils::View(x$vertical_view, title = paste(title, "Vertical view"))
+    if (type %in% c("all", "diagonal")) utils::View(x$diagonal_view, title = paste(title, "Diagonal view"))
+
+    return(invisible(NULL))
+}
+
+#' @title Plot function for objects of class "rjd3rev_vintages"
+#'
+#' @param x an object of class "rjd3rev_vintages".
+#' @param col a color vector of the same length as the number of releases
+#' @param ... further arguments passed to or from other methods.
+#'
+#' @exportS3Method plot rjd3rev_vintages
+#' @method plot rjd3rev_vintages
+#' @export
+#'
+plot.rjd3rev_vintages <- function(x, col, ...) {
+    if (missing(col)) {
+        col <- grDevices::palette.colors(n = ncol(x$vertical_view))
+    }
+    graphics::par(mar = c(5.1, 4.1, 4.1, 8.1), xpd = TRUE)
+    stats::ts.plot(x$vertical_view, gpars = list(col = col, ...))
+    graphics::legend(
+        x = "topright",
+        legend = colnames(x$vertical_view),
+        pch = 16,
+        col = col,
+        xpd = TRUE,
+        inset = c(-0.2, 0),
+        bty = "n",
+        title = "Release dates:"
+    )
+
+    return(invisible(NULL))
+}

@@ -81,38 +81,38 @@ about each tests.
 \examples{
 
 ## Simulated data
-period_range<-seq(as.Date('2011-01-01'),as.Date('2020-10-01'),by='quarter')
-qtr<-(as.numeric(substr(period_range,6,7))+2)/3
-time_period<-rep(paste0(format(period_range, "\%Y"), "Q", qtr),5)
-np<-length(period_range)
-rev_date<-c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np),
+period_range <- seq(as.Date('2011-01-01'),as.Date('2020-10-01'),by='quarter')
+qtr <- (as.numeric(substr(period_range,6,7))+2)/3
+time_period <- rep(paste0(format(period_range, "\%Y"), "Q", qtr),5)
+np <- length(period_range)
+rev_date <- c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np),
             rep("2022-12-31",np), rep("2023-06-30",np))
 set.seed(1)
-xt<-cumsum(sample(rnorm(1000,0,1), np, TRUE))
-rev<-rnorm(np*4,0,.1)
-obs_values<-xt
+xt <- cumsum(sample(rnorm(1000,0,1), np, TRUE))
+rev <- rnorm(np*4,0,.1)
+obs_values <- xt
 for(i in 1:4) {
-  xt<-xt+rev[(1+(i-1)*np):(i*np)]
-  obs_values<-c(obs_values,xt)
+  xt <- xt+rev[(1+(i-1)*np):(i*np)]
+  obs_values <- c(obs_values,xt)
 }
-df<-data.frame(rev_date, time_period, obs_values)
+df <- data.frame(rev_date, time_period, obs_values)
 
 ## Create a `"rjd3rev_vintages"` object with the input
 vintages <- create_vintages(x = df, periodicity = 4, date_format = "\%Y-\%m-\%d")
-# revisions<-get_revisions(vintages, gap = 1) # just to get a first insight of the revisions
+# revisions <- get_revisions(vintages, gap = 1) # just to get a first insight of the revisions
 
 ## Call using all default parameters
-rslt1<-revision_analysis(vintages)
-#render_report(rslt1)
-#summary(rslt1) # formatted summary only
+rslt1 <- revision_analysis(vintages)
+# render_report(rslt1)
+# summary(rslt1) # formatted summary only
 
 ## Calls using diagonal view (suited in many situations such as to evaluate GDP estimates)
 ## Note: when input are not growth rates but the gross series, differentiation is
 ## performed automatically (if transf.diff is let to its default option) but `transf.log`
 ## must be set to TRUE manually whenever a log-transformation of the data is necessary
-rslt2<-revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
-#render_report(rslt2)
-#summary(rslt2)
+rslt2 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
+# render_report(rslt2)
+# summary(rslt2)
 
 ## Call to evaluate revisions for a specific range of vintage periods
 vintages <- create_vintages(
@@ -120,7 +120,7 @@ vintages <- create_vintages(
     periodicity = 4,
     vintage_selection = c(start="2021-12-31", end="2023-06-30")
 )
-rslt3<-revision_analysis(vintages, gap=2, view = "vertical")
+rslt3 <- revision_analysis(vintages, gap=2, view = "vertical")
 #render_report(rslt3)
 #summary(rslt3)
 

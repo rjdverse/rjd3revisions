@@ -71,7 +71,8 @@ simulate_long <- function(n_period = 50,
         x = sort(sample(
             x = min(time_period):(max(time_period) + 2 * 30 * 12 / periodicity), # On rajoute 2 périodes supplémentaires
             size = n_revision,
-            replace = FALSE)),
+            replace = FALSE
+        )),
         origin = "1970-01-01"
     )
     final_series <- simulate_series(n_period, periodicity = periodicity)
@@ -95,7 +96,7 @@ simulate_long <- function(n_period = 50,
         ))
     }
 
-    long <- long[order(long$rev_date , long$time_period  ), ]
+    long <- long[order(long$rev_date, long$time_period), ]
     rownames(long) <- NULL
 
     return(long)
