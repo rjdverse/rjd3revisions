@@ -38,6 +38,8 @@ License: EUPL
 Encoding: UTF-8
 Collate: 
     'rjd3revisions-package.R'
+    'check.R'
+    'conversion.R'
     'report.R'
     'revisions.R'
     'revision_analysis.R'
