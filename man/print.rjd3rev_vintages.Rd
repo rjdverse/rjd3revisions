@@ -16,7 +16,7 @@ corresponds to the number of columns.}
 (verical view), the last n rows (horizontal view) or the first n columns
 (diagonal view). This argument is not used for the long view.}
 
-\item{\dots}{further arguments passed to the print() function.}
+\item{...}{further arguments passed to the print() function.}
 }
 \description{
 Print function for objects of class `"rjd3rev_vintages"`

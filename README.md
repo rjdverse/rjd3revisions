@@ -118,7 +118,7 @@ the analysis
 library("rjd3revisions")
 
 vintages <- create_vintages(df, periodicity = 4)
-# revisions<-get_revisions(vintages, gap = 2)
+# revisions <- get_revisions(vintages, gap = 2)
 # plot(revisions)
 rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 ```
@@ -126,7 +126,12 @@ rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 Finally to create a report and get a summary of the results, you can use
 
 ``` r
-render_report(rslt)
+render_report(
+    rslt,
+    output_file = "my_report",
+    output_dir = "C:/Users/xxx",
+    output_format = "pdf_document"
+)
 
 summary(rslt)
 print(rslt)
@@ -149,4 +154,5 @@ should be added or updated.
 ## Licensing
 
 The code of this project is licensed under the [European Union Public
-Licence (EUPL)](https://joinup.ec.europa.eu/page/eupl-text-11-12).
+Licence
+(EUPL)](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12).
