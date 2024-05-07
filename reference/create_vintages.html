@@ -30,7 +30,13 @@
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/rjdverse/rjd3revisions/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -38,7 +44,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Create vintage tables</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/rjdverse/rjd3revisions/blob/HEAD/R/vintages.R" class="external-link"><code>R/vintages.R</code></a></small>
       <div class="d-none name"><code>create_vintages.Rd</code></div>
     </div>
 
@@ -50,7 +56,8 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_vintages</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">create_vintages.data.frame</span><span class="op">(</span></span>
+<span><span class="co"># S3 method for data.frame</span></span>
+<span><span class="fu">create_vintages</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
 <span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"long"</span>, <span class="st">"horizontal"</span>, <span class="st">"vertical"</span><span class="op">)</span>,</span>
 <span>  <span class="va">periodicity</span>,</span>
@@ -89,6 +96,10 @@
 <dd><p>a formatted object containing the input. It can be of type
 `data.frame`, `matrix` or `mts` and must represent one of the multiple
 vintage views (selected by the argument `type`.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Arguments to be passed to `create_vintages` according to the class of the object `x`</p></dd>
 
 
 <dt>type</dt>

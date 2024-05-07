@@ -1,114 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/404.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/404.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/LICENSE-text.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/articles/index.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/articles/rjd3revisions.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/articles/rjd3revisions.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/authors.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/authors.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/index.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/index.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/news/index.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/news/index.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/bias.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/View.rjd3rev_vintages.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/check_horizontal.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/bias.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/check_long.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/check_horizontal.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/check_vertical.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/check_long.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/cointegration.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/check_vertical.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/create_vintages.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/cointegration.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/create_vintages_from_csv.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/create_vintages.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/create_vintages_from_xlsx.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/create_vintages_from_csv.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/descriptive_statistics.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/create_vintages_from_xlsx.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/efficiencyModel1.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/descriptive_statistics.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/efficiencyModel2.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/efficiencyModel1.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/get_revisions.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/efficiencyModel2.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/index.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/get_revisions.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/orthogonallyModel1.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/orthogonallyModel2.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/orthogonallyModel1.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/plot.rjd3rev_revisions.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/orthogonallyModel2.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/print.rjd3rev_revisions.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/plot.rjd3rev_revisions.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/print.rjd3rev_rslts.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/plot.rjd3rev_vintages.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/print.rjd3rev_vintages.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/print.rjd3rev_revisions.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/render_report.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/print.rjd3rev_rslts.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/revision_analysis.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/print.rjd3rev_vintages.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/signalnoise.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/render_report.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/slope_and_drift.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/revision_analysis.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/summary.rjd3rev_revisions.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/rjd3revisions-package.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/summary.rjd3rev_rslts.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/signalnoise.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/summary.rjd3rev_vintages.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/slope_and_drift.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/theil.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/summary.rjd3rev_revisions.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/theil2.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/summary.rjd3rev_rslts.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/unitroot.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/summary.rjd3rev_vintages.html</loc>
   </url>
   <url>
-    <loc>https://rjdemetra.github.io/rjd3revisions/reference/vecm.html</loc>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/theil.html</loc>
+  </url>
+  <url>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/theil2.html</loc>
+  </url>
+  <url>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/unitroot.html</loc>
+  </url>
+  <url>
+    <loc>https://rjdverse.github.io/rjd3revisions/reference/vecm.html</loc>
   </url>
 </urlset>
