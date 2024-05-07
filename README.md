@@ -6,11 +6,18 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
+Most economic indicators are published several times for a given
+reporting period, this entails revisions as time horizon changes.
+rjd3revisions performs a battery of tests on these revisions and
+generates a report with the results. The various tests enable the users
+to detect potential bias and sources of inefficiency in preliminary
+estimates.
+
 ## Installation
 
-Running rjd3 packages requires Java 17 or higher. How to set up such a
-configuration in R is explained
-[here](https://jdemetra-new-documentation.netlify.app/#installing-the-software).
+Running rjd3 packages requires **Java 17 or higher**. How to set up such
+a configuration in R is explained
+[here](https://jdemetra-new-documentation.netlify.app/#Rconfig)
 
 To get the current stable version (from the latest release):
 
