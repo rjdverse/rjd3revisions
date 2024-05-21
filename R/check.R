@@ -38,52 +38,66 @@
 #' # check_date_year --------------------------------------------------
 #'
 #' # Good date (representing years)
-#' check_date_year(c("2000", "2001", "2002", "2003")
-#' check_date_year(2020:2024)
+#' check_date_year(x = c("2000", "2001", "2002", "2003"))
+#' check_date_year(x = 2020:2024)
 #'
 #' # Bad date
-#' check_date_year("2000 ")
-#' check_date_year(1:4)
+#' check_date_year(x = "2000 ")
+#' check_date_year(x = 1:4)
 #'
 #' # check_date_quarter -----------------------------------------------
 #'
 #' # Good date
-#' check_date_quarter(c("2000 q2", "2000 q3", "2000 q4", "2001 q1"))
-#' check_date_quarter(c("2010T1", "2010T2", "2010T3", "2010T4"))
-#' check_date_quarter(c("2020Q1", "2020Q2", "2020Q3", "2020Q4"))
-#' check_date_quarter(c("2020Q01", "2020Q02", "2020Q03", "2020Q04"))
+#' check_date_quarter(x = c("2000 q2", "2000 q3", "2000 q4", "2001 q1"))
+#' check_date_quarter(x = c("2010T1", "2010T2", "2010T3", "2010T4"))
+#' check_date_quarter(x = c("2020Q1", "2020Q2", "2020Q3", "2020Q4"))
+#' check_date_quarter(x = c("2020Q01", "2020Q02", "2020Q03", "2020Q04"))
 #'
 #' # Bad date
-#' check_date_quarter("2000 ")
-#' check_date_quarter(1:4)
-#' check_date_quarter("2000 q 2")
-#' check_date_quarter("2000 q12")
+#' check_date_quarter(x = "2000 ")
+#' check_date_quarter(x = 1:4)
+#' check_date_quarter(x = "2000 q 2")
+#' check_date_quarter(x = "2000 q12")
 #'
 #' # check_date_month -----------------------------------------------
 #'
 #' # Good date (representing years)
-#' check_date_month(c("2000-01-01", "2000-02-01", "2000-03-01", "2000-04-01", "2000-05-01", "2000-06-01", "2000-07-01", "2000-08-01", "2000-09-01", "2000-10-01"), date_format = "%Y-%m-%d")
-#' check_date_month(c("01/08/2010", "01/09/2010", "01/10/2010", "01/11/2010", "01/12/2010", "01/01/2011", "01/02/2011", "01/03/2011", "01/04/2011", "01/05/2011"), date_format = "%d/%m/%Y")
-#' check_date_month(c("2000-01-01", "2000-02-01", "2000-03-01", "2000-04-01", "2000-05-01", "2000-06-01", "2000-07-01", "2000-08-01", "2000-09-01", "2000-10-01"), date_format = c("%Y-%m-%d", "%d/%m/%Y"))
+#' check_date_month(x = c("2000 m2", "2000 m3", "2000 m4", "2000 m5"))
+#' check_date_month(x = c("2010M9", "2010M10", "2010M11", "2010M12"))
+#' check_date_month(x = c("2020M111", "2020M12", "2021M01", "2021M02"))
+#' check_date_month(x = c("2020M01", "2020M02", "2020M03", "2020M04"))
 #'
 #' # Bad date
-#' check_date_month(c("2000-01-01", "2000-02-01", "2000-03-01", "2000-04-01", "2000-05-01", "2000-06-01", "2000-07-01", "2000-08-01", "2000-09-01", "2000-10-01"), date_format = "%d/%m/%Y")
-#' check_date_month(c("01/08/2010", "01/09/2010", "01/10/2010", "01/11/2010", "01/12/2010", "01/01/2011", "01/02/2011", "01/03/2011", "01/04/2011", "01/05/2011"), date_format = "%Y-%m-%d")
+#' check_date_month(x = "2000 ")
+#' check_date_month(x = 1:4)
+#' check_date_month(x = "2000 m 2")
+#' check_date_month(x = "2000 m13")
 #'
 #' # check_format_date -----------------------------------------------
 #'
 #' # Good date (representing years)
-#' check_format_date(c("2000 m2", "2000 m3", "2000 m4", "2000 m5"))
-#' check_format_date(c("2010M9", "2010M10", "2010M11", "2010M12"))
-#' check_format_date(c("2020M111", "2020M12", "2021M01", "2021M02"))
-#' check_format_date(c("2020M01", "2020M02", "2020M03", "2020M04"))
+#' check_format_date(x = c("2000-01-01", "2000-02-01", "2000-03-01", "2000-04-01",
+#'                         "2000-05-01", "2000-06-01", "2000-07-01", "2000-08-01",
+#'                         "2000-09-01", "2000-10-01"),
+#'                  date_format = "%Y-%m-%d")
+#' check_format_date(x = c("01/08/2010", "01/09/2010", "01/10/2010", "01/11/2010",
+#'                         "01/12/2010", "01/01/2011", "01/02/2011", "01/03/2011",
+#'                         "01/04/2011", "01/05/2011"),
+#'                  date_format = "%d/%m/%Y")
+#' check_format_date(x = c("2000-01-01", "2000-02-01", "2000-03-01", "2000-04-01",
+#'                         "2000-05-01", "2000-06-01", "2000-07-01", "2000-08-01",
+#'                         "2000-09-01", "2000-10-01"),
+#'                  date_format = c("%Y-%m-%d", "%d/%m/%Y"))
 #'
 #' # Bad date
-#' check_format_date("2000 ")
-#' check_format_date(1:4)
-#' check_format_date("2000 m 2")
-#' check_format_date("2000 m13")
-#'
+#' check_format_date(x = c("2000-01-01", "2000-02-01", "2000-03-01", "2000-04-01",
+#'                         "2000-05-01", "2000-06-01", "2000-07-01", "2000-08-01",
+#'                         "2000-09-01", "2000-10-01"),
+#'                  date_format = "%d/%m/%Y")
+#' check_format_date(x = c("01/08/2010", "01/09/2010", "01/10/2010", "01/11/2010",
+#'                         "01/12/2010", "01/01/2011", "01/02/2011", "01/03/2011",
+#'                         "01/04/2011", "01/05/2011"),
+#'                  date_format = "%Y-%m-%d")
 #'
 #' @rdname check-date
 check_date_year <- function(x) {
@@ -91,16 +105,19 @@ check_date_year <- function(x) {
 }
 
 #' @rdname check-date
+#' @export
 check_date_quarter <- function(x) {
     return(all(grepl(pattern = "^\\d{4}( ?[TtQq]?0?[1-4])?$", x = x)))
 }
 
 #' @rdname check-date
+#' @export
 check_date_month <- function(x) {
     return(all(grepl(pattern = "^\\d{4}( ?[Mm](1[0-2]|0?[1-9]))?$", x = x)))
 }
 
 #' @rdname check-date
+#' @export
 check_format_date <- function(x, date_format = "%Y-%m-%d") {
     for (format_n in date_format) {
         if (!(any(is.na(as.Date(x, format = format_n))))) {

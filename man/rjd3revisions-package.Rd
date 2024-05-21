@@ -4,9 +4,9 @@
 \name{rjd3revisions-package}
 \alias{rjd3revisions}
 \alias{rjd3revisions-package}
-\title{rjd3revisions: Revision analysis with 'JDemetra+ 3.0'}
+\title{rjd3revisions: Revision analysis with 'JDemetra+ 3.x'}
 \description{
-Interface around 'JDemetra+ 3.x' sa-toolkit (\url{https://github.com/jdemetra/jdemetra-core}), STACE project. It performs a battery of tests on revisions and submit a report with the results. The various tests enable the users to detect potential bias and sources of inefficiency in preliminary estimates.
+Revision analysis tool part of 'JDemetra+ 3.x' (\url{https://github.com/jdemetra}) time series analysis software. It performs a battery of tests on revisions and submit a report with the results. The various tests enable the users to detect potential bias and sources of inefficiency in preliminary estimates.
 }
 \seealso{
 Useful links:

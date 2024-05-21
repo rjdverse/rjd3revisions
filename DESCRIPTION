@@ -33,7 +33,7 @@ Suggests:
 Remotes:
     github::rjdverse/rjd3toolkit
 SystemRequirements: Java (>= 17)
-License: EUPL
+License: EUPL | file LICENSE
 Encoding: UTF-8
 Collate: 
     'rjd3revisions-package.R'
