@@ -1,9 +1,18 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# rjd3revisions
+# `rjd3revisions` <a href="https://rjdverse.github.io/rjd3revisions/"><img src="man/figures/logo.png" align="right" height="150" style="float:right; height:150px;"/></a>
 
 <!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/rjd3revisions)](https://CRAN.R-project.org/package=rjd3revisions)
+
+[![R-CMD-check](https://github.com/rjdverse/rjd3revisions/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rjdverse/rjd3revisions/actions/workflows/R-CMD-check.yaml)
+[![lint](https://github.com/rjdverse/rjd3revisions/actions/workflows/lint.yaml/badge.svg)](https://github.com/rjdverse/rjd3revisions/actions/workflows/lint.yaml)
+
+[![GH Pages
+built](https://github.com/rjdverse/rjd3revisions/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/rjdverse/rjd3revisions/actions/workflows/pkgdown.yaml)
 <!-- badges: end -->
 
 Most economic indicators are published several times for a given
