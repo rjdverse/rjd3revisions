@@ -260,6 +260,7 @@ theil2 <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #' revisions <- get_revisions(vintages, gap = 1)
 #' bias(revisions$diagonal_view)
 #'
+
 bias <- function(revisions.view, na.zero = FALSE) {
     r <- revisions.view
     if (na.zero) r[is.na(r)] <- 0

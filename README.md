@@ -1,9 +1,18 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# rjd3revisions
+# `rjd3revisions` <a href="https://rjdverse.github.io/rjd3revisions/"><img src="man/figures/logo.png" align="right" height="150" style="float:right; height:150px;"/></a>
 
 <!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/rjd3revisions)](https://CRAN.R-project.org/package=rjd3revisions)
+
+[![R-CMD-check](https://github.com/rjdverse/rjd3revisions/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rjdverse/rjd3revisions/actions/workflows/R-CMD-check.yaml)
+[![lint](https://github.com/rjdverse/rjd3revisions/actions/workflows/lint.yaml/badge.svg)](https://github.com/rjdverse/rjd3revisions/actions/workflows/lint.yaml)
+
+[![GH Pages
+built](https://github.com/rjdverse/rjd3revisions/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/rjdverse/rjd3revisions/actions/workflows/pkgdown.yaml)
 <!-- badges: end -->
 
 Most economic indicators are published several times for a given
@@ -117,10 +126,15 @@ the analysis
 ``` r
 library("rjd3revisions")
 
-vintages <- create_vintages(df, periodicity = 4)
+vintages <- create_vintages(long_view, periodicity = 4)
 # revisions <- get_revisions(vintages, gap = 2)
 # plot(revisions)
 rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
+#> Warning: Slope and drift could not be performed
+#> Warning: efficiencyModel1 could not be performed
+#> Warning: efficiencyModel2 could not be performed
+#> Warning: orthogonallyModel1 could not be performed
+#> Warning: orthogonallyModel2 could not be performed
 ```
 
 Finally to create a report and get a summary of the results, you can use
@@ -129,7 +143,7 @@ Finally to create a report and get a summary of the results, you can use
 render_report(
     rslt,
     output_file = "my_report",
-    output_dir = "C:/Users/xxx",
+    output_dir = tempdir(),
     output_format = "pdf_document"
 )
 

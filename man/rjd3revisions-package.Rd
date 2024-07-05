@@ -4,14 +4,18 @@
 \name{rjd3revisions-package}
 \alias{rjd3revisions}
 \alias{rjd3revisions-package}
-\title{rjd3revisions: Revision analysis with 'JDemetra+ 3.0'}
+\title{rjd3revisions: Revision analysis with 'JDemetra+ 3.x'}
 \description{
-Interface around 'JDemetra+ 3.x' sa-toolkit (\url{https://github.com/jdemetra/jdemetra-core}), STACE project. It performs a battery of tests on revisions and submit a report with the results. The various tests enable the users to detect potential bias and sources of inefficiency in preliminary estimates.
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
+Revision analysis tool part of 'JDemetra+ 3.x' (\url{https://github.com/jdemetra}) time series analysis software. It performs a battery of tests on revisions and submit a report with the results. The various tests enable the users to detect potential bias and sources of inefficiency in preliminary estimates.
 }
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://github.com/rjdverse/rjd3revisions}
   \item \url{https://rjdverse.github.io/rjd3revisions/}
+  \item Report bugs at \url{https://github.com/rjdverse/rjd3revisions/issues}
 }
 
 }
@@ -20,7 +24,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Tanguy Barthelemy \email{tanguy.barthelemy@insee.fr}
+  \item Tanguy Barthelemy \email{tanguy.barthelemy@insee.fr} [artist]
 }
 
 }
