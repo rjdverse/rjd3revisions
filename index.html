@@ -64,10 +64,14 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="rjd3revisions">rjd3revisions<a class="anchor" aria-label="anchor" href="#rjd3revisions"></a>
+<div class="page-header"><h1 id="rjd3revisions-">
+<code>rjd3revisions</code> <a href="https://rjdverse.github.io/rjd3revisions/"><img src="reference/figures/logo.png" align="right" height="150" style="float:right; height:150px;"></a>
+<a class="anchor" aria-label="anchor" href="#rjd3revisions-"></a>
 </h1></div>
 <!-- badges: start -->
-<!-- badges: end -->
+
+<p><a href="https://github.com/rjdverse/rjd3revisions/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/rjdverse/rjd3revisions/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://github.com/rjdverse/rjd3revisions/actions/workflows/lint.yaml" class="external-link"><img src="https://github.com/rjdverse/rjd3revisions/actions/workflows/lint.yaml/badge.svg" alt="lint"></a></p>
+<p><a href="https://github.com/rjdverse/rjd3revisions/actions/workflows/pkgdown.yaml" class="external-link"><img src="https://github.com/rjdverse/rjd3revisions/actions/workflows/pkgdown.yaml/badge.svg" alt="GH Pages built"></a> <!-- badges: end --></p>
 <p>Most economic indicators are published several times for a given reporting period, this entails revisions as time horizon changes. rjd3revisions performs a battery of tests on these revisions and generates a report with the results. The various tests enable the users to detect potential bias and sources of inefficiency in preliminary estimates.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -262,16 +266,21 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/rjdverse/rjd3revisions" class="external-link">"rjd3revisions"</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">vintages</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_vintages.html">create_vintages</a></span><span class="op">(</span><span class="va">df</span>, periodicity <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="va">vintages</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_vintages.html">create_vintages</a></span><span class="op">(</span><span class="va">long_view</span>, periodicity <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span><span class="co"># revisions &lt;- get_revisions(vintages, gap = 2)</span></span>
 <span><span class="co"># plot(revisions)</span></span>
-<span><span class="va">rslt</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/revision_analysis.html">revision_analysis</a></span><span class="op">(</span><span class="va">vintages</span>, gap <span class="op">=</span> <span class="fl">1</span>, view <span class="op">=</span> <span class="st">"diagonal"</span>, n.releases <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">rslt</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/revision_analysis.html">revision_analysis</a></span><span class="op">(</span><span class="va">vintages</span>, gap <span class="op">=</span> <span class="fl">1</span>, view <span class="op">=</span> <span class="st">"diagonal"</span>, n.releases <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Slope and drift could not be performed</span></span>
+<span><span class="co">#&gt; Warning: efficiencyModel1 could not be performed</span></span>
+<span><span class="co">#&gt; Warning: efficiencyModel2 could not be performed</span></span>
+<span><span class="co">#&gt; Warning: orthogonallyModel1 could not be performed</span></span>
+<span><span class="co">#&gt; Warning: orthogonallyModel2 could not be performed</span></span></code></pre></div>
 <p>Finally to create a report and get a summary of the results, you can use</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/render_report.html">render_report</a></span><span class="op">(</span></span>
 <span>    <span class="va">rslt</span>,</span>
 <span>    output_file <span class="op">=</span> <span class="st">"my_report"</span>,</span>
-<span>    output_dir <span class="op">=</span> <span class="st">"C:/Users/xxx"</span>,</span>
+<span>    output_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    output_format <span class="op">=</span> <span class="st">"pdf_document"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -306,7 +315,8 @@
 <div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li>EUPL</li>
+<li>EUPL | file <a href="LICENSE-text.html">LICENSE</a>
+</li>
 </ul>
 </div>
 
@@ -322,11 +332,16 @@
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Corentin Lemasson <br><small class="roles"> Author, maintainer </small>  </li>
-<li>Tanguy Barthelemy <br><small class="roles"> Author </small>  </li>
+<li>Tanguy Barthelemy <br><small class="roles"> Author, artist </small>  </li>
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://CRAN.R-project.org/package=rjd3revisions" class="external-link"><img src="https://www.r-pkg.org/badges/version/rjd3revisions" alt="CRAN status"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>
