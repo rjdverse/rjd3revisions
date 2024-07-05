@@ -126,10 +126,15 @@ the analysis
 ``` r
 library("rjd3revisions")
 
-vintages <- create_vintages(df, periodicity = 4)
+vintages <- create_vintages(long_view, periodicity = 4)
 # revisions <- get_revisions(vintages, gap = 2)
 # plot(revisions)
 rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
+#> Warning: Slope and drift could not be performed
+#> Warning: efficiencyModel1 could not be performed
+#> Warning: efficiencyModel2 could not be performed
+#> Warning: orthogonallyModel1 could not be performed
+#> Warning: orthogonallyModel2 could not be performed
 ```
 
 Finally to create a report and get a summary of the results, you can use
@@ -138,7 +143,7 @@ Finally to create a report and get a summary of the results, you can use
 render_report(
     rslt,
     output_file = "my_report",
-    output_dir = "C:/Users/xxx",
+    output_dir = tempdir(),
     output_format = "pdf_document"
 )
 

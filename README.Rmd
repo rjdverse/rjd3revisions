@@ -83,7 +83,7 @@ First you need to get your input data set as a data.frame in R in a specific for
 
 Depending on the location of your input data, you can use `create_vintages_from_xlsx()` or `create_vintages_from_csv()`, or the more generic function `create_vintages()` to create the vintages.
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 # Examples
 
 # Long format
@@ -121,10 +121,10 @@ colnames(vertical_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-
 
 Then you can create your vintages, inspect revisions (optional) and make the analysis 
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 library("rjd3revisions")
 
-vintages <- create_vintages(df, periodicity = 4)
+vintages <- create_vintages(long_view, periodicity = 4)
 # revisions <- get_revisions(vintages, gap = 2)
 # plot(revisions)
 rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
@@ -136,7 +136,7 @@ Finally to create a report and get a summary of the results, you can use
 render_report(
     rslt,
     output_file = "my_report",
-    output_dir = "C:/Users/xxx",
+    output_dir = tempdir(),
     output_format = "pdf_document"
 )
 
