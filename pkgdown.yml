@@ -1,10 +1,9 @@
 pandoc: 3.1.11
-pkgdown: 2.0.9
+pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
   rjd3revisions: rjd3revisions.html
-last_built: 2024-07-05T09:08Z
+last_built: 2024-07-08T14:21Z
 urls:
   reference: https://rjdverse.github.io/rjd3revisions/reference
   article: https://rjdverse.github.io/rjd3revisions/articles
-
