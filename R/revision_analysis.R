@@ -316,12 +316,10 @@ get_vintages_view <- function(vintages, transf.log, view, n.releases) {
 # test interpretors / evaluators -----------------------------------------------
 ur_test_intepretor <- function(ur) {
     if (!is.null(ur)) {
-        ur_rslt <- t(round(ur, 3))
         ur_ADFpvals <- ur[, "ADF.pvalue"]
         pc_signif_ur <- length(ur_ADFpvals[ur_ADFpvals < .05]) / length(ur_ADFpvals)
         is_stationary <- ifelse(pc_signif_ur > .8, TRUE, FALSE)
     } else {
-        ur_rslt <- NULL
         is_stationary <- TRUE
     }
     return(is_stationary)
