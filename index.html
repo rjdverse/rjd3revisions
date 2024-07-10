@@ -61,15 +61,31 @@
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p>Running rjd3 packages requires <strong>Java 17 or higher</strong>. How to set up such a configuration in R is explained <a href="https://jdemetra-new-documentation.netlify.app/#Rconfig" class="external-link">here</a></p>
+<div class="section level3">
+<h3 id="latest-release">Latest release<a class="anchor" aria-label="anchor" href="#latest-release"></a>
+</h3>
 <p>To get the current stable version (from the latest release):</p>
+<ul>
+<li>From GitHub:</li>
+</ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"rjdverse/rjd3toolkit@*release"</span><span class="op">)</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"rjdverse/rjd3revisions@*release"</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>To get the current development version from GitHub:</p>
+<ul>
+<li>From <a href="https://rjdverse.r-universe.dev/rjd3revisions" class="external-link">r-universe</a>:</li>
+</ul>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rjd3revisions"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://rjdverse.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="development-version">Development version<a class="anchor" aria-label="anchor" href="#development-version"></a>
+</h3>
+<p>You can install the development version of <strong>rjd3revisions</strong> from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"rjdverse/rjd3revisions"</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"rjdverse/rjd3revisions"</span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
@@ -212,7 +228,7 @@
 </tbody>
 </table>
 <p>Depending on the location of your input data, you can use <code><a href="reference/create_vintages_from_xlsx.html">create_vintages_from_xlsx()</a></code> or <code><a href="reference/create_vintages_from_csv.html">create_vintages_from_csv()</a></code>, or the more generic function <code><a href="reference/create_vintages.html">create_vintages()</a></code> to create the vintages.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Examples</span></span>
 <span></span>
 <span><span class="co"># Long format</span></span>
@@ -247,7 +263,7 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">vertical_view</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022-07-31"</span>, <span class="st">"2022-08-31"</span>, <span class="st">"2022-09-30"</span>, <span class="st">"2022-10-31"</span>,</span>
 <span>                               <span class="st">"2022-11-30"</span>, <span class="st">"2022-12-31"</span>, <span class="st">"2023-01-31"</span>, <span class="st">"2023-02-28"</span><span class="op">)</span></span></code></pre></div>
 <p>Then you can create your vintages, inspect revisions (optional) and make the analysis</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/rjdverse/rjd3revisions" class="external-link">"rjd3revisions"</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">vintages</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_vintages.html">create_vintages</a></span><span class="op">(</span><span class="va">long_view</span>, periodicity <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
@@ -260,7 +276,7 @@
 <span><span class="co">#&gt; Warning: orthogonallyModel1 could not be performed</span></span>
 <span><span class="co">#&gt; Warning: orthogonallyModel2 could not be performed</span></span></code></pre></div>
 <p>Finally to create a report and get a summary of the results, you can use</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/render_report.html">render_report</a></span><span class="op">(</span></span>
 <span>    <span class="va">rslt</span>,</span>
 <span>    output_file <span class="op">=</span> <span class="st">"my_report"</span>,</span>
