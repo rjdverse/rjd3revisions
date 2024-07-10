@@ -31,7 +31,7 @@ Suggests:
     readxl,
     formattable
 Remotes:
-    github::rjdverse/rjd3toolkit
+    github::rjdverse/rjd3toolkit@*release
 SystemRequirements: Java (>= 17)
 License: EUPL | file LICENSE
 Encoding: UTF-8
