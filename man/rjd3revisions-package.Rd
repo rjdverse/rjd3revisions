@@ -6,8 +6,6 @@
 \alias{rjd3revisions-package}
 \title{rjd3revisions: Revision analysis with 'JDemetra+ 3.x'}
 \description{
-\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
-
 Revision analysis tool part of 'JDemetra+ 3.x' (\url{https://github.com/jdemetra}) time series analysis software. It performs a battery of tests on revisions and submit a report with the results. The various tests enable the users to detect potential bias and sources of inefficiency in preliminary estimates.
 }
 \seealso{
