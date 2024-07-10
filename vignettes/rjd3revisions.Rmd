@@ -30,15 +30,15 @@ The next section helps with the installation of the package. The third section d
 
 # Installation settings
 
-This package relies on the Java libraries of [JDemetra+ v3](https://github.com/jdemetra/jdplus-main) and on the package [rjd3toolkit](https://github.com/rjdemetra/rjd3toolkit) of [RJDemetra](https://github.com/rjdemetra). Prior the installation, you must ensure to have a Java version >= 17.0 on your computer. If you need to use a portable version of Java to fill this request, you can follow the instructions in the [installation manual](https://github.com/jdemetra/rjdemetra/wiki/Installation-manual) of RJDemetra.
+This package relies on the Java libraries of [JDemetra+ v3](https://github.com/jdemetra/jdplus-main) and on the package [rjd3toolkit](https://github.com/rjdverse/rjd3toolkit) of [rjdverse](https://github.com/rjdverse). Prior the installation, you must ensure to have a Java version >= 17.0 on your computer. If you need to use a portable version of Java to fill this request, you can follow the instructions in the [installation manual](https://github.com/rjdverse/rjdemetra/wiki/Installation-manual) of RJDemetra.
 
 In addition to a Java version >= 17.0, you must have a recent version of the R packages rJava (>= 1.0.6) and RProtobuf (>=0.4.17) that you can download from CRAN. Depending on your current version of R, you might also need to install another version of Rtools. (>= 3.6). 
 
-This package also depends on the package [rjd3toolkit](https://github.com/rjdemetra/rjd3toolkit) that you must install from GitHub prior to [rjd3revsions](https://github.com/rjdemetra/rjd3revisions).
+This package also depends on the package [rjd3toolkit](https://github.com/rjdverse/rjd3toolkit) that you must install from GitHub prior to [rjd3revsions](https://github.com/rjdverse/rjd3revisions).
 
 ```{r package installation, echo = TRUE, eval = FALSE}
-remotes::install_github("rjdemetra/rjd3toolkit@*release")
-remotes::install_github("rjdemetra/rjd3revisions@*release", build_vignettes = TRUE)
+remotes::install_github("rjdverse/rjd3toolkit@*release")
+remotes::install_github("rjdverse/rjd3revisions@*release", build_vignettes = TRUE)
 ```
 
 Note that depending on the R packages that are already installed on your computer, you might also be asked to install or re-install a few other packages from CRAN. 
@@ -98,24 +98,27 @@ long_view <- data.frame(
         .7, .2, .7, .4, .7, .3, .7, .3
     )
 )
+print(long_view)
 
 # Horizontal format
 horizontal_view <- matrix(data = c(.8, .8, .7, .7, .7, .7, .7, .7, .2, .1,
-                            .1, .2, .2, .3, .2, .3, NA, NA, NA, .5, .5, .7, .7,
-                            .7, NA, NA, NA, NA, NA, NA, .4, .3),
+                                   .1, .2, .2, .3, .2, .3, NA, NA, NA, .5, .5, .7, .7,
+                                   .7, NA, NA, NA, NA, NA, NA, .4, .3),
                           ncol = 4)
 colnames(horizontal_view) <- c("2022Q1", "2022Q2", "2022Q3", "2022Q4")
 rownames(horizontal_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
                                "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28")
+print(horizontal_view)
 
 # Vertical format
 vertical_view <- matrix(data = c(.8, .2, NA, NA, .8, .1, NA, NA, .7, .1, NA,
                                  NA, .7, .2, .5, NA, .7, .2, .5, NA, .7, .3, .7, NA,
                                  .7, .2, .7, .4, .7, .3, .7, .3),
-                          nrow = 4)
+                        nrow = 4)
 rownames(vertical_view) <- c("2022Q1", "2022Q2", "2022Q3", "2022Q4")
 colnames(vertical_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
-                               "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28")
+                             "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28")
+print(vertical_view)
 ```
 
 ## Processing
@@ -127,12 +130,14 @@ library("rjd3revisions")
 Once your input data are in the right format, you create the vintages:
 
 ```{r create vintage, echo = TRUE, eval = TRUE}
-vintages <- create_vintages(long_view, type = "long", periodicity = 4)
+long_view <- rjd3revisions:::simulate_long(periodicity = 4L)
+
+vintages <- create_vintages(long_view, type = "long", periodicity = 4L)
 # vintages <- create_vintages_from_xlsx(file = "myinput.xlsx", type = "long", "Sheet1", periodicity = 4, format_date = "%d/%m/%Y")
 # vintages <- create_vintages_from_csv(file = "myinput.csv", periodicity = 4, sep = "\t", format_date = "%Y-%m-%d")
 
-# print(vintages) # extract of the vintages according to the different views
-# summary(vintages) # metadata about vintages
+print(vintages) # extract of the vintages according to the different views
+summary(vintages) # metadata about vintages
 ```
 
 possibly inspect the revisions and perform the revision analysis:
@@ -146,15 +151,24 @@ revisions <- get_revisions(vintages, gap = 1)
 # summary(revisions) # metadata about revisions
 ```
 
-Finally to create the report and get a summary of the results, you can use
+Finally to create the report and get a summary of the results, you can use the function `revision_analysis`{.r}
 
 ```{r create report, echo = TRUE, eval = TRUE}
 rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 
-# render_report(rslt, output_path = "C:/User/report.pdf", output_format = "pdf_format")
+summary(rslt)
+print(rslt)
+```
 
-# summary(rslt)
-# print(rslt)
+To export the report in pdf or html format, you can use the function `render_report`{.r}
+
+```{r export report, echo = TRUE, eval = FALSE}
+render_report(
+    rslt,
+    output_file = "my_report",
+    output_dir = "C:/Users/xxx",
+    output_format = "pdf_document"
+)
 ```
 
 ## Details on the main functions
@@ -244,9 +258,9 @@ U1 is bounded between 0 and 1. The closer the value of U1 is to zero, the better
 
 The second statistic, U2, is given by
 $$
-U_2=\frac{\sqrt{\sum^n_{t=1}\left(\frac{P_{t+1}-L_{t+1}}{L_t}\right)^2}}{\sqrt{\sum^n_{t=1}\left(\frac{L_{t+1}-L_t}{L_t}\right)^2}}
+U_2=\frac{\sqrt{\sum^n_{t=1}\left(\frac{P_{t + 1}-L_{t + 1}}{L_t}\right)^2}}{\sqrt{\sum^n_{t=1}\left(\frac{L_{t + 1}-L_t}{L_t}\right)^2}}
 $$
-The interpretation of U2 differs from U1. The value of 1 is no longer the upper bound of the statistic but a threshold above (below) which the preliminary estimates is less (more) accurate than the naïve random walk forecast repeating the last observed value (considering $P_{t+1}=L_t$). Whenever it can be calculated ($L_t \neq 0 ~\forall t$), the U2 statistic is the preferred option to evaluate the relevancy of the preliminary estimates.
+The interpretation of U2 differs from U1. The value of 1 is no longer the upper bound of the statistic but a threshold above (below) which the preliminary estimates is less (more) accurate than the naïve random walk forecast repeating the last observed value (considering $P_{t + 1}=L_t$). Whenever it can be calculated ($L_t \neq 0 ~\forall t$), the U2 statistic is the preferred option to evaluate the relevancy of the preliminary estimates.
 
 
 ## Bias
@@ -277,7 +291,7 @@ t_{adj}=\frac{\overline{R}}{\sqrt{\frac{s^2(1+\hat{\gamma})}{n(1-\hat{\gamma})}}
 $$
 where
 $$
-\hat{\gamma}=\frac{\sum^{n-1}_{t=1}(R_t-\overline{R})(R_{t+1}-\overline{R})}{\sum^n_{t=1}(R_t-\overline{R})^2}
+\hat{\gamma}=\frac{\sum^{n-1}_{t=1}(R_t-\overline{R})(R_{t + 1}-\overline{R})}{\sum^n_{t=1}(R_t-\overline{R})^2}
 $$
 
 ### Slope and drift

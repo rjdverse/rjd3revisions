@@ -10,7 +10,7 @@
 \usage{
 create_vintages(x, ...)
 
-create_vintages.data.frame(
+\method{create_vintages}{data.frame}(
   x,
   type = c("long", "horizontal", "vertical"),
   periodicity,
@@ -43,6 +43,8 @@ create_vintages.data.frame(
 \item{x}{a formatted object containing the input. It can be of type
 `data.frame`, `matrix` or `mts` and must represent one of the multiple
 vintage views (selected by the argument `type`.}
+
+\item{...}{Arguments to be passed to `create_vintages` according to the class of the object `x`}
 
 \item{type}{character specifying the type of representation of the input
 between `"long"`, `"horizontal"` and `"vertical"` approach.}

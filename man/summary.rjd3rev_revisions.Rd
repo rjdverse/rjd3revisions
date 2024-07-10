@@ -7,7 +7,9 @@
 \method{summary}{rjd3rev_revisions}(object, ...)
 }
 \arguments{
-\item{x}{an object of class "rjd3rev_revisions".}
+\item{object}{an object of class "rjd3rev_revisions".}
+
+\item{...}{further arguments passed to or from other methods.}
 }
 \description{
 Summary function for objects of class "rjd3rev_revisions"
