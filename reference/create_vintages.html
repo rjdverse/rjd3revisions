@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rjd3revisions</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.2.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,17 +82,17 @@
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>a formatted object containing the input. It can be of type
-`data.frame`, `matrix` or `mts` and must represent one of the multiple
-vintage views (selected by the argument `type`.</p></dd>
+<code>data.frame</code>, <code>matrix</code> or <code>mts</code> and must represent one of the multiple
+vintage views (selected by the argument <code>type</code>.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Arguments to be passed to `create_vintages` according to the class of the object `x`</p></dd>
+<dd><p>Arguments to be passed to <code>create_vintages</code> according to the class of the object <code>x</code></p></dd>
 
 
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
 <dd><p>character specifying the type of representation of the input
-between `"long"`, `"horizontal"` and `"vertical"` approach.</p></dd>
+between <code>"long"</code>, <code>"horizontal"</code> and <code>"vertical"</code> approach.</p></dd>
 
 
 <dt id="arg-periodicity">periodicity<a class="anchor" aria-label="anchor" href="#arg-periodicity"></a></dt>
@@ -117,45 +117,44 @@ If missing (by default), the whole range is selected.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>an object of class `rjd3rev_vintages` which contains the four
+    <p>an object of class <code>rjd3rev_vintages</code> which contains the four
 different view of a revision</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>From the input data.frame, the function displays vintages considering three
 different data structures or views: vertical, horizontal and diagonal. See
-the `details` section below for more information on the different views. The
-function returns an object of class `rjd3rev_vintages` that can be used as
-input in the main function `revision_analysis`.</p>
-<p>The are four different vintage views:</p>
-<p>1. The vertical view shows the observed values at each time period by the
+the <code>details</code> section below for more information on the different views. The
+function returns an object of class <code>rjd3rev_vintages</code> that can be used as
+input in the main function <code>revision_analysis</code>.</p>
+<p>The are four different vintage views:</p><ol><li><p>The vertical view shows the observed values at each time period by the
 different vintages. This approach is robust to changes of base year and
 data redefinition. A drawback of this approach is that for comparing the
 same historical series for different vintages, we need to look at the
 smallest common number of observations and consequently the number of
 observations is in some circumstances very small. Moreover, it is often the
 the case that most of the revision is about the last few points of the
-series so that the number of observations is too small to test anything.</p>
-<p>2. The horizontal view shows the observed values of the different vintages
+series so that the number of observations is too small to test anything.</p></li>
+<li><p>The horizontal view shows the observed values of the different vintages
 by the period. A quick analysis can be performed by rows in order to see
 how for the same data point (e.g. 2023Q1), figures are first estimated,
 then forecasted and finally revised. The main findings are usually obvious:
 in most cases the variance decreases, namely data converge towards the
 'true value'. Horizontal tables are just a transpose of vertical tables and
-are not used in the tests in `revision_analysis`.</p>
-<p>3. The diagonal view shows subsequent releases of a given time period,
+are not used in the tests in <code>revision_analysis</code>.</p></li>
+<li><p>The diagonal view shows subsequent releases of a given time period,
 without regard for the date of publication. The advantage of the diagonal
 approach is that it gives a way to analyse the trade between the timing of
 the release and the accuracy of the published figures. It is particularly
 informative when regular estimation intervals exist for the data under
 study. However, this approach requires to be particularly vigilant in case
-there is a change in base year or data redefinition.</p>
-<p>4. The long view is a representation of data that allows information to be
+there is a change in base year or data redefinition.</p></li>
+<li><p>The long view is a representation of data that allows information to be
 grouped together in order to facilitate their manipulation. With 3 columns
 (1 column for the time period, 1 column for the publication / revision date
 and one column for the data), this representation allows for efficient and
-non-redundant storage of data.</p>
-    </div>
+non-redundant storage of data.</p></li>
+</ol></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
