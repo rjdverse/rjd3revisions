@@ -8,7 +8,7 @@ theil(vintages.view, gap = 1, na.zero = FALSE)
 }
 \arguments{
 \item{vintages.view}{mts object. Vertical or diagonal view of the
-`create_vintages()` output}
+\code{create_vintages()} output}
 
 \item{gap}{Integer. Gap to consider between each vintages. Default is 1
 which means that revisions are calculated and tested for each
@@ -44,5 +44,5 @@ theil(vintages$diagonal_view)
 
 }
 \seealso{
-`revision_analysis()`, `render_report()`
+\code{revision_analysis()}, \code{render_report()}
 }

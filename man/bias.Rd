@@ -8,7 +8,7 @@ bias(revisions.view, na.zero = FALSE)
 }
 \arguments{
 \item{revisions.view}{mts object. Vertical or diagonal view of the
-`get_revisions()` output}
+\code{get_revisions()} output}
 
 \item{na.zero}{Boolean whether missing values should be considered as 0 or
 rather as data not (yet) available (the default).}
@@ -41,5 +41,5 @@ bias(revisions$diagonal_view)
 
 }
 \seealso{
-`revision_analysis()`, `render_report()`
+\code{revision_analysis()}, \code{render_report()}
 }

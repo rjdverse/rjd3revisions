@@ -47,6 +47,7 @@ Finally, this package also suggests the R packages `formattable` and `kableExtra
 
 # Usage
 
+
 ## Input data {#input_format}
 
 Your input data must be in a specific format taken from the reference documents of Ares and Pitton (2013). It must have specific column names and date formats as in the table below. Note that missing values can either be mentioned as NA (as in the example below) or not be included in the input at the best convenience of the user.  
@@ -130,11 +131,19 @@ library("rjd3revisions")
 Once your input data are in the right format, you create the vintages:
 
 ```{r create vintage, echo = TRUE, eval = TRUE}
-long_view <- rjd3revisions:::simulate_long(periodicity = 4L)
-
 vintages <- create_vintages(long_view, type = "long", periodicity = 4L)
-# vintages <- create_vintages_from_xlsx(file = "myinput.xlsx", type = "long", "Sheet1", periodicity = 4, format_date = "%d/%m/%Y")
-# vintages <- create_vintages_from_csv(file = "myinput.csv", periodicity = 4, sep = "\t", format_date = "%Y-%m-%d")
+# vintages <- create_vintages_from_xlsx(
+#     file = "myinput.xlsx", 
+#     type = "long", 
+#     periodicity = 4, 
+#     "Sheet1"
+# )
+# vintages <- create_vintages_from_csv(
+#     file = "myinput.csv", 
+#     periodicity = 4, 
+#     sep = "\t", 
+#     date_format = "%Y-%m-%d"
+# )
 
 print(vintages) # extract of the vintages according to the different views
 summary(vintages) # metadata about vintages
@@ -142,13 +151,13 @@ summary(vintages) # metadata about vintages
 
 possibly inspect the revisions and perform the revision analysis:
 
-```{r revision analysis, echo = TRUE, eval = TRUE}
+```{r revision analysis, echo = TRUE, eval = FALSE}
 revisions <- get_revisions(vintages, gap = 1)
 
-# plot(revisions)
+plot(revisions)
 
-# print(revisions) # extract of the revisions according to the different views
-# summary(revisions) # metadata about revisions
+print(revisions) # extract of the revisions according to the different views
+summary(revisions) # metadata about revisions
 ```
 
 Finally to create the report and get a summary of the results, you can use the function `revision_analysis`{.r}
@@ -301,7 +310,7 @@ We assume a linear regression model of a latter vintage (L) on a preliminary vin
 $$
 L_t=\beta_0+\beta_1P_t+\varepsilon_t
 $$
-While the (augmented) t-test on revisions only gives information about mean bias, this regression enables to assess both mean and regression bias. A regression bias would occur, for example, if preliminary estimates tend to be too low when latter estimates are relatively high and too high when latter estimates are relatively low. In this case, this may result in a positive value of the intercept and a value of $\beta_1<1$. To evaluate whether a mean or regression bias is present, we employ a conventional t-test on the parameters with the null hypothesis $\beta_0 = 0$ and $\hat{\beta}_1 = 1$.  
+While the (augmented) t-test on revisions only gives information about mean bias, this regression enables to assess both mean and regression bias. A regression bias would occur, for example, if preliminary estimates tend to be too low when latter estimates are relatively high and too high when latter estimates are relatively low. In this case, this may result in a positive value of the intercept and a value of $\beta_1<1$. To evaluate whether a mean or regression bias is present, we employ a conventional t-test on the parameters with the null hypothesis $\beta_0 = 0$ and $\beta_1 = 1$.  
 
 Recall that OLS regressions always come along with rather strict assumptions. Users should check the diagnostics and draw the necessary conclusions from them. 
 
@@ -410,4 +419,5 @@ We employ a F-test on the parameters to test jointly that $\beta_0 = 0$ and $\be
 - McKenzie, Richard, and Michela Gamba. 2007. “Interpreting the Results of Revision Analyses: Recommended Summary Statistics.” OECD.
 - Pitton, Laurent, and David Ares. 2013a. “Tool for Revision Analysis : Regression Based Parametric Analysis.” DI/06769. DG ESTAT.
 - Pitton, Laurent, and David Ares. 2013b. “Tool for Revision Analysis : VAR Based Models and Final Equation.” DI/06769. DG ESTAT.
-- Smyk, Anna, Alain Quartier-la-Tente, Tanguy Barthelemy, and Karsten Webel. 2023. “JDemetra+ Documentation.” INSEE; https://jdemetra-new-documentation.netlify.app/.
+- Smyk, Anna, Tanguy Barthelemy, Karsten Webel and al. 2024. “JDemetra+ Documentation.” INSEE; https://jdemetra-new-documentation.netlify.app/.
+

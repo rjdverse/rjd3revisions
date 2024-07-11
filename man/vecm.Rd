@@ -13,7 +13,7 @@ vecm(
 }
 \arguments{
 \item{vintages.view}{mts object. Vertical or diagonal view of the
-`create_vintages()` output}
+\code{create_vintages()} output}
 
 \item{lag}{Number of lags}
 

@@ -8,7 +8,7 @@ unitroot(vintages.view, adfk = 1, na.zero = FALSE)
 }
 \arguments{
 \item{vintages.view}{mts object. Vertical or diagonal view of the
-`create_vintages()` output}
+\code{create_vintages()} output}
 
 \item{adfk}{Number of lags to consider for Augmented Dicky-Fuller (ADF) test}
 
@@ -42,5 +42,5 @@ unitroot(vintages$diagonal_view)
 
 }
 \seealso{
-`revision_analysis()`, `render_report()`
+\code{revision_analysis()}, \code{render_report()}
 }

@@ -41,13 +41,13 @@ create_vintages(x, ...)
 }
 \arguments{
 \item{x}{a formatted object containing the input. It can be of type
-`data.frame`, `matrix` or `mts` and must represent one of the multiple
-vintage views (selected by the argument `type`.}
+\code{data.frame}, \code{matrix} or \code{mts} and must represent one of the multiple
+vintage views (selected by the argument \code{type}.}
 
-\item{...}{Arguments to be passed to `create_vintages` according to the class of the object `x`}
+\item{...}{Arguments to be passed to \code{create_vintages} according to the class of the object \code{x}}
 
 \item{type}{character specifying the type of representation of the input
-between `"long"`, `"horizontal"` and `"vertical"` approach.}
+between \code{"long"}, \code{"horizontal"} and \code{"vertical"} approach.}
 
 \item{periodicity}{periodicity of the time period (12, 4 or 1 for resp.
 monthly, quarterly or annual data)}
@@ -64,7 +64,7 @@ the vintages whose revision date is between 02 Feb. 2022 and 05 Aug. 2022.
 If missing (by default), the whole range is selected.}
 }
 \value{
-an object of class `rjd3rev_vintages` which contains the four
+an object of class \code{rjd3rev_vintages} which contains the four
 different view of a revision
 }
 \description{
@@ -73,13 +73,13 @@ Create vintage tables from data.frame, matrix or mts object in R
 \details{
 From the input data.frame, the function displays vintages considering three
 different data structures or views: vertical, horizontal and diagonal. See
-the `details` section below for more information on the different views. The
-function returns an object of class `rjd3rev_vintages` that can be used as
-input in the main function `revision_analysis`.
+the \code{details} section below for more information on the different views. The
+function returns an object of class \code{rjd3rev_vintages} that can be used as
+input in the main function \code{revision_analysis}.
 
 The are four different vintage views:
-
-1. The vertical view shows the observed values at each time period by the
+\enumerate{
+\item The vertical view shows the observed values at each time period by the
 different vintages. This approach is robust to changes of base year and
 data redefinition. A drawback of this approach is that for comparing the
 same historical series for different vintages, we need to look at the
@@ -87,28 +87,26 @@ smallest common number of observations and consequently the number of
 observations is in some circumstances very small. Moreover, it is often the
 the case that most of the revision is about the last few points of the
 series so that the number of observations is too small to test anything.
-
-2. The horizontal view shows the observed values of the different vintages
+\item The horizontal view shows the observed values of the different vintages
 by the period. A quick analysis can be performed by rows in order to see
 how for the same data point (e.g. 2023Q1), figures are first estimated,
 then forecasted and finally revised. The main findings are usually obvious:
 in most cases the variance decreases, namely data converge towards the
 'true value'. Horizontal tables are just a transpose of vertical tables and
-are not used in the tests in `revision_analysis`.
-
-3. The diagonal view shows subsequent releases of a given time period,
+are not used in the tests in \code{revision_analysis}.
+\item The diagonal view shows subsequent releases of a given time period,
 without regard for the date of publication. The advantage of the diagonal
 approach is that it gives a way to analyse the trade between the timing of
 the release and the accuracy of the published figures. It is particularly
 informative when regular estimation intervals exist for the data under
 study. However, this approach requires to be particularly vigilant in case
 there is a change in base year or data redefinition.
-
-4. The long view is a representation of data that allows information to be
+\item The long view is a representation of data that allows information to be
 grouped together in order to facilitate their manipulation. With 3 columns
 (1 column for the time period, 1 column for the publication / revision date
 and one column for the data), this representation allows for efficient and
 non-redundant storage of data.
+}
 }
 \examples{
 ## creating the input

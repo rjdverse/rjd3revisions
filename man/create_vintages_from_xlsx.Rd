@@ -16,19 +16,21 @@ create_vintages_from_xlsx(
 to be read from.}
 
 \item{type}{character specifying the type of representation of the input
-between `"long"`, `"horizontal"` and `"vertical"` approach.}
+between \code{"long"}, \code{"horizontal"} and \code{"vertical"} approach.}
 
 \item{periodicity}{periodicity of the time period (12, 4 or 1 for resp.
 monthly, quarterly or annual data)}
 
-\item{...}{Arguments to be passed to `readxl::read_excel()`, for example:
-* `sheet` character containing the sheet to read
-* `range` A cell range to read from
-* `col_names` a boolean to use the first row as column names
-* `...`}
+\item{...}{Arguments to be passed to \code{readxl::read_excel()}, for example:
+\itemize{
+\item \code{sheet} character containing the sheet to read
+\item \code{range} A cell range to read from
+\item \code{col_names} a boolean to use the first row as column names
+\item \code{...}
+}}
 }
 \value{
-an object of class `rjd3rev_vintages`
+an object of class \code{rjd3rev_vintages}
 }
 \description{
 Create vintages table from XLSX files
@@ -47,5 +49,5 @@ vintages <- create_vintages_from_xlsx(
 
 }
 \seealso{
-[create_vintages_from_csv()], [create_vintages()] which this function wraps.
+\code{\link[=create_vintages_from_csv]{create_vintages_from_csv()}}, \code{\link[=create_vintages]{create_vintages()}} which this function wraps.
 }

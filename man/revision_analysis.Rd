@@ -18,8 +18,8 @@ revision_analysis(
 )
 }
 \arguments{
-\item{vintages}{an object of class `"rjd3rev_vintages"` which is the output
-of the function `create_vintages()`}
+\item{vintages}{an object of class \code{"rjd3rev_vintages"} which is the output
+of the function \code{create_vintages()}}
 
 \item{gap}{Integer. Gap to consider between each vintages. Default is 1
 which means that revisions are calculated and tested for each
@@ -30,20 +30,20 @@ Vertical view shows the observed values at each time period by
 the different vintages. Diagonal view shows subsequent releases
 of a given time period, without regard for the date of
 publication, which can be particularly informative when regular
-estimation intervals exist. See `?create_vintages()` for more
+estimation intervals exist. See \code{?create_vintages()} for more
 information about interests and drawbacks of each view.}
 
-\item{n.releases}{only used when `view = "diagonal"`. Ignored otherwise.
+\item{n.releases}{only used when \code{view = "diagonal"}. Ignored otherwise.
 Allow the user to limit the number of releases under
-investigation). When `view = "vertical"`, the user is
+investigation). When \code{view = "vertical"}, the user is
 invited to limit the number of vintages upstream through
-the parameter `vintage_selection` in `create_vintages()`
+the parameter \code{vintage_selection} in \code{create_vintages()}
 whenever necessary.}
 
 \item{transf.diff}{differentiation to apply to the data prior testing. Only
 used for regressions including vintage data as regressor
 and/or regressand. Regression including revision data only
-are never differentiated even if `transf.diff = "forced"`.
+are never differentiated even if \code{transf.diff = "forced"}.
 Options are "automatic" (the default), "forced" and "none".}
 
 \item{transf.log}{Boolean whether a log-transformation should first be
@@ -74,7 +74,7 @@ transformation of the vintage data may be important to avoid misleading
 results. By default, the decision to differentiate the vintage data is
 performed automatically based on unit root and co-integration tests whose
 results can be found found in the results too (section 'varbased'). Finally,
-running the function `render_report()` on the output of `revision_analysis()`
+running the function \code{render_report()} on the output of \code{revision_analysis()}
 would give you both a formatted summary of the results and full explanations
 about each tests.
 }
@@ -126,6 +126,6 @@ rslt3 <- revision_analysis(vintages, gap=2, view = "vertical")
 
 }
 \seealso{
-`create_vintages()` to create the input object,
-         `render_report()` to get a summary and information the tests
+\code{create_vintages()} to create the input object,
+\code{render_report()} to get a summary and information the tests
 }

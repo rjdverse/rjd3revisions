@@ -2,12 +2,12 @@
 % Please edit documentation in R/vintages.R
 \name{print.rjd3rev_vintages}
 \alias{print.rjd3rev_vintages}
-\title{Print function for objects of class `"rjd3rev_vintages"`}
+\title{Print function for objects of class \code{"rjd3rev_vintages"}}
 \usage{
 \method{print}{rjd3rev_vintages}(x, n_row = 8, n_col = 3, ...)
 }
 \arguments{
-\item{x}{an object of class `"rjd3rev_vintages"`.}
+\item{x}{an object of class \code{"rjd3rev_vintages"}.}
 
 \item{n_row}{number of last rows to display. For the horizontal view,
 corresponds to the number of columns.}
@@ -19,5 +19,5 @@ corresponds to the number of columns.}
 \item{...}{further arguments passed to the print() function.}
 }
 \description{
-Print function for objects of class `"rjd3rev_vintages"`
+Print function for objects of class \code{"rjd3rev_vintages"}
 }
