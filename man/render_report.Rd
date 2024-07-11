@@ -14,8 +14,8 @@ render_report(
 )
 }
 \arguments{
-\item{rslt}{an object of class `"rjd3rev_vintages"` which is the output
-of the function `revision_analysis()`}
+\item{rslt}{an object of class \code{"rjd3rev_vintages"} which is the output
+of the function \code{revision_analysis()}}
 
 \item{output_file}{path or name of the output file containing the report}
 
@@ -26,9 +26,11 @@ of the function `revision_analysis()`}
 \item{open_report}{Boolean. Default is TRUE meaning that the report will
 open automatically after being generated.}
 
-\item{...}{Arguments to be passed to `rmarkdown::render()`, for example:
-* `output_options` List of output options that can override the options specified in metadata
-* `...`}
+\item{...}{Arguments to be passed to \code{rmarkdown::render()}, for example:
+\itemize{
+\item \code{output_options} List of output options that can override the options specified in metadata
+\item \code{...}
+}}
 }
 \description{
 Generate report on Revision Analysis
@@ -36,18 +38,27 @@ Generate report on Revision Analysis
 \examples{
 
 ## Simulated data
-
-long_format <- rjd3revisions:::simulate_long(
-    start_period = as.Date("2020-01-01"),
-    n_period = 24,
-    n_revision = 6,
-    periodicity = 12L
-)
+period_range <- seq(as.Date('2011-01-01'),as.Date('2020-10-01'),by='quarter')
+qtr <- (as.numeric(substr(period_range,6,7))+2)/3
+time_period <- rep(paste0(format(period_range, "\%Y"), "Q", qtr),5)
+np <- length(period_range)
+rev_date <- c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np),
+            rep("2022-12-31",np), rep("2023-06-30",np))
+set.seed(1)
+xt <- cumsum(sample(rnorm(1000,0,1), np, TRUE))
+rev <- rnorm(np*4,0,.1)
+obs_values <- xt
+for(i in 1:4) {
+  xt <- xt+rev[(1+(i-1)*np):(i*np)]
+  obs_values <- c(obs_values,xt)
+}
+df <- data.frame(rev_date, time_period, obs_values)
 
 ## Make analysis and generate the report
 
-vintages <- create_vintages(long_format, periodicity = 12L)
+vintages <- create_vintages(df, periodicity = 4L, type = "long")
 rslt <- revision_analysis(vintages, view = "diagonal")
+
 \dontrun{
 render_report(
     rslt,
@@ -59,5 +70,5 @@ render_report(
 
 }
 \seealso{
-`revision_analysis()` to create the input object
+\code{revision_analysis()} to create the input object
 }

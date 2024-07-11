@@ -8,7 +8,7 @@ descriptive_statistics(revisions.view, rounding = 3)
 }
 \arguments{
 \item{revisions.view}{mts object. Vertical or diagonal view of the
-`get_revisions()` output}
+\code{get_revisions()} output}
 
 \item{rounding}{number of decimals to display}
 }

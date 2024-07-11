@@ -11,7 +11,7 @@
 
 \item{type}{type of view to display}
 
-\item{...}{further arguments passed to the `View` method.}
+\item{...}{further arguments passed to the \code{View} method.}
 }
 \description{
 Display the different view in a different panel to visualize the data in a table / matrix format

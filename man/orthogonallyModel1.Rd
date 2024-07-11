@@ -8,7 +8,7 @@ orthogonallyModel1(revisions.view, nrevs = 1, na.zero = FALSE)
 }
 \arguments{
 \item{revisions.view}{mts object. Vertical or diagonal view of the
-`get_revisions()` output}
+\code{get_revisions()} output}
 
 \item{nrevs}{Integer. Number of lags to consider.}
 
@@ -43,5 +43,5 @@ orthogonallyModel1(revisions$diagonal_view)
 
 }
 \seealso{
-`revision_analysis()`, `render_report()`
+\code{revision_analysis()}, \code{render_report()}
 }

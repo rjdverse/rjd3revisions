@@ -12,6 +12,10 @@ Description: Revision analysis tool part of 'JDemetra+ 3.x' (<https://github.com
              with the results. The various tests enable the users to detect
              potential bias and sources of inefficiency in preliminary 
              estimates.
+License: EUPL | file LICENSE
+URL: https://github.com/rjdverse/rjd3revisions, https://rjdverse.github.io/rjd3revisions/
+BugReports: https://github.com/rjdverse/rjd3revisions/issues
+SystemRequirements: Java (>= 17)
 Depends:
     R (>= 4.1.0)
 Imports:
@@ -32,9 +36,6 @@ Suggests:
     formattable
 Remotes:
     github::rjdverse/rjd3toolkit
-SystemRequirements: Java (>= 17)
-License: EUPL | file LICENSE
-Encoding: UTF-8
 Collate: 
     'rjd3revisions-package.R'
     'check.R'
@@ -46,8 +47,8 @@ Collate:
     'tests.R'
     'vintages.R'
     'zzz.R'
-RoxygenNote: 7.3.2
-URL: https://github.com/rjdverse/rjd3revisions, https://rjdverse.github.io/rjd3revisions/
-BugReports: https://github.com/rjdverse/rjd3revisions/issues
 Config/testthat/edition: 3
+Encoding: UTF-8
+RoxygenNote: 7.3.2
+Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr

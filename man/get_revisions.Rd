@@ -7,14 +7,14 @@
 get_revisions(vintages, gap = 1)
 }
 \arguments{
-\item{vintages}{an object of class `rjd3rev_vintages`}
+\item{vintages}{an object of class \code{rjd3rev_vintages}}
 
 \item{gap}{Integer. Gap to consider between each vintages to calculate
 revision. Default is 1 which means that revisions are
 calculated for each vintages consecutively.}
 }
 \value{
-an object of class `rjd3rev_revisions` which contains the three
+an object of class \code{rjd3rev_revisions} which contains the three
 different views of revisions
 }
 \description{
@@ -35,5 +35,5 @@ revisions <- get_revisions(vintages, gap = 1)
 
 }
 \seealso{
-`create_vintages()`
+\code{create_vintages()}
 }
