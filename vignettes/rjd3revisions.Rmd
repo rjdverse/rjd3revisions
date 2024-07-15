@@ -231,7 +231,7 @@ For some of the parametric tests, prior transformation of the vintage data may b
 
 As part of the arguments of the `revision_analysis()` function, you can choose the view and the gap to consider, restrict the number of releases under investigation when diagonal view is selected and/or change the default setting about the prior transformation of the data (including the possibility to add a prior log-transformation of your data).  
 
-The function `render_report()` applied on the output of `revision_analysis()` will generate an enhanced HTML report including both a formatted summary of the results and full explanations about each test (which are also included in the vignette below). The formatted summary of the results display the p-value of each test (except for Theil's tests where the value of the statistics is provided) and their interpretation. An appreciation 'good', 'uncertain', 'bad' and 'severe' is indeed associated to each test following the usual statistical interpretation of p-values and the orientation of the tests. This allows a quick visual interpretation of the results and is similar to what is done in the GUI of JDemetra+. 
+The function `render_report()` applied on the output of `revision_analysis()` will generate an enhanced HTML or PDF report including both a formatted summary of the results and full explanations about each test (which are also included in the vignette below). The formatted summary of the results display the p-value of each test (except for Theil's tests where the value of the statistics is provided) and their interpretation. An appreciation 'good', 'uncertain', 'bad' and 'severe' is indeed associated to each test following the usual statistical interpretation of p-values and the orientation of the tests. This allows a quick visual interpretation of the results and is similar to what is done in the GUI of JDemetra+. 
 
 In addition to the function `revision_analysis()`, the user can also perform tests individually if they want to. To list all functions available in the package (and therefore finding the different functions corresponding to the individual tests), you can do
 
@@ -247,6 +247,24 @@ The detailed results of each test are part of the output returned by the functio
 
 In addition to the visual report that you can get by applying the function `render_report()` on the output of the function `revision_analysis()`, you can also apply the usual `summary()` and `print()` functions to this output. The function `summary()`, in particular, will print only the formatted table of the report with the main results. The `print()` will provide the same unformatted information together with some extra ones. Finally the `plot()` function applied to the output of the function `get_revisions()` will provide you with a visual of the revisions over time.
 
+## User-defined thresholds
+
+It is possible for the user to change the default values of the thresholds considered in the function `revision_analysis()` (and displayed by the functions `summary.rjd3rev_rslts()` and `render_report()`) that are used to make quality assessment on the results of the tests. Changing the default values of the thresholds can be done for each test through the global options. The latter can be set via `options()` and queried via `getOption()`. Note that the default thresholds considered for residuals diagnostics can also be changed if necessary. See file `options.R` to see the list of all default thresholds that can be modified. 
+
+Here's how to customize a threshold. Thresholds values should be defined as an ascending numeric vector. We start from -Inf and each element of the vector should be understood as the upper or lower bound (depending on the null hypothesis) of the corresponding assessment. Furthermore, the assessment "good" is always the one not to be mentioned. Depending on the test, it will interpret it adequately. Finally, only the assessments 'good' (implicitly), 'uncertain', 'bad' and 'severe' are allowed but they don't all have to be used if it is not necessary. Here is an example of how to modify threshold values for some of the tests. The name of all tests whose threshold values can be modified can be found in the file 'options.R'.
+
+```{r options, echo = TRUE, eval = TRUE}
+options(list(augmented_t = c(severe = 0.005, bad = 0.05, uncertain = 0.1),
+             t = c(bad = 0.05, uncertain = 0.1),
+             theil_u2 = c(uncertain = .5, bad = .75, severe = 1)))
+
+rslt2 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
+summary(rslt2)
+```
+
+For the augmented t-test, by defining the threshold values like this, it means that the results will be assessed as severe if the p-value < 0.005, as bad if the p-value is between 0.005 and 0.05, as uncertain if between 0.05 and 0.1 and as good if it is higher than 0.05. As far as the Theil U2 test is concerned, given the definition of the test (see section [Theil’s Inequality Coefficient](#theil)), we'll have the results will be assessed as good if the value of the test is lower than 0.5, uncertain, between 0.5 and 0.75, bad between 0.75 and 1 and severe if it is higher than 1.  
+
+
 # Tests description and interpretation
 
 Recall that the purpose of the parametric tests described below are:
@@ -257,7 +275,7 @@ Recall that the purpose of the parametric tests described below are:
 
 ## Relevancy
 
-### Theil’s Inequality Coefficient
+### Theil’s Inequality Coefficient {#theil}
 
 In the context of revision analysis, Theil's inequality coefficient, also known as Theil's U, provides a measure of the accuracy of a set of preliminary estimates (P) compared to a latter version (L). There exists a few definitions of Theil's statistics leading to different interpretation of the results. In this package, two definitions are considered. The first statistic, U1, is given by
 $$
