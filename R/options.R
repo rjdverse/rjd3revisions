@@ -1,11 +1,11 @@
-#' Set threshold values that can be customized by the user through global
-#' options
+#' Threshold values that can be customized by the user through global options
 #'
 #' For each test, the function returns either default values or user-defined
 #' values of the thresholds. User-defined values can be defined by the user
 #' through the global options. The threshold values are used to make quality
-#' assessment in the output of the functions `summary.rjd3rev_rslts()`
-#' and `render_report()`. Default thresholds considered for residuals
+#' assessment in the output of the functions `revision_analysis()`
+#' (clearly displayed in the functions `summary.rjd3rev_rslts()` and
+#' `render_report()`). Default thresholds considered for residuals
 #' diagnostics can also be changed if necessary. Options can be set via
 #' `options()` and queried via `getOption()`.
 #'
@@ -31,9 +31,9 @@
 #' vintages <- create_vintages(x = df, periodicity = 4, date_format = "%Y-%m-%d")
 #'
 #' ## Define threshold
-#' options(list(at_test_thresholds = c(severe = 0.005, bad = 0.05, uncertain = 0.1)),
-#'              t_test_thresholds = c(severe = 0.005, bad = 0.05, uncertain = 0.1)),
-#'              theil_u2_test_thresholds = c(uncertain = .5, bad = .75, severe = 1)))
+#' options(list(augmented_t = c(severe = 0.005, bad = 0.05, uncertain = 0.1)),
+#'              t = c(severe = 0.005, bad = 0.05, uncertain = 0.1)),
+#'              theil_u2 = c(uncertain = .5, bad = .75, severe = 1)))
 #'
 #' rslt1 <- revision_analysis(vintages)
 #'
