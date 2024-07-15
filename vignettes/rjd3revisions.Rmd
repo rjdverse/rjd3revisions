@@ -8,7 +8,23 @@ vignette: >
   %\VignetteIndexEntry{Revision analysis tool with JDemetra+ version 3.x algorithms}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-author: Corentin Lemasson
+author:
+  - name: Corentin Lemasson
+    url: https://github.com/clemasso
+    affiliations:
+        - name: NBB (National Bank of Belgium)
+          country: Belgique
+          city: Bruxelles
+          url: "https://www.nbb.be/en"
+    role: "Author"
+  - name: Tanguy Barthelemy
+    url: https://github.com/TanguyBarthelemy
+    affiliations:
+        - name: Insee
+          country: France
+          city: Paris
+          url: "https://www.insee.fr/en/accueil"
+    role: "Author"
 abstract: Revision analyses provides important information on the efficiency of preliminary estimates, allowing to identify potential issues and/or improvements that could be made in the compilation process. This package provides a tool to automatically perform a battery of relevant tests on revisions and submit a visual report including both the main results and their interpretation. The tool can perform analysis on different types of revision intervals and on different vintage views.  
 ---
 
@@ -50,7 +66,7 @@ Finally, this package also suggests the R packages `formattable` and `kableExtra
 
 ## Input data {#input_format}
 
-Your input data must be in a specific format taken from the reference documents of Ares and Pitton (2013). It must have specific column names and date formats as in the table below. Note that missing values can either be mentioned as NA (as in the example below) or not be included in the input at the best convenience of the user.  
+Your input data must be in a specific format: long, vertical or diagonal   as shown in one of the table below. Regarding the dates, the format shown in the examples below is acceptable, as are the other common date formats for both revision dates and time periods. Note that missing values can either be mentioned as NA (as in the example below) or not be included in the input at the best convenience of the user. 
 
 ### Format 1: long view
 
@@ -133,15 +149,15 @@ Once your input data are in the right format, you create the vintages:
 ```{r create vintage, echo = TRUE, eval = TRUE}
 vintages <- create_vintages(long_view, type = "long", periodicity = 4L)
 # vintages <- create_vintages_from_xlsx(
-#     file = "myinput.xlsx", 
-#     type = "long", 
-#     periodicity = 4, 
+#     file = "myinput.xlsx",
+#     type = "long",
+#     periodicity = 4,
 #     "Sheet1"
 # )
 # vintages <- create_vintages_from_csv(
-#     file = "myinput.csv", 
-#     periodicity = 4, 
-#     sep = "\t", 
+#     file = "myinput.csv",
+#     periodicity = 4,
+#     sep = "\t",
 #     date_format = "%Y-%m-%d"
 # )
 
