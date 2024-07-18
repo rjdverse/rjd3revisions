@@ -8,6 +8,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+* user-defined thresholds for tests assessment
+* possibility to add plot of revisions in report
 
 ## [1.3.2] - 2024-07-10
 

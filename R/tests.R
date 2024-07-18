@@ -522,7 +522,7 @@ orthogonallyModel1 <- function(revisions.view, nrevs = 1, na.zero = FALSE) {
         return(NULL)
     }
     colnames(om) <- OlsAllNames(nrevs)
-    rownames(om) <- colnames(r[-c(1:nrevs)])
+    rownames(om) <- colnames(r)[-c(1:nrevs)]
     return(om)
 }
 

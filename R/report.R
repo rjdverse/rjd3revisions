@@ -44,7 +44,8 @@
 #'     rslt,
 #'     output_file = "my_report",
 #'     output_dir = "C:/Users/xxx",
-#'     output_format = "pdf_document"
+#'     output_format = "pdf_document",
+#'     plot_revisions = TRUE
 #' )
 #' }
 #'
@@ -52,6 +53,7 @@ render_report <- function(rslt,
                           output_file,
                           output_dir,
                           output_format = c("html_document", "pdf_document"),
+                          plot_revisions = FALSE,
                           open_report = TRUE,
                           ...) {
 
@@ -92,7 +94,9 @@ render_report <- function(rslt,
 
     e <- list2env(list(
         descriptive_statistics = rslt$descriptive.statistics,
-        main_results = rslt$summary
+        main_results = rslt$summary,
+        add_plot = plot_revisions,
+        revisions = rslt$revisions
     ))
 
     rmarkdown::render(

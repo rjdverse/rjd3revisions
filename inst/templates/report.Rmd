@@ -40,6 +40,12 @@ if (!requireNamespace("kableExtra", quietly = TRUE)) {
 } else {
     kableExtra::kable_minimal(knitr::kable(descriptive_statistics[selection, , drop = FALSE]))
 }
+
+if (add_plot) {
+    stats::ts.plot(revisions, gpars = list(xlab = "", ylab = "", col = c(1:ncol(revisions)), type = "h", lwd = 2))
+    graphics::legend("topleft", bty = "n", lty = 1, lwd = 2, col = c(1:ncol(revisions)), legend = colnames(revisions))
+    graphics::title(main = "Revisions size")
+}
 ```
 
 
@@ -70,7 +76,6 @@ if (!requireNamespace("kableExtra", quietly = TRUE)) {
     kableExtra::kable_minimal(knitr::kable(main_results, escape = FALSE))
 }
 ```
-
 
 # Tests description
 
