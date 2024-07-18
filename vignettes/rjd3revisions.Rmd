@@ -101,7 +101,7 @@ Your input data must be in a specific format: long, vertical or diagonal   as sh
 
 Depending on the location of your input data, you can use `create_vintages_from_xlsx()` or `create_vintages_from_csv()`, or the more generic function `create_vintages()` to create the vintages (see section [vintages & revisions](#vintages)) later on. If you plan to use the generic function, you'll first need to put your input data in a data.frame in R as in the example below.
 
-```{r input format, echo = TRUE, eval = TRUE}
+```{r input format, echo = TRUE, eval = FALSE}
 # Long format
 long_view <- data.frame(
     rev_date = rep(x = c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
@@ -140,13 +140,13 @@ print(vertical_view)
 
 ## Processing
 
-```{r loading package, echo = TRUE, eval = TRUE}
+```{r loading package, echo = TRUE, eval = FALSE}
 library("rjd3revisions")
 ```
 
 Once your input data are in the right format, you create the vintages:
 
-```{r create vintage, echo = TRUE, eval = TRUE}
+```{r create vintage, echo = TRUE, eval = FALSE}
 vintages <- create_vintages(long_view, type = "long", periodicity = 4L)
 # vintages <- create_vintages_from_xlsx(
 #     file = "myinput.xlsx",
@@ -178,7 +178,7 @@ summary(revisions) # metadata about revisions
 
 Finally to create the report and get a summary of the results, you can use the function `revision_analysis`{.r}
 
-```{r create report, echo = TRUE, eval = TRUE}
+```{r create report, echo = TRUE, eval = FALSE}
 rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 
 summary(rslt)
@@ -251,7 +251,7 @@ The function `render_report()` applied on the output of `revision_analysis()` wi
 
 In addition to the function `revision_analysis()`, the user can also perform tests individually if they want to. To list all functions available in the package (and therefore finding the different functions corresponding to the individual tests), you can do
 
-```{r, echo = TRUE, eval = TRUE}
+```{r, echo = TRUE, eval = FALSE}
 ls("package:rjd3revisions")
 ```
 
@@ -269,7 +269,7 @@ It is possible for the user to change the default values of the thresholds consi
 
 Here's how to customize a threshold. Thresholds values should be defined as an ascending numeric vector. We start from -Inf and each element of the vector should be understood as the upper or lower bound (depending on the null hypothesis) of the corresponding assessment. Furthermore, the assessment "good" is always the one not to be mentioned. Depending on the test, it will interpret it adequately. Finally, only the assessments 'good' (implicitly), 'uncertain', 'bad' and 'severe' are allowed but they don't all have to be used if it is not necessary. Here is an example of how to modify threshold values for some of the tests. The name of all tests whose threshold values can be modified can be found in the file 'options.R'.
 
-```{r options, echo = TRUE, eval = TRUE}
+```{r options, echo = TRUE, eval = FALSE}
 options(list(augmented_t = c(severe = 0.005, bad = 0.05, uncertain = 0.1),
              t = c(bad = 0.05, uncertain = 0.1),
              theil_u2 = c(uncertain = .5, bad = .75, severe = 1)))
