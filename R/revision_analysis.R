@@ -1,6 +1,3 @@
-# #' @include revisions.R
-# #' @include options.R
-
 #' Revision analysis through a battery of tests
 #'
 #' The function perform parametric tests which enable the users to detect
@@ -106,10 +103,10 @@
 #' #summary(rslt3)
 #'
 #' ## Note that it is possible to change thresholds values for quality
-#' ## assessment using global options (see file `options.R` for details)
-#' options(list(augmented_t = c(severe = 0.005, bad = 0.01, uncertain = 0.05),
-#'              slope_and_drift = c(severe = 0.005, bad = 0.05, uncertain = 0.10),
-#'              theil_u2 = c(uncertain = .5, bad = .7, severe = 1)))
+#' ## assessment using options (see vignette for details)
+#' options(list(augmented_t_threshold = c(severe = 0.005, bad = 0.01, uncertain = 0.05),
+#'              slope_and_drift_threshold = c(severe = 0.005, bad = 0.05, uncertain = 0.10),
+#'              theil_u2_threshold = c(uncertain = .5, bad = .7, severe = 1)))
 #' rslt4 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 #' summary(rslt4)
 #'
@@ -179,11 +176,10 @@ revision_analysis <- function(vintages,
 
     # Parametric analysis
 
-    quality_thresholds <- set_thresholds()
-    quality_thresholds_res <- list(jb = quality_thresholds$jb_res,
-                                   bp = quality_thresholds$bp_res,
-                                   white = quality_thresholds$white_res,
-                                   arch = quality_thresholds$arch_res)
+    res_thresholds <- list(jb = getOption("jb_res_threshold"),
+                           bp = getOption("bp_res_threshold"),
+                           white = getOption("white_res_threshold"),
+                           arch = getOption("arch_res_threshold"))
 
     ## I. Relevancy
 
@@ -191,23 +187,23 @@ revision_analysis <- function(vintages,
     U1 <- theil(vt, gap, na.zero)
     U2 <- theil2(vt, gap, na.zero)
     theil_infos <- theil_test_evaluator(U1, U2, N = ds["N", ], n_test = ncol(rv),
-                                        thr = list(u1 = quality_thresholds$theil_u1,
-                                                   u2 = quality_thresholds$theil_u2))
+                                        thr = list(u1 = getOption("theil_u1_threshold"),
+                                                   u2 = getOption("theil_u2_threshold")))
 
     ## II. Bias (mean and regression bias)
 
     ### T-test and Augmented T-test
     tat_test <- bias(rv, na.zero)
     tat_infos <- tat_test_evaluator(tat_test, is_log, n_test = ncol(rv),
-                                    thr = list(t = quality_thresholds$t,
-                                               at = quality_thresholds$augmented_t))
+                                    thr = list(t = getOption("t_threshold"),
+                                               at = getOption("augmented_t_threshold")))
 
     ### Slope and drift
     sd_test <- slope_and_drift(vtc, gap, na.zero)
     sd_infos <- sd_test_evaluator(sd_test, is_log, is_cointegrated, delta_diff,
                                   n_test = ncol(vtc[, -c(1:gap), drop = FALSE]),
-                                  thr = quality_thresholds$slope_and_drift,
-                                  thr_res = quality_thresholds_res)
+                                  thr = getOption("slope_and_drift_threshold"),
+                                  thr_res = res_thresholds)
 
     ## III. Efficiency
 
@@ -215,14 +211,14 @@ revision_analysis <- function(vintages,
     eff1_test <- efficiencyModel1(vts, gap, na.zero)
     eff1_infos <- eff1_test_evaluator(eff1_test, is_log, is_stationary,
                                       delta_diff, n_test = ncol(rv),
-                                      thr = quality_thresholds$eff1,
-                                      thr_res = quality_thresholds_res)
+                                      thr = getOption("eff1_threshold"),
+                                      thr_res = res_thresholds)
 
     ### Regression of latter revisions (Rv) on previous revisions (Rv_1)
     eff2_test <- efficiencyModel2(vt, gap, na.zero)
     eff2_infos <- eff2_test_evaluator(eff2_test, is_log, n_test = ncol(rv) - 1,
-                                      thr = quality_thresholds$eff2,
-                                      thr_res = quality_thresholds_res)
+                                      thr = getOption("eff2_threshold"),
+                                      thr_res = res_thresholds)
 
     ## IV. Orthogonality
 
@@ -230,34 +226,34 @@ revision_analysis <- function(vintages,
     orth1_test <- orthogonallyModel1(rv, nrevs, na.zero)
     orth1_infos <- orth1_test_evaluator(orth1_test, is_log, nrevs, ncol_rv = ncol(rv),
                                         n_test = ncol(rv[, -c(1:nrevs), drop = FALSE]),
-                                        thr = quality_thresholds$orth1,
-                                        thr_res = quality_thresholds_res)
+                                        thr = getOption("orth1_threshold"),
+                                        thr_res = res_thresholds)
 
     ### Regression model of latter revisions (Rv) on previous revisions at a specific version (Rv_k)
     orth2_test <- orthogonallyModel2(rv, ref, na.zero)
     orth2_infos <- orth2_test_evaluator(orth2_test, is_log, ref, ncol_rv = ncol(rv),
                                         n_test = ncol(rv[, -c(1:ref), drop = FALSE]),
-                                        thr = quality_thresholds$orth2,
-                                        thr_res = quality_thresholds_res)
+                                        thr = getOption("orth2_threshold"),
+                                        thr_res = res_thresholds)
 
     ### Autocorrelation test
     ac_test <- try(apply(rv, 2, function(x) ljungbox(x[!is.na(x)], k = 2)), silent = TRUE) # Ljung-Box up to k
     ac_infos <- ac_test_evaluator(ac_test, is_log, cnames = colnames(rv), n_test = ncol(rv),
-                                  thr = quality_thresholds$autocorr)
+                                  thr = getOption("autocorr_threshold"))
 
     ### Seasonality tests
     lb_test <- try(apply(diff(rv), 2, function(x) seasonality_qs(x, freq)), silent = TRUE) # Ljung-Box
     fd_test <- try(apply(diff(rv), 2, function(x) seasonality_friedman(x, freq)), silent = TRUE)  # Friedman non-parametric test
     seas_infos <- seas_tests_evaluator(lb_test, fd_test, is_log, cnames = colnames(rv),
                                        freq = freq, n_test = ncol(rv),
-                                       thr = quality_thresholds$seas)
+                                       thr = getOption("seas_threshold"))
 
     ## V. Signal vs Noise
     sn_test <- signalnoise(vts, gap, na.zero)
     sn_infos <- sn_test_evaluator(sn_test, is_log, is_stationary,
                                   delta_diff, n_test = ncol(rv),
-                                  thr = list(noise = quality_thresholds$signal_noise1,
-                                             news = quality_thresholds$signal_noise2))
+                                  thr = list(noise = getOption("signal_noise1_threshold"),
+                                             news = getOption("signal_noise2_threshold")))
 
     # VAR-based Analysis
     vecm_test <- vecm(vt, lag = 2, model = "none", na.zero) ## VECM
@@ -603,11 +599,15 @@ eval_test <- function(val,
                       threshold,
                       ascending = TRUE) {
 
+    if(is.null(threshold)){
+        stop("Some user-defined thresholds are defined as NULL. See ?set_thresholds_to_default or ?set_all_thresholds_to_default to reset tests thresholds to their default values", call. = FALSE)
+    }
+
     if(!all(tolower(names(threshold)) %in% c("good", "uncertain", "bad", "severe"))){
-        stop("Possible values for quality assessment are 'good', 'uncertain', 'bad', 'severe'. Please check your user-defined options.", call. = FALSE)
+        stop("Possible values for quality assessment are 'good', 'uncertain', 'bad', 'severe'. Please check your options.", call. = FALSE)
     }
     if(is.unsorted(threshold)){
-        stop("User-defined options must be defined in an ascending order. See doc or the file 'options.R' for more information.", call. = FALSE)
+        stop("User-defined thresholds must be defined in an ascending order. See vignette for more information.", call. = FALSE)
     }
 
     val <- as.numeric(val)
@@ -643,23 +643,6 @@ eval_test <- function(val,
 
     return(qualities)
 }
-
-# eval_U <- function(U, U2 = TRUE) {
-#     U <- as.numeric(U)
-#
-#     if (U2) {
-#         quality <- ifelse(U >= 1, "Severe",
-#                           ifelse(U > .9, "Bad",
-#                                  ifelse(U > .8, "Uncertain", "Good")))
-#     } else {
-#         quality <- ifelse(U > .99, "Severe",
-#                           ifelse(U > .9, "Bad",
-#                                  ifelse(U > .8, "Uncertain", "Good")))
-#     }
-#     quality[is.na(quality)] <- "Good"
-#
-#     return(paste0(quality, " (", trimws(format(round(U, 3), nsmall = 3)), ")"))
-# }
 
 
 # other utility functions ------------------------------------------------------

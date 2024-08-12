@@ -265,21 +265,53 @@ In addition to the visual report that you can get by applying the function `rend
 
 ## User-defined thresholds
 
-It is possible for the user to change the default values of the thresholds considered in the function `revision_analysis()` (and displayed by the functions `summary.rjd3rev_rslts()` and `render_report()`) that are used to make quality assessment on the results of the tests. Changing the default values of the thresholds can be done for each test through the global options. The latter can be set via `options()` and queried via `getOption()`. Note that the default thresholds considered for residuals diagnostics can also be changed if necessary. See file `options.R` to see the list of all default thresholds that can be modified. 
+It is possible for the user to change the default values of the thresholds considered in the function `revision_analysis()` (and displayed by the functions `summary.rjd3rev_rslts()` and `render_report()`) that are used to make quality assessment on the results of the tests. Changing the default values of the thresholds can be done for each test through the global options. The latter can be set via `options()` and queried via `getOption()`. Note that the default thresholds considered for residuals diagnostics can also be changed if necessary.  
 
-Here's how to customize a threshold. Thresholds values should be defined as an ascending numeric vector. We start from -Inf and each element of the vector should be understood as the upper or lower bound (depending on the null hypothesis) of the corresponding assessment. Furthermore, the assessment "good" is always the one not to be mentioned. Depending on the test, it will interpret it adequately. Finally, only the assessments 'good' (implicitly), 'uncertain', 'bad' and 'severe' are allowed but they don't all have to be used if it is not necessary. Here is an example of how to modify threshold values for some of the tests. The name of all tests whose threshold values can be modified can be found in the file 'options.R'.
+Here's how to customize a threshold. Thresholds values should be defined as an ascending numeric vector. We start from -Inf and each element of the vector should be understood as the upper or lower bound (depending on the null hypothesis) of the corresponding assessment. Furthermore, the assessment "good" is always the one not to be mentioned. Depending on the test, it will be interpreted adequately. Finally, only the assessments 'good' (implicitly), 'uncertain', 'bad' and 'severe' are allowed but they don't all have to be used if it is not necessary. Here is an example of how to modify threshold values for some of the tests. The list with the name of all test thresholds that can be modified can be found in the list below.
 
 ```{r options, echo = TRUE, eval = FALSE}
-options(list(augmented_t = c(severe = 0.005, bad = 0.05, uncertain = 0.1),
-             t = c(bad = 0.05, uncertain = 0.1),
-             theil_u2 = c(uncertain = .5, bad = .75, severe = 1)))
+options(list(augmented_t_threshold = c(severe = 0.005, bad = 0.05, uncertain = 0.1),
+             t_threshold = c(bad = 0.05, uncertain = 0.1),
+             theil_u2_threshold = c(uncertain = .5, bad = .75, severe = 1)))
 
 rslt2 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 summary(rslt2)
 ```
 
-For the augmented t-test, by defining the threshold values like this, it means that the results will be assessed as severe if the p-value < 0.005, as bad if the p-value is between 0.005 and 0.05, as uncertain if between 0.05 and 0.1 and as good if it is higher than 0.05. As far as the Theil U2 test is concerned, given the definition of the test (see section [Theil’s Inequality Coefficient](#theil)), we'll have the results will be assessed as good if the value of the test is lower than 0.5, uncertain, between 0.5 and 0.75, bad between 0.75 and 1 and severe if it is higher than 1.  
+For the augmented t-test, by defining the threshold values like this, it means that the results will be assessed as severe if the p-value < 0.005, as bad if the p-value is between 0.005 and 0.05, as uncertain if between 0.05 and 0.1 and as good if it is higher than 0.1. As far as the Theil U2 test is concerned, given the definition of the test (see section [Theil’s Inequality Coefficient](#theil)), the results will be assessed as good if the value of the test is lower than 0.5, uncertain, between 0.5 and 0.75, bad between 0.75 and 1 and severe if it is higher than 1.
 
+Here are all the possible options the user can modified, together with their description and their default value.
+
+|Name    |Description | Default value|
+|:-------|:-------|:-------|
+|theil_u1_threshold     |Threshold values for Theil’s Inequality Coefficient U1     |c(uncertain = .8, bad = .9, severe = .99)  |
+|theil_u2_threshold     |Threshold values for Theil’s Inequality Coefficient U2     |c(uncertain = .8, bad = .9, severe = 1)    |
+|t_threshold    |Threshold values for T-test      |c(severe = 0.001, bad = 0.01, uncertain = 0.05)    |
+|augmented_t_threshold     |Threshold values for Augmented T-test     |c(severe = 0.001, bad = 0.01, uncertain = 0.05)  |
+|slope_and_drift_threshold     |Threshold values for Slope and drift test     |c(severe = 0.001, bad = 0.01, uncertain = 0.05)    |
+|eff1_threshold    |Threshold values for Efficiency test (test 1)     |c(severe = 0.001, bad = 0.01, uncertain = 0.05)  |
+|eff2_threshold    |Threshold values for Efficiency test (test 2)     |c(severe = 0.001, bad = 0.01, uncertain = 0.05)  |
+|orth1_threshold    |Threshold values for Orthogonality test (test 1)     |c(severe = 0.001, bad = 0.01, uncertain = 0.05)  |
+|orth2_threshold    |Threshold values for Orthogonality test (test 2)     |c(severe = 0.001, bad = 0.01, uncertain = 0.05)  |
+|autocorr_threshold    |Threshold values for Orthogonality test (test 3 on autocorrelation)     |c(severe = 0.001, bad = 0.01, uncertain = 0.05)    |
+|seas_threshold    |Threshold values for Orthogonality test (test 4 on seasonality)     |c(severe = 0.001, bad = 0.01, uncertain = 0.05)  |
+|signal_noise1_threshold    |Threshold values for Signal vs Noise test (test 1)     |c(severe = 0.001, bad = 0.01, uncertain = 0.05)  |
+|signal_noise2_threshold    |Threshold values for Signal vs Noise test (test 2)     |c(uncertain = 0.05)  |
+|jb_res_threshold     |Normality test: Jarque-Bera     |c(bad = 0.01, uncertain = 0.1)  |
+|bp_res_threshold     |Homoskedasticity test: Breusch-Pagan     |c(bad = 0.01, uncertain = 0.1)    |
+|white_res_threshold    |Homoskedasticity test: Whitet      |c(bad = 0.01, uncertain = 0.1)    |
+|arch_res_threshold     |Homoskedasticity test: ARCH     |c(bad = 0.01, uncertain = 0.1)  |
+
+Finally, the functions `set_thresholds_to_default()` and `set_all_thresholds_to_default()` can be used to reset test thresholds to their default values.
+
+```{r reset_options, echo = TRUE, eval = FALSE}
+set_thresholds_to_default("t_threshold")
+# or to reset all threshold options
+set_all_thresholds_to_default()
+
+rslt3 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
+summary(rslt3)
+```
 
 # Tests description and interpretation
 

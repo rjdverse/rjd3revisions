@@ -45,6 +45,7 @@ Collate:
     'revision_analysis.R'
     'simulate.R'
     'tests.R'
+    'thresholds.R'
     'vintages.R'
     'zzz.R'
 Config/testthat/edition: 3

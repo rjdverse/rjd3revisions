@@ -124,6 +124,14 @@ rslt3 <- revision_analysis(vintages, gap=2, view = "vertical")
 #render_report(rslt3)
 #summary(rslt3)
 
+## Note that it is possible to change thresholds values for quality
+## assessment using options (see vignette for details)
+options(list(augmented_t_threshold = c(severe = 0.005, bad = 0.01, uncertain = 0.05),
+             slope_and_drift_threshold = c(severe = 0.005, bad = 0.05, uncertain = 0.10),
+             theil_u2_threshold = c(uncertain = .5, bad = .7, severe = 1)))
+rslt4 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
+summary(rslt4)
+
 }
 \seealso{
 \code{create_vintages()} to create the input object,
