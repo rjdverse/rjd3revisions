@@ -104,9 +104,9 @@
 #'
 #' ## Note that it is possible to change thresholds values for quality
 #' ## assessment using options (see vignette for details)
-#' options(list(augmented_t_threshold = c(severe = 0.005, bad = 0.01, uncertain = 0.05),
-#'              slope_and_drift_threshold = c(severe = 0.005, bad = 0.05, uncertain = 0.10),
-#'              theil_u2_threshold = c(uncertain = .5, bad = .7, severe = 1)))
+#' options(augmented_t_threshold = c(severe = 0.005, bad = 0.01, uncertain = 0.05),
+#'         slope_and_drift_threshold = c(severe = 0.005, bad = 0.05, uncertain = 0.10),
+#'         theil_u2_threshold = c(uncertain = .5, bad = .7, severe = 1))
 #' rslt4 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 #' summary(rslt4)
 #'
@@ -176,11 +176,6 @@ revision_analysis <- function(vintages,
 
     # Parametric analysis
 
-    res_thresholds <- list(jb = getOption("jb_res_threshold"),
-                           bp = getOption("bp_res_threshold"),
-                           white = getOption("white_res_threshold"),
-                           arch = getOption("arch_res_threshold"))
-
     ## I. Relevancy
 
     ### Theil tests (U1 and U2)
@@ -203,7 +198,10 @@ revision_analysis <- function(vintages,
     sd_infos <- sd_test_evaluator(sd_test, is_log, is_cointegrated, delta_diff,
                                   n_test = ncol(vtc[, -c(1:gap), drop = FALSE]),
                                   thr = getOption("slope_and_drift_threshold"),
-                                  thr_res = res_thresholds)
+                                  thr_res_jb = getOption("jb_res_threshold"),
+                                  thr_res_bp = getOption("bp_res_threshold"),
+                                  thr_res_white = getOption("white_res_threshold"),
+                                  thr_res_arch = getOption("arch_res_threshold"))
 
     ## III. Efficiency
 
@@ -212,13 +210,19 @@ revision_analysis <- function(vintages,
     eff1_infos <- eff1_test_evaluator(eff1_test, is_log, is_stationary,
                                       delta_diff, n_test = ncol(rv),
                                       thr = getOption("eff1_threshold"),
-                                      thr_res = res_thresholds)
+                                      thr_res_jb = getOption("jb_res_threshold"),
+                                      thr_res_bp = getOption("bp_res_threshold"),
+                                      thr_res_white = getOption("white_res_threshold"),
+                                      thr_res_arch = getOption("arch_res_threshold"))
 
     ### Regression of latter revisions (Rv) on previous revisions (Rv_1)
     eff2_test <- efficiencyModel2(vt, gap, na.zero)
     eff2_infos <- eff2_test_evaluator(eff2_test, is_log, n_test = ncol(rv) - 1,
                                       thr = getOption("eff2_threshold"),
-                                      thr_res = res_thresholds)
+                                      thr_res_jb = getOption("jb_res_threshold"),
+                                      thr_res_bp = getOption("bp_res_threshold"),
+                                      thr_res_white = getOption("white_res_threshold"),
+                                      thr_res_arch = getOption("arch_res_threshold"))
 
     ## IV. Orthogonality
 
@@ -227,14 +231,20 @@ revision_analysis <- function(vintages,
     orth1_infos <- orth1_test_evaluator(orth1_test, is_log, nrevs, ncol_rv = ncol(rv),
                                         n_test = ncol(rv[, -c(1:nrevs), drop = FALSE]),
                                         thr = getOption("orth1_threshold"),
-                                        thr_res = res_thresholds)
+                                        thr_res_jb = getOption("jb_res_threshold"),
+                                        thr_res_bp = getOption("bp_res_threshold"),
+                                        thr_res_white = getOption("white_res_threshold"),
+                                        thr_res_arch = getOption("arch_res_threshold"))
 
     ### Regression model of latter revisions (Rv) on previous revisions at a specific version (Rv_k)
     orth2_test <- orthogonallyModel2(rv, ref, na.zero)
     orth2_infos <- orth2_test_evaluator(orth2_test, is_log, ref, ncol_rv = ncol(rv),
                                         n_test = ncol(rv[, -c(1:ref), drop = FALSE]),
                                         thr = getOption("orth2_threshold"),
-                                        thr_res = res_thresholds)
+                                        thr_res_jb = getOption("jb_res_threshold"),
+                                        thr_res_bp = getOption("bp_res_threshold"),
+                                        thr_res_white = getOption("white_res_threshold"),
+                                        thr_res_arch = getOption("arch_res_threshold"))
 
     ### Autocorrelation test
     ac_test <- try(apply(rv, 2, function(x) ljungbox(x[!is.na(x)], k = 2)), silent = TRUE) # Ljung-Box up to k
@@ -430,12 +440,12 @@ tat_test_evaluator <- function(tat, is_log, n_test, thr) {
     return(list(tat_rslt = tat_rslt, t_q = t_q, at_q = at_q, tat_trf = tat_trf))
 }
 
-sd_test_evaluator <- function(sd, is_log, is_cointegrated, delta_diff, n_test, thr, thr_res) {
+sd_test_evaluator <- function(sd, is_log, is_cointegrated, delta_diff, n_test, thr, thr_res_jb, thr_res_bp, thr_res_white, thr_res_arch) {
     if (!is.null(sd)) {
         sd_rslt <- format_reg_output(sd, is_log, !is_cointegrated)
         sd_m_q <- eval_test(sd[, "intercept.pvalue"], threshold = thr)
         sd_r_q <- eval_test(sd[, "slope.pvalue"], threshold = thr)
-        sd_diagnostics <- regression_diagnostics(sd, thr_res)
+        sd_diagnostics <- regression_diagnostics(sd, thr_res_jb, thr_res_bp, thr_res_white, thr_res_arch)
     } else {
         sd_rslt <- sd_diagnostics <- NULL
         sd_m_q <- sd_r_q <- rep(NA, n_test)
@@ -450,13 +460,13 @@ sd_test_evaluator <- function(sd, is_log, is_cointegrated, delta_diff, n_test, t
                 sd_diagnostics = sd_diagnostics, sd_trf = sd_trf))
 }
 
-eff1_test_evaluator <- function(eff1, is_log, is_stationary, delta_diff, n_test, thr, thr_res) {
+eff1_test_evaluator <- function(eff1, is_log, is_stationary, delta_diff, n_test, thr, thr_res_jb, thr_res_bp, thr_res_white, thr_res_arch) {
 
     if (!is.null(eff1)) {
         eff1_rslt <- format_reg_output(eff1, is_log, !is_stationary)
         eff1_m_q <- eval_test(eff1[, "intercept.pvalue"], threshold = thr)
         eff1_r_q <- eval_test(eff1[, "slope.pvalue"], threshold = thr)
-        eff1_diagnostics <- regression_diagnostics(eff1, thr_res)
+        eff1_diagnostics <- regression_diagnostics(eff1, thr_res_jb, thr_res_bp, thr_res_white, thr_res_arch)
     } else {
         eff1_rslt <- eff1_diagnostics <- NULL
         eff1_m_q <- eff1_r_q <- rep(NA, n_test)
@@ -471,12 +481,12 @@ eff1_test_evaluator <- function(eff1, is_log, is_stationary, delta_diff, n_test,
                 eff1_diagnostics = eff1_diagnostics, eff1_trf = eff1_trf))
 }
 
-eff2_test_evaluator <- function(eff2, is_log, n_test, thr, thr_res) {
+eff2_test_evaluator <- function(eff2, is_log, n_test, thr, thr_res_jb, thr_res_bp, thr_res_white, thr_res_arch) {
     if (!is.null(eff2)) {
         eff2_rslt <- format_reg_output(eff2, is_log, FALSE)
         eff2_m_q <- c("", eval_test(eff2[, "intercept.pvalue"], threshold = thr))
         eff2_r_q <- c("", eval_test(eff2[, "slope.pvalue"], threshold = thr))
-        eff2_diagnostics <- regression_diagnostics(eff2, thr_res)
+        eff2_diagnostics <- regression_diagnostics(eff2, thr_res_jb, thr_res_bp, thr_res_white, thr_res_arch)
     } else {
         eff2_rslt <- eff2_diagnostics <- NULL
         eff2_m_q <- eff2_r_q <- c("", rep(NA, n_test))
@@ -488,12 +498,12 @@ eff2_test_evaluator <- function(eff2, is_log, n_test, thr, thr_res) {
                 eff2_diagnostics = eff2_diagnostics, eff2_trf = eff2_trf))
 }
 
-orth1_test_evaluator <- function(orth1, is_log, nrevs, ncol_rv, n_test, thr, thr_res) {
+orth1_test_evaluator <- function(orth1, is_log, nrevs, ncol_rv, n_test, thr, thr_res_jb, thr_res_bp, thr_res_white, thr_res_arch) {
     if (!is.null(orth1)) {
         orth1_rslt <- format_reg_output(orth1, is_log, FALSE)
         orth1_m_q <- c(rep("", nrevs), eval_test(orth1[, "intercept.pvalue"], threshold = thr))
         orth1_r_q <- c(rep("", nrevs), eval_test(stats::pf(orth1[, "F"], nrevs, orth1[, "N"] - nrevs - 1), threshold = thr))
-        orth1_diagnostics <- regression_diagnostics(orth1, thr_res)
+        orth1_diagnostics <- regression_diagnostics(orth1, thr_res_jb, thr_res_bp, thr_res_white, thr_res_arch)
     } else {
         orth1_rslt <- orth1_diagnostics <- NULL
         if (ncol_rv > nrevs) orth1_m_q <- orth1_r_q <- c(rep("", nrevs), rep(NA, n_test))
@@ -506,12 +516,12 @@ orth1_test_evaluator <- function(orth1, is_log, nrevs, ncol_rv, n_test, thr, thr
                 orth1_diagnostics = orth1_diagnostics, orth1_trf = orth1_trf))
 }
 
-orth2_test_evaluator <- function(orth2, is_log, ref, ncol_rv, n_test, thr, thr_res) {
+orth2_test_evaluator <- function(orth2, is_log, ref, ncol_rv, n_test, thr, thr_res_jb, thr_res_bp, thr_res_white, thr_res_arch) {
     if (!is.null(orth2)) {
         orth2_rslt <- format_reg_output(orth2, is_log, FALSE)
         orth2_m_q <- c(rep("", ref), eval_test(orth2[, "intercept.pvalue"], threshold = thr))
         orth2_r_q <- c(rep("", ref), eval_test(orth2[, "slope.pvalue"], threshold = thr))
-        orth2_diagnostics <- regression_diagnostics(orth2, thr_res)
+        orth2_diagnostics <- regression_diagnostics(orth2, thr_res_jb, thr_res_bp, thr_res_white, thr_res_arch)
     } else {
         orth2_rslt <- orth2_diagnostics <- NULL
         if (ncol_rv > ref) orth2_m_q <- orth2_r_q <- c(rep("", ref), rep(NA, n_test))
@@ -675,12 +685,12 @@ get_info_transformation <- function(is_log, is_diff) {
     return(info_transformation)
 }
 
-regression_diagnostics <- function(reg_output, thr) {
+regression_diagnostics <- function(reg_output, thr_res_jb, thr_res_bp, thr_res_white, thr_res_arch) {
 
-    jb <- eval_test(reg_output[, "JarqueBera.pvalue"], threshold = thr$jb)
-    bp <- eval_test(reg_output[, "BreuschPagan.pvalue"], threshold = thr$bp)
-    wh <- eval_test(reg_output[, "White.pvalue"], threshold = thr$white)
-    arch <- eval_test(reg_output[, "arch.pvalue"], threshold = thr$arch)
+    jb <- eval_test(reg_output[, "JarqueBera.pvalue"], threshold = thr_res_jb)
+    bp <- eval_test(reg_output[, "BreuschPagan.pvalue"], threshold = thr_res_bp)
+    wh <- eval_test(reg_output[, "White.pvalue"], threshold = thr_res_white)
+    arch <- eval_test(reg_output[, "arch.pvalue"], threshold = thr_res_arch)
 
     lbl <- c("Jarque-Bera", "Breusch-Pagan", "White", "ARCH")
     tests <- c("Normality", rep("Homoskedasticity", 3))
