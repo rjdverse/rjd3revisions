@@ -2,12 +2,12 @@
 title: "Generated Report on Revision Analysis"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
-  pdf_document:
-    toc: true
   html_document:
     theme: cerulean
     toc: true
     toc_float: true
+  pdf_document:
+    toc: true
 always_allow_html: true
 bibliography: revision_analysis.bib
 nocite: '@*'
@@ -15,10 +15,53 @@ nocite: '@*'
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-output_format <- knitr::opts_knit$get("rmarkdown.pandoc.to")
-options("knitr.table.format" = output_format)
 ```
 
+```{r function-table, echo = FALSE, eval = TRUE}
+theme_design <- function(x) {
+    x <- border_remove(x)
+    std_border <- fp_border_default(width = 4, color = "white")
+    # x <- fontsize(x, size = 10, part = "all")
+    x <- font(x, fontname = "Helvetica Neue", part = "all")
+    x <- align(x, align = "center", part = "all")
+
+    x <- bg(x, bg = "gray94", part = "body")
+    x <- bg(x, bg = "#7ca2ff", part = "header")
+    x <- bg(x, bg = "#7ca2ff", part = "footer")
+    x <- color(x, color = "black", part = "all")
+
+    x <- bg(x, j = "Tests", bg = "#7ca2ff")
+    x <- color(x, j = "Tests", color = "black")
+
+    x <- padding(x, padding = 6, part = "all")
+    x <- border_outer(x, part = "all", border = std_border)
+    x <- border_inner_h(x, border = std_border, part = "all")
+    x <- border_inner_v(x, border = std_border, part = "all")
+    x <- set_table_properties(x, layout = "autofit")
+    return(x)
+}
+
+create_formula <- function(col, status) {
+    return(as.formula(sprintf("~ grepl(x = `%s`, pattern = \"%s\")", col, status)))
+}
+
+format_column <- function(x, col) {
+    x <- bg(x, create_formula(col, "Good"), col, bg = "#4CAF50")
+    x <- bg(x, create_formula(col, "Uncertain"), col, bg = "#FFEB3B")
+    x <- bg(x, create_formula(col, "Bad"), col, bg = "#FF813A")
+    x <- bg(x, create_formula(col, "Severe"), col, bg = "#F44336")
+    x <- bold(x, create_formula(col, "Severe"), col)
+    x <- color(x, create_formula(col, "Severe"), col, color = "white")
+    return(x)
+}
+
+format_table <- function(x) {
+    return(cbind(
+        data.frame(Tests = rownames(x)),
+        as.data.frame(x)
+    ))
+}
+```
 
 # Content in a nutshell
 
@@ -34,16 +77,20 @@ For some parametric tests, transformation may be important to avoid misleading r
 ```{r descriptivetable, echo = FALSE}
 selection <- c("N", "mean revision", "st.dev.", "% positive", "% zero", "% negative")
 
-if (!requireNamespace("kableExtra", quietly = TRUE)) {
+if (!requireNamespace("flextable", quietly = TRUE)) {
     knitr::kable(descriptive_statistics[selection, , drop = FALSE])
-    warning("Please install kableExtra: install.packages('kableExtra') to get more visual table output")
+    warning("Please install flextable: install.packages('flextable') to get more visual table output")
 } else {
-    kableExtra::kable_minimal(knitr::kable(descriptive_statistics[selection, , drop = FALSE]))
+    library("flextable")
+    descriptive_statistics[selection, , drop = FALSE] |>
+        format_table() |>
+        flextable() |>
+        theme_design()
 }
 
 if (add_plot) {
-    stats::ts.plot(revisions, gpars = list(xlab = "", ylab = "", col = c(1:ncol(revisions)), type = "h", lwd = 2))
-    graphics::legend("topleft", bty = "n", lty = 1, lwd = 2, col = c(1:ncol(revisions)), legend = colnames(revisions))
+    stats::ts.plot(revisions, gpars = list(xlab = "", ylab = "", col = seq_len(ncol(revisions)), type = "h", lwd = 2))
+    graphics::legend("topleft", bty = "n", lty = 1, lwd = 2, col = seq_len(ncol(revisions)), legend = colnames(revisions))
     graphics::title(main = "Revisions size")
 }
 ```
@@ -52,28 +99,15 @@ if (add_plot) {
 # Main Results
 
 ```{r summarytable, echo = FALSE}
-if (!requireNamespace("kableExtra", quietly = TRUE)) {
+if (!requireNamespace("flextable", quietly = TRUE)) {
     knitr::kable(main_results)
 } else {
-    format_font <- function(x) {
-        kableExtra::cell_spec(x,
-                              color = ifelse(is.na(x), "black",
-                                             ifelse(substr(x, 1, 1) == "G", "green",
-                                                    ifelse(substr(x, 1, 1) == "U", "orange", "red"))),
-                              bold = ifelse(is.na(x), FALSE,
-                                            ifelse(substr(x, 1, 1) == "S", TRUE, FALSE)))
-    }
-    nc <- ncol(main_results)
-    main_results[, -1L] <- apply(X = main_results[, -1L, drop = FALSE],
-                                 MARGIN = 2L,
-                                 FUN = format_font)
-    if (getOption("knitr.table.format") == "latex") {
-        rownames(main_results) <- gsub(x = rownames(main_results),
-                                       pattern = "_",
-                                       replacement = "\\_",
-                                       fixed = TRUE)
-    }
-    kableExtra::kable_minimal(knitr::kable(main_results, escape = FALSE))
+    main_results |>
+        format_table() |>
+        flextable() |>
+        theme_design() |>
+        format_column(col = "[Release[2]]-[Release[1]]") |>
+        format_column(col = "[Release[3]]-[Release[2]]")
 }
 ```
 
@@ -86,7 +120,7 @@ if (!requireNamespace("kableExtra", quietly = TRUE)) {
 In the context of revision analysis, Theil's inequality coefficient, also known as Theil's U, provides a measure of the accuracy of a set of preliminary estimates (P) compared to a latter version (L). There exists a few definitions of Theil's statistics leading to different interpretation of the results. In this package, two definitions are considered. The first statistic, U1, is given by
 
 $$
-U_1=\frac{\sqrt{\frac{1}{n}\sum^n_{t=1}(L_t-P_t)^2}}{\sqrt{\frac{1}{n}\sum^n_{t=1}L_t^2}+\sqrt{\frac{1}{n}\sum^n_{t=1}P_t^2}} \\ \\
+U_1=\frac{\sqrt{\frac{1}{n}\sum^n_{t=1}(L_t-P_t)^2}}{\sqrt{\frac{1}{n}\sum^n_{t=1}L_t^2}+\sqrt{\frac{1}{n}\sum^n_{t=1}P_t^2}}
 $$
 
 U1 is bounded between 0 and 1. The closer the value of U1 is to zero, the better the forecast method. However, this classic definition of Theil's statistic suffers from a number of limitations. In particular, a set of near zero preliminary estimates would always give a value of the U1 statistic close to 1 even though they are close to the latter estimates.

@@ -609,14 +609,14 @@ eval_test <- function(val,
                       threshold,
                       ascending = TRUE) {
 
-    if(is.null(threshold)){
+    if (is.null(threshold)) {
         stop("Some user-defined thresholds are defined as NULL. See ?set_thresholds_to_default or ?set_all_thresholds_to_default to reset tests thresholds to their default values", call. = FALSE)
     }
 
-    if(!all(tolower(names(threshold)) %in% c("good", "uncertain", "bad", "severe"))){
+    if (!all(tolower(names(threshold)) %in% c("good", "uncertain", "bad", "severe"))) {
         stop("Possible values for quality assessment are 'good', 'uncertain', 'bad', 'severe'. Please check your options.", call. = FALSE)
     }
-    if(is.unsorted(threshold)){
+    if (is.unsorted(threshold)) {
         stop("User-defined thresholds must be defined in an ascending order. See vignette for more information.", call. = FALSE)
     }
 
@@ -625,20 +625,20 @@ eval_test <- function(val,
     nt <- length(threshold)
     qualities <- c()
 
-    for(i in 1:n){
+    for (i in 1:n) {
         quality <- "good"
 
-        if(!is.na(val[i])){
-            if(ascending){
-                for (k in 1:nt){
-                    if(val[i] < threshold[k]){
+        if (!is.na(val[i])) {
+            if (ascending) {
+                for (k in 1:nt) {
+                    if (val[i] < threshold[k]) {
                         quality <- names(threshold)[k]
                         break
                     }
                 }
-            }else{
-                for (k in nt:1){
-                    if(val[i] > threshold[k]){
+            } else {
+                for (k in nt:1) {
+                    if (val[i] > threshold[k]) {
                         quality <- names(threshold)[k]
                         break
                     }

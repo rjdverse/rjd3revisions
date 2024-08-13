@@ -50,7 +50,6 @@ NULL
     if (is.null(getOption("signal_noise2_threshold"))) {
         set_thresholds_to_default("signal_noise2_threshold")
     }
-
     if (is.null(getOption("jb_res_threshold"))) {
         set_thresholds_to_default("jb_res_threshold")
     }

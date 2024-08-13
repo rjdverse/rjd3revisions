@@ -270,9 +270,11 @@ It is possible for the user to change the default values of the thresholds consi
 Here's how to customize a threshold. Thresholds values should be defined as an ascending numeric vector. We start from -Inf and each element of the vector should be understood as the upper or lower bound (depending on the null hypothesis) of the corresponding assessment. Furthermore, the assessment "good" is always the one not to be mentioned. Depending on the test, it will be interpreted adequately. Finally, only the assessments 'good' (implicitly), 'uncertain', 'bad' and 'severe' are allowed but they don't all have to be used if it is not necessary. Here is an example of how to modify threshold values for some of the tests. The list with the name of all test thresholds that can be modified can be found in the list below.
 
 ```{r options, echo = TRUE, eval = FALSE}
-options(list(augmented_t_threshold = c(severe = 0.005, bad = 0.05, uncertain = 0.1),
-             t_threshold = c(bad = 0.05, uncertain = 0.1),
-             theil_u2_threshold = c(uncertain = .5, bad = .75, severe = 1)))
+options(
+    augmented_t_threshold = c(severe = 0.005, bad = 0.05, uncertain = 0.1),
+    t_threshold = c(bad = 0.05, uncertain = 0.1),
+    theil_u2_threshold = c(uncertain = .5, bad = .75, severe = 1)
+)
 
 rslt2 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 summary(rslt2)

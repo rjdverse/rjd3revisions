@@ -4,7 +4,8 @@
 #'             of the function `revision_analysis()`
 #' @param output_file path or name of the output file containing the report
 #' @param output_dir path of the dir containing the output file (Optional)
-#' @param output_format either an HTML document (default) or a PDF document
+#' @param output_format either an HTML document (default), a PDF document or a
+#' Word document
 #' @param plot_revisions Boolean. Default is FALSE meaning that a plot with the
 #'   revisions will not be added to the report.
 #' @param open_report Boolean. Default is TRUE meaning that the report will
@@ -51,13 +52,14 @@
 #' )
 #' }
 #'
-render_report <- function(rslt,
-                          output_file,
-                          output_dir,
-                          output_format = c("html_document", "pdf_document"),
-                          plot_revisions = FALSE,
-                          open_report = TRUE,
-                          ...) {
+render_report <- function(
+        rslt,
+        output_file,
+        output_dir,
+        output_format = c("html_document", "pdf_document", "word_document"),
+        plot_revisions = FALSE,
+        open_report = TRUE,
+        ...) {
 
     # Check input
     checkmate::assert_class(rslt, "rjd3rev_rslts")
