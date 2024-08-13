@@ -5,6 +5,8 @@
 #' @param output_file path or name of the output file containing the report
 #' @param output_dir path of the dir containing the output file (Optional)
 #' @param output_format either an HTML document (default) or a PDF document
+#' @param plot_revisions Boolean. Default is FALSE meaning that a plot with the
+#'   revisions will not be added to the report.
 #' @param open_report Boolean. Default is TRUE meaning that the report will
 #'                    open automatically after being generated.
 #' @param ... Arguments to be passed to `rmarkdown::render()`, for example:
@@ -44,7 +46,8 @@
 #'     rslt,
 #'     output_file = "my_report",
 #'     output_dir = "C:/Users/xxx",
-#'     output_format = "pdf_document"
+#'     output_format = "pdf_document",
+#'     plot_revisions = TRUE
 #' )
 #' }
 #'
@@ -52,6 +55,7 @@ render_report <- function(rslt,
                           output_file,
                           output_dir,
                           output_format = c("html_document", "pdf_document"),
+                          plot_revisions = FALSE,
                           open_report = TRUE,
                           ...) {
 
@@ -92,7 +96,9 @@ render_report <- function(rslt,
 
     e <- list2env(list(
         descriptive_statistics = rslt$descriptive.statistics,
-        main_results = rslt$summary
+        main_results = rslt$summary,
+        add_plot = plot_revisions,
+        revisions = rslt$revisions
     ))
 
     rmarkdown::render(

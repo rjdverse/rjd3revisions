@@ -9,6 +9,7 @@ render_report(
   output_file,
   output_dir,
   output_format = c("html_document", "pdf_document"),
+  plot_revisions = FALSE,
   open_report = TRUE,
   ...
 )
@@ -22,6 +23,9 @@ of the function \code{revision_analysis()}}
 \item{output_dir}{path of the dir containing the output file (Optional)}
 
 \item{output_format}{either an HTML document (default) or a PDF document}
+
+\item{plot_revisions}{Boolean. Default is FALSE meaning that a plot with the
+revisions will not be added to the report.}
 
 \item{open_report}{Boolean. Default is TRUE meaning that the report will
 open automatically after being generated.}
@@ -64,7 +68,8 @@ render_report(
     rslt,
     output_file = "my_report",
     output_dir = "C:/Users/xxx",
-    output_format = "pdf_document"
+    output_format = "pdf_document",
+    plot_revisions = TRUE
 )
 }
 
