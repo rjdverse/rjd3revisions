@@ -45,6 +45,7 @@
 <span>  <span class="va">output_file</span>,</span>
 <span>  <span class="va">output_dir</span>,</span>
 <span>  output_format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"html_document"</span>, <span class="st">"pdf_document"</span><span class="op">)</span>,</span>
+<span>  plot_revisions <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  open_report <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -69,6 +70,11 @@ of the function <code><a href="revision_analysis.html">revision_analysis()</a></
 
 <dt id="arg-output-format">output_format<a class="anchor" aria-label="anchor" href="#arg-output-format"></a></dt>
 <dd><p>either an HTML document (default) or a PDF document</p></dd>
+
+
+<dt id="arg-plot-revisions">plot_revisions<a class="anchor" aria-label="anchor" href="#arg-plot-revisions"></a></dt>
+<dd><p>Boolean. Default is FALSE meaning that a plot with the
+revisions will not be added to the report.</p></dd>
 
 
 <dt id="arg-open-report">open_report<a class="anchor" aria-label="anchor" href="#arg-open-report"></a></dt>
@@ -117,7 +123,8 @@ open automatically after being generated.</p></dd>
 <span class="r-in"><span>    <span class="va">rslt</span>,</span></span>
 <span class="r-in"><span>    output_file <span class="op">=</span> <span class="st">"my_report"</span>,</span></span>
 <span class="r-in"><span>    output_dir <span class="op">=</span> <span class="st">"C:/Users/xxx"</span>,</span></span>
-<span class="r-in"><span>    output_format <span class="op">=</span> <span class="st">"pdf_document"</span></span></span>
+<span class="r-in"><span>    output_format <span class="op">=</span> <span class="st">"pdf_document"</span>,</span></span>
+<span class="r-in"><span>    plot_revisions <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>

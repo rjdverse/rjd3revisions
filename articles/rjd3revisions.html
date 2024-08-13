@@ -305,39 +305,6 @@ data.frame in R as in the example below.</p>
 <span>    <span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">long_view</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      rev_date time_period obs_values</span></span>
-<span><span class="co">#&gt; 1  2022-07-31      2022Q1        0.8</span></span>
-<span><span class="co">#&gt; 2  2022-07-31      2022Q2        0.2</span></span>
-<span><span class="co">#&gt; 3  2022-07-31      2022Q3         NA</span></span>
-<span><span class="co">#&gt; 4  2022-07-31      2022Q4         NA</span></span>
-<span><span class="co">#&gt; 5  2022-08-31      2022Q1        0.8</span></span>
-<span><span class="co">#&gt; 6  2022-08-31      2022Q2        0.1</span></span>
-<span><span class="co">#&gt; 7  2022-08-31      2022Q3         NA</span></span>
-<span><span class="co">#&gt; 8  2022-08-31      2022Q4         NA</span></span>
-<span><span class="co">#&gt; 9  2022-09-30      2022Q1        0.7</span></span>
-<span><span class="co">#&gt; 10 2022-09-30      2022Q2        0.1</span></span>
-<span><span class="co">#&gt; 11 2022-09-30      2022Q3         NA</span></span>
-<span><span class="co">#&gt; 12 2022-09-30      2022Q4         NA</span></span>
-<span><span class="co">#&gt; 13 2022-10-31      2022Q1        0.7</span></span>
-<span><span class="co">#&gt; 14 2022-10-31      2022Q2        0.2</span></span>
-<span><span class="co">#&gt; 15 2022-10-31      2022Q3        0.5</span></span>
-<span><span class="co">#&gt; 16 2022-10-31      2022Q4         NA</span></span>
-<span><span class="co">#&gt; 17 2022-11-30      2022Q1        0.7</span></span>
-<span><span class="co">#&gt; 18 2022-11-30      2022Q2        0.2</span></span>
-<span><span class="co">#&gt; 19 2022-11-30      2022Q3        0.5</span></span>
-<span><span class="co">#&gt; 20 2022-11-30      2022Q4         NA</span></span>
-<span><span class="co">#&gt; 21 2022-12-31      2022Q1        0.7</span></span>
-<span><span class="co">#&gt; 22 2022-12-31      2022Q2        0.3</span></span>
-<span><span class="co">#&gt; 23 2022-12-31      2022Q3        0.7</span></span>
-<span><span class="co">#&gt; 24 2022-12-31      2022Q4         NA</span></span>
-<span><span class="co">#&gt; 25 2023-01-31      2022Q1        0.7</span></span>
-<span><span class="co">#&gt; 26 2023-01-31      2022Q2        0.2</span></span>
-<span><span class="co">#&gt; 27 2023-01-31      2022Q3        0.7</span></span>
-<span><span class="co">#&gt; 28 2023-01-31      2022Q4        0.4</span></span>
-<span><span class="co">#&gt; 29 2023-02-28      2022Q1        0.7</span></span>
-<span><span class="co">#&gt; 30 2023-02-28      2022Q2        0.3</span></span>
-<span><span class="co">#&gt; 31 2023-02-28      2022Q3        0.7</span></span>
-<span><span class="co">#&gt; 32 2023-02-28      2022Q4        0.3</span></span>
 <span></span>
 <span><span class="co"># Horizontal format</span></span>
 <span><span class="va">horizontal_view</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.8</span>, <span class="fl">.8</span>, <span class="fl">.7</span>, <span class="fl">.7</span>, <span class="fl">.7</span>, <span class="fl">.7</span>, <span class="fl">.7</span>, <span class="fl">.7</span>, <span class="fl">.2</span>, <span class="fl">.1</span>,</span>
@@ -348,15 +315,6 @@ data.frame in R as in the example below.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">horizontal_view</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022-07-31"</span>, <span class="st">"2022-08-31"</span>, <span class="st">"2022-09-30"</span>, <span class="st">"2022-10-31"</span>,</span>
 <span>                               <span class="st">"2022-11-30"</span>, <span class="st">"2022-12-31"</span>, <span class="st">"2023-01-31"</span>, <span class="st">"2023-02-28"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">horizontal_view</span><span class="op">)</span></span>
-<span><span class="co">#&gt;            2022Q1 2022Q2 2022Q3 2022Q4</span></span>
-<span><span class="co">#&gt; 2022-07-31    0.8    0.2     NA     NA</span></span>
-<span><span class="co">#&gt; 2022-08-31    0.8    0.1     NA     NA</span></span>
-<span><span class="co">#&gt; 2022-09-30    0.7    0.1     NA     NA</span></span>
-<span><span class="co">#&gt; 2022-10-31    0.7    0.2    0.5     NA</span></span>
-<span><span class="co">#&gt; 2022-11-30    0.7    0.2    0.5     NA</span></span>
-<span><span class="co">#&gt; 2022-12-31    0.7    0.3    0.7     NA</span></span>
-<span><span class="co">#&gt; 2023-01-31    0.7    0.2    0.7    0.4</span></span>
-<span><span class="co">#&gt; 2023-02-28    0.7    0.3    0.7    0.3</span></span>
 <span></span>
 <span><span class="co"># Vertical format</span></span>
 <span><span class="va">vertical_view</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.8</span>, <span class="fl">.2</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">.8</span>, <span class="fl">.1</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">.7</span>, <span class="fl">.1</span>, <span class="cn">NA</span>,</span>
@@ -366,17 +324,7 @@ data.frame in R as in the example below.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">vertical_view</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022Q1"</span>, <span class="st">"2022Q2"</span>, <span class="st">"2022Q3"</span>, <span class="st">"2022Q4"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">vertical_view</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022-07-31"</span>, <span class="st">"2022-08-31"</span>, <span class="st">"2022-09-30"</span>, <span class="st">"2022-10-31"</span>,</span>
 <span>                             <span class="st">"2022-11-30"</span>, <span class="st">"2022-12-31"</span>, <span class="st">"2023-01-31"</span>, <span class="st">"2023-02-28"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">vertical_view</span><span class="op">)</span></span>
-<span><span class="co">#&gt;        2022-07-31 2022-08-31 2022-09-30 2022-10-31 2022-11-30 2022-12-31</span></span>
-<span><span class="co">#&gt; 2022Q1        0.8        0.8        0.7        0.7        0.7        0.7</span></span>
-<span><span class="co">#&gt; 2022Q2        0.2        0.1        0.1        0.2        0.2        0.3</span></span>
-<span><span class="co">#&gt; 2022Q3         NA         NA         NA        0.5        0.5        0.7</span></span>
-<span><span class="co">#&gt; 2022Q4         NA         NA         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;        2023-01-31 2023-02-28</span></span>
-<span><span class="co">#&gt; 2022Q1        0.7        0.7</span></span>
-<span><span class="co">#&gt; 2022Q2        0.2        0.3</span></span>
-<span><span class="co">#&gt; 2022Q3        0.7        0.7</span></span>
-<span><span class="co">#&gt; 2022Q4        0.4        0.3</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">vertical_view</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
@@ -402,41 +350,7 @@ vintages:</p>
 <span><span class="co"># )</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">vintages</span><span class="op">)</span> <span class="co"># extract of the vintages according to the different views</span></span>
-<span><span class="co">#&gt; $extract</span></span>
-<span><span class="co">#&gt; [1] TRUE</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $long_view</span></span>
-<span><span class="co">#&gt;      revdate       time obs_values</span></span>
-<span><span class="co">#&gt; 1 2023-02-28 2022-01-01        0.7</span></span>
-<span><span class="co">#&gt; 2 2023-02-28 2022-04-01        0.3</span></span>
-<span><span class="co">#&gt; 3 2023-02-28 2022-07-01        0.7</span></span>
-<span><span class="co">#&gt; 4 2023-02-28 2022-10-01        0.3</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $vertical_view</span></span>
-<span><span class="co">#&gt;         2022-12-31 2023-01-31 2023-02-28</span></span>
-<span><span class="co">#&gt; 2022 Q1        0.7        0.7        0.7</span></span>
-<span><span class="co">#&gt; 2022 Q2        0.3        0.2        0.3</span></span>
-<span><span class="co">#&gt; 2022 Q3        0.7        0.7        0.7</span></span>
-<span><span class="co">#&gt; 2022 Q4         NA        0.4        0.3</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $horizontal_view</span></span>
-<span><span class="co">#&gt;            2022-01-01 2022-04-01 2022-07-01 2022-10-01</span></span>
-<span><span class="co">#&gt; 2022-12-31        0.7        0.3        0.7         NA</span></span>
-<span><span class="co">#&gt; 2023-01-31        0.7        0.2        0.7        0.4</span></span>
-<span><span class="co">#&gt; 2023-02-28        0.7        0.3        0.7        0.3</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $diagonal_view</span></span>
-<span><span class="co">#&gt;         Release[1] Release[2] Release[3]</span></span>
-<span><span class="co">#&gt; 2022 Q1        0.8        0.8        0.7</span></span>
-<span><span class="co">#&gt; 2022 Q2        0.2        0.1        0.1</span></span>
-<span><span class="co">#&gt; 2022 Q3        0.5        0.5        0.7</span></span>
-<span><span class="co">#&gt; 2022 Q4        0.4        0.3         NA</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">vintages</span><span class="op">)</span> <span class="co"># metadata about vintages</span></span>
-<span><span class="co">#&gt; Number of releases:  8</span></span>
-<span><span class="co">#&gt; Covered period:</span></span>
-<span><span class="co">#&gt;      From:  2022 1</span></span>
-<span><span class="co">#&gt;      To:  2022 4</span></span>
-<span><span class="co">#&gt; Frequency:  4</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">vintages</span><span class="op">)</span> <span class="co"># metadata about vintages</span></span></code></pre></div>
 <p>possibly inspect the revisions and perform the revision analysis:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">revisions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_revisions.html">get_revisions</a></span><span class="op">(</span><span class="va">vintages</span>, gap <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
@@ -449,74 +363,9 @@ vintages:</p>
 can use the function <code class="sourceCode r">revision_analysis</code></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rslt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/revision_analysis.html">revision_analysis</a></span><span class="op">(</span><span class="va">vintages</span>, gap <span class="op">=</span> <span class="fl">1</span>, view <span class="op">=</span> <span class="st">"diagonal"</span>, n.releases <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Slope and drift could not be performed</span></span>
-<span><span class="co">#&gt; Warning: efficiencyModel1 could not be performed</span></span>
-<span><span class="co">#&gt; Warning: efficiencyModel2 could not be performed</span></span>
-<span><span class="co">#&gt; Warning: orthogonallyModel1 could not be performed</span></span>
-<span><span class="co">#&gt; Warning: orthogonallyModel2 could not be performed</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">rslt</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [[1]]</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">rslt</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $call</span></span>
-<span><span class="co">#&gt; revision_analysis(vintages = vintages, gap = 1, view = "diagonal", </span></span>
-<span><span class="co">#&gt;     n.releases = 3)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $descriptive_statistics</span></span>
-<span><span class="co">#&gt;                           [Release[2]]-[Release[1]] [Release[3]]-[Release[2]]</span></span>
-<span><span class="co">#&gt; N                                             4.000                     3.000</span></span>
-<span><span class="co">#&gt; mean revision                                -0.050                     0.033</span></span>
-<span><span class="co">#&gt; st.dev.                                       0.058                     0.153</span></span>
-<span><span class="co">#&gt; min                                          -0.100                    -0.100</span></span>
-<span><span class="co">#&gt; q.10                                         -0.100                    -0.080</span></span>
-<span><span class="co">#&gt; median                                       -0.050                     0.000</span></span>
-<span><span class="co">#&gt; q.90                                          0.000                     0.160</span></span>
-<span><span class="co">#&gt; max                                           0.000                     0.200</span></span>
-<span><span class="co">#&gt; % positive                                    0.000                     0.333</span></span>
-<span><span class="co">#&gt; % zero                                        0.500                     0.333</span></span>
-<span><span class="co">#&gt; % negative                                    0.500                     0.333</span></span>
-<span><span class="co">#&gt; mean absolute revision                        0.050                     0.100</span></span>
-<span><span class="co">#&gt; root mean square revision                     0.071                     0.129</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $parametric_analysis</span></span>
-<span><span class="co">#&gt;                                            Transf. [Release[2]]-[Release[1]]</span></span>
-<span><span class="co">#&gt; Relevancy - Theil U2                          None              Good (0.057)</span></span>
-<span><span class="co">#&gt; Bias1 T-test                                  None              Good (0.182)</span></span>
-<span><span class="co">#&gt; Bias2 Augmented T-test                        None            Severe (0.000)</span></span>
-<span><span class="co">#&gt; Bias3 SlopeAndDrift (Ols L on P) - Mean       None                      &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; Bias3 SlopeAndDrift (Ols L on P) - Reg.       None                      &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; Efficiency1 (Ols R on P) - Mean               None                      &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; Efficiency1 (Ols R on P) - Reg.               None                      &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; Efficiency2 (Ols Rv on Rv_1) - Mean           None                          </span></span>
-<span><span class="co">#&gt; Efficiency2 (Ols Rv on Rv_1) - Reg.           None                          </span></span>
-<span><span class="co">#&gt; Orthogonality1 (Ols Rv on Rv_(1:p)) - Mean    None                          </span></span>
-<span><span class="co">#&gt; Orthogonality1 (Ols Rv on Rv_(1:p)) - Reg.    None                          </span></span>
-<span><span class="co">#&gt; Orthogonality2 (Ols Rv on Rv_k.) - Mean       None                          </span></span>
-<span><span class="co">#&gt; Orthogonality2 (Ols Rv on Rv_k) - Reg.        None                          </span></span>
-<span><span class="co">#&gt; Orthogonality3 AutoCorrelation (Ljung-Box)    None                      &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; Orthogonality4 Seasonality (Ljung-Box)     Delta 1              Good (1.000)</span></span>
-<span><span class="co">#&gt; Orthogonality4 Seasonality (Friedman)      Delta 1                      &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; SignalVsNoise1 - Noise (Ols R on P)           None              Good (0.277)</span></span>
-<span><span class="co">#&gt; SignalVsNoise2 - Signal (Ols R on L)          None         Uncertain (0.248)</span></span>
-<span><span class="co">#&gt;                                            [Release[3]]-[Release[2]]</span></span>
-<span><span class="co">#&gt; Relevancy - Theil U2                                    Good (0.330)</span></span>
-<span><span class="co">#&gt; Bias1 T-test                                            Good (0.742)</span></span>
-<span><span class="co">#&gt; Bias2 Augmented T-test                                  Good (0.723)</span></span>
-<span><span class="co">#&gt; Bias3 SlopeAndDrift (Ols L on P) - Mean                         &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; Bias3 SlopeAndDrift (Ols L on P) - Reg.                         &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; Efficiency1 (Ols R on P) - Mean                                 &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; Efficiency1 (Ols R on P) - Reg.                                 &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; Efficiency2 (Ols Rv on Rv_1) - Mean                             &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; Efficiency2 (Ols Rv on Rv_1) - Reg.                             &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; Orthogonality1 (Ols Rv on Rv_(1:p)) - Mean                      &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; Orthogonality1 (Ols Rv on Rv_(1:p)) - Reg.                      &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; Orthogonality2 (Ols Rv on Rv_k.) - Mean                         &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; Orthogonality2 (Ols Rv on Rv_k) - Reg.                          &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; Orthogonality3 AutoCorrelation (Ljung-Box)                      &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; Orthogonality4 Seasonality (Ljung-Box)                  Good (1.000)</span></span>
-<span><span class="co">#&gt; Orthogonality4 Seasonality (Friedman)                           &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; SignalVsNoise1 - Noise (Ols R on P)                     Good (0.854)</span></span>
-<span><span class="co">#&gt; SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.907)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">rslt</span><span class="op">)</span></span></code></pre></div>
 <p>To export the report in pdf or html format, you can use the function
 <code class="sourceCode r">render_report</code></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -742,13 +591,13 @@ and/or change the default setting about the prior transformation of the
 data (including the possibility to add a prior log-transformation of
 your data).</p>
 <p>The function <code><a href="../reference/render_report.html">render_report()</a></code> applied on the output of
-<code><a href="../reference/revision_analysis.html">revision_analysis()</a></code> will generate an enhanced HTML report
-including both a formatted summary of the results and full explanations
-about each test (which are also included in the vignette below). The
-formatted summary of the results display the p-value of each test
-(except for Theil’s tests where the value of the statistics is provided)
-and their interpretation. An appreciation ‘good’, ‘uncertain’, ‘bad’ and
-‘severe’ is indeed associated to each test following the usual
+<code><a href="../reference/revision_analysis.html">revision_analysis()</a></code> will generate an enhanced HTML or PDF
+report including both a formatted summary of the results and full
+explanations about each test (which are also included in the vignette
+below). The formatted summary of the results display the p-value of each
+test (except for Theil’s tests where the value of the statistics is
+provided) and their interpretation. An appreciation ‘good’, ‘uncertain’,
+‘bad’ and ‘severe’ is indeed associated to each test following the usual
 statistical interpretation of p-values and the orientation of the tests.
 This allows a quick visual interpretation of the results and is similar
 to what is done in the GUI of JDemetra+.</p>
@@ -757,20 +606,7 @@ user can also perform tests individually if they want to. To list all
 functions available in the package (and therefore finding the different
 functions corresponding to the individual tests), you can do</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="st">"package:rjd3revisions"</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] "bias"                      "check_date_month"         </span></span>
-<span><span class="co">#&gt;  [3] "check_date_quarter"        "check_date_year"          </span></span>
-<span><span class="co">#&gt;  [5] "check_format_date"         "check_horizontal"         </span></span>
-<span><span class="co">#&gt;  [7] "check_long"                "check_vertical"           </span></span>
-<span><span class="co">#&gt;  [9] "cointegration"             "create_vintages"          </span></span>
-<span><span class="co">#&gt; [11] "create_vintages_from_csv"  "create_vintages_from_xlsx"</span></span>
-<span><span class="co">#&gt; [13] "descriptive_statistics"    "efficiencyModel1"         </span></span>
-<span><span class="co">#&gt; [15] "efficiencyModel2"          "get_revisions"            </span></span>
-<span><span class="co">#&gt; [17] "orthogonallyModel1"        "orthogonallyModel2"       </span></span>
-<span><span class="co">#&gt; [19] "render_report"             "revision_analysis"        </span></span>
-<span><span class="co">#&gt; [21] "signalnoise"               "slope_and_drift"          </span></span>
-<span><span class="co">#&gt; [23] "theil"                     "theil2"                   </span></span>
-<span><span class="co">#&gt; [25] "unitroot"                  "vecm"</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="st">"package:rjd3revisions"</span><span class="op">)</span></span></code></pre></div>
 <p>Use help(‘name of the functions’) or ?‘name of the functions’ for
 more information and examples over the various functions.</p>
 </div>
@@ -793,6 +629,161 @@ together with some extra ones. Finally the <code><a href="https://rdrr.io/r/grap
 applied to the output of the function <code><a href="../reference/get_revisions.html">get_revisions()</a></code> will
 provide you with a visual of the revisions over time.</p>
 </div>
+<div class="section level3">
+<h3 id="user-defined-thresholds">User-defined thresholds<a class="anchor" aria-label="anchor" href="#user-defined-thresholds"></a>
+</h3>
+<p>It is possible for the user to change the default values of the
+thresholds considered in the function <code><a href="../reference/revision_analysis.html">revision_analysis()</a></code>
+(and displayed by the functions <code><a href="../reference/summary.rjd3rev_rslts.html">summary.rjd3rev_rslts()</a></code> and
+<code><a href="../reference/render_report.html">render_report()</a></code>) that are used to make quality assessment
+on the results of the tests. Changing the default values of the
+thresholds can be done for each test through the global options. The
+latter can be set via <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> and queried via
+<code><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption()</a></code>. Note that the default thresholds considered
+for residuals diagnostics can also be changed if necessary.</p>
+<p>Here’s how to customize a threshold. Thresholds values should be
+defined as an ascending numeric vector. We start from -Inf and each
+element of the vector should be understood as the upper or lower bound
+(depending on the null hypothesis) of the corresponding assessment.
+Furthermore, the assessment “good” is always the one not to be
+mentioned. Depending on the test, it will be interpreted adequately.
+Finally, only the assessments ‘good’ (implicitly), ‘uncertain’, ‘bad’
+and ‘severe’ are allowed but they don’t all have to be used if it is not
+necessary. Here is an example of how to modify threshold values for some
+of the tests. The list with the name of all test thresholds that can be
+modified can be found in the list below.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>augmented_t_threshold <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>severe <span class="op">=</span> <span class="fl">0.005</span>, bad <span class="op">=</span> <span class="fl">0.05</span>, uncertain <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
+<span>             t_threshold <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>bad <span class="op">=</span> <span class="fl">0.05</span>, uncertain <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
+<span>             theil_u2_threshold <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>uncertain <span class="op">=</span> <span class="fl">.5</span>, bad <span class="op">=</span> <span class="fl">.75</span>, severe <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">rslt2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/revision_analysis.html">revision_analysis</a></span><span class="op">(</span><span class="va">vintages</span>, gap <span class="op">=</span> <span class="fl">1</span>, view <span class="op">=</span> <span class="st">"diagonal"</span>, n.releases <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">rslt2</span><span class="op">)</span></span></code></pre></div>
+<p>For the augmented t-test, by defining the threshold values like this,
+it means that the results will be assessed as severe if the p-value &lt;
+0.005, as bad if the p-value is between 0.005 and 0.05, as uncertain if
+between 0.05 and 0.1 and as good if it is higher than 0.1. As far as the
+Theil U2 test is concerned, given the definition of the test (see
+section <a href="#theil">Theil’s Inequality Coefficient</a>), the
+results will be assessed as good if the value of the test is lower than
+0.5, uncertain, between 0.5 and 0.75, bad between 0.75 and 1 and severe
+if it is higher than 1.</p>
+<p>Here are all the possible options the user can modified, together
+with their description and their default value.</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Name</th>
+<th align="left">Description</th>
+<th align="left">Default value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">theil_u1_threshold</td>
+<td align="left">Threshold values for Theil’s Inequality Coefficient
+U1</td>
+<td align="left">c(uncertain = .8, bad = .9, severe = .99)</td>
+</tr>
+<tr class="even">
+<td align="left">theil_u2_threshold</td>
+<td align="left">Threshold values for Theil’s Inequality Coefficient
+U2</td>
+<td align="left">c(uncertain = .8, bad = .9, severe = 1)</td>
+</tr>
+<tr class="odd">
+<td align="left">t_threshold</td>
+<td align="left">Threshold values for T-test</td>
+<td align="left">c(severe = 0.001, bad = 0.01, uncertain = 0.05)</td>
+</tr>
+<tr class="even">
+<td align="left">augmented_t_threshold</td>
+<td align="left">Threshold values for Augmented T-test</td>
+<td align="left">c(severe = 0.001, bad = 0.01, uncertain = 0.05)</td>
+</tr>
+<tr class="odd">
+<td align="left">slope_and_drift_threshold</td>
+<td align="left">Threshold values for Slope and drift test</td>
+<td align="left">c(severe = 0.001, bad = 0.01, uncertain = 0.05)</td>
+</tr>
+<tr class="even">
+<td align="left">eff1_threshold</td>
+<td align="left">Threshold values for Efficiency test (test 1)</td>
+<td align="left">c(severe = 0.001, bad = 0.01, uncertain = 0.05)</td>
+</tr>
+<tr class="odd">
+<td align="left">eff2_threshold</td>
+<td align="left">Threshold values for Efficiency test (test 2)</td>
+<td align="left">c(severe = 0.001, bad = 0.01, uncertain = 0.05)</td>
+</tr>
+<tr class="even">
+<td align="left">orth1_threshold</td>
+<td align="left">Threshold values for Orthogonality test (test 1)</td>
+<td align="left">c(severe = 0.001, bad = 0.01, uncertain = 0.05)</td>
+</tr>
+<tr class="odd">
+<td align="left">orth2_threshold</td>
+<td align="left">Threshold values for Orthogonality test (test 2)</td>
+<td align="left">c(severe = 0.001, bad = 0.01, uncertain = 0.05)</td>
+</tr>
+<tr class="even">
+<td align="left">autocorr_threshold</td>
+<td align="left">Threshold values for Orthogonality test (test 3 on
+autocorrelation)</td>
+<td align="left">c(severe = 0.001, bad = 0.01, uncertain = 0.05)</td>
+</tr>
+<tr class="odd">
+<td align="left">seas_threshold</td>
+<td align="left">Threshold values for Orthogonality test (test 4 on
+seasonality)</td>
+<td align="left">c(severe = 0.001, bad = 0.01, uncertain = 0.05)</td>
+</tr>
+<tr class="even">
+<td align="left">signal_noise1_threshold</td>
+<td align="left">Threshold values for Signal vs Noise test (test 1)</td>
+<td align="left">c(severe = 0.001, bad = 0.01, uncertain = 0.05)</td>
+</tr>
+<tr class="odd">
+<td align="left">signal_noise2_threshold</td>
+<td align="left">Threshold values for Signal vs Noise test (test 2)</td>
+<td align="left">c(uncertain = 0.05)</td>
+</tr>
+<tr class="even">
+<td align="left">jb_res_threshold</td>
+<td align="left">Normality test: Jarque-Bera</td>
+<td align="left">c(bad = 0.01, uncertain = 0.1)</td>
+</tr>
+<tr class="odd">
+<td align="left">bp_res_threshold</td>
+<td align="left">Homoskedasticity test: Breusch-Pagan</td>
+<td align="left">c(bad = 0.01, uncertain = 0.1)</td>
+</tr>
+<tr class="even">
+<td align="left">white_res_threshold</td>
+<td align="left">Homoskedasticity test: Whitet</td>
+<td align="left">c(bad = 0.01, uncertain = 0.1)</td>
+</tr>
+<tr class="odd">
+<td align="left">arch_res_threshold</td>
+<td align="left">Homoskedasticity test: ARCH</td>
+<td align="left">c(bad = 0.01, uncertain = 0.1)</td>
+</tr>
+</tbody>
+</table>
+<p>Finally, the functions <code><a href="../reference/set_thresholds_to_default.html">set_thresholds_to_default()</a></code> and
+<code><a href="../reference/set_all_thresholds_to_default.html">set_all_thresholds_to_default()</a></code> can be used to reset test
+thresholds to their default values.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/set_thresholds_to_default.html">set_thresholds_to_default</a></span><span class="op">(</span><span class="st">"t_threshold"</span><span class="op">)</span></span>
+<span><span class="co"># or to reset all threshold options</span></span>
+<span><span class="fu"><a href="../reference/set_all_thresholds_to_default.html">set_all_thresholds_to_default</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">rslt3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/revision_analysis.html">revision_analysis</a></span><span class="op">(</span><span class="va">vintages</span>, gap <span class="op">=</span> <span class="fl">1</span>, view <span class="op">=</span> <span class="st">"diagonal"</span>, n.releases <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">rslt3</span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="tests-description-and-interpretation">Tests description and interpretation<a class="anchor" aria-label="anchor" href="#tests-description-and-interpretation"></a>
@@ -810,7 +801,7 @@ whether revisions are somehow predictable)</li>
 <h3 id="relevancy">Relevancy<a class="anchor" aria-label="anchor" href="#relevancy"></a>
 </h3>
 <div class="section level4">
-<h4 id="theils-inequality-coefficient">Theil’s Inequality Coefficient<a class="anchor" aria-label="anchor" href="#theils-inequality-coefficient"></a>
+<h4 id="theil">Theil’s Inequality Coefficient<a class="anchor" aria-label="anchor" href="#theil"></a>
 </h4>
 <p>In the context of revision analysis, Theil’s inequality coefficient,
 also known as Theil’s U, provides a measure of the accuracy of a set of

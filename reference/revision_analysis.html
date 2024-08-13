@@ -215,6 +215,16 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-in"><span><span class="co">#render_report(rslt3)</span></span></span>
 <span class="r-in"><span><span class="co">#summary(rslt3)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Note that it is possible to change thresholds values for quality</span></span></span>
+<span class="r-in"><span><span class="co">## assessment using options (see vignette for details)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>augmented_t_threshold <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>severe <span class="op">=</span> <span class="fl">0.005</span>, bad <span class="op">=</span> <span class="fl">0.01</span>, uncertain <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        slope_and_drift_threshold <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>severe <span class="op">=</span> <span class="fl">0.005</span>, bad <span class="op">=</span> <span class="fl">0.05</span>, uncertain <span class="op">=</span> <span class="fl">0.10</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        theil_u2_threshold <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>uncertain <span class="op">=</span> <span class="fl">.5</span>, bad <span class="op">=</span> <span class="fl">.7</span>, severe <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">rslt4</span> <span class="op">&lt;-</span> <span class="fu">revision_analysis</span><span class="op">(</span><span class="va">vintages</span>, gap <span class="op">=</span> <span class="fl">1</span>, view <span class="op">=</span> <span class="st">"diagonal"</span>, n.releases <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">rslt4</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
