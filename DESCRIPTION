@@ -26,20 +26,22 @@ Imports:
     utils,
     stats,
     grDevices,
-    graphics
+    graphics,
+    methods
 Suggests: 
     kableExtra,
     testthat (>= 3.0.0),
     knitr,
     rmarkdown,
     readxl,
-    formattable
+    flextable
 Remotes:
     github::rjdverse/rjd3toolkit
 Collate: 
     'rjd3revisions-package.R'
     'check.R'
     'conversion.R'
+    'format_table.R'
     'report.R'
     'revisions.R'
     'revision_analysis.R'
