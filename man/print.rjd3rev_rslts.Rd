@@ -5,12 +5,16 @@
 \title{Print function for objects of class "rjd3rev_rslts"}
 \usage{
 \method{print}{rjd3rev_rslts}(x, ...)
+
+\method{print}{default}(x, ...)
 }
 \arguments{
 \item{x}{an object of class "rjd3rev_rslts"}
 
-\item{\dots}{further arguments passed to the print() function.}
+\item{...}{further arguments passed to or from other methods.}
 }
 \description{
 Print function for objects of class "rjd3rev_rslts"
+
+print function for objects of class "rjd3rev_rslts"
 }
