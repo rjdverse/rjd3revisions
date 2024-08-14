@@ -815,7 +815,7 @@ build_table <- function(x, type = c("summary", "stats-desc", "revisions", "tests
 #'
 View.rjd3rev_rslts <- function(
         x,
-        type = c("all", "summary", "stats-desc", "revisions", "tests"),
+        type = c("summary", "stats-desc", "revisions", "tests"),
         ...) {
 
     # Check type
