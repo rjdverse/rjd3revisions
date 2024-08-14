@@ -493,7 +493,7 @@ create_vintages_from_xlsx <- function(file,
 #' @param n_col number of columns to display. Can be either the last n columns
 #'   (verical view), the last n rows (horizontal view) or the first n columns
 #'   (diagonal view). This argument is not used for the long view.
-#' @param ... further arguments passed to the print() function.
+#' @param ... further arguments passed to the \code{\link{print}} function.
 #'
 #' @exportS3Method print rjd3rev_vintages
 #' @method print rjd3rev_vintages

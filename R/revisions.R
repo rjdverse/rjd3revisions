@@ -108,7 +108,7 @@ plot.rjd3rev_revisions <- function(x, view = c("vertical", "diagonal"), n_rev = 
 #' @param n_col number of columns to display. Can be either the last n columns
 #'   (verical view), the last n rows (horizontal view) or the first n columns
 #'   (diagonal view).
-#' @param \dots further arguments passed to the print() function.
+#' @param \dots further arguments passed to the \code{\link{print}} function.
 #' @exportS3Method print rjd3rev_revisions
 #' @export
 #'

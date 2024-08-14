@@ -700,21 +700,25 @@ regression_diagnostics <- function(reg_output, thr_res_jb, thr_res_bp, thr_res_w
 
 # Generic functions ------------------------------------------------------------
 
-#' Print function for objects of class "rjd3rev_rslts"
-#' @export
+#' @title Print function for objects of class \code{rjd3rev_rslts}
+#'
+#' @param x an object of class \code{rjd3rev_rslts}
+#' @param \dots further arguments passed to the \code{\link{print}} function.
+#'
 #' @exportS3Method print rjd3rev_rslts
+#' @method print rjd3rev_rslts
+#' @export
 #'
 print.rjd3rev_rslts <- function(x, ...) {
-    print(list(call = x$call,
-               descriptive_statistics = x$descriptive.statistics,
-               parametric_analysis = x$summary, ...))
+    print(x$summary)
 }
 
-#' Summary function for objects of class "rjd3rev_rslts"
+#' Summary function for objects of class \code{rjd3rev_rslts}
 #'
-#' @param object an object of class "rjd3rev_rslts"
+#' @param object an object of class \code{rjd3rev_rslts}
 #' @param ... further arguments passed to or from other methods.
 #' @exportS3Method summary rjd3rev_rslts
+#' @method summary rjd3rev_rslts
 #' @export
 #'
 summary.rjd3rev_rslts <- function(object, ...) {
@@ -736,18 +740,6 @@ summary.rjd3rev_rslts <- function(object, ...) {
     colnames(summary_tests)[which(colnames(summary_tests) %in% revisions_dates)] <- paste0("[", seq_len(nb_revisions), "]")
     cat("\nTests results:\n")
     print(summary_tests)
-}
-
-#' print function for objects of class "rjd3rev_rslts"
-#'
-#' @param x an object of class "rjd3rev_rslts"
-#' @param ... further arguments passed to or from other methods.
-#' @exportS3Method print rjd3rev_rslts
-#' @method print default
-#' @export
-#'
-print.rjd3rev_rslts <- function(x, ...) {
-    print(x$summary)
 }
 
 #' @rdname View
@@ -798,10 +790,9 @@ build_table <- function(x, type = c("summary", "stats-desc", "revisions", "tests
                 theme_design()
             return(stat_desc)
         } else if (type == "revisions") {
-            revisions_table <- data.frame(
-                Time = time(x$revisions),
-                x$revisions,
-                check.names = FALSE) |>
+            revisions_table <- data.frame(Time = time(x$revisions),
+                                          x$revisions,
+                                          check.names = FALSE) |>
                 flextable::flextable() |>
                 theme_design()
             return(revisions_table)
@@ -812,9 +803,9 @@ build_table <- function(x, type = c("summary", "stats-desc", "revisions", "tests
     return(invisible(NULL))
 }
 
-#' View function for objects of class "rjd3rev_rslts"
+#' View function for objects of class \code{rjd3rev_rslts}
 #'
-#' @param x an object of class "rjd3rev_rslts"
+#' @param x an object of class \code{rjd3rev_rslts}
 #' @param type type of view to display
 #' @param ... further arguments passed to \code{\link{View}}.
 #'

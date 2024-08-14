@@ -2,17 +2,17 @@
 % Please edit documentation in R/revision_analysis.R
 \name{View.rjd3rev_rslts}
 \alias{View.rjd3rev_rslts}
-\title{View function for objects of class "rjd3rev_rslts"}
+\title{View function for objects of class \code{rjd3rev_rslts}}
 \usage{
 \method{View}{rjd3rev_rslts}(x, type = c("all", "summary", "stats-desc", "revisions", "tests"), ...)
 }
 \arguments{
-\item{x}{an object of class "rjd3rev_rslts"}
+\item{x}{an object of class \code{rjd3rev_rslts}}
 
 \item{type}{type of view to display}
 
 \item{...}{further arguments passed to \code{\link{View}}.}
 }
 \description{
-View function for objects of class "rjd3rev_rslts"
+View function for objects of class \code{rjd3rev_rslts}
 }

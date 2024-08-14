@@ -2,19 +2,15 @@
 % Please edit documentation in R/revision_analysis.R
 \name{print.rjd3rev_rslts}
 \alias{print.rjd3rev_rslts}
-\title{Print function for objects of class "rjd3rev_rslts"}
+\title{Print function for objects of class \code{rjd3rev_rslts}}
 \usage{
 \method{print}{rjd3rev_rslts}(x, ...)
-
-\method{print}{default}(x, ...)
 }
 \arguments{
-\item{x}{an object of class "rjd3rev_rslts"}
+\item{x}{an object of class \code{rjd3rev_rslts}}
 
-\item{...}{further arguments passed to or from other methods.}
+\item{\dots}{further arguments passed to the \code{\link{print}} function.}
 }
 \description{
-Print function for objects of class "rjd3rev_rslts"
-
-print function for objects of class "rjd3rev_rslts"
+Print function for objects of class \code{rjd3rev_rslts}
 }

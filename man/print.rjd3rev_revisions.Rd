@@ -16,7 +16,7 @@ corresponds to the number of columns.}
 (verical view), the last n rows (horizontal view) or the first n columns
 (diagonal view).}
 
-\item{\dots}{further arguments passed to the print() function.}
+\item{\dots}{further arguments passed to the \code{\link{print}} function.}
 }
 \description{
 Print function for objects of class \code{"rjd3rev_revisions"}

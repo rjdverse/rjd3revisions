@@ -43,5 +43,3 @@ format_table <- function(x, col = "Tests") {
     colnames(formatted_table)[1] <- col
     return(formatted_table)
 }
-
-
