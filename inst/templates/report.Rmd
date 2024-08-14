@@ -17,52 +17,6 @@ nocite: '@*'
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r function-table, echo = FALSE, eval = TRUE}
-theme_design <- function(x) {
-    x <- border_remove(x)
-    std_border <- fp_border_default(width = 4, color = "white")
-    # x <- fontsize(x, size = 10, part = "all")
-    x <- font(x, fontname = "Helvetica Neue", part = "all")
-    x <- align(x, align = "center", part = "all")
-
-    x <- bg(x, bg = "gray94", part = "body")
-    x <- bg(x, bg = "#7ca2ff", part = "header")
-    x <- bg(x, bg = "#7ca2ff", part = "footer")
-    x <- color(x, color = "black", part = "all")
-
-    x <- bg(x, j = "Tests", bg = "#7ca2ff")
-    x <- color(x, j = "Tests", color = "black")
-
-    x <- padding(x, padding = 6, part = "all")
-    x <- border_outer(x, part = "all", border = std_border)
-    x <- border_inner_h(x, border = std_border, part = "all")
-    x <- border_inner_v(x, border = std_border, part = "all")
-    x <- set_table_properties(x, layout = "autofit")
-    return(x)
-}
-
-create_formula <- function(col, status) {
-    return(as.formula(sprintf("~ grepl(x = `%s`, pattern = \"%s\")", col, status)))
-}
-
-format_column <- function(x, col) {
-    x <- bg(x, create_formula(col, "Good"), col, bg = "#4CAF50")
-    x <- bg(x, create_formula(col, "Uncertain"), col, bg = "#FFEB3B")
-    x <- bg(x, create_formula(col, "Bad"), col, bg = "#FF813A")
-    x <- bg(x, create_formula(col, "Severe"), col, bg = "#F44336")
-    x <- bold(x, create_formula(col, "Severe"), col)
-    x <- color(x, create_formula(col, "Severe"), col, color = "white")
-    return(x)
-}
-
-format_table <- function(x) {
-    return(cbind(
-        data.frame(Tests = rownames(x)),
-        as.data.frame(x)
-    ))
-}
-```
-
 # Content in a nutshell
 
 Descriptive statistics provide basic information about the extend of revisions. 
@@ -75,19 +29,10 @@ For some parametric tests, transformation may be important to avoid misleading r
 # Descriptive statistics
 
 ```{r descriptivetable, echo = FALSE}
-selection <- c("N", "mean revision", "st.dev.", "% positive", "% zero", "% negative")
+rslt |> build_table(type = "stats-desc")
+```
 
-if (!requireNamespace("flextable", quietly = TRUE)) {
-    knitr::kable(descriptive_statistics[selection, , drop = FALSE])
-    warning("Please install flextable: install.packages('flextable') to get more visual table output")
-} else {
-    library("flextable")
-    descriptive_statistics[selection, , drop = FALSE] |>
-        format_table() |>
-        flextable() |>
-        theme_design()
-}
-
+```{r plot revisions, echo = FALSE}
 if (add_plot) {
     stats::ts.plot(revisions, gpars = list(xlab = "", ylab = "", col = seq_len(ncol(revisions)), type = "h", lwd = 2))
     graphics::legend("topleft", bty = "n", lty = 1, lwd = 2, col = seq_len(ncol(revisions)), legend = colnames(revisions))
@@ -99,16 +44,7 @@ if (add_plot) {
 # Main Results
 
 ```{r summarytable, echo = FALSE}
-if (!requireNamespace("flextable", quietly = TRUE)) {
-    knitr::kable(main_results)
-} else {
-    main_results |>
-        format_table() |>
-        flextable() |>
-        theme_design() |>
-        format_column(col = "[Release[2]]-[Release[1]]") |>
-        format_column(col = "[Release[3]]-[Release[2]]")
-}
+rslt |> build_table(type = "summary")
 ```
 
 # Tests description
