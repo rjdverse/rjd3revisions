@@ -50,7 +50,7 @@
 #' vintage views (selected by the argument `type`.
 #' @param type character specifying the type of representation of the input
 #' between `"long"`, `"horizontal"` and `"vertical"` approach.
-#' @param periodicity periodicity of the time period (12, 4 or 1 for resp.
+#' @param periodicity Integer. Periodicity of the time period (12, 4 or 1 for resp.
 #' monthly, quarterly or annual data)
 #' @param date_format \code{character} string corresponding to the format used in
 #' the input data.frame for the revision dates.
@@ -577,6 +577,8 @@ summary.rjd3rev_vintages <- function(object, ...) {
 #' @details
 #' Generate the view of the vintages in different format. With the type argument, you can choose the view to display. You can choose between the long, horizontal, vertical and diagonal view.
 #'
+#' @rdname View
+#'
 #' @exportS3Method View rjd3rev_vintages
 #' @method View rjd3rev_vintages
 #' @export
@@ -589,7 +591,7 @@ View.rjd3rev_vintages <- function(
     # Check type
     type <- match.arg(type)
 
-    if (missing(title)) {
+    if (!hasArg(title)) {
         title <- ""
     }
 

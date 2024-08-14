@@ -80,25 +80,17 @@ matrix_r2jd <- function(s) {
 #'
 #' @export
 #' @examples
+#'
 #' ## Simulated data
-#' period_range <- seq(as.Date('2011-01-01'),as.Date('2020-10-01'),by='quarter')
-#' qtr <- (as.numeric(substr(period_range,6,7))+2)/3
-#' time_period <- rep(paste0(format(period_range, "%Y"), "Q", qtr),5)
-#' np <- length(period_range)
-#' rev_date <- c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np),
-#'             rep("2022-12-31",np), rep("2023-06-30",np))
-#' set.seed(1)
-#' xt <- cumsum(sample(rnorm(1000,0,1), np, TRUE))
-#' rev <- rnorm(np*4,0,.1)
-#' obs_values <- xt
-#' for(i in 1:4) {
-#'   xt <- xt+rev[(1+(i-1)*np):(i*np)]
-#'   obs_values <- c(obs_values,xt)
-#' }
-#' df <- data.frame(rev_date, time_period, obs_values)
+#' df_long <- simulate_long(
+#'     n_period = 10L * 4L,
+#'     n_revision = 5L,
+#'     periodicity = 4L,
+#'     start_period = as.Date("2010-01-01")
+#' )
 #'
 #' ## Create vintage and get descriptive statistics of revisions
-#' vintages <- create_vintages(df, periodicity = 4)
+#' vintages <- create_vintages(df_long, periodicity = 4)
 #' revisions <- get_revisions(vintages, gap = 1)
 #' descriptive_statistics(revisions$diagonal_view, rounding = 1)
 #'
@@ -147,25 +139,17 @@ descriptive_statistics <- function(revisions.view, rounding = 3) {
 #' @export
 #'
 #' @examples
+#'
 #' ## Simulated data
-#' period_range <- seq(as.Date('2011-01-01'),as.Date('2020-10-01'),by='quarter')
-#' qtr <- (as.numeric(substr(period_range,6,7))+2)/3
-#' time_period <- rep(paste0(format(period_range, "%Y"), "Q", qtr),5)
-#' np <- length(period_range)
-#' rev_date <- c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np),
-#'             rep("2022-12-31",np), rep("2023-06-30",np))
-#' set.seed(1)
-#' xt <- cumsum(sample(rnorm(1000,0,1), np, TRUE))
-#' rev <- rnorm(np*4,0,.1)
-#' obs_values <- xt
-#' for(i in 1:4) {
-#'   xt <- xt+rev[(1+(i-1)*np):(i*np)]
-#'   obs_values <- c(obs_values,xt)
-#' }
-#' df <- data.frame(rev_date, time_period, obs_values)
+#' df_long <- simulate_long(
+#'     n_period = 10L * 4L,
+#'     n_revision = 5L,
+#'     periodicity = 4L,
+#'     start_period = as.Date("2010-01-01")
+#' )
 #'
 #' ## Create vintage and test
-#' vintages <- create_vintages(df, periodicity = 4)
+#' vintages <- create_vintages(df_long, periodicity = 4)
 #' theil(vintages$diagonal_view)
 #'
 theil <- function(vintages.view, gap = 1, na.zero = FALSE) {
@@ -194,25 +178,17 @@ theil <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #' @export
 #'
 #' @examples
+#'
 #' ## Simulated data
-#' period_range <- seq(as.Date('2011-01-01'),as.Date('2020-10-01'),by='quarter')
-#' qtr <- (as.numeric(substr(period_range,6,7))+2)/3
-#' time_period <- rep(paste0(format(period_range, "%Y"), "Q", qtr),5)
-#' np <- length(period_range)
-#' rev_date <- c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np),
-#'             rep("2022-12-31",np), rep("2023-06-30",np))
-#' set.seed(1)
-#' xt <- cumsum(sample(rnorm(1000,0,1), np, TRUE))
-#' rev <- rnorm(np*4,0,.1)
-#' obs_values <- xt
-#' for(i in 1:4) {
-#'   xt <- xt+rev[(1+(i-1)*np):(i*np)]
-#'   obs_values <- c(obs_values,xt)
-#' }
-#' df <- data.frame(rev_date, time_period, obs_values)
+#' df_long <- simulate_long(
+#'     n_period = 10L * 4L,
+#'     n_revision = 5L,
+#'     periodicity = 4L,
+#'     start_period = as.Date("2010-01-01")
+#' )
 #'
 #' ## Create vintage and test
-#' vintages <- create_vintages(df, periodicity = 4)
+#' vintages <- create_vintages(df_long, periodicity = 4)
 #' theil2(vintages$diagonal_view)
 #'
 theil2 <- function(vintages.view, gap = 1, na.zero = FALSE) {
@@ -238,25 +214,17 @@ theil2 <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #' @export
 #'
 #' @examples
+#'
 #' ## Simulated data
-#' period_range <- seq(as.Date('2011-01-01'),as.Date('2020-10-01'),by='quarter')
-#' qtr <- (as.numeric(substr(period_range,6,7))+2)/3
-#' time_period <- rep(paste0(format(period_range, "%Y"), "Q", qtr),5)
-#' np <- length(period_range)
-#' rev_date <- c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np),
-#'             rep("2022-12-31",np), rep("2023-06-30",np))
-#' set.seed(1)
-#' xt <- cumsum(sample(rnorm(1000,0,1), np, TRUE))
-#' rev <- rnorm(np*4,0,.1)
-#' obs_values <- xt
-#' for(i in 1:4) {
-#'   xt <- xt+rev[(1+(i-1)*np):(i*np)]
-#'   obs_values <- c(obs_values,xt)
-#' }
-#' df <- data.frame(rev_date, time_period, obs_values)
+#' df_long <- simulate_long(
+#'     n_period = 10L * 4L,
+#'     n_revision = 5L,
+#'     periodicity = 4L,
+#'     start_period = as.Date("2010-01-01")
+#' )
 #'
 #' ## Create vintage and test
-#' vintages <- create_vintages(df, periodicity = 4)
+#' vintages <- create_vintages(df_long, periodicity = 4)
 #' revisions <- get_revisions(vintages, gap = 1)
 #' bias(revisions$diagonal_view)
 #'
@@ -299,25 +267,17 @@ bias <- function(revisions.view, na.zero = FALSE) {
 #' @export
 #'
 #' @examples
+#'
 #' ## Simulated data
-#' period_range <- seq(as.Date('2011-01-01'),as.Date('2020-10-01'),by='quarter')
-#' qtr <- (as.numeric(substr(period_range,6,7))+2)/3
-#' time_period <- rep(paste0(format(period_range, "%Y"), "Q", qtr),5)
-#' np <- length(period_range)
-#' rev_date <- c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np),
-#'             rep("2022-12-31",np), rep("2023-06-30",np))
-#' set.seed(1)
-#' xt <- cumsum(sample(rnorm(1000,0,1), np, TRUE))
-#' rev <- rnorm(np*4,0,.1)
-#' obs_values <- xt
-#' for(i in 1:4) {
-#'   xt <- xt+rev[(1+(i-1)*np):(i*np)]
-#'   obs_values <- c(obs_values,xt)
-#' }
-#' df <- data.frame(rev_date, time_period, obs_values)
+#' df_long <- simulate_long(
+#'     n_period = 10L * 4L,
+#'     n_revision = 5L,
+#'     periodicity = 4L,
+#'     start_period = as.Date("2010-01-01")
+#' )
 #'
 #' ## Create vintage and test
-#' vintages <- create_vintages(df, periodicity = 4)
+#' vintages <- create_vintages(df_long, periodicity = 4L)
 #' slope_and_drift(vintages$diagonal_view)
 #'
 slope_and_drift <- function(vintages.view, gap = 1, na.zero = FALSE) {
@@ -358,25 +318,17 @@ slope_and_drift <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #' @export
 #'
 #' @examples
+#'
 #' ## Simulated data
-#' period_range <- seq(as.Date('2011-01-01'),as.Date('2020-10-01'),by='quarter')
-#' qtr <- (as.numeric(substr(period_range,6,7))+2)/3
-#' time_period <- rep(paste0(format(period_range, "%Y"), "Q", qtr),5)
-#' np <- length(period_range)
-#' rev_date <- c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np),
-#'             rep("2022-12-31",np), rep("2023-06-30",np))
-#' set.seed(1)
-#' xt <- cumsum(sample(rnorm(1000,0,1), np, TRUE))
-#' rev <- rnorm(np*4,0,.1)
-#' obs_values <- xt
-#' for(i in 1:4) {
-#'   xt <- xt+rev[(1+(i-1)*np):(i*np)]
-#'   obs_values <- c(obs_values,xt)
-#' }
-#' df <- data.frame(rev_date, time_period, obs_values)
+#' df_long <- simulate_long(
+#'     n_period = 10L * 4L,
+#'     n_revision = 5L,
+#'     periodicity = 4L,
+#'     start_period = as.Date("2010-01-01")
+#' )
 #'
 #' ## Create vintage and test
-#' vintages <- create_vintages(df, periodicity = 4)
+#' vintages <- create_vintages(df_long, periodicity = 4L)
 #' efficiencyModel1(vintages$diagonal_view)
 #'
 efficiencyModel1 <- function(vintages.view, gap = 1, na.zero = FALSE) {
@@ -418,25 +370,17 @@ efficiencyModel1 <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #' @export
 #'
 #' @examples
+#'
 #' ## Simulated data
-#' period_range <- seq(as.Date('2011-01-01'),as.Date('2020-10-01'),by='quarter')
-#' qtr <- (as.numeric(substr(period_range,6,7))+2)/3
-#' time_period <- rep(paste0(format(period_range, "%Y"), "Q", qtr),5)
-#' np <- length(period_range)
-#' rev_date <- c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np),
-#'             rep("2022-12-31",np), rep("2023-06-30",np))
-#' set.seed(1)
-#' xt <- cumsum(sample(rnorm(1000,0,1), np, TRUE))
-#' rev <- rnorm(np*4,0,.1)
-#' obs_values <- xt
-#' for(i in 1:4) {
-#'   xt <- xt+rev[(1+(i-1)*np):(i*np)]
-#'   obs_values <- c(obs_values,xt)
-#' }
-#' df <- data.frame(rev_date, time_period, obs_values)
+#' df_long <- simulate_long(
+#'     n_period = 10L * 4L,
+#'     n_revision = 5L,
+#'     periodicity = 4L,
+#'     start_period = as.Date("2010-01-01")
+#' )
 #'
 #' ## Create vintage and test
-#' vintages <- create_vintages(df, periodicity = 4)
+#' vintages <- create_vintages(df_long, periodicity = 4L)
 #' efficiencyModel2(vintages$diagonal_view)
 #'
 efficiencyModel2 <- function(vintages.view, gap = 1, na.zero = FALSE) {
@@ -480,25 +424,17 @@ efficiencyModel2 <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #' @export
 #'
 #' @examples
+#'
 #' ## Simulated data
-#' period_range <- seq(as.Date('2011-01-01'),as.Date('2020-10-01'),by='quarter')
-#' qtr <- (as.numeric(substr(period_range,6,7))+2)/3
-#' time_period <- rep(paste0(format(period_range, "%Y"), "Q", qtr),5)
-#' np <- length(period_range)
-#' rev_date <- c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np),
-#'             rep("2022-12-31",np), rep("2023-06-30",np))
-#' set.seed(1)
-#' xt <- cumsum(sample(rnorm(1000,0,1), np, TRUE))
-#' rev <- rnorm(np*4,0,.1)
-#' obs_values <- xt
-#' for(i in 1:4) {
-#'   xt <- xt+rev[(1+(i-1)*np):(i*np)]
-#'   obs_values <- c(obs_values,xt)
-#' }
-#' df <- data.frame(rev_date, time_period, obs_values)
+#' df_long <- simulate_long(
+#'     n_period = 10L * 4L,
+#'     n_revision = 5L,
+#'     periodicity = 4L,
+#'     start_period = as.Date("2010-01-01")
+#' )
 #'
 #' ## Create vintage and test
-#' vintages <- create_vintages(df, periodicity = 4)
+#' vintages <- create_vintages(df_long, periodicity = 4L)
 #' revisions <- get_revisions(vintages, gap = 1)
 #' orthogonallyModel1(revisions$diagonal_view)
 #'
@@ -540,25 +476,17 @@ orthogonallyModel1 <- function(revisions.view, nrevs = 1, na.zero = FALSE) {
 #' @export
 #'
 #' @examples
+#'
 #' ## Simulated data
-#' period_range <- seq(as.Date('2011-01-01'),as.Date('2020-10-01'),by='quarter')
-#' qtr <- (as.numeric(substr(period_range,6,7))+2)/3
-#' time_period <- rep(paste0(format(period_range, "%Y"), "Q", qtr),5)
-#' np <- length(period_range)
-#' rev_date <- c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np),
-#'             rep("2022-12-31",np), rep("2023-06-30",np))
-#' set.seed(1)
-#' xt <- cumsum(sample(rnorm(1000,0,1), np, TRUE))
-#' rev <- rnorm(np*4,0,.1)
-#' obs_values <- xt
-#' for(i in 1:4) {
-#'   xt <- xt+rev[(1+(i-1)*np):(i*np)]
-#'   obs_values <- c(obs_values,xt)
-#' }
-#' df <- data.frame(rev_date, time_period, obs_values)
+#' df_long <- simulate_long(
+#'     n_period = 10L * 4L,
+#'     n_revision = 5L,
+#'     periodicity = 4L,
+#'     start_period = as.Date("2010-01-01")
+#' )
 #'
 #' ## Create vintage and test
-#' vintages <- create_vintages(df, periodicity = 4)
+#' vintages <- create_vintages(df_long, periodicity = 4L)
 #' revisions <- get_revisions(vintages, gap = 1)
 #' orthogonallyModel2(revisions$diagonal_view)
 #'
@@ -605,24 +533,15 @@ orthogonallyModel2 <- function(revisions.view, reference = 1, na.zero = FALSE) {
 #'
 #' @examples
 #' ## Simulated data
-#' period_range <- seq(as.Date('2011-01-01'),as.Date('2020-10-01'),by='quarter')
-#' qtr <- (as.numeric(substr(period_range,6,7))+2)/3
-#' time_period <- rep(paste0(format(period_range, "%Y"), "Q", qtr),5)
-#' np <- length(period_range)
-#' rev_date <- c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np),
-#'             rep("2022-12-31",np), rep("2023-06-30",np))
-#' set.seed(1)
-#' xt <- cumsum(sample(rnorm(1000,0,1), np, TRUE))
-#' rev <- rnorm(np*4,0,.1)
-#' obs_values <- xt
-#' for(i in 1:4) {
-#'   xt <- xt+rev[(1+(i-1)*np):(i*np)]
-#'   obs_values <- c(obs_values,xt)
-#' }
-#' df <- data.frame(rev_date, time_period, obs_values)
+#' df_long <- simulate_long(
+#'     n_period = 10L * 4L,
+#'     n_revision = 5L,
+#'     periodicity = 4L,
+#'     start_period = as.Date("2010-01-01")
+#' )
 #'
 #' ## Create vintage and test
-#' vintages <- create_vintages(df, periodicity = 4)
+#' vintages <- create_vintages(df_long, periodicity = 4L)
 #' signalnoise(vintages$diagonal_view)
 #'
 signalnoise <- function(vintages.view, gap = 1, na.zero = FALSE) {
@@ -661,24 +580,15 @@ signalnoise <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #'
 #' @examples
 #' ## Simulated data
-#' period_range <- seq(as.Date('2011-01-01'),as.Date('2020-10-01'),by='quarter')
-#' qtr <- (as.numeric(substr(period_range,6,7))+2)/3
-#' time_period <- rep(paste0(format(period_range, "%Y"), "Q", qtr),5)
-#' np <- length(period_range)
-#' rev_date <- c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np),
-#'             rep("2022-12-31",np), rep("2023-06-30",np))
-#' set.seed(1)
-#' xt <- cumsum(sample(rnorm(1000,0,1), np, TRUE))
-#' rev <- rnorm(np*4,0,.1)
-#' obs_values <- xt
-#' for(i in 1:4) {
-#'   xt <- xt+rev[(1+(i-1)*np):(i*np)]
-#'   obs_values <- c(obs_values,xt)
-#' }
-#' df <- data.frame(rev_date, time_period, obs_values)
+#' df_long <- simulate_long(
+#'     n_period = 10L * 4L,
+#'     n_revision = 5L,
+#'     periodicity = 4L,
+#'     start_period = as.Date("2010-01-01")
+#' )
 #'
 #' ## Create vintage and test
-#' vintages <- create_vintages(df, periodicity = 4)
+#' vintages <- create_vintages(df_long, periodicity = 4L)
 #' unitroot(vintages$diagonal_view)
 #'
 unitroot <- function(vintages.view, adfk = 1, na.zero = FALSE) {
@@ -708,25 +618,17 @@ unitroot <- function(vintages.view, adfk = 1, na.zero = FALSE) {
 #' @export
 #'
 #' @examples
+#'
 #' ## Simulated data
-#' period_range <- seq(as.Date('2011-01-01'),as.Date('2020-10-01'),by='quarter')
-#' qtr <- (as.numeric(substr(period_range,6,7))+2)/3
-#' time_period <- rep(paste0(format(period_range, "%Y"), "Q", qtr),5)
-#' np <- length(period_range)
-#' rev_date <- c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np),
-#'             rep("2022-12-31",np), rep("2023-06-30",np))
-#' set.seed(1)
-#' xt <- cumsum(sample(rnorm(1000,0,1), np, TRUE))
-#' rev <- rnorm(np*4,0,.1)
-#' obs_values <- xt
-#' for(i in 1:4) {
-#'   xt <- xt+rev[(1+(i-1)*np):(i*np)]
-#'   obs_values <- c(obs_values,xt)
-#' }
-#' df <- data.frame(rev_date, time_period, obs_values)
+#' df_long <- simulate_long(
+#'     n_period = 10L * 4L,
+#'     n_revision = 5L,
+#'     periodicity = 4L,
+#'     start_period = as.Date("2010-01-01")
+#' )
 #'
 #' ## Create vintage and test
-#' vintages <- create_vintages(df, periodicity = 4)
+#' vintages <- create_vintages(df_long, periodicity = 4L)
 #' cointegration(vintages$diagonal_view)
 #'
 cointegration <- function(vintages.view, adfk = 1, na.zero = FALSE) {
@@ -769,24 +671,15 @@ get_rownames_diag <- function(vt, gap) {
 #'
 #' @examples
 #' ## Simulated data
-#' period_range <- seq(as.Date('2011-01-01'),as.Date('2020-10-01'),by='quarter')
-#' qtr <- (as.numeric(substr(period_range,6,7))+2)/3
-#' time_period <- rep(paste0(format(period_range, "%Y"), "Q", qtr),5)
-#' np <- length(period_range)
-#' rev_date <- c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np),
-#'             rep("2022-12-31",np), rep("2023-06-30",np))
-#' set.seed(1)
-#' xt <- cumsum(sample(rnorm(1000,0,1), np, TRUE))
-#' rev <- rnorm(np*4,0,.1)
-#' obs_values <- xt
-#' for(i in 1:4) {
-#'   xt <- xt+rev[(1+(i-1)*np):(i*np)]
-#'   obs_values <- c(obs_values,xt)
-#' }
-#' df <- data.frame(rev_date, time_period, obs_values)
+#' df_long <- simulate_long(
+#'     n_period = 10L * 4L,
+#'     n_revision = 5L,
+#'     periodicity = 4L,
+#'     start_period = as.Date("2010-01-01")
+#' )
 #'
 #' ## Create vintage and test
-#' vintages <- create_vintages(df, periodicity = 4)
+#' vintages <- create_vintages(df_long, periodicity = 4L)
 #' vecm(vintages$diagonal_view)
 #'
 vecm <- function(vintages.view, lag = 2, model = c("none", "cnt", "trend"), na.zero = FALSE) {
