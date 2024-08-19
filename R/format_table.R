@@ -28,8 +28,8 @@ create_formula <- function(col, status) {
 format_column <- function(x, col) {
     x <- flextable::bg(x, create_formula(col, "Good"), col, bg = "#4CAF50")
     x <- flextable::bg(x, create_formula(col, "Uncertain"), col, bg = "#FFEB3B")
-    x <- flextable::bg(x, create_formula(col, "Bad"), col, bg = "#FF813A")
-    x <- flextable::bg(x, create_formula(col, "Severe"), col, bg = "#F44336")
+    x <- flextable::bg(x, create_formula(col, "Bad"), col, bg = "#ff3737")
+    x <- flextable::bg(x, create_formula(col, "Severe"), col, bg = "#c10000")
     x <- flextable::bold(x, create_formula(col, "Severe"), col)
     x <- flextable::color(x, create_formula(col, "Severe"), col, color = "white")
     return(x)

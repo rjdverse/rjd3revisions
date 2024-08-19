@@ -4,7 +4,7 @@
 \alias{View.rjd3rev_rslts}
 \title{View function for objects of class \code{rjd3rev_rslts}}
 \usage{
-\method{View}{rjd3rev_rslts}(x, type = c("all", "summary", "stats-desc", "revisions", "tests"), ...)
+\method{View}{rjd3rev_rslts}(x, type = c("summary", "stats-desc", "revisions", "tests"), ...)
 }
 \arguments{
 \item{x}{an object of class \code{rjd3rev_rslts}}

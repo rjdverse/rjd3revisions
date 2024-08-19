@@ -74,6 +74,8 @@ render_report <- function(
             ext <- "html"
         } else if (output_format == "pdf_document") {
             ext <- "pdf"
+        } else if (output_format == "word_document") {
+            ext <- "docx"
         }
     }
     output_file <- tools::file_path_sans_ext(output_file)

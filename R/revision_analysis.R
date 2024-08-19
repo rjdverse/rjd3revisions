@@ -74,7 +74,8 @@
 #' ## Call using all default parameters
 #' rslt1 <- revision_analysis(vintages)
 #' # render_report(rslt1)
-#' # summary(rslt1) # formatted summary only
+#' summary(rslt1) # formatted summary only
+#' View(rslt1) # formatted tables in viewer panel
 #'
 #' ## Calls using diagonal view (suited in many situations such as to evaluate GDP estimates)
 #' ## Note: when input are not growth rates but the gross series, differentiation is
@@ -82,7 +83,8 @@
 #' ## must be set to TRUE manually whenever a log-transformation of the data is necessary
 #' rslt2 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 #' # render_report(rslt2)
-#' # summary(rslt2)
+#' summary(rslt2)
+#' View(rslt2)
 #'
 #' ## Call to evaluate revisions for a specific range of vintage periods
 #' vintages <- create_vintages(
@@ -92,7 +94,8 @@
 #' )
 #' rslt3 <- revision_analysis(vintages, gap = 2, view = "vertical")
 #' #render_report(rslt3)
-#' #summary(rslt3)
+#' summary(rslt3)
+#' View(rslt3)
 #'
 #' ## Note that it is possible to change thresholds values for quality
 #' ## assessment using options (see vignette for details)
@@ -103,6 +106,7 @@
 #' )
 #' rslt4 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 #' summary(rslt4)
+#' View(rslt4)
 #'
 revision_analysis <- function(vintages,
                               gap = 1,
@@ -737,7 +741,6 @@ summary.rjd3rev_rslts <- function(object, ...) {
     cat("\nRevisions analysis dates:", paste0("\n\t- ", "[", seq_len(nb_revisions), "]: ", revisions_dates), "\n")
 
     summary_tests <- object$summary
-    colnames(summary_tests)[which(colnames(summary_tests) %in% revisions_dates)] <- paste0("[", seq_len(nb_revisions), "]")
     cat("\nTests results:\n")
     print(summary_tests)
 }
