@@ -108,11 +108,10 @@ plot.rjd3rev_revisions <- function(x, view = c("vertical", "diagonal"), n_rev = 
 #' @param n_col number of columns to display. Can be either the last n columns
 #'   (verical view), the last n rows (horizontal view) or the first n columns
 #'   (diagonal view).
-#' @param \dots further arguments passed to the print() function.
+#' @param \dots further arguments passed to the \code{\link{print}} function.
 #' @exportS3Method print rjd3rev_revisions
 #' @export
 #'
-
 print.rjd3rev_revisions <- function(x, n_row = 12, n_col = 3, ...) {
 
     # Check counts
@@ -132,7 +131,7 @@ print.rjd3rev_revisions <- function(x, n_row = 12, n_col = 3, ...) {
                             frequency = freq,
                             end = end_period)
     extract_hv <- x$horizontal_view[(n_col_tot - n_col + 1):n_col_tot, (n_row_tot - n_row + 1):n_row_tot]
-    extract_dv <- stats::ts(x$diagonal_view[1:n_row, 1:n_col],
+    extract_dv <- stats::ts(x$diagonal_view[(n_row_tot - n_row + 1):n_row_tot, 1:n_col],
                             frequency = freq,
                             end = end_period)
 
@@ -153,7 +152,7 @@ print.rjd3rev_revisions <- function(x, n_row = 12, n_col = 3, ...) {
 summary.rjd3rev_revisions <- function(object, ...) {
     x <- object
     vv <- x$vertical_view
-    cat("Number of releases: ", ncol(vv))
+    cat("Number of release revisions: ", ncol(vv))
     cat("\nCovered period:")
     cat("\n \tFrom: ", stats::start(vv))
     cat("\n \tTo: ", stats::end(vv))

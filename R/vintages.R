@@ -50,7 +50,7 @@
 #' vintage views (selected by the argument `type`.
 #' @param type character specifying the type of representation of the input
 #' between `"long"`, `"horizontal"` and `"vertical"` approach.
-#' @param periodicity periodicity of the time period (12, 4 or 1 for resp.
+#' @param periodicity Integer. Periodicity of the time period (12, 4 or 1 for resp.
 #' monthly, quarterly or annual data)
 #' @param date_format \code{character} string corresponding to the format used in
 #' the input data.frame for the revision dates.
@@ -493,7 +493,7 @@ create_vintages_from_xlsx <- function(file,
 #' @param n_col number of columns to display. Can be either the last n columns
 #'   (verical view), the last n rows (horizontal view) or the first n columns
 #'   (diagonal view). This argument is not used for the long view.
-#' @param ... further arguments passed to the print() function.
+#' @param ... further arguments passed to the \code{\link{print}} function.
 #'
 #' @exportS3Method print rjd3rev_vintages
 #' @method print rjd3rev_vintages
@@ -526,7 +526,7 @@ print.rjd3rev_vintages <- function(x,
                             frequency = freq,
                             end = end_period)
     extract_hv <- x$horizontal_view[(n_col_tot - n_col + 1):n_col_tot, (n_row_tot - n_row + 1):n_row_tot]
-    extract_dv <- stats::ts(x$diagonal_view[1:n_row, 1:n_col],
+    extract_dv <- stats::ts(x$diagonal_view[(n_row_tot - n_row + 1):n_row_tot, 1:n_col],
                             frequency = freq,
                             end = end_period)
 
@@ -577,6 +577,8 @@ summary.rjd3rev_vintages <- function(object, ...) {
 #' @details
 #' Generate the view of the vintages in different format. With the type argument, you can choose the view to display. You can choose between the long, horizontal, vertical and diagonal view.
 #'
+#' @rdname View
+#'
 #' @exportS3Method View rjd3rev_vintages
 #' @method View rjd3rev_vintages
 #' @export
@@ -589,7 +591,7 @@ View.rjd3rev_vintages <- function(
     # Check type
     type <- match.arg(type)
 
-    if (missing(title)) {
+    if (!hasArg(title)) {
         title <- ""
     }
 

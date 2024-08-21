@@ -18,7 +18,7 @@ check_horizontal(x, ...)
 \arguments{
 \item{x}{a formatted \code{data.frame} containing the input in the horizontal format}
 
-\item{...}{Arguments to be passed to `check_horizontal` according to the class of the object `x`}
+\item{...}{Arguments to be passed to \code{check_horizontal} according to the class of the object \code{x}}
 
 \item{date_format}{\code{character} string corresponding to the format used in
 the input data.frame for the revision dates.}

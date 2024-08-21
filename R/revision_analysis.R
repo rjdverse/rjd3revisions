@@ -1,5 +1,3 @@
-# #' @include revisions.R
-
 #' Revision analysis through a battery of tests
 #'
 #' The function perform parametric tests which enable the users to detect
@@ -61,48 +59,55 @@
 #' @examples
 #'
 #' ## Simulated data
-#' period_range <- seq(as.Date('2011-01-01'),as.Date('2020-10-01'),by='quarter')
-#' qtr <- (as.numeric(substr(period_range,6,7))+2)/3
-#' time_period <- rep(paste0(format(period_range, "%Y"), "Q", qtr),5)
-#' np <- length(period_range)
-#' rev_date <- c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np),
-#'             rep("2022-12-31",np), rep("2023-06-30",np))
-#' set.seed(1)
-#' xt <- cumsum(sample(rnorm(1000,0,1), np, TRUE))
-#' rev <- rnorm(np*4,0,.1)
-#' obs_values <- xt
-#' for(i in 1:4) {
-#'   xt <- xt+rev[(1+(i-1)*np):(i*np)]
-#'   obs_values <- c(obs_values,xt)
-#' }
-#' df <- data.frame(rev_date, time_period, obs_values)
+#'
+#' df_long <- simulate_long(
+#'     n_period = 10L * 4L,
+#'     n_revision = 10L,
+#'     periodicity = 4L,
+#'     start_period = as.Date("2010-01-01")
+#' )
 #'
 #' ## Create a `"rjd3rev_vintages"` object with the input
-#' vintages <- create_vintages(x = df, periodicity = 4, date_format = "%Y-%m-%d")
-#' # revisions <- get_revisions(vintages, gap = 1) # just to get a first insight of the revisions
+#' vintages <- create_vintages(x = df_long, periodicity = 4L, date_format = "%Y-%m-%d")
+#' # revisions <- get_revisions(vintages, gap = 1L) # just to get a first insight of the revisions
 #'
 #' ## Call using all default parameters
 #' rslt1 <- revision_analysis(vintages)
-#' # render_report(rslt1)
-#' # summary(rslt1) # formatted summary only
+#' # render_report(rslt1, output_file = "report1", output_dir = "C:/Users/xxx")
+#' summary(rslt1) # formatted summary only
+#' View(rslt1) # formatted tables in viewer panel
 #'
 #' ## Calls using diagonal view (suited in many situations such as to evaluate GDP estimates)
 #' ## Note: when input are not growth rates but the gross series, differentiation is
 #' ## performed automatically (if transf.diff is let to its default option) but `transf.log`
 #' ## must be set to TRUE manually whenever a log-transformation of the data is necessary
 #' rslt2 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
-#' # render_report(rslt2)
-#' # summary(rslt2)
+#' # render_report(rslt2, output_file = "report2", output_dir = "C:/Users/xxx",
+#' #               output_format = "word_document", plot_revisions = TRUE)
+#' summary(rslt2)
+#' View(rslt2)
 #'
 #' ## Call to evaluate revisions for a specific range of vintage periods
 #' vintages <- create_vintages(
-#'     x = df,
-#'     periodicity = 4,
-#'     vintage_selection = c(start="2021-12-31", end="2023-06-30")
+#'     x = df_long,
+#'     periodicity = 4L,
+#'     vintage_selection = c(start = "2012-12-31", end = "2018-06-30")
 #' )
-#' rslt3 <- revision_analysis(vintages, gap=2, view = "vertical")
-#' #render_report(rslt3)
-#' #summary(rslt3)
+#' rslt3 <- revision_analysis(vintages, gap = 2, view = "vertical")
+#' #render_report(rslt3, output_file = "report2", output_dir = "C:/Users/xxx", plot_revisions = TRUE)
+#' summary(rslt3)
+#' View(rslt3)
+#'
+#' ## Note that it is possible to change thresholds values for quality
+#' ## assessment using options (see vignette for details)
+#' options(
+#'     augmented_t_threshold = c(severe = 0.005, bad = 0.01, uncertain = 0.05),
+#'     slope_and_drift_threshold = c(severe = 0.005, bad = 0.05, uncertain = 0.10),
+#'     theil_u2_threshold = c(uncertain = .5, bad = .7, severe = 1)
+#' )
+#' rslt4 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
+#' summary(rslt4)
+#' View(rslt4)
 #'
 revision_analysis <- function(vintages,
                               gap = 1,
@@ -175,57 +180,89 @@ revision_analysis <- function(vintages,
     ### Theil tests (U1 and U2)
     U1 <- theil(vt, gap, na.zero)
     U2 <- theil2(vt, gap, na.zero)
-    theil_infos <- theil_test_evaluator(U1, U2, N = ds["N", ], n_test = ncol(rv))
+    theil_infos <- theil_test_evaluator(U1, U2, N = ds["N", ], n_test = ncol(rv),
+                                        thr = list(u1 = getOption("theil_u1_threshold"),
+                                                   u2 = getOption("theil_u2_threshold")))
 
     ## II. Bias (mean and regression bias)
 
     ### T-test and Augmented T-test
     tat_test <- bias(rv, na.zero)
-    tat_infos <- tat_test_evaluator(tat_test, is_log, n_test = ncol(rv))
+    tat_infos <- tat_test_evaluator(tat_test, is_log, n_test = ncol(rv),
+                                    thr = list(t = getOption("t_threshold"),
+                                               at = getOption("augmented_t_threshold")))
 
     ### Slope and drift
     sd_test <- slope_and_drift(vtc, gap, na.zero)
     sd_infos <- sd_test_evaluator(sd_test, is_log, is_cointegrated, delta_diff,
-                                  n_test = ncol(vtc[, -c(1:gap), drop = FALSE]))
+                                  n_test = ncol(vtc[, -c(1:gap), drop = FALSE]),
+                                  thr = getOption("slope_and_drift_threshold"),
+                                  thr_res_jb = getOption("jb_res_threshold"),
+                                  thr_res_bp = getOption("bp_res_threshold"),
+                                  thr_res_white = getOption("white_res_threshold"),
+                                  thr_res_arch = getOption("arch_res_threshold"))
 
     ## III. Efficiency
 
     ### Regression of revision on previous estimate (=noise)
     eff1_test <- efficiencyModel1(vts, gap, na.zero)
     eff1_infos <- eff1_test_evaluator(eff1_test, is_log, is_stationary,
-                                      delta_diff, n_test = ncol(rv))
+                                      delta_diff, n_test = ncol(rv),
+                                      thr = getOption("eff1_threshold"),
+                                      thr_res_jb = getOption("jb_res_threshold"),
+                                      thr_res_bp = getOption("bp_res_threshold"),
+                                      thr_res_white = getOption("white_res_threshold"),
+                                      thr_res_arch = getOption("arch_res_threshold"))
 
     ### Regression of latter revisions (Rv) on previous revisions (Rv_1)
     eff2_test <- efficiencyModel2(vt, gap, na.zero)
-    eff2_infos <- eff2_test_evaluator(eff2_test, is_log, n_test = ncol(rv) - 1)
+    eff2_infos <- eff2_test_evaluator(eff2_test, is_log, n_test = ncol(rv) - 1,
+                                      thr = getOption("eff2_threshold"),
+                                      thr_res_jb = getOption("jb_res_threshold"),
+                                      thr_res_bp = getOption("bp_res_threshold"),
+                                      thr_res_white = getOption("white_res_threshold"),
+                                      thr_res_arch = getOption("arch_res_threshold"))
 
     ## IV. Orthogonality
 
     ### Regression of latter revisions (Rv) on previous revisions (Rv_1, Rv_2,...Rv_p)
     orth1_test <- orthogonallyModel1(rv, nrevs, na.zero)
     orth1_infos <- orth1_test_evaluator(orth1_test, is_log, nrevs, ncol_rv = ncol(rv),
-                                        n_test = ncol(rv[, -c(1:nrevs), drop = FALSE]))
+                                        n_test = ncol(rv[, -c(1:nrevs), drop = FALSE]),
+                                        thr = getOption("orth1_threshold"),
+                                        thr_res_jb = getOption("jb_res_threshold"),
+                                        thr_res_bp = getOption("bp_res_threshold"),
+                                        thr_res_white = getOption("white_res_threshold"),
+                                        thr_res_arch = getOption("arch_res_threshold"))
 
     ### Regression model of latter revisions (Rv) on previous revisions at a specific version (Rv_k)
     orth2_test <- orthogonallyModel2(rv, ref, na.zero)
     orth2_infos <- orth2_test_evaluator(orth2_test, is_log, ref, ncol_rv = ncol(rv),
-                                        n_test = ncol(rv[, -c(1:ref), drop = FALSE]))
+                                        n_test = ncol(rv[, -c(1:ref), drop = FALSE]),
+                                        thr = getOption("orth2_threshold"),
+                                        thr_res_jb = getOption("jb_res_threshold"),
+                                        thr_res_bp = getOption("bp_res_threshold"),
+                                        thr_res_white = getOption("white_res_threshold"),
+                                        thr_res_arch = getOption("arch_res_threshold"))
 
     ### Autocorrelation test
     ac_test <- try(apply(rv, 2, function(x) ljungbox(x[!is.na(x)], k = 2)), silent = TRUE) # Ljung-Box up to k
-    ac_infos <- ac_test_evaluator(ac_test, is_log, cnames = colnames(rv),
-                                  n_test = ncol(rv))
+    ac_infos <- ac_test_evaluator(ac_test, is_log, cnames = colnames(rv), n_test = ncol(rv),
+                                  thr = getOption("autocorr_threshold"))
 
     ### Seasonality tests
     lb_test <- try(apply(diff(rv), 2, function(x) seasonality_qs(x, freq)), silent = TRUE) # Ljung-Box
     fd_test <- try(apply(diff(rv), 2, function(x) seasonality_friedman(x, freq)), silent = TRUE)  # Friedman non-parametric test
     seas_infos <- seas_tests_evaluator(lb_test, fd_test, is_log, cnames = colnames(rv),
-                                       freq = freq, n_test = ncol(rv))
+                                       freq = freq, n_test = ncol(rv),
+                                       thr = getOption("seas_threshold"))
 
     ## V. Signal vs Noise
     sn_test <- signalnoise(vts, gap, na.zero)
     sn_infos <- sn_test_evaluator(sn_test, is_log, is_stationary,
-                                  delta_diff, n_test = ncol(rv))
+                                  delta_diff, n_test = ncol(rv),
+                                  thr = list(noise = getOption("signal_noise1_threshold"),
+                                             news = getOption("signal_noise2_threshold")))
 
     # VAR-based Analysis
     vecm_test <- vecm(vt, lag = 2, model = "none", na.zero) ## VECM
@@ -271,7 +308,7 @@ revision_analysis <- function(vintages,
             revisions = rv_notrf,
             descriptive.statistics = ds,
             summary = summary_table,
-            summary.diagnostics = diagnostics_table,
+            summary.residuals = diagnostics_table,
             relevancy = list(theil = theil_infos$theil_rslt),
             bias = list(t_ta_test = tat_infos$tat_rslt,
                         slope_and_drift = sd_infos$sd_rslt),
@@ -282,7 +319,8 @@ revision_analysis <- function(vintages,
                                  autocorrelation_test = ac_infos$ac_rslt,
                                  seasonality_test = seas_infos$seas_rslt),
             signalnoise = list(signal_noise = sn_infos$sn_rslt),
-            varbased = var_based_rslt
+            varbased = var_based_rslt,
+            view = view
         ), class = "rjd3rev_rslts")
     )
 }
@@ -366,16 +404,16 @@ seasonality_test <- function(x) {
     return(seasonality)
 }
 
-theil_test_evaluator <- function(U1, U2, N, n_test) {
+theil_test_evaluator <- function(U1, U2, N, n_test, thr) {
     if (!is.null(U1)) {
         theil_rslt <- round(rbind(N, U1), 3)
         if (!is.null(U2) && !all(is.nan(U2)) == TRUE) {
             theil_rslt <- rbind(theil_rslt, U2 = round(U2, 3))
-            theil_q <- eval_U(U2)
+            theil_q <- eval_test(U2, threshold = thr$u2, ascending = FALSE)
             U_det <- "U2"
         } else {
             theil_rslt <- rbind(theil_rslt, U2 = rep(NA, length(U1)))
-            theil_q <- eval_U(U1, U2 = FALSE)
+            theil_q <- eval_test(U1, threshold = thr$u1, ascending = FALSE)
             U_det <- "U1"
             warning("Theil U2 could not be calculated. Theil U1 is considered instead in summary().", call. = FALSE)
         }
@@ -387,11 +425,11 @@ theil_test_evaluator <- function(U1, U2, N, n_test) {
     return(list(theil_rslt = theil_rslt, theil_q = theil_q, U_det = U_det, theil_trf = "None"))
 }
 
-tat_test_evaluator <- function(tat, is_log, n_test) {
+tat_test_evaluator <- function(tat, is_log, n_test, thr) {
     if (!is.null(tat)) {
         tat_rslt <- t(round(tat, 3))
-        t_q <- eval_pvals(tat[, "pvalue"], h0_good = TRUE)
-        at_q <- eval_pvals(tat[, "pvalue.adjusted"], h0_good = TRUE)
+        t_q <- eval_test(tat[, "pvalue"], threshold = thr$t)
+        at_q <- eval_test(tat[, "pvalue.adjusted"], threshold = thr$at)
     } else {
         tat_rslt <- NULL
         t_q <- at_q <- rep(NA, n_test)
@@ -402,12 +440,12 @@ tat_test_evaluator <- function(tat, is_log, n_test) {
     return(list(tat_rslt = tat_rslt, t_q = t_q, at_q = at_q, tat_trf = tat_trf))
 }
 
-sd_test_evaluator <- function(sd, is_log, is_cointegrated, delta_diff, n_test) {
+sd_test_evaluator <- function(sd, is_log, is_cointegrated, delta_diff, n_test, thr, thr_res_jb, thr_res_bp, thr_res_white, thr_res_arch) {
     if (!is.null(sd)) {
         sd_rslt <- format_reg_output(sd, is_log, !is_cointegrated)
-        sd_m_q <- eval_pvals(sd[, "intercept.pvalue"], h0_good = TRUE)
-        sd_r_q <- eval_pvals(sd[, "slope.pvalue"], h0_good = TRUE)
-        sd_diagnostics <- regression_diagnostics(sd)
+        sd_m_q <- eval_test(sd[, "intercept.pvalue"], threshold = thr)
+        sd_r_q <- eval_test(sd[, "slope.pvalue"], threshold = thr)
+        sd_diagnostics <- regression_diagnostics(sd, thr_res_jb, thr_res_bp, thr_res_white, thr_res_arch)
     } else {
         sd_rslt <- sd_diagnostics <- NULL
         sd_m_q <- sd_r_q <- rep(NA, n_test)
@@ -422,13 +460,13 @@ sd_test_evaluator <- function(sd, is_log, is_cointegrated, delta_diff, n_test) {
                 sd_diagnostics = sd_diagnostics, sd_trf = sd_trf))
 }
 
-eff1_test_evaluator <- function(eff1, is_log, is_stationary, delta_diff, n_test) {
+eff1_test_evaluator <- function(eff1, is_log, is_stationary, delta_diff, n_test, thr, thr_res_jb, thr_res_bp, thr_res_white, thr_res_arch) {
 
     if (!is.null(eff1)) {
         eff1_rslt <- format_reg_output(eff1, is_log, !is_stationary)
-        eff1_m_q <- eval_pvals(eff1[, "intercept.pvalue"], h0_good = TRUE)
-        eff1_r_q <- eval_pvals(eff1[, "slope.pvalue"], h0_good = TRUE)
-        eff1_diagnostics <- regression_diagnostics(eff1)
+        eff1_m_q <- eval_test(eff1[, "intercept.pvalue"], threshold = thr)
+        eff1_r_q <- eval_test(eff1[, "slope.pvalue"], threshold = thr)
+        eff1_diagnostics <- regression_diagnostics(eff1, thr_res_jb, thr_res_bp, thr_res_white, thr_res_arch)
     } else {
         eff1_rslt <- eff1_diagnostics <- NULL
         eff1_m_q <- eff1_r_q <- rep(NA, n_test)
@@ -443,12 +481,12 @@ eff1_test_evaluator <- function(eff1, is_log, is_stationary, delta_diff, n_test)
                 eff1_diagnostics = eff1_diagnostics, eff1_trf = eff1_trf))
 }
 
-eff2_test_evaluator <- function(eff2, is_log, n_test) {
+eff2_test_evaluator <- function(eff2, is_log, n_test, thr, thr_res_jb, thr_res_bp, thr_res_white, thr_res_arch) {
     if (!is.null(eff2)) {
         eff2_rslt <- format_reg_output(eff2, is_log, FALSE)
-        eff2_m_q <- c("", eval_pvals(eff2[, "intercept.pvalue"], h0_good = TRUE))
-        eff2_r_q <- c("", eval_pvals(eff2[, "slope.pvalue"], h0_good = TRUE))
-        eff2_diagnostics <- regression_diagnostics(eff2)
+        eff2_m_q <- c("", eval_test(eff2[, "intercept.pvalue"], threshold = thr))
+        eff2_r_q <- c("", eval_test(eff2[, "slope.pvalue"], threshold = thr))
+        eff2_diagnostics <- regression_diagnostics(eff2, thr_res_jb, thr_res_bp, thr_res_white, thr_res_arch)
     } else {
         eff2_rslt <- eff2_diagnostics <- NULL
         eff2_m_q <- eff2_r_q <- c("", rep(NA, n_test))
@@ -460,12 +498,12 @@ eff2_test_evaluator <- function(eff2, is_log, n_test) {
                 eff2_diagnostics = eff2_diagnostics, eff2_trf = eff2_trf))
 }
 
-orth1_test_evaluator <- function(orth1, is_log, nrevs, ncol_rv, n_test) {
+orth1_test_evaluator <- function(orth1, is_log, nrevs, ncol_rv, n_test, thr, thr_res_jb, thr_res_bp, thr_res_white, thr_res_arch) {
     if (!is.null(orth1)) {
         orth1_rslt <- format_reg_output(orth1, is_log, FALSE)
-        orth1_m_q <- c(rep("", nrevs), eval_pvals(orth1[, "intercept.pvalue"], h0_good = TRUE))
-        orth1_r_q <- c(rep("", nrevs), eval_pvals(stats::pf(orth1[, "F"], nrevs, orth1[, "N"] - nrevs - 1), h0_good = TRUE))
-        orth1_diagnostics <- regression_diagnostics(orth1)
+        orth1_m_q <- c(rep("", nrevs), eval_test(orth1[, "intercept.pvalue"], threshold = thr))
+        orth1_r_q <- c(rep("", nrevs), eval_test(stats::pf(orth1[, "F"], nrevs, orth1[, "N"] - nrevs - 1), threshold = thr))
+        orth1_diagnostics <- regression_diagnostics(orth1, thr_res_jb, thr_res_bp, thr_res_white, thr_res_arch)
     } else {
         orth1_rslt <- orth1_diagnostics <- NULL
         if (ncol_rv > nrevs) orth1_m_q <- orth1_r_q <- c(rep("", nrevs), rep(NA, n_test))
@@ -478,12 +516,12 @@ orth1_test_evaluator <- function(orth1, is_log, nrevs, ncol_rv, n_test) {
                 orth1_diagnostics = orth1_diagnostics, orth1_trf = orth1_trf))
 }
 
-orth2_test_evaluator <- function(orth2, is_log, ref, ncol_rv, n_test) {
+orth2_test_evaluator <- function(orth2, is_log, ref, ncol_rv, n_test, thr, thr_res_jb, thr_res_bp, thr_res_white, thr_res_arch) {
     if (!is.null(orth2)) {
         orth2_rslt <- format_reg_output(orth2, is_log, FALSE)
-        orth2_m_q <- c(rep("", ref), eval_pvals(orth2[, "intercept.pvalue"], h0_good = TRUE))
-        orth2_r_q <- c(rep("", ref), eval_pvals(orth2[, "slope.pvalue"], h0_good = TRUE))
-        orth2_diagnostics <- regression_diagnostics(orth2)
+        orth2_m_q <- c(rep("", ref), eval_test(orth2[, "intercept.pvalue"], threshold = thr))
+        orth2_r_q <- c(rep("", ref), eval_test(orth2[, "slope.pvalue"], threshold = thr))
+        orth2_diagnostics <- regression_diagnostics(orth2, thr_res_jb, thr_res_bp, thr_res_white, thr_res_arch)
     } else {
         orth2_rslt <- orth2_diagnostics <- NULL
         if (ncol_rv > ref) orth2_m_q <- orth2_r_q <- c(rep("", ref), rep(NA, n_test))
@@ -496,7 +534,7 @@ orth2_test_evaluator <- function(orth2, is_log, ref, ncol_rv, n_test) {
                 orth2_diagnostics = orth2_diagnostics, orth2_trf = orth2_trf))
 }
 
-ac_test_evaluator <- function(ac, is_log, cnames, n_test) {
+ac_test_evaluator <- function(ac, is_log, cnames, n_test, thr) {
     ac_trf <- ifelse(is_log, "Log", "None")
     ac_trf_str <- ifelse(ac_trf == "Log", get_info_transformation(TRUE, FALSE), get_info_transformation(FALSE, FALSE))
 
@@ -504,7 +542,7 @@ ac_test_evaluator <- function(ac, is_log, cnames, n_test) {
         pm_test_mat <- matrix(unlist(ac), ncol = 2, byrow = TRUE)[, , drop = FALSE]
         dimnames(pm_test_mat) <- list(cnames, c("value", "p.value"))
         ac_rslt <- list(info_transformation = ac_trf_str, estimates_ljungbox = pm_test_mat)
-        ac_q <- eval_pvals(ac_rslt$estimates_ljungbox[, "p.value"], h0_good = TRUE)
+        ac_q <- eval_test(ac_rslt$estimates_ljungbox[, "p.value"], threshold = thr)
     } else {
         ac_rslt <- NULL
         ac_q <- rep(NA, n_test)
@@ -513,7 +551,7 @@ ac_test_evaluator <- function(ac, is_log, cnames, n_test) {
     return(list(ac_rslt = ac_rslt, ac_q = ac_q, ac_trf = ac_trf))
 }
 
-seas_tests_evaluator <- function(lb_test, fd_test, is_log, cnames, freq, n_test) {
+seas_tests_evaluator <- function(lb_test, fd_test, is_log, cnames, freq, n_test, thr) {
     seas_trf <- ifelse(is_log, "Delta-Log 1", "Delta 1")
     seas_trf_str <- ifelse(seas_trf == "Delta-Log 1", get_info_transformation(TRUE, TRUE), get_info_transformation(FALSE, TRUE))
 
@@ -521,20 +559,20 @@ seas_tests_evaluator <- function(lb_test, fd_test, is_log, cnames, freq, n_test)
         seas_rslt <- list(info_transformation = seas_trf_str,
                           estimates_ljungbox = matrix(unlist(lb_test), ncol = 2, byrow = TRUE, dimnames = list(cnames, c("value", "p.value"))),
                           estimates_friedman = matrix(unlist(fd_test), ncol = 2, byrow = TRUE, dimnames = list(cnames, c("value", "p.value"))))
-        seas_lb_q <- eval_pvals(seas_rslt$estimates_ljungbox[, "p.value"], h0_good = TRUE)
-        seas_fd_q <- eval_pvals(seas_rslt$estimates_friedman[, "p.value"], h0_good = TRUE)
+        seas_lb_q <- eval_test(seas_rslt$estimates_ljungbox[, "p.value"], threshold = thr)
+        seas_fd_q <- eval_test(seas_rslt$estimates_friedman[, "p.value"], threshold = thr)
     } else if (!"try-error" %in% class(lb_test) && freq > 1) {
         seas_rslt <- list(info_transformation = seas_trf_str,
                           estimates_ljungbox = matrix(unlist(lb_test), ncol = 2, byrow = TRUE, dimnames = list(cnames, c("value", "p.value"))),
                           estimates_friedman = NULL)
-        seas_lb_q <- eval_pvals(seas_rslt$estimates_ljungbox[, "p.value"], h0_good = TRUE)
+        seas_lb_q <- eval_test(seas_rslt$estimates_ljungbox[, "p.value"], threshold = thr)
         seas_fd_q <- rep(NA, n_test)
     } else if (!"try-error" %in% class(fd_test) && freq > 1) {
         seas_rslt <- list(info_transformation = seas_trf_str,
                           estimates_ljungbox = NULL,
                           estimates_friedman = matrix(unlist(fd_test), ncol = 2, byrow = TRUE, dimnames = list(cnames, c("value", "p.value"))))
         seas_lb_q <- rep(NA, n_test)
-        seas_fd_q <- eval_pvals(seas_rslt$estimates_friedman[, "p.value"], h0_good = TRUE)
+        seas_fd_q <- eval_test(seas_rslt$estimates_friedman[, "p.value"], threshold = thr)
     } else {
         seas_rslt <- NULL
         seas_lb_q <- seas_fd_q <- rep(NA, n_test)
@@ -543,13 +581,13 @@ seas_tests_evaluator <- function(lb_test, fd_test, is_log, cnames, freq, n_test)
     return(list(seas_rslt = seas_rslt, seas_lb_q = seas_lb_q, seas_fd_q = seas_fd_q, seas_trf = seas_trf))
 }
 
-sn_test_evaluator <- function(sn, is_log, is_stationary, delta_diff, n_test) {
+sn_test_evaluator <- function(sn, is_log, is_stationary, delta_diff, n_test, thr) {
 
     if (!is.null(sn)) {
         sn_rslt <- list(info_transformation = get_info_transformation(is_log, !is_stationary),
                         estimates = t(round(sn, 3)))
-        sn_noise_q <- eval_pvals(sn[, "Noise.pvalue"], h0_good = TRUE)
-        sn_news_q <- eval_pvals(sn[, "News.pvalue"], h0_good = FALSE)
+        sn_noise_q <- eval_test(sn[, "Noise.pvalue"], threshold = thr$noise)
+        sn_news_q <- eval_test(sn[, "News.pvalue"], threshold = thr$news, ascending = FALSE)
     } else {
         sn_rslt <- NULL
         sn_noise_q <- sn_news_q <- rep(NA, n_test)
@@ -567,45 +605,53 @@ sn_test_evaluator <- function(sn, is_log, is_stationary, delta_diff, n_test) {
 
 # p-values evaluators ----------------------------------------------------------
 
-eval_pvals <- function(pval, h0_good = TRUE, residuals = FALSE) {
-    pval <- as.numeric(pval)
+eval_test <- function(val,
+                      threshold,
+                      ascending = TRUE) {
 
-    if (! residuals) {
-        if (h0_good) {
-            quality <- ifelse(pval > .05, "Good",
-                              ifelse(pval > .01, "Uncertain",
-                                     ifelse(pval > .001, "Bad", "Severe")))
-        } else {
-            quality <- ifelse(pval < .05, "Good", "Uncertain")
-        }
-    } else {
-        if (h0_good) {
-            quality <- ifelse(pval > .1, "Good",
-                              ifelse(pval > .01, "Uncertain", "Bad"))
-        } else {
-            quality <- ifelse(pval < .05, "Good", "Uncertain")
-        }
+    if (is.null(threshold)) {
+        stop("Some user-defined thresholds are defined as NULL. See ?set_thresholds_to_default or ?set_all_thresholds_to_default to reset tests thresholds to their default values", call. = FALSE)
     }
-    quality[is.na(quality)] <- "Good"
 
-    return(paste0(quality, " (", trimws(format(round(pval, 3), nsmall = 3)), ")"))
-}
-
-eval_U <- function(U, U2 = TRUE) {
-    U <- as.numeric(U)
-
-    if (U2) {
-        quality <- ifelse(U >= 1, "Severe",
-                          ifelse(U > .9, "Bad",
-                                 ifelse(U > .8, "Uncertain", "Good")))
-    } else {
-        quality <- ifelse(U > .99, "Severe",
-                          ifelse(U > .9, "Bad",
-                                 ifelse(U > .8, "Uncertain", "Good")))
+    if (!all(tolower(names(threshold)) %in% c("good", "uncertain", "bad", "severe"))) {
+        stop("Possible values for quality assessment are 'good', 'uncertain', 'bad', 'severe'. Please check your options.", call. = FALSE)
     }
-    quality[is.na(quality)] <- "Good"
+    if (is.unsorted(threshold)) {
+        stop("User-defined thresholds must be defined in an ascending order. See vignette for more information.", call. = FALSE)
+    }
 
-    return(paste0(quality, " (", trimws(format(round(U, 3), nsmall = 3)), ")"))
+    val <- as.numeric(val)
+    n <- length(val)
+    nt <- length(threshold)
+    qualities <- c()
+
+    for (i in 1:n) {
+        quality <- "good"
+
+        if (!is.na(val[i])) {
+            if (ascending) {
+                for (k in 1:nt) {
+                    if (val[i] < threshold[k]) {
+                        quality <- names(threshold)[k]
+                        break
+                    }
+                }
+            } else {
+                for (k in nt:1) {
+                    if (val[i] > threshold[k]) {
+                        quality <- names(threshold)[k]
+                        break
+                    }
+                }
+            }
+        }
+
+        quality_fmt <- paste0(paste0(toupper(substr(quality, 1, 1)), substr(quality, 2, nchar(quality))),
+                              " (", trimws(format(round(val[i], 3), nsmall = 3)), ")")
+        qualities <- c(qualities, quality_fmt)
+    }
+
+    return(qualities)
 }
 
 
@@ -639,12 +685,12 @@ get_info_transformation <- function(is_log, is_diff) {
     return(info_transformation)
 }
 
-regression_diagnostics <- function(reg_output) {
+regression_diagnostics <- function(reg_output, thr_res_jb, thr_res_bp, thr_res_white, thr_res_arch) {
 
-    jb <- eval_pvals(reg_output[, "JarqueBera.pvalue"], residuals = TRUE)
-    bp <- eval_pvals(reg_output[, "BreuschPagan.pvalue"], residuals = TRUE)
-    wh <- eval_pvals(reg_output[, "White.pvalue"], residuals = TRUE)
-    arch <- eval_pvals(reg_output[, "arch.pvalue"], residuals = TRUE)
+    jb <- eval_test(reg_output[, "JarqueBera.pvalue"], threshold = thr_res_jb)
+    bp <- eval_test(reg_output[, "BreuschPagan.pvalue"], threshold = thr_res_bp)
+    wh <- eval_test(reg_output[, "White.pvalue"], threshold = thr_res_white)
+    arch <- eval_test(reg_output[, "arch.pvalue"], threshold = thr_res_arch)
 
     lbl <- c("Jarque-Bera", "Breusch-Pagan", "White", "ARCH")
     tests <- c("Normality", rep("Homoskedasticity", 3))
@@ -652,47 +698,161 @@ regression_diagnostics <- function(reg_output) {
     colnames(tests_rslts) <- rownames(reg_output)
 
     rslt <- data.frame(Test = tests, tests_rslts, row.names = lbl)
+    colnames(rslt) <- c("Test category", colnames(tests_rslts))
     return(rslt)
 }
 
 
 # Generic functions ------------------------------------------------------------
 
-#' Print function for objects of class "rjd3rev_rslts"
+#' @title Print function for objects of class \code{rjd3rev_rslts}
 #'
-#' @param x an object of class "rjd3rev_rslts"
-#' @param \dots further arguments passed to the print() function.
-#' @export
+#' @param x an object of class \code{rjd3rev_rslts}
+#' @param \dots further arguments passed to the \code{\link{print}} function.
+#'
 #' @exportS3Method print rjd3rev_rslts
+#' @method print rjd3rev_rslts
+#' @export
 #'
 print.rjd3rev_rslts <- function(x, ...) {
-
-    print(list(call = x$call,
-               descriptive_statistics = x$descriptive.statistics,
-               parametric_analysis = x$summary, ...))
+    print(x$summary)
 }
 
-#' Summary function for objects of class "rjd3rev_rslts"
+#' Summary function for objects of class \code{rjd3rev_rslts}
 #'
-#' @param object an object of class "rjd3rev_rslts"
+#' @param object an object of class \code{rjd3rev_rslts}
 #' @param ... further arguments passed to or from other methods.
 #' @exportS3Method summary rjd3rev_rslts
+#' @method summary rjd3rev_rslts
 #' @export
 #'
 summary.rjd3rev_rslts <- function(object, ...) {
-
-    x <- object
-    if (!requireNamespace("formattable", quietly = TRUE)) {
-        warning("Please install 'formattable': install.packages('formattable') to get more visual output")
-        return(x$summary)
-    } else {
-        format_font <- function(x) {
-            formattable::formatter("span",
-                                   style = x ~ formattable::style(color = ifelse(substr(x, 1, 1) == "G", "green",
-                                                                                 ifelse(substr(x, 1, 1) == "U", "orange", "red")),
-                                                                  font.weight = ifelse(substr(x, 1, 1) == "S", "bold", "plain")))
-        }
-        nc <- ncol(x$summary)
-        return(list(formattable::formattable(x$summary, apply(x$summary[, 2:nc, drop = FALSE], 2, format_font))))
+    cat("Object of class rjd3rev_rslts\n")
+    cat("View:", object$view, "\n")
+    nb_revisions <- ncol(object$revisions)
+    cat("There are", nb_revisions, "from", start(object$revisions), "to", end(object$revisions), "\n\n")
+    cat("List of all tests:\n")
+    categories <- setdiff(names(object), c("call", "revisions", "descriptive.statistics", "summary", "view"))
+    for (cate in categories) {
+        cat("-", cate, ":")
+        cat("", names(object[[cate]]), sep = "\n\t- ")
     }
+
+    revisions_dates <- colnames(object$revisions)
+    cat("\nRevisions analysis dates:", paste0("\n\t- ", "[", seq_len(nb_revisions), "]: ", revisions_dates), "\n")
+
+    summary_tests <- object$summary
+    cat("\nTests results:\n")
+    print(summary_tests)
+}
+
+#' @rdname View
+#' @export
+View <- function(x, ...) {
+    UseMethod("View")
+}
+
+#' @rdname View
+#' @exportS3Method View default
+#' @method View default
+#' @export
+View.default <- function(x, ...) {
+    utils::View(x, ...)
+}
+
+build_table <- function(x, type = c("summary", "stats-desc", "revisions", "tests")) {
+
+    # Check type
+    type <- match.arg(type)
+
+    if (!requireNamespace("flextable", quietly = TRUE)) {
+        warning("Please install 'flextable': install.packages('flextable') to get more visual output")
+        if (type == "summary") {
+            return(x$summary)
+        } else if (type == "stats-desc") {
+            return(x$descriptive.statistics)
+        } else if (type == "revisions") {
+            return(x$revisions)
+        } else if (type == "tests") {
+            message("Feature not implemented yet.")
+        }
+    } else {
+        if (type == "summary") {
+            main_results <- x$summary |>
+                format_table() |>
+                flextable::flextable() |>
+                theme_design()
+            for (col in colnames(x$summary)[-1]) {
+                main_results <- main_results |>
+                    format_column(col = col)
+            }
+            return(main_results)
+        } else if (type == "stats-desc") {
+            stat_desc <- x$descriptive.statistics[c("N", "mean revision", "st.dev.", "% positive", "% zero", "% negative"), , drop = FALSE] |>
+                format_table() |>
+                flextable::flextable() |>
+                theme_design()
+            return(stat_desc)
+        } else if (type == "revisions") {
+            revisions_table <- data.frame(Time = time(x$revisions),
+                                          x$revisions,
+                                          check.names = FALSE) |>
+                flextable::flextable() |>
+                theme_design()
+            return(revisions_table)
+        } else if (type == "tests") {
+            message("Feature not implemented yet.")
+        }
+    }
+    return(invisible(NULL))
+}
+
+#' View function for objects of class \code{rjd3rev_rslts}
+#'
+#' @param x an object of class \code{rjd3rev_rslts}
+#' @param type type of view to display
+#' @param ... further arguments passed to \code{\link{View}}.
+#'
+#' @exportS3Method View rjd3rev_rslts
+#' @method View rjd3rev_rslts
+#' @export
+#'
+View.rjd3rev_rslts <- function(
+        x,
+        type = c("summary", "stats-desc", "revisions", "tests"),
+        ...) {
+
+    # Check type
+    type <- match.arg(type)
+
+    if (type == "all") {
+        for (new_type in c("all", "summary", "stats-desc", "revisions", "tests")) {
+            View(x, new_type, ...)
+        }
+        return(invisible(NULL))
+    } else if (type == "tests") {
+        message("Feature not implemented yet.")
+        return(invisible(NULL))
+    }
+
+    if (!hasArg(title)) {
+        title <- ""
+    }
+
+    table_output <- build_table(x, type)
+
+    if (!requireNamespace("flextable", quietly = TRUE)) {
+        warning("Please install 'flextable': install.packages('flextable') to get more visual output")
+
+        utils::View(table_output, title = paste(title, switch(
+            type,
+            "summary" = "Tests summary",
+            "stat-desc" = "Descriptive statistics",
+            "revisions" = "Revisions",
+            "tests" = "All tests"
+        )))
+    } else {
+        print(table_output)
+    }
+    return(invisible(NULL))
 }

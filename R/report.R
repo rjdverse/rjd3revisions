@@ -1,10 +1,13 @@
 #' Generate report on Revision Analysis
 #'
-#' @param rslt an object of class `"rjd3rev_vintages"` which is the output
+#' @param rslt an object of class `"rjd3rev_rslts"` which is the output
 #'             of the function `revision_analysis()`
 #' @param output_file path or name of the output file containing the report
 #' @param output_dir path of the dir containing the output file (Optional)
-#' @param output_format either an HTML document (default) or a PDF document
+#' @param output_format either an HTML document (default), a PDF document or a
+#' Word document
+#' @param plot_revisions Boolean. Default is FALSE meaning that a plot with the
+#'   revisions will not be added to the report.
 #' @param open_report Boolean. Default is TRUE meaning that the report will
 #'                    open automatically after being generated.
 #' @param ... Arguments to be passed to `rmarkdown::render()`, for example:
@@ -18,33 +21,36 @@
 #' @examples
 #'
 #' ## Simulated data
-#'
-#' long_format <- rjd3revisions:::simulate_long(
-#'     start_period = as.Date("2020-01-01"),
-#'     n_period = 24,
-#'     n_revision = 6,
-#'     periodicity = 12L
+#' df_long <- simulate_long(
+#'     n_period = 10L * 4L,
+#'     n_revision = 5L,
+#'     periodicity = 4L,
+#'     start_period = as.Date("2010-01-01")
 #' )
 #'
 #' ## Make analysis and generate the report
 #'
-#' vintages <- create_vintages(long_format, periodicity = 12L)
+#' vintages <- create_vintages(df_long, periodicity = 4L, type = "long")
 #' rslt <- revision_analysis(vintages, view = "diagonal")
+#'
 #' \dontrun{
 #' render_report(
 #'     rslt,
 #'     output_file = "my_report",
 #'     output_dir = "C:/Users/xxx",
-#'     output_format = "pdf_document"
+#'     output_format = "pdf_document",
+#'     plot_revisions = TRUE
 #' )
 #' }
 #'
-render_report <- function(rslt,
-                          output_file,
-                          output_dir,
-                          output_format = c("html_document", "pdf_document"),
-                          open_report = TRUE,
-                          ...) {
+render_report <- function(
+        rslt,
+        output_file,
+        output_dir,
+        output_format = c("html_document", "pdf_document", "word_document"),
+        plot_revisions = FALSE,
+        open_report = TRUE,
+        ...) {
 
     # Check input
     checkmate::assert_class(rslt, "rjd3rev_rslts")
@@ -68,6 +74,8 @@ render_report <- function(rslt,
             ext <- "html"
         } else if (output_format == "pdf_document") {
             ext <- "pdf"
+        } else if (output_format == "word_document") {
+            ext <- "docx"
         }
     }
     output_file <- tools::file_path_sans_ext(output_file)
@@ -82,8 +90,11 @@ render_report <- function(rslt,
     }
 
     e <- list2env(list(
+        rslt = rslt,
         descriptive_statistics = rslt$descriptive.statistics,
-        main_results = rslt$summary
+        main_results = rslt$summary,
+        add_plot = plot_revisions,
+        revisions = rslt$revisions
     ))
 
     rmarkdown::render(

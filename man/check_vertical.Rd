@@ -21,9 +21,9 @@ check_vertical(x, ...)
 \arguments{
 \item{x}{a formatted \code{data.frame} containing the input in the vertical format}
 
-\item{...}{Arguments to be passed to `check_vertical` according to the class of the object `x`}
+\item{...}{Arguments to be passed to \code{check_vertical} according to the class of the object \code{x}}
 
-\item{periodicity}{periodicity of the time period (12, 4 or 1 for resp.
+\item{periodicity}{Integer. Periodicity of the time period (12, 4 or 1 for resp.
 monthly, quarterly or annual data)}
 
 \item{date_format}{\code{character} string corresponding to the format used in

@@ -246,7 +246,7 @@ check_long <- function(x, date_format = "%Y-%m-%d") {
 #' Check vertical format
 #'
 #' @param x a formatted \code{data.frame} containing the input in the vertical format
-#' @param periodicity periodicity of the time period (12, 4 or 1 for resp.
+#' @param periodicity Integer. Periodicity of the time period (12, 4 or 1 for resp.
 #' monthly, quarterly or annual data)
 #' @param date_format \code{character} string corresponding to the format used in
 #' the input data.frame for the revision dates.

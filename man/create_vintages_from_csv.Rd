@@ -17,23 +17,25 @@ create_vintages_from_csv(
 to be read from.}
 
 \item{type}{character specifying the type of representation of the input
-between `"long"`, `"horizontal"` and `"vertical"` approach.}
+between \code{"long"}, \code{"horizontal"} and \code{"vertical"} approach.}
 
-\item{periodicity}{periodicity of the time period (12, 4 or 1 for resp.
+\item{periodicity}{Integer. Periodicity of the time period (12, 4 or 1 for resp.
 monthly, quarterly or annual data)}
 
 \item{date_format}{\code{character} string corresponding to the format used in
 the input data.frame for the revision dates.}
 
-\item{...}{Arguments to be passed to `read.csv()`, for example:
-* `sep` the field separator character
-* `dec` the character used in the file for decimal points.
-* `row.names` a vector of row names
-* `skip` integer, the number of lines of the data file to skip before beginning to read data.
-* `...`}
+\item{...}{Arguments to be passed to \code{read.csv()}, for example:
+\itemize{
+\item \code{sep} the field separator character
+\item \code{dec} the character used in the file for decimal points.
+\item \code{row.names} a vector of row names
+\item \code{skip} integer, the number of lines of the data file to skip before beginning to read data.
+\item \code{...}
+}}
 }
 \value{
-an object of class `rjd3rev_vintages`
+an object of class \code{rjd3rev_vintages}
 }
 \description{
 Create vintages table from CSV or TXT files
@@ -52,5 +54,5 @@ vintages <- create_vintages_from_csv(
 
 }
 \seealso{
-[create_vintages_from_xlsx()], [create_vintages()] which this function wraps.
+\code{\link[=create_vintages_from_xlsx]{create_vintages_from_xlsx()}}, \code{\link[=create_vintages]{create_vintages()}} which this function wraps.
 }

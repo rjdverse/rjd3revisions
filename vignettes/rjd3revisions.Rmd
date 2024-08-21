@@ -8,7 +8,23 @@ vignette: >
   %\VignetteIndexEntry{Revision analysis tool with JDemetra+ version 3.x algorithms}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-author: Corentin Lemasson
+author:
+  - name: Corentin Lemasson
+    url: https://github.com/clemasso
+    affiliations:
+        - name: NBB (National Bank of Belgium)
+          country: Belgique
+          city: Bruxelles
+          url: "https://www.nbb.be/en"
+    role: "Author"
+  - name: Tanguy Barthelemy
+    url: https://github.com/TanguyBarthelemy
+    affiliations:
+        - name: Insee
+          country: France
+          city: Paris
+          url: "https://www.insee.fr/en/accueil"
+    role: "Author"
 abstract: Revision analyses provides important information on the efficiency of preliminary estimates, allowing to identify potential issues and/or improvements that could be made in the compilation process. This package provides a tool to automatically perform a battery of relevant tests on revisions and submit a visual report including both the main results and their interpretation. The tool can perform analysis on different types of revision intervals and on different vintage views.  
 ---
 
@@ -47,9 +63,10 @@ Finally, this package also suggests the R packages `formattable` and `kableExtra
 
 # Usage
 
+
 ## Input data {#input_format}
 
-Your input data must be in a specific format taken from the reference documents of Ares and Pitton (2013). It must have specific column names and date formats as in the table below. Note that missing values can either be mentioned as NA (as in the example below) or not be included in the input at the best convenience of the user.  
+Your input data must be in a specific format: long, vertical or diagonal   as shown in one of the table below. Regarding the dates, the format shown in the examples below is acceptable, as are the other common date formats for both revision dates and time periods. Note that missing values can either be mentioned as NA (as in the example below) or not be included in the input at the best convenience of the user. 
 
 ### Format 1: long view
 
@@ -84,7 +101,7 @@ Your input data must be in a specific format taken from the reference documents 
 
 Depending on the location of your input data, you can use `create_vintages_from_xlsx()` or `create_vintages_from_csv()`, or the more generic function `create_vintages()` to create the vintages (see section [vintages & revisions](#vintages)) later on. If you plan to use the generic function, you'll first need to put your input data in a data.frame in R as in the example below.
 
-```{r input format, echo = TRUE, eval = TRUE}
+```{r input format, echo = TRUE, eval = FALSE}
 # Long format
 long_view <- data.frame(
     rev_date = rep(x = c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
@@ -123,18 +140,26 @@ print(vertical_view)
 
 ## Processing
 
-```{r loading package, echo = TRUE, eval = TRUE}
+```{r loading package, echo = TRUE, eval = FALSE}
 library("rjd3revisions")
 ```
 
 Once your input data are in the right format, you create the vintages:
 
-```{r create vintage, echo = TRUE, eval = TRUE}
-long_view <- rjd3revisions:::simulate_long(periodicity = 4L)
-
+```{r create vintage, echo = TRUE, eval = FALSE}
 vintages <- create_vintages(long_view, type = "long", periodicity = 4L)
-# vintages <- create_vintages_from_xlsx(file = "myinput.xlsx", type = "long", "Sheet1", periodicity = 4, format_date = "%d/%m/%Y")
-# vintages <- create_vintages_from_csv(file = "myinput.csv", periodicity = 4, sep = "\t", format_date = "%Y-%m-%d")
+# vintages <- create_vintages_from_xlsx(
+#     file = "myinput.xlsx",
+#     type = "long",
+#     periodicity = 4,
+#     "Sheet1"
+# )
+# vintages <- create_vintages_from_csv(
+#     file = "myinput.csv",
+#     periodicity = 4,
+#     sep = "\t",
+#     date_format = "%Y-%m-%d"
+# )
 
 print(vintages) # extract of the vintages according to the different views
 summary(vintages) # metadata about vintages
@@ -142,18 +167,18 @@ summary(vintages) # metadata about vintages
 
 possibly inspect the revisions and perform the revision analysis:
 
-```{r revision analysis, echo = TRUE, eval = TRUE}
+```{r revision analysis, echo = TRUE, eval = FALSE}
 revisions <- get_revisions(vintages, gap = 1)
 
-# plot(revisions)
+plot(revisions)
 
-# print(revisions) # extract of the revisions according to the different views
-# summary(revisions) # metadata about revisions
+print(revisions) # extract of the revisions according to the different views
+summary(revisions) # metadata about revisions
 ```
 
 Finally to create the report and get a summary of the results, you can use the function `revision_analysis`{.r}
 
-```{r create report, echo = TRUE, eval = TRUE}
+```{r create report, echo = TRUE, eval = FALSE}
 rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 
 summary(rslt)
@@ -222,11 +247,11 @@ For some of the parametric tests, prior transformation of the vintage data may b
 
 As part of the arguments of the `revision_analysis()` function, you can choose the view and the gap to consider, restrict the number of releases under investigation when diagonal view is selected and/or change the default setting about the prior transformation of the data (including the possibility to add a prior log-transformation of your data).  
 
-The function `render_report()` applied on the output of `revision_analysis()` will generate an enhanced HTML report including both a formatted summary of the results and full explanations about each test (which are also included in the vignette below). The formatted summary of the results display the p-value of each test (except for Theil's tests where the value of the statistics is provided) and their interpretation. An appreciation 'good', 'uncertain', 'bad' and 'severe' is indeed associated to each test following the usual statistical interpretation of p-values and the orientation of the tests. This allows a quick visual interpretation of the results and is similar to what is done in the GUI of JDemetra+. 
+The function `render_report()` applied on the output of `revision_analysis()` will generate an enhanced HTML or PDF report including both a formatted summary of the results and full explanations about each test (which are also included in the vignette below). The formatted summary of the results display the p-value of each test (except for Theil's tests where the value of the statistics is provided) and their interpretation. An appreciation 'good', 'uncertain', 'bad' and 'severe' is indeed associated to each test following the usual statistical interpretation of p-values and the orientation of the tests. This allows a quick visual interpretation of the results and is similar to what is done in the GUI of JDemetra+. 
 
 In addition to the function `revision_analysis()`, the user can also perform tests individually if they want to. To list all functions available in the package (and therefore finding the different functions corresponding to the individual tests), you can do
 
-```{r, echo = TRUE, eval = TRUE}
+```{r, echo = TRUE, eval = FALSE}
 ls("package:rjd3revisions")
 ```
 
@@ -238,6 +263,58 @@ The detailed results of each test are part of the output returned by the functio
 
 In addition to the visual report that you can get by applying the function `render_report()` on the output of the function `revision_analysis()`, you can also apply the usual `summary()` and `print()` functions to this output. The function `summary()`, in particular, will print only the formatted table of the report with the main results. The `print()` will provide the same unformatted information together with some extra ones. Finally the `plot()` function applied to the output of the function `get_revisions()` will provide you with a visual of the revisions over time.
 
+## User-defined thresholds
+
+It is possible for the user to change the default values of the thresholds considered in the function `revision_analysis()` (and displayed by the functions `summary.rjd3rev_rslts()` and `render_report()`) that are used to make quality assessment on the results of the tests. Changing the default values of the thresholds can be done for each test through the global options. The latter can be set via `options()` and queried via `getOption()`. Note that the default thresholds considered for residuals diagnostics can also be changed if necessary.  
+
+Here's how to customize a threshold. Thresholds values should be defined as an ascending numeric vector. We start from -Inf and each element of the vector should be understood as the upper or lower bound (depending on the null hypothesis) of the corresponding assessment. Furthermore, the assessment "good" is always the one not to be mentioned. Depending on the test, it will be interpreted adequately. Finally, only the assessments 'good' (implicitly), 'uncertain', 'bad' and 'severe' are allowed but they don't all have to be used if it is not necessary. Here is an example of how to modify threshold values for some of the tests. The list with the name of all test thresholds that can be modified can be found in the list below.
+
+```{r options, echo = TRUE, eval = FALSE}
+options(
+    augmented_t_threshold = c(severe = 0.005, bad = 0.05, uncertain = 0.1),
+    t_threshold = c(bad = 0.05, uncertain = 0.1),
+    theil_u2_threshold = c(uncertain = .5, bad = .75, severe = 1)
+)
+
+rslt2 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
+summary(rslt2)
+```
+
+For the augmented t-test, by defining the threshold values like this, it means that the results will be assessed as severe if the p-value < 0.005, as bad if the p-value is between 0.005 and 0.05, as uncertain if between 0.05 and 0.1 and as good if it is higher than 0.1. As far as the Theil U2 test is concerned, given the definition of the test (see section [Theil’s Inequality Coefficient](#theil)), the results will be assessed as good if the value of the test is lower than 0.5, uncertain, between 0.5 and 0.75, bad between 0.75 and 1 and severe if it is higher than 1.
+
+Here are all the possible options the user can modified, together with their description and their default value.
+
+|Name    |Description | Default value|
+|:-------|:-------|:-------|
+|theil_u1_threshold     |Threshold values for Theil’s Inequality Coefficient U1     |c(uncertain = .8, bad = .9, severe = .99)  |
+|theil_u2_threshold     |Threshold values for Theil’s Inequality Coefficient U2     |c(uncertain = .8, bad = .9, severe = 1)    |
+|t_threshold    |Threshold values for T-test      |c(severe = 0.001, bad = 0.01, uncertain = 0.05)    |
+|augmented_t_threshold     |Threshold values for Augmented T-test     |c(severe = 0.001, bad = 0.01, uncertain = 0.05)  |
+|slope_and_drift_threshold     |Threshold values for Slope and drift test     |c(severe = 0.001, bad = 0.01, uncertain = 0.05)    |
+|eff1_threshold    |Threshold values for Efficiency test (test 1)     |c(severe = 0.001, bad = 0.01, uncertain = 0.05)  |
+|eff2_threshold    |Threshold values for Efficiency test (test 2)     |c(severe = 0.001, bad = 0.01, uncertain = 0.05)  |
+|orth1_threshold    |Threshold values for Orthogonality test (test 1)     |c(severe = 0.001, bad = 0.01, uncertain = 0.05)  |
+|orth2_threshold    |Threshold values for Orthogonality test (test 2)     |c(severe = 0.001, bad = 0.01, uncertain = 0.05)  |
+|autocorr_threshold    |Threshold values for Orthogonality test (test 3 on autocorrelation)     |c(severe = 0.001, bad = 0.01, uncertain = 0.05)    |
+|seas_threshold    |Threshold values for Orthogonality test (test 4 on seasonality)     |c(severe = 0.001, bad = 0.01, uncertain = 0.05)  |
+|signal_noise1_threshold    |Threshold values for Signal vs Noise test (test 1)     |c(severe = 0.001, bad = 0.01, uncertain = 0.05)  |
+|signal_noise2_threshold    |Threshold values for Signal vs Noise test (test 2)     |c(uncertain = 0.05)  |
+|jb_res_threshold     |Normality test: Jarque-Bera     |c(bad = 0.01, uncertain = 0.1)  |
+|bp_res_threshold     |Homoskedasticity test: Breusch-Pagan     |c(bad = 0.01, uncertain = 0.1)    |
+|white_res_threshold    |Homoskedasticity test: Whitet      |c(bad = 0.01, uncertain = 0.1)    |
+|arch_res_threshold     |Homoskedasticity test: ARCH     |c(bad = 0.01, uncertain = 0.1)  |
+
+Finally, the functions `set_thresholds_to_default()` and `set_all_thresholds_to_default()` can be used to reset test thresholds to their default values.
+
+```{r reset_options, echo = TRUE, eval = FALSE}
+set_thresholds_to_default("t_threshold")
+# or to reset all threshold options
+set_all_thresholds_to_default()
+
+rslt3 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
+summary(rslt3)
+```
+
 # Tests description and interpretation
 
 Recall that the purpose of the parametric tests described below are:
@@ -248,7 +325,7 @@ Recall that the purpose of the parametric tests described below are:
 
 ## Relevancy
 
-### Theil’s Inequality Coefficient
+### Theil’s Inequality Coefficient {#theil}
 
 In the context of revision analysis, Theil's inequality coefficient, also known as Theil's U, provides a measure of the accuracy of a set of preliminary estimates (P) compared to a latter version (L). There exists a few definitions of Theil's statistics leading to different interpretation of the results. In this package, two definitions are considered. The first statistic, U1, is given by
 $$
@@ -301,7 +378,7 @@ We assume a linear regression model of a latter vintage (L) on a preliminary vin
 $$
 L_t=\beta_0+\beta_1P_t+\varepsilon_t
 $$
-While the (augmented) t-test on revisions only gives information about mean bias, this regression enables to assess both mean and regression bias. A regression bias would occur, for example, if preliminary estimates tend to be too low when latter estimates are relatively high and too high when latter estimates are relatively low. In this case, this may result in a positive value of the intercept and a value of $\beta_1<1$. To evaluate whether a mean or regression bias is present, we employ a conventional t-test on the parameters with the null hypothesis $\beta_0 = 0$ and $\hat{\beta}_1 = 1$.  
+While the (augmented) t-test on revisions only gives information about mean bias, this regression enables to assess both mean and regression bias. A regression bias would occur, for example, if preliminary estimates tend to be too low when latter estimates are relatively high and too high when latter estimates are relatively low. In this case, this may result in a positive value of the intercept and a value of $\beta_1<1$. To evaluate whether a mean or regression bias is present, we employ a conventional t-test on the parameters with the null hypothesis $\beta_0 = 0$ and $\beta_1 = 1$.  
 
 Recall that OLS regressions always come along with rather strict assumptions. Users should check the diagnostics and draw the necessary conclusions from them. 
 
@@ -410,4 +487,5 @@ We employ a F-test on the parameters to test jointly that $\beta_0 = 0$ and $\be
 - McKenzie, Richard, and Michela Gamba. 2007. “Interpreting the Results of Revision Analyses: Recommended Summary Statistics.” OECD.
 - Pitton, Laurent, and David Ares. 2013a. “Tool for Revision Analysis : Regression Based Parametric Analysis.” DI/06769. DG ESTAT.
 - Pitton, Laurent, and David Ares. 2013b. “Tool for Revision Analysis : VAR Based Models and Final Equation.” DI/06769. DG ESTAT.
-- Smyk, Anna, Alain Quartier-la-Tente, Tanguy Barthelemy, and Karsten Webel. 2023. “JDemetra+ Documentation.” INSEE; https://jdemetra-new-documentation.netlify.app/.
+- Smyk, Anna, Tanguy Barthelemy, Karsten Webel and al. 2024. “JDemetra+ Documentation.” INSEE; https://jdemetra-new-documentation.netlify.app/.
+
