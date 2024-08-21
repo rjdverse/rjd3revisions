@@ -20,6 +20,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 * pivot from {formattable} dependency to {flextable} to build the tables
 * `simulate_long()` is now an exported function to construct datasets example
 
+### Fixed
+
+* solve a display glitch in functions print.rjd3rev_vintages() and print.rjd3rev_revisions() 
+
 
 ## [1.3.2] - 2024-07-10
 

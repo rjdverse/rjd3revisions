@@ -156,6 +156,7 @@ render_report(
 
 summary(rslt)
 print(rslt)
+View(rslt)
 ```
 
 ## Additional information
