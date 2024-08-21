@@ -188,7 +188,7 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-in"><span><span class="va">rslt1</span> <span class="op">&lt;-</span> <span class="fu">revision_analysis</span><span class="op">(</span><span class="va">vintages</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Slope and drift could not be performed</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>efficiencyModel1 could not be performed</span>
-<span class="r-in"><span><span class="co"># render_report(rslt1)</span></span></span>
+<span class="r-in"><span><span class="co"># render_report(rslt1, output_file = "report1", output_dir = "C:/Users/xxx")</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">rslt1</span><span class="op">)</span> <span class="co"># formatted summary only</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class rjd3rev_rslts</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> View: vertical </span>
@@ -234,7 +234,7 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Tests results:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            Transf. [2010-11-17]-[2010-07-08]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                          None              Good (0.307)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                          None              Good (0.159)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias1 T-test                                  None              Good (0.218)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias2 Augmented T-test                        None              Good (0.156)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Mean       None                      &lt;NA&gt;</span>
@@ -253,7 +253,7 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)        Delta 1                Good (NaN)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)       Delta 1                Good (NaN)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            [2013-06-04]-[2010-11-17]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.348)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.379)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias1 T-test                                            Good (0.933)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias2 Augmented T-test                                  Good (0.870)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Mean                         &lt;NA&gt;</span>
@@ -269,10 +269,10 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality3 AutoCorrelation (Ljung-Box)                      &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Ljung-Box)                  Good (1.000)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Friedman)                           &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                     Good (0.519)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.994)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                     Good (0.493)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.763)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            [2015-11-10]-[2013-06-04]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.430)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.379)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias1 T-test                                            Good (0.844)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias2 Augmented T-test                                  Good (0.787)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Mean                         &lt;NA&gt;</span>
@@ -288,10 +288,10 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality3 AutoCorrelation (Ljung-Box)                      &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Ljung-Box)             Uncertain (0.032)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Friedman)                           &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                      Bad (0.006)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.147)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                     Good (0.109)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.690)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            [2016-03-25]-[2015-11-10]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.251)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.151)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias1 T-test                                            Good (0.395)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias2 Augmented T-test                                  Good (0.243)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Mean                         &lt;NA&gt;</span>
@@ -307,10 +307,10 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality3 AutoCorrelation (Ljung-Box)                      &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Ljung-Box)                  Good (0.598)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Friedman)                           &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                     Good (0.183)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.357)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                Uncertain (0.019)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.981)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            [2017-06-29]-[2016-03-25]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.046)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.065)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias1 T-test                                            Good (0.798)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias2 Augmented T-test                                  Good (0.724)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Mean                         &lt;NA&gt;</span>
@@ -326,10 +326,10 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality3 AutoCorrelation (Ljung-Box)                      &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Ljung-Box)                  Good (0.898)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Friedman)                           &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                Uncertain (0.014)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.338)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                     Good (0.253)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.928)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            [2017-09-10]-[2017-06-29]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.041)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.054)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias1 T-test                                            Good (0.360)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias2 Augmented T-test                                  Good (0.374)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Mean                         &lt;NA&gt;</span>
@@ -345,10 +345,10 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality3 AutoCorrelation (Ljung-Box)                      &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Ljung-Box)                  Good (0.880)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Friedman)                           &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                     Good (0.250)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.984)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                     Good (0.299)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.999)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            [2018-10-26]-[2017-09-10]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.018)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.011)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias1 T-test                                            Good (0.298)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias2 Augmented T-test                                  Good (0.171)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Mean                         &lt;NA&gt;</span>
@@ -364,10 +364,10 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality3 AutoCorrelation (Ljung-Box)                      &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Ljung-Box)                  Good (0.966)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Friedman)                           &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                     Good (0.738)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.660)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                     Good (0.679)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.064)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            [2019-07-13]-[2018-10-26]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.017)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.007)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias1 T-test                                            Good (0.833)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias2 Augmented T-test                                  Good (0.847)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Mean                         &lt;NA&gt;</span>
@@ -383,10 +383,10 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality3 AutoCorrelation (Ljung-Box)                      &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Ljung-Box)                  Good (0.057)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Friedman)                           &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                     Good (0.795)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.234)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                   Severe (0.000)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)                    Good (0.002)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            [2020-02-27]-[2019-07-13]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.007)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.005)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias1 T-test                                            Good (0.664)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias2 Augmented T-test                                  Good (0.419)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Mean                         &lt;NA&gt;</span>
@@ -402,8 +402,8 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality3 AutoCorrelation (Ljung-Box)                      &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Ljung-Box)                  Good (0.938)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Friedman)                           &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                     Good (0.202)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.943)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                     Good (0.955)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.264)</span>
 <span class="r-in"><span><span class="fu"><a href="View.html">View</a></span><span class="op">(</span><span class="va">rslt1</span><span class="op">)</span> <span class="co"># formatted tables in viewer panel</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Calls using diagonal view (suited in many situations such as to evaluate GDP estimates)</span></span></span>
@@ -411,7 +411,8 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-in"><span><span class="co">## performed automatically (if transf.diff is let to its default option) but `transf.log`</span></span></span>
 <span class="r-in"><span><span class="co">## must be set to TRUE manually whenever a log-transformation of the data is necessary</span></span></span>
 <span class="r-in"><span><span class="va">rslt2</span> <span class="op">&lt;-</span> <span class="fu">revision_analysis</span><span class="op">(</span><span class="va">vintages</span>, gap <span class="op">=</span> <span class="fl">1</span>, view <span class="op">=</span> <span class="st">"diagonal"</span>, n.releases <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># render_report(rslt2)</span></span></span>
+<span class="r-in"><span><span class="co"># render_report(rslt2, output_file = "report2", output_dir = "C:/Users/xxx",</span></span></span>
+<span class="r-in"><span><span class="co">#               output_format = "word_document", plot_revisions = TRUE)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">rslt2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class rjd3rev_rslts</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> View: diagonal </span>
@@ -450,13 +451,13 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Tests results:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            Transf. [Release[2]]-[Release[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                          None              Good (0.425)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                          None              Good (0.369)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias1 T-test                                  None              Good (0.878)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias2 Augmented T-test                        None              Good (0.845)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Mean       None              Good (0.910)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Reg.       None              Good (0.996)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Mean            Delta 1              Good (0.249)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Reg.            Delta 1               Bad (0.005)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Mean       None              Good (0.830)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Reg.       None              Good (0.878)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Mean            Delta 1              Good (0.102)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Reg.            Delta 1         Uncertain (0.018)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency2 (Ols Rv on Rv_1) - Mean           None                          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency2 (Ols Rv on Rv_1) - Reg.           None                          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality1 (Ols Rv on Rv_(1:p)) - Mean    None                          </span>
@@ -466,16 +467,16 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality3 AutoCorrelation (Ljung-Box)    None              Good (0.214)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Ljung-Box)     Delta 1            Severe (0.001)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Friedman)      Delta 1         Uncertain (0.033)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)        Delta 1               Bad (0.002)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)       Delta 1         Uncertain (0.989)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)        Delta 1               Bad (0.008)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)       Delta 1         Uncertain (0.972)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            [Release[3]]-[Release[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.250)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.161)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias1 T-test                                            Good (0.737)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias2 Augmented T-test                                  Good (0.602)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Mean                 Good (0.502)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Reg.                 Good (0.524)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Mean                         Good (0.368)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Reg.                    Uncertain (0.027)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Mean                 Good (0.648)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Reg.                 Good (0.750)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Mean                         Good (0.203)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Reg.                         Good (0.080)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency2 (Ols Rv on Rv_1) - Mean                     Good (0.742)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency2 (Ols Rv on Rv_1) - Reg.                      Bad (0.009)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality1 (Ols Rv on Rv_(1:p)) - Mean              Good (0.742)</span>
@@ -485,8 +486,8 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality3 AutoCorrelation (Ljung-Box)         Uncertain (0.040)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Ljung-Box)                  Good (0.220)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Friedman)              Uncertain (0.041)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                Uncertain (0.014)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.851)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                     Good (0.056)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.595)</span>
 <span class="r-in"><span><span class="fu"><a href="View.html">View</a></span><span class="op">(</span><span class="va">rslt2</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Call to evaluate revisions for a specific range of vintage periods</span></span></span>
@@ -496,7 +497,7 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-in"><span>    vintage_selection <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>start <span class="op">=</span> <span class="st">"2012-12-31"</span>, end <span class="op">=</span> <span class="st">"2018-06-30"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">rslt3</span> <span class="op">&lt;-</span> <span class="fu">revision_analysis</span><span class="op">(</span><span class="va">vintages</span>, gap <span class="op">=</span> <span class="fl">2</span>, view <span class="op">=</span> <span class="st">"vertical"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co">#render_report(rslt3)</span></span></span>
+<span class="r-in"><span><span class="co">#render_report(rslt3, output_file = "report2", output_dir = "C:/Users/xxx", plot_revisions = TRUE)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">rslt3</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class rjd3rev_rslts</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> View: vertical </span>
@@ -536,13 +537,13 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Tests results:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            Transf. [2016-03-25]-[2013-06-04]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                          None              Good (0.216)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                          None              Good (0.481)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias1 T-test                                  None              Good (0.694)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias2 Augmented T-test                        None              Good (0.696)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Mean       None              Good (0.689)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Reg.       None              Good (0.110)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Mean            Delta 1              Good (0.095)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Reg.            Delta 1            Severe (0.000)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Mean       None              Good (0.417)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Reg.       None              Good (0.272)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Mean            Delta 1              Good (0.138)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Reg.            Delta 1         Uncertain (0.027)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency2 (Ols Rv on Rv_1) - Mean           None                          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency2 (Ols Rv on Rv_1) - Reg.           None                          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality1 (Ols Rv on Rv_(1:p)) - Mean    None                          </span>
@@ -552,16 +553,16 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality3 AutoCorrelation (Ljung-Box)    None              Good (0.189)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Ljung-Box)     Delta 1              Good (0.630)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Friedman)      Delta 1              Good (0.122)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)        Delta 1               Bad (0.005)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)       Delta 1              Good (0.036)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)        Delta 1         Uncertain (0.031)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)       Delta 1         Uncertain (0.745)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            [2017-06-29]-[2015-11-10]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.233)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.178)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias1 T-test                                            Good (0.560)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias2 Augmented T-test                                  Good (0.497)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Mean                 Good (0.451)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Reg.                 Good (0.573)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Mean                         Good (0.356)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Reg.                    Uncertain (0.031)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Mean                 Good (0.499)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Reg.                 Good (0.704)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Mean                         Good (0.069)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Reg.                    Uncertain (0.011)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency2 (Ols Rv on Rv_1) - Mean                     Good (0.518)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency2 (Ols Rv on Rv_1) - Reg.                     Good (0.231)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality1 (Ols Rv on Rv_(1:p)) - Mean              Good (0.518)</span>
@@ -571,16 +572,16 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality3 AutoCorrelation (Ljung-Box)              Good (0.131)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Ljung-Box)                  Good (0.701)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Friedman)                   Good (0.118)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                Uncertain (0.021)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.999)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                      Bad (0.007)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.777)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            [2017-09-10]-[2016-03-25]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.046)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.038)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias1 T-test                                            Good (0.847)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias2 Augmented T-test                                  Good (0.759)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Mean                 Good (0.908)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Reg.                 Good (0.911)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Mean                         Good (0.246)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Reg.                          Bad (0.009)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Mean                 Good (0.761)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Reg.                 Good (0.527)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Mean                         Good (0.232)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Reg.                         Good (0.142)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency2 (Ols Rv on Rv_1) - Mean                     Good (0.987)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency2 (Ols Rv on Rv_1) - Reg.                     Good (0.698)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality1 (Ols Rv on Rv_(1:p)) - Mean              Good (0.987)</span>
@@ -590,8 +591,8 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality3 AutoCorrelation (Ljung-Box)              Good (0.062)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Ljung-Box)                  Good (0.576)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Friedman)                   Good (0.706)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                      Bad (0.006)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.259)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                     Good (0.125)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.979)</span>
 <span class="r-in"><span><span class="fu"><a href="View.html">View</a></span><span class="op">(</span><span class="va">rslt3</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Note that it is possible to change thresholds values for quality</span></span></span>
@@ -640,13 +641,13 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Tests results:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            Transf. [Release[2]]-[Release[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                          None              Good (0.425)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                          None              Good (0.377)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias1 T-test                                  None              Good (0.615)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias2 Augmented T-test                        None              Good (0.484)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Mean       None              Good (0.681)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Reg.       None              Good (0.989)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Mean            Delta 1              Good (0.297)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Reg.            Delta 1               Bad (0.006)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Mean       None              Good (0.925)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Reg.       None              Good (0.735)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Mean            Delta 1              Good (0.081)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Reg.            Delta 1         Uncertain (0.020)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency2 (Ols Rv on Rv_1) - Mean           None                          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency2 (Ols Rv on Rv_1) - Reg.           None                          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality1 (Ols Rv on Rv_(1:p)) - Mean    None                          </span>
@@ -656,16 +657,16 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality3 AutoCorrelation (Ljung-Box)    None              Good (0.115)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Ljung-Box)     Delta 1            Severe (0.000)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Friedman)      Delta 1               Bad (0.006)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)        Delta 1               Bad (0.003)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)       Delta 1         Uncertain (0.929)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)        Delta 1         Uncertain (0.011)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)       Delta 1         Uncertain (0.801)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            [Release[3]]-[Release[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.249)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relevancy - Theil U2                                    Good (0.150)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias1 T-test                                            Good (0.902)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bias2 Augmented T-test                                  Good (0.867)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Mean                 Good (0.582)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Reg.                 Good (0.336)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Mean                         Good (0.462)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Reg.                         Good (0.061)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Mean                 Good (0.547)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bias3 SlopeAndDrift (Ols L on P) - Reg.                 Good (0.458)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Mean                         Good (0.171)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency1 (Ols R on P) - Reg.                         Good (0.066)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency2 (Ols Rv on Rv_1) - Mean                     Good (0.743)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Efficiency2 (Ols Rv on Rv_1) - Reg.                Uncertain (0.015)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality1 (Ols Rv on Rv_(1:p)) - Mean              Good (0.743)</span>
@@ -675,8 +676,8 @@ rather as data not yet available (the default).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality3 AutoCorrelation (Ljung-Box)              Good (0.262)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Ljung-Box)                   Bad (0.001)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Orthogonality4 Seasonality (Friedman)                    Bad (0.004)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                Uncertain (0.044)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.972)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise1 - Noise (Ols R on P)                Uncertain (0.048)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.907)</span>
 <span class="r-in"><span><span class="fu"><a href="View.html">View</a></span><span class="op">(</span><span class="va">rslt4</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
