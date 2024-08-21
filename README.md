@@ -138,6 +138,11 @@ the analysis
 
 ``` r
 library("rjd3revisions")
+#> 
+#> Attaching package: 'rjd3revisions'
+#> The following object is masked from 'package:utils':
+#> 
+#>     View
 
 vintages <- create_vintages(long_view, periodicity = 4)
 # revisions <- get_revisions(vintages, gap = 2)
@@ -162,6 +167,7 @@ render_report(
 
 summary(rslt)
 print(rslt)
+View(rslt)
 ```
 
 ## Additional information
