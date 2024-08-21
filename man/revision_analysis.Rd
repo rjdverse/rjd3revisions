@@ -81,30 +81,23 @@ about each tests.
 \examples{
 
 ## Simulated data
-period_range <- seq(as.Date('2011-01-01'),as.Date('2020-10-01'),by='quarter')
-qtr <- (as.numeric(substr(period_range,6,7))+2)/3
-time_period <- rep(paste0(format(period_range, "\%Y"), "Q", qtr),5)
-np <- length(period_range)
-rev_date <- c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np),
-            rep("2022-12-31",np), rep("2023-06-30",np))
-set.seed(1)
-xt <- cumsum(sample(rnorm(1000,0,1), np, TRUE))
-rev <- rnorm(np*4,0,.1)
-obs_values <- xt
-for(i in 1:4) {
-  xt <- xt+rev[(1+(i-1)*np):(i*np)]
-  obs_values <- c(obs_values,xt)
-}
-df <- data.frame(rev_date, time_period, obs_values)
+
+df_long <- simulate_long(
+    n_period = 10L * 4L,
+    n_revision = 10L,
+    periodicity = 4L,
+    start_period = as.Date("2010-01-01")
+)
 
 ## Create a `"rjd3rev_vintages"` object with the input
-vintages <- create_vintages(x = df, periodicity = 4, date_format = "\%Y-\%m-\%d")
-# revisions <- get_revisions(vintages, gap = 1) # just to get a first insight of the revisions
+vintages <- create_vintages(x = df_long, periodicity = 4L, date_format = "\%Y-\%m-\%d")
+# revisions <- get_revisions(vintages, gap = 1L) # just to get a first insight of the revisions
 
 ## Call using all default parameters
 rslt1 <- revision_analysis(vintages)
 # render_report(rslt1)
-# summary(rslt1) # formatted summary only
+summary(rslt1) # formatted summary only
+View(rslt1) # formatted tables in viewer panel
 
 ## Calls using diagonal view (suited in many situations such as to evaluate GDP estimates)
 ## Note: when input are not growth rates but the gross series, differentiation is
@@ -112,25 +105,30 @@ rslt1 <- revision_analysis(vintages)
 ## must be set to TRUE manually whenever a log-transformation of the data is necessary
 rslt2 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 # render_report(rslt2)
-# summary(rslt2)
+summary(rslt2)
+View(rslt2)
 
 ## Call to evaluate revisions for a specific range of vintage periods
 vintages <- create_vintages(
-    x = df,
-    periodicity = 4,
-    vintage_selection = c(start="2021-12-31", end="2023-06-30")
+    x = df_long,
+    periodicity = 4L,
+    vintage_selection = c(start = "2012-12-31", end = "2018-06-30")
 )
-rslt3 <- revision_analysis(vintages, gap=2, view = "vertical")
+rslt3 <- revision_analysis(vintages, gap = 2, view = "vertical")
 #render_report(rslt3)
-#summary(rslt3)
+summary(rslt3)
+View(rslt3)
 
 ## Note that it is possible to change thresholds values for quality
 ## assessment using options (see vignette for details)
-options(augmented_t_threshold = c(severe = 0.005, bad = 0.01, uncertain = 0.05),
-        slope_and_drift_threshold = c(severe = 0.005, bad = 0.05, uncertain = 0.10),
-        theil_u2_threshold = c(uncertain = .5, bad = .7, severe = 1))
+options(
+    augmented_t_threshold = c(severe = 0.005, bad = 0.01, uncertain = 0.05),
+    slope_and_drift_threshold = c(severe = 0.005, bad = 0.05, uncertain = 0.10),
+    theil_u2_threshold = c(uncertain = .5, bad = .7, severe = 1)
+)
 rslt4 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 summary(rslt4)
+View(rslt4)
 
 }
 \seealso{

@@ -2,15 +2,15 @@
 % Please edit documentation in R/revision_analysis.R
 \name{summary.rjd3rev_rslts}
 \alias{summary.rjd3rev_rslts}
-\title{Summary function for objects of class "rjd3rev_rslts"}
+\title{Summary function for objects of class \code{rjd3rev_rslts}}
 \usage{
 \method{summary}{rjd3rev_rslts}(object, ...)
 }
 \arguments{
-\item{object}{an object of class "rjd3rev_rslts"}
+\item{object}{an object of class \code{rjd3rev_rslts}}
 
 \item{...}{further arguments passed to or from other methods.}
 }
 \description{
-Summary function for objects of class "rjd3rev_rslts"
+Summary function for objects of class \code{rjd3rev_rslts}
 }

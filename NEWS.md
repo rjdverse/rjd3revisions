@@ -8,8 +8,18 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
 * user-defined thresholds for tests assessment
 * possibility to add plot of revisions in report
+* New `View()`, `summary()` and `print()` method to visualize the revision analysis
+
+
+### Changed
+
+* pivot from {formattable} dependency to {flextable} to build the tables
+* `simulate_long()` is now an exported function to construct datasets example
+
 
 ## [1.3.2] - 2024-07-10
 

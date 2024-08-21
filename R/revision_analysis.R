@@ -59,30 +59,23 @@
 #' @examples
 #'
 #' ## Simulated data
-#' period_range <- seq(as.Date('2011-01-01'),as.Date('2020-10-01'),by='quarter')
-#' qtr <- (as.numeric(substr(period_range,6,7))+2)/3
-#' time_period <- rep(paste0(format(period_range, "%Y"), "Q", qtr),5)
-#' np <- length(period_range)
-#' rev_date <- c(rep("2021-06-30",np), rep("2021-12-31",np), rep("2022-06-30",np),
-#'             rep("2022-12-31",np), rep("2023-06-30",np))
-#' set.seed(1)
-#' xt <- cumsum(sample(rnorm(1000,0,1), np, TRUE))
-#' rev <- rnorm(np*4,0,.1)
-#' obs_values <- xt
-#' for(i in 1:4) {
-#'   xt <- xt+rev[(1+(i-1)*np):(i*np)]
-#'   obs_values <- c(obs_values,xt)
-#' }
-#' df <- data.frame(rev_date, time_period, obs_values)
+#'
+#' df_long <- simulate_long(
+#'     n_period = 10L * 4L,
+#'     n_revision = 10L,
+#'     periodicity = 4L,
+#'     start_period = as.Date("2010-01-01")
+#' )
 #'
 #' ## Create a `"rjd3rev_vintages"` object with the input
-#' vintages <- create_vintages(x = df, periodicity = 4, date_format = "%Y-%m-%d")
-#' # revisions <- get_revisions(vintages, gap = 1) # just to get a first insight of the revisions
+#' vintages <- create_vintages(x = df_long, periodicity = 4L, date_format = "%Y-%m-%d")
+#' # revisions <- get_revisions(vintages, gap = 1L) # just to get a first insight of the revisions
 #'
 #' ## Call using all default parameters
 #' rslt1 <- revision_analysis(vintages)
 #' # render_report(rslt1)
-#' # summary(rslt1) # formatted summary only
+#' summary(rslt1) # formatted summary only
+#' View(rslt1) # formatted tables in viewer panel
 #'
 #' ## Calls using diagonal view (suited in many situations such as to evaluate GDP estimates)
 #' ## Note: when input are not growth rates but the gross series, differentiation is
@@ -90,25 +83,30 @@
 #' ## must be set to TRUE manually whenever a log-transformation of the data is necessary
 #' rslt2 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 #' # render_report(rslt2)
-#' # summary(rslt2)
+#' summary(rslt2)
+#' View(rslt2)
 #'
 #' ## Call to evaluate revisions for a specific range of vintage periods
 #' vintages <- create_vintages(
-#'     x = df,
-#'     periodicity = 4,
-#'     vintage_selection = c(start="2021-12-31", end="2023-06-30")
+#'     x = df_long,
+#'     periodicity = 4L,
+#'     vintage_selection = c(start = "2012-12-31", end = "2018-06-30")
 #' )
-#' rslt3 <- revision_analysis(vintages, gap=2, view = "vertical")
+#' rslt3 <- revision_analysis(vintages, gap = 2, view = "vertical")
 #' #render_report(rslt3)
-#' #summary(rslt3)
+#' summary(rslt3)
+#' View(rslt3)
 #'
 #' ## Note that it is possible to change thresholds values for quality
 #' ## assessment using options (see vignette for details)
-#' options(augmented_t_threshold = c(severe = 0.005, bad = 0.01, uncertain = 0.05),
-#'         slope_and_drift_threshold = c(severe = 0.005, bad = 0.05, uncertain = 0.10),
-#'         theil_u2_threshold = c(uncertain = .5, bad = .7, severe = 1))
+#' options(
+#'     augmented_t_threshold = c(severe = 0.005, bad = 0.01, uncertain = 0.05),
+#'     slope_and_drift_threshold = c(severe = 0.005, bad = 0.05, uncertain = 0.10),
+#'     theil_u2_threshold = c(uncertain = .5, bad = .7, severe = 1)
+#' )
 #' rslt4 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 #' summary(rslt4)
+#' View(rslt4)
 #'
 revision_analysis <- function(vintages,
                               gap = 1,
@@ -320,7 +318,8 @@ revision_analysis <- function(vintages,
                                  autocorrelation_test = ac_infos$ac_rslt,
                                  seasonality_test = seas_infos$seas_rslt),
             signalnoise = list(signal_noise = sn_infos$sn_rslt),
-            varbased = var_based_rslt
+            varbased = var_based_rslt,
+            view = view
         ), class = "rjd3rev_rslts")
     )
 }
@@ -609,14 +608,14 @@ eval_test <- function(val,
                       threshold,
                       ascending = TRUE) {
 
-    if(is.null(threshold)){
+    if (is.null(threshold)) {
         stop("Some user-defined thresholds are defined as NULL. See ?set_thresholds_to_default or ?set_all_thresholds_to_default to reset tests thresholds to their default values", call. = FALSE)
     }
 
-    if(!all(tolower(names(threshold)) %in% c("good", "uncertain", "bad", "severe"))){
+    if (!all(tolower(names(threshold)) %in% c("good", "uncertain", "bad", "severe"))) {
         stop("Possible values for quality assessment are 'good', 'uncertain', 'bad', 'severe'. Please check your options.", call. = FALSE)
     }
-    if(is.unsorted(threshold)){
+    if (is.unsorted(threshold)) {
         stop("User-defined thresholds must be defined in an ascending order. See vignette for more information.", call. = FALSE)
     }
 
@@ -625,20 +624,20 @@ eval_test <- function(val,
     nt <- length(threshold)
     qualities <- c()
 
-    for(i in 1:n){
+    for (i in 1:n) {
         quality <- "good"
 
-        if(!is.na(val[i])){
-            if(ascending){
-                for (k in 1:nt){
-                    if(val[i] < threshold[k]){
+        if (!is.na(val[i])) {
+            if (ascending) {
+                for (k in 1:nt) {
+                    if (val[i] < threshold[k]) {
                         quality <- names(threshold)[k]
                         break
                     }
                 }
-            }else{
-                for (k in nt:1){
-                    if(val[i] > threshold[k]){
+            } else {
+                for (k in nt:1) {
+                    if (val[i] > threshold[k]) {
                         quality <- names(threshold)[k]
                         break
                     }
@@ -705,41 +704,154 @@ regression_diagnostics <- function(reg_output, thr_res_jb, thr_res_bp, thr_res_w
 
 # Generic functions ------------------------------------------------------------
 
-#' Print function for objects of class "rjd3rev_rslts"
+#' @title Print function for objects of class \code{rjd3rev_rslts}
 #'
-#' @param x an object of class "rjd3rev_rslts"
-#' @param \dots further arguments passed to the print() function.
-#' @export
+#' @param x an object of class \code{rjd3rev_rslts}
+#' @param \dots further arguments passed to the \code{\link{print}} function.
+#'
 #' @exportS3Method print rjd3rev_rslts
+#' @method print rjd3rev_rslts
+#' @export
 #'
 print.rjd3rev_rslts <- function(x, ...) {
-
-    print(list(call = x$call,
-               descriptive_statistics = x$descriptive.statistics,
-               parametric_analysis = x$summary, ...))
+    print(x$summary)
 }
 
-#' Summary function for objects of class "rjd3rev_rslts"
+#' Summary function for objects of class \code{rjd3rev_rslts}
 #'
-#' @param object an object of class "rjd3rev_rslts"
+#' @param object an object of class \code{rjd3rev_rslts}
 #' @param ... further arguments passed to or from other methods.
 #' @exportS3Method summary rjd3rev_rslts
+#' @method summary rjd3rev_rslts
 #' @export
 #'
 summary.rjd3rev_rslts <- function(object, ...) {
-
-    x <- object
-    if (!requireNamespace("formattable", quietly = TRUE)) {
-        warning("Please install 'formattable': install.packages('formattable') to get more visual output")
-        return(x$summary)
-    } else {
-        format_font <- function(x) {
-            formattable::formatter("span",
-                                   style = x ~ formattable::style(color = ifelse(substr(x, 1, 1) == "G", "green",
-                                                                                 ifelse(substr(x, 1, 1) == "U", "orange", "red")),
-                                                                  font.weight = ifelse(substr(x, 1, 1) == "S", "bold", "plain")))
-        }
-        nc <- ncol(x$summary)
-        return(list(formattable::formattable(x$summary, apply(x$summary[, 2:nc, drop = FALSE], 2, format_font))))
+    cat("Object of class rjd3rev_rslts\n")
+    cat("View:", object$view, "\n")
+    nb_revisions <- ncol(object$revisions)
+    cat("There are", nb_revisions, "from", start(object$revisions), "to", end(object$revisions), "\n\n")
+    cat("List of all tests:\n")
+    categories <- setdiff(names(object), c("call", "revisions", "descriptive.statistics", "summary", "view"))
+    for (cate in categories) {
+        cat("-", cate, ":")
+        cat("", names(object[[cate]]), sep = "\n\t- ")
     }
+
+    revisions_dates <- colnames(object$revisions)
+    cat("\nRevisions analysis dates:", paste0("\n\t- ", "[", seq_len(nb_revisions), "]: ", revisions_dates), "\n")
+
+    summary_tests <- object$summary
+    cat("\nTests results:\n")
+    print(summary_tests)
+}
+
+#' @rdname View
+#' @export
+View <- function(x, ...) {
+    UseMethod("View")
+}
+
+#' @rdname View
+#' @exportS3Method View default
+#' @method View default
+#' @export
+View.default <- function(x, ...) {
+    utils::View(x, ...)
+}
+
+build_table <- function(x, type = c("summary", "stats-desc", "revisions", "tests")) {
+
+    # Check type
+    type <- match.arg(type)
+
+    if (!requireNamespace("flextable", quietly = TRUE)) {
+        warning("Please install 'flextable': install.packages('flextable') to get more visual output")
+        if (type == "summary") {
+            return(x$summary)
+        } else if (type == "stats-desc") {
+            return(x$descriptive.statistics)
+        } else if (type == "revisions") {
+            return(x$revisions)
+        } else if (type == "tests") {
+            message("Feature not implemented yet.")
+        }
+    } else {
+        if (type == "summary") {
+            main_results <- x$summary |>
+                format_table() |>
+                flextable::flextable() |>
+                theme_design()
+            for (col in colnames(x$summary)[-1]) {
+                main_results <- main_results |>
+                    format_column(col = col)
+            }
+            return(main_results)
+        } else if (type == "stats-desc") {
+            stat_desc <- x$descriptive.statistics[c("N", "mean revision", "st.dev.", "% positive", "% zero", "% negative"), , drop = FALSE] |>
+                format_table() |>
+                flextable::flextable() |>
+                theme_design()
+            return(stat_desc)
+        } else if (type == "revisions") {
+            revisions_table <- data.frame(Time = time(x$revisions),
+                                          x$revisions,
+                                          check.names = FALSE) |>
+                flextable::flextable() |>
+                theme_design()
+            return(revisions_table)
+        } else if (type == "tests") {
+            message("Feature not implemented yet.")
+        }
+    }
+    return(invisible(NULL))
+}
+
+#' View function for objects of class \code{rjd3rev_rslts}
+#'
+#' @param x an object of class \code{rjd3rev_rslts}
+#' @param type type of view to display
+#' @param ... further arguments passed to \code{\link{View}}.
+#'
+#' @exportS3Method View rjd3rev_rslts
+#' @method View rjd3rev_rslts
+#' @export
+#'
+View.rjd3rev_rslts <- function(
+        x,
+        type = c("summary", "stats-desc", "revisions", "tests"),
+        ...) {
+
+    # Check type
+    type <- match.arg(type)
+
+    if (type == "all") {
+        for (new_type in c("all", "summary", "stats-desc", "revisions", "tests")) {
+            View(x, new_type, ...)
+        }
+        return(invisible(NULL))
+    } else if (type == "tests") {
+        message("Feature not implemented yet.")
+        return(invisible(NULL))
+    }
+
+    if (!hasArg(title)) {
+        title <- ""
+    }
+
+    table_output <- build_table(x, type)
+
+    if (!requireNamespace("flextable", quietly = TRUE)) {
+        warning("Please install 'flextable': install.packages('flextable') to get more visual output")
+
+        utils::View(table_output, title = paste(title, switch(
+            type,
+            "summary" = "Tests summary",
+            "stat-desc" = "Descriptive statistics",
+            "revisions" = "Revisions",
+            "tests" = "All tests"
+        )))
+    } else {
+        print(table_output)
+    }
+    return(invisible(NULL))
 }

@@ -18,7 +18,7 @@ to be read from.}
 \item{type}{character specifying the type of representation of the input
 between \code{"long"}, \code{"horizontal"} and \code{"vertical"} approach.}
 
-\item{periodicity}{periodicity of the time period (12, 4 or 1 for resp.
+\item{periodicity}{Integer. Periodicity of the time period (12, 4 or 1 for resp.
 monthly, quarterly or annual data)}
 
 \item{...}{Arguments to be passed to \code{readxl::read_excel()}, for example:
