@@ -526,7 +526,7 @@ print.rjd3rev_vintages <- function(x,
                             frequency = freq,
                             end = end_period)
     extract_hv <- x$horizontal_view[(n_col_tot - n_col + 1):n_col_tot, (n_row_tot - n_row + 1):n_row_tot]
-    extract_dv <- stats::ts(x$diagonal_view[1:n_row, 1:n_col],
+    extract_dv <- stats::ts(x$diagonal_view[(n_row_tot - n_row + 1):n_row_tot, 1:n_col],
                             frequency = freq,
                             end = end_period)
 

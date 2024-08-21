@@ -73,7 +73,7 @@
 #'
 #' ## Call using all default parameters
 #' rslt1 <- revision_analysis(vintages)
-#' # render_report(rslt1)
+#' # render_report(rslt1, output_file = "report1", output_dir = "C:/Users/xxx")
 #' summary(rslt1) # formatted summary only
 #' View(rslt1) # formatted tables in viewer panel
 #'
@@ -82,7 +82,8 @@
 #' ## performed automatically (if transf.diff is let to its default option) but `transf.log`
 #' ## must be set to TRUE manually whenever a log-transformation of the data is necessary
 #' rslt2 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
-#' # render_report(rslt2)
+#' # render_report(rslt2, output_file = "report2", output_dir = "C:/Users/xxx",
+#' #               output_format = "word_document", plot_revisions = TRUE)
 #' summary(rslt2)
 #' View(rslt2)
 #'
@@ -93,7 +94,7 @@
 #'     vintage_selection = c(start = "2012-12-31", end = "2018-06-30")
 #' )
 #' rslt3 <- revision_analysis(vintages, gap = 2, view = "vertical")
-#' #render_report(rslt3)
+#' #render_report(rslt3, output_file = "report2", output_dir = "C:/Users/xxx", plot_revisions = TRUE)
 #' summary(rslt3)
 #' View(rslt3)
 #'
