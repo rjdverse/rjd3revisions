@@ -30,7 +30,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Check horizontal format</h1>
-      <small class="dont-index">Source: <a href="https://github.com/rjdverse/rjd3revisions/blob/main/R/check.R" class="external-link"><code>R/check.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rjdverse/rjd3revisions/blob/v1.4.0/R/check.R" class="external-link"><code>R/check.R</code></a></small>
       <div class="d-none name"><code>check_horizontal.Rd</code></div>
     </div>
 
@@ -86,33 +86,33 @@ the input data.frame for the revision dates.</p></dd>
 <span class="r-in"><span><span class="va">horizontal_format</span> <span class="op">&lt;-</span> <span class="fu">rjd3revisions</span><span class="fu">:::</span><span class="fu">from_long_to_horizontal</span><span class="op">(</span><span class="va">long_format</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">check_horizontal</span><span class="op">(</span><span class="va">horizontal_format</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            2020-01-01 2020-02-01 2020-03-01 2020-04-01 2020-05-01 2020-06-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2020-01-29   8.189264         NA         NA         NA         NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2020-05-21   4.482425   8.209824  13.307641   16.34480   14.68020         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-04-10   6.134179   5.293636   9.745835   17.57925   13.84978   15.96230</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-04-28   6.608122   6.897066   9.399938   16.10570   14.10760   15.73182</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-08-19   5.962668   6.292977   8.769985   15.34198   13.55551   14.68390</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-09-05   5.644564   6.242991   9.092428   15.50118   14.04437   14.98597</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2020-01-29   6.894417         NA         NA         NA         NA         NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2020-05-21   3.187578  0.1418382  4.3879401   5.021847   7.386103         NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-04-10   4.839333 -2.7743499  0.8261341   6.256300   6.555682   3.253217</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-04-28   5.313275 -1.1709204  0.4802369   4.782748   6.813496   3.022737</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-08-19   4.667822 -1.7750089 -0.1497161   4.019028   6.261403   1.974815</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-09-05   4.349718 -1.8249952  0.1727267   4.178235   6.750267   2.276888</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            2020-07-01 2020-08-01 2020-09-01 2020-10-01 2020-11-01 2020-12-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2020-01-29         NA         NA         NA         NA         NA         NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2020-05-21         NA         NA         NA         NA         NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-04-10   11.72278  12.132085   13.24289   7.405588   10.46886    9.51511</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-04-28   12.76294   9.753241   13.85702  11.060399   13.51421   11.90924</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-08-19   10.19677   9.111982   13.17764  10.408830   12.44382   11.57622</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-09-05   10.82340   8.982280   12.34364   9.876394   11.86012   11.95167</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-04-10  -3.783351  -1.129453  -2.165798  -8.035776  -8.056904  -7.618795</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-04-28  -2.743196  -3.508297  -1.551673  -4.380965  -5.011548  -5.224666</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-08-19  -5.309363  -4.149556  -2.231048  -5.032534  -6.081944  -5.557684</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-09-05  -4.682731  -4.279258  -3.065053  -5.564970  -6.665642  -5.182239</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            2021-01-01 2021-02-01 2021-03-01 2021-04-01 2021-05-01 2021-06-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2020-01-29         NA         NA         NA         NA         NA         NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2020-05-21         NA         NA         NA         NA         NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-04-10   4.704317   3.108193 -0.5632187 -0.2078856         NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-04-28   7.304192   4.122397  2.2038782  2.5273602         NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-08-19   6.040008   4.521067  3.5677775  1.9768796   2.647342   8.897928</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-09-05   5.815797   3.304331  3.6253096  1.1299766   1.230624   9.249921</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-04-10  -13.53348  -16.97182  -15.13190  -6.793055         NA         NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-04-28  -10.93360  -15.95761  -12.36480  -4.057810         NA         NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-08-19  -12.19779  -15.55894  -11.00090  -4.608290 -0.5690297  -4.944698</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-09-05  -12.42200  -16.77568  -10.94337  -5.455193 -1.9857474  -4.592705</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            2021-07-01 2021-08-01 2021-09-01 2021-10-01 2021-11-01 2021-12-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2020-01-29         NA         NA         NA         NA         NA         NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2020-05-21         NA         NA         NA         NA         NA         NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2021-04-10         NA         NA         NA         NA         NA         NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2021-04-28         NA         NA         NA         NA         NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-08-19   6.370341   2.141074         NA         NA         NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-09-05   6.053076   1.899266   6.914712         NA         NA         NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-08-19  -11.22665  -10.72161         NA         NA         NA         NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2021-09-05  -11.54392  -10.96342   -14.3967         NA         NA         NA</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
