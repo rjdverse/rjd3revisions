@@ -30,7 +30,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Unit root test</h1>
-      <small class="dont-index">Source: <a href="https://github.com/rjdverse/rjd3revisions/blob/develop/R/tests.R" class="external-link"><code>R/tests.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rjdverse/rjd3revisions/blob/main/R/tests.R" class="external-link"><code>R/tests.R</code></a></small>
       <div class="d-none name"><code>unitroot.Rd</code></div>
     </div>
 
@@ -79,24 +79,24 @@ rather as data not (yet) available (the default).</p></dd>
 <span class="r-in"><span><span class="co">## Create vintage and test</span></span></span>
 <span class="r-in"><span><span class="va">vintages</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_vintages.html">create_vintages</a></span><span class="op">(</span><span class="va">df_long</span>, periodicity <span class="op">=</span> <span class="fl">4L</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">unitroot</span><span class="op">(</span><span class="va">vintages</span><span class="op">$</span><span class="va">diagonal_view</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            DF.value  DF.stderr DF.statistic DF.pvalue ADF.value ADF.stderr</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[1] 1.049865 0.01391381     3.583877 0.9997462  1.058077 0.01734851</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[2] 1.050259 0.01317798     3.813833 0.9998607  1.054126 0.01707990</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[3] 1.078724 0.03009969     2.615445 0.9960223  1.053716 0.04378850</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[4] 1.091455 0.03487218     2.622571 0.9960345  1.082710 0.05181632</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[5] 1.152797 0.05344441     2.858984 0.9975095  1.118235 0.09820068</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            ADF.statistic ADF.pvalue DFCT.value DFCT.stderr DFCT.statistic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[1]      3.347672  0.9995208  0.7381031   0.1110822      -2.357685</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[2]      3.169000  0.9992373  0.7665329   0.1078970      -2.163796</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[3]      1.226719  0.9391805  0.4322016   0.2357620      -2.408354</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[4]      1.596210  0.9684963  0.3923568   0.2466909      -2.463176</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[5]      1.204015  0.9362352  0.5643480   0.2843803      -1.531935</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            DFCT.pvalue PP.value  PP.stderr PP.statistic PP.pvalue</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[1]   0.4092069 1.049865 0.01391381     5.514464 0.9999984</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[2]   0.5106142 1.050259 0.01317798     5.694818 0.9999990</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[3]   0.3856539 1.078724 0.03009969     2.665500 0.9964618</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[4]   0.3597248 1.091455 0.03487218     2.854829 0.9977125</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[5]   0.7887006 1.152797 0.05344441     3.073923 0.9985076</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             DF.value  DF.stderr DF.statistic DF.pvalue ADF.value ADF.stderr</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[1] 1.0178305 0.04328158    0.4119655 0.7927288 1.0454437 0.04587456</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[2] 1.0211817 0.04124297    0.5135826 0.8189979 1.0427080 0.04382061</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[3] 0.9483933 0.11994771   -0.4302436 0.4933033 0.9914031 0.12949811</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[4] 0.9010292 0.13025525   -0.7598223 0.3583002 0.9530910 0.14510193</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[5] 1.0836302 0.23100040    0.3620349 0.7782176 1.2986515 0.23318969</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            ADF.statistic ADF.pvalue   DFCT.value DFCT.stderr DFCT.statistic</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[1]    0.99060796  0.9112219 -0.020943516   0.1769106      -5.770958</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[2]    0.97460918  0.9088851 -0.001435637   0.1783737      -5.614257</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[3]   -0.06638642  0.6377604  0.097857487   0.2654934      -3.397984</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[4]   -0.32328327  0.5372897 -0.035062409   0.3106311      -3.332128</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[5]    1.28072329  0.9440460 -0.398636985   0.3915929      -3.571660</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             DFCT.pvalue  PP.value  PP.stderr PP.statistic PP.pvalue</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[1] 0.0002618827 1.0178305 0.04328158    1.9556597 0.9855817</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[2] 0.0003840532 1.0211817 0.04124297    2.3033200 0.9933100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[3] 0.0790890619 0.9483933 0.11994771   -0.1574490 0.6031343</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[4] 0.0897068231 0.9010292 0.13025525   -0.6626812 0.3974635</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[5] 0.0615459136 1.0836302 0.23100040    0.2597781 0.7484246</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
