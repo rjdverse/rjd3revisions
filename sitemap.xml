@@ -6,7 +6,8 @@
 <url><loc>https://rjdverse.github.io/rjd3revisions/authors.html</loc></url>
 <url><loc>https://rjdverse.github.io/rjd3revisions/index.html</loc></url>
 <url><loc>https://rjdverse.github.io/rjd3revisions/news/index.html</loc></url>
-<url><loc>https://rjdverse.github.io/rjd3revisions/reference/View.rjd3rev_vintages.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3revisions/reference/View.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3revisions/reference/View.rjd3rev_rslts.html</loc></url>
 <url><loc>https://rjdverse.github.io/rjd3revisions/reference/bias.html</loc></url>
 <url><loc>https://rjdverse.github.io/rjd3revisions/reference/check-date.html</loc></url>
 <url><loc>https://rjdverse.github.io/rjd3revisions/reference/check_horizontal.html</loc></url>
@@ -34,6 +35,7 @@
 <url><loc>https://rjdverse.github.io/rjd3revisions/reference/set_all_thresholds_to_default.html</loc></url>
 <url><loc>https://rjdverse.github.io/rjd3revisions/reference/set_thresholds_to_default.html</loc></url>
 <url><loc>https://rjdverse.github.io/rjd3revisions/reference/signalnoise.html</loc></url>
+<url><loc>https://rjdverse.github.io/rjd3revisions/reference/simulate_long.html</loc></url>
 <url><loc>https://rjdverse.github.io/rjd3revisions/reference/slope_and_drift.html</loc></url>
 <url><loc>https://rjdverse.github.io/rjd3revisions/reference/summary.rjd3rev_revisions.html</loc></url>
 <url><loc>https://rjdverse.github.io/rjd3revisions/reference/summary.rjd3rev_rslts.html</loc></url>

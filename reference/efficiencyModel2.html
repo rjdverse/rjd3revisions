@@ -70,54 +70,46 @@ rather as data not (yet) available (the default).</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Simulated data</span></span></span>
-<span class="r-in"><span><span class="va">period_range</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">'2011-01-01'</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">'2020-10-01'</span><span class="op">)</span>,by<span class="op">=</span><span class="st">'quarter'</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">qtr</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="va">period_range</span>,<span class="fl">6</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span><span class="op">+</span><span class="fl">2</span><span class="op">)</span><span class="op">/</span><span class="fl">3</span></span></span>
-<span class="r-in"><span><span class="va">time_period</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">period_range</span>, <span class="st">"%Y"</span><span class="op">)</span>, <span class="st">"Q"</span>, <span class="va">qtr</span><span class="op">)</span>,<span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">np</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">period_range</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">rev_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"2021-06-30"</span>,<span class="va">np</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"2021-12-31"</span>,<span class="va">np</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"2022-06-30"</span>,<span class="va">np</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>            <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"2022-12-31"</span>,<span class="va">np</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"2023-06-30"</span>,<span class="va">np</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">xt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1000</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, <span class="va">np</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">rev</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">np</span><span class="op">*</span><span class="fl">4</span>,<span class="fl">0</span>,<span class="fl">.1</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">obs_values</span> <span class="op">&lt;-</span> <span class="va">xt</span></span></span>
-<span class="r-in"><span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="va">xt</span> <span class="op">&lt;-</span> <span class="va">xt</span><span class="op">+</span><span class="va">rev</span><span class="op">[</span><span class="op">(</span><span class="fl">1</span><span class="op">+</span><span class="op">(</span><span class="va">i</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">*</span><span class="va">np</span><span class="op">)</span><span class="op">:</span><span class="op">(</span><span class="va">i</span><span class="op">*</span><span class="va">np</span><span class="op">)</span><span class="op">]</span></span></span>
-<span class="r-in"><span>  <span class="va">obs_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">obs_values</span>,<span class="va">xt</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">rev_date</span>, <span class="va">time_period</span>, <span class="va">obs_values</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Simulated data</span></span></span>
+<span class="r-in"><span><span class="va">df_long</span> <span class="op">&lt;-</span> <span class="fu"><a href="simulate_long.html">simulate_long</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    n_period <span class="op">=</span> <span class="fl">10L</span> <span class="op">*</span> <span class="fl">4L</span>,</span></span>
+<span class="r-in"><span>    n_revision <span class="op">=</span> <span class="fl">5L</span>,</span></span>
+<span class="r-in"><span>    periodicity <span class="op">=</span> <span class="fl">4L</span>,</span></span>
+<span class="r-in"><span>    start_period <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2010-01-01"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Create vintage and test</span></span></span>
-<span class="r-in"><span><span class="va">vintages</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_vintages.html">create_vintages</a></span><span class="op">(</span><span class="va">df</span>, periodicity <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">vintages</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_vintages.html">create_vintages</a></span><span class="op">(</span><span class="va">df_long</span>, periodicity <span class="op">=</span> <span class="fl">4L</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">efficiencyModel2</span><span class="op">(</span><span class="va">vintages</span><span class="op">$</span><span class="va">diagonal_view</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                            N         R2         F intercept.estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[3]]-[Release[2]] 40 0.03414641 1.3434373        -0.01502902</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[4]]-[Release[3]] 40 0.01248758 0.4805288        -0.02512668</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[5]]-[Release[4]] 40 0.03583727 1.4124340        -0.02279074</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                            N          R2           F intercept.estimate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[3]]-[Release[2]] 24 0.344031034 11.53817200        0.109860001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[4]]-[Release[3]] 14 0.001302023  0.01564465        0.000632632</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[5]]-[Release[4]]  9 0.151834592  1.25310716        0.033831766</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                           intercept.stderr intercept.pvalue slope.estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[3]]-[Release[2]]       0.01769005       0.40088255     0.22683721</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[4]]-[Release[3]]       0.01476059       0.09687119    -0.09476903</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[5]]-[Release[4]]       0.01557162       0.15152475    -0.19619317</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                           slope.stderr slope.pvalue   skewness    kurtosis</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[3]]-[Release[2]]    0.1957067    0.2536606 -0.2663346 -0.70594162</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[4]]-[Release[3]]    0.1367120    0.4923983  0.1428890  0.05980705</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[5]]-[Release[4]]    0.1650820    0.2420273 -0.3799207  0.48908872</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[3]]-[Release[2]]       0.20213049        0.5922439    -0.30115024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[4]]-[Release[3]]       0.16074738        0.9969245     0.01919427</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[5]]-[Release[4]]       0.06573168        0.6226141    -0.11829608</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                           slope.stderr slope.pvalue    skewness    kurtosis</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[3]]-[Release[2]]   0.08865734  0.002591094 -0.04615157 -0.36199959</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[4]]-[Release[3]]   0.15345772  0.902532324 -1.03395405  2.29739182</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[5]]-[Release[4]]   0.10567597  0.299894962  0.48140272 -0.01239274</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                           JarqueBera.value JarqueBera.pvalue BreuschPagan.R2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[3]]-[Release[2]]        1.2708964         0.5296980    0.0008479461</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[4]]-[Release[3]]        0.1385246         0.9330819    0.0127461791</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[5]]-[Release[4]]        1.3269210         0.5150659    0.0759441218</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[3]]-[Release[2]]        0.1337484        0.93531285      0.03935263</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[4]]-[Release[3]]        5.1752204        0.07519954      0.11395178</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[5]]-[Release[4]]        0.3090493        0.85682237      0.28960014</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                           BreuschPagan.value BreuschPagan.pvalue   White.R2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[3]]-[Release[2]]          0.0322493          0.85843578 0.06507212</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[4]]-[Release[3]]          0.4906082          0.48792282 0.01724923</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[5]]-[Release[4]]          3.1230542          0.08522265 0.09138218</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                           White.value White.pvalue      arch.R2 arch.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[3]]-[Release[2]]   2.6028850    0.2721390 1.675820e-03 0.06535699</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[4]]-[Release[3]]   0.6899692    0.7082313 7.696581e-02 3.00166646</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[5]]-[Release[4]]   3.6552873    0.1607920 8.745591e-05 0.00341078</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[3]]-[Release[2]]          0.9012233           0.3527668 0.03974011</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[4]]-[Release[3]]          1.5432809           0.2378601 0.17483605</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[5]]-[Release[4]]          2.8536055           0.1350193 0.33025472</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                           White.value White.pvalue     arch.R2 arch.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[3]]-[Release[2]]   0.9537627    0.6207162 0.007372263  0.1695620</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[4]]-[Release[3]]   2.4477047    0.2940950 0.098329364  1.2782817</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[5]]-[Release[4]]   2.9722925    0.2262429 0.013632058  0.1090565</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                           arch.pvalue</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[3]]-[Release[2]]  0.79822100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[4]]-[Release[3]]  0.08317892</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[5]]-[Release[4]]  0.95342851</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[3]]-[Release[2]]   0.6805013</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[4]]-[Release[3]]   0.2582188</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [Release[5]]-[Release[4]]   0.7412209</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
