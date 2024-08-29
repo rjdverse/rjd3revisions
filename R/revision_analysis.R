@@ -407,7 +407,7 @@ seasonality_test <- function(x) {
 theil_test_evaluator <- function(U1, U2, N, n_test, thr) {
     if (!is.null(U1)) {
         theil_rslt <- round(rbind(N, U1), 3)
-        if (!is.null(U2) && !all(is.nan(U2)) == TRUE) {
+        if (!is.null(U2) && !all(is.nan(U2))) {
             theil_rslt <- rbind(theil_rslt, U2 = round(U2, 3))
             theil_q <- eval_test(U2, threshold = thr$u2, ascending = FALSE)
             U_det <- "U2"
