@@ -385,7 +385,7 @@ seasonality_test <- function(x) {
         lb_pval <- try(seasonality_qs(x_diff, stats::frequency(x))$pvalue, silent = TRUE) # Ljung-Box
         fd_pval <- try(seasonality_friedman(x_diff, stats::frequency(x))$pvalue, silent = TRUE) # Friedman non-parametric test
 
-        test_succeeded <- c(!"try-error" %in% class(lb_pval), !"try-error" %in% class(fd_pval))
+        test_succeeded <- c(!inherits(lb_pval, "try-error"), !inherits(fd_pval, "try-error"))
         if (all(test_succeeded)) {
             pvals <- c(lb_pval, fd_pval)
             seasonality <- ifelse(length(pvals[which(pvals < .05)]) == 2, TRUE, FALSE)
@@ -538,7 +538,7 @@ ac_test_evaluator <- function(ac, is_log, cnames, n_test, thr) {
     ac_trf <- ifelse(is_log, "Log", "None")
     ac_trf_str <- ifelse(ac_trf == "Log", get_info_transformation(TRUE, FALSE), get_info_transformation(FALSE, FALSE))
 
-    if (!"try-error" %in% class(ac)) {
+    if (!inherits(ac, "try-error")) {
         pm_test_mat <- matrix(unlist(ac), ncol = 2, byrow = TRUE)[, , drop = FALSE]
         dimnames(pm_test_mat) <- list(cnames, c("value", "p.value"))
         ac_rslt <- list(info_transformation = ac_trf_str, estimates_ljungbox = pm_test_mat)
@@ -555,19 +555,19 @@ seas_tests_evaluator <- function(lb_test, fd_test, is_log, cnames, freq, n_test,
     seas_trf <- ifelse(is_log, "Delta-Log 1", "Delta 1")
     seas_trf_str <- ifelse(seas_trf == "Delta-Log 1", get_info_transformation(TRUE, TRUE), get_info_transformation(FALSE, TRUE))
 
-    if (!"try-error" %in% class(lb_test) && !"try-error" %in% class(fd_test) && freq > 1) {
+    if (!inherits(lb_test, "try-error") && !inherits(fd_test, "try-error") && freq > 1) {
         seas_rslt <- list(info_transformation = seas_trf_str,
                           estimates_ljungbox = matrix(unlist(lb_test), ncol = 2, byrow = TRUE, dimnames = list(cnames, c("value", "p.value"))),
                           estimates_friedman = matrix(unlist(fd_test), ncol = 2, byrow = TRUE, dimnames = list(cnames, c("value", "p.value"))))
         seas_lb_q <- eval_test(seas_rslt$estimates_ljungbox[, "p.value"], threshold = thr)
         seas_fd_q <- eval_test(seas_rslt$estimates_friedman[, "p.value"], threshold = thr)
-    } else if (!"try-error" %in% class(lb_test) && freq > 1) {
+    } else if (!inherits(lb_test, "try-error") && freq > 1) {
         seas_rslt <- list(info_transformation = seas_trf_str,
                           estimates_ljungbox = matrix(unlist(lb_test), ncol = 2, byrow = TRUE, dimnames = list(cnames, c("value", "p.value"))),
                           estimates_friedman = NULL)
         seas_lb_q <- eval_test(seas_rslt$estimates_ljungbox[, "p.value"], threshold = thr)
         seas_fd_q <- rep(NA, n_test)
-    } else if (!"try-error" %in% class(fd_test) && freq > 1) {
+    } else if (!inherits(fd_test, "try-error") && freq > 1) {
         seas_rslt <- list(info_transformation = seas_trf_str,
                           estimates_ljungbox = NULL,
                           estimates_friedman = matrix(unlist(fd_test), ncol = 2, byrow = TRUE, dimnames = list(cnames, c("value", "p.value"))))
