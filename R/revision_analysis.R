@@ -844,15 +844,15 @@ View.rjd3rev_rslts <- function(
     if (!requireNamespace("flextable", quietly = TRUE)) {
         warning("Please install 'flextable': install.packages('flextable') to get more visual output")
 
-        utils::View(table_output, title = paste(title, switch(
+        return(
+            utils::View(table_output, title = paste(title, switch(
             type,
             "summary" = "Tests summary",
             "stat-desc" = "Descriptive statistics",
             "revisions" = "Revisions",
             "tests" = "All tests"
-        )))
+        ))))
     } else {
-        print(table_output)
+        return(table_output)
     }
-    return(invisible(NULL))
 }
