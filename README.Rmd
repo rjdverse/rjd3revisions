@@ -106,9 +106,9 @@ set.seed(7)
 
 # Examples
 long_view <- simulate_long(
-    periodicity = 4, 
-    n_period = 4 * 10, 
-    n_revision = 7, 
+    periodicity = 4,
+    n_period = 4 * 10,
+    n_revision = 7,
     start_period = as.Date("2000-01-01")
 )
 ```
@@ -129,8 +129,8 @@ and make the analysis
 library("flextable")
 
 set_flextable_defaults(
-    font.family = "Arial", 
-    font.size = 7, 
+    font.family = "Arial",
+    font.size = 7,
     big.mark = ""
 )
 ```

@@ -846,12 +846,13 @@ View.rjd3rev_rslts <- function(
 
         return(
             utils::View(table_output, title = paste(title, switch(
-            type,
-            "summary" = "Tests summary",
-            "stat-desc" = "Descriptive statistics",
-            "revisions" = "Revisions",
-            "tests" = "All tests"
-        ))))
+                type,
+                "summary" = "Tests summary",
+                "stat-desc" = "Descriptive statistics",
+                "revisions" = "Revisions",
+                "tests" = "All tests"
+            )))
+        )
     } else {
         return(table_output)
     }
