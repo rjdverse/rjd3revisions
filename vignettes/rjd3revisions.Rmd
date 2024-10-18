@@ -113,7 +113,8 @@ long_view <- data.frame(
         .7, .1, NA, NA, .7, .2, .5, NA,
         .7, .2, .5, NA, .7, .3, .7, NA,
         .7, .2, .7, .4, .7, .3, .7, .3
-    )
+    ), 
+    stringsAsFactors = FALSE
 )
 print(long_view)
 
