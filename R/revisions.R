@@ -38,11 +38,13 @@ get_revisions <- function(vintages, gap = 1) {
     hv <- t(vv)
     colnames(hv) <- colnames(vintages$horizontal_view)
 
-    return(structure(list(
+    output <- list(
         vertical_view = vv,
         horizontal_view = hv,
         diagonal_view = dv
-    ), class = "rjd3rev_revisions"))
+    )
+    class(output) <- "rjd3rev_revisions"
+    return(output)
 }
 
 

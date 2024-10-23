@@ -178,15 +178,14 @@ create_vintages.data.frame <- function(
         # Diagonal format
         diagonal <- from_horizontal_to_diagonal(x = horizontal, periodicity = periodicity, date_format = "%Y-%m-%d")
 
-        return(structure(
-            list(
-                vertical_view = vertical,
-                horizontal_view = horizontal,
-                diagonal_view = diagonal,
-                long_view = long
-            ),
-            class = "rjd3rev_vintages"
-        ))
+        output <- list(
+            vertical_view = vertical,
+            horizontal_view = horizontal,
+            diagonal_view = diagonal,
+            long_view = long
+        )
+        class(output) <- "rjd3rev_vintages"
+        return(output)
 
     } else if (type %in% c("horizontal", "vertical")) {
         return(UseMethod("create_vintages", as.matrix(x)))
@@ -244,15 +243,14 @@ create_vintages.mts <- function(
         diagonal <- from_horizontal_to_diagonal(x = horizontal, periodicity = stats::frequency(vertical), date_format = "%Y-%m-%d")
     }
 
-    return(structure(
-        list(
-            vertical_view = vertical,
-            horizontal_view = horizontal,
-            diagonal_view = diagonal,
-            long_view = long
-        ),
-        class = "rjd3rev_vintages"
-    ))
+    output <- list(
+        vertical_view = vertical,
+        horizontal_view = horizontal,
+        diagonal_view = diagonal,
+        long_view = long
+    )
+    class(output) <- "rjd3rev_vintages"
+    return(output)
 }
 
 #' @rdname create_vintages
@@ -354,15 +352,14 @@ create_vintages.matrix <- function(
         diagonal <- from_horizontal_to_diagonal(x = horizontal, periodicity = stats::frequency(vertical), date_format = "%Y-%m-%d")
     }
 
-    return(structure(
-        list(
-            vertical_view = vertical,
-            horizontal_view = horizontal,
-            diagonal_view = diagonal,
-            long_view = long
-        ),
-        class = "rjd3rev_vintages"
-    ))
+    output <- list(
+        vertical_view = vertical,
+        horizontal_view = horizontal,
+        diagonal_view = diagonal,
+        long_view = long
+    )
+    class(output) <- "rjd3rev_vintages"
+    return(output)
 }
 
 #' @rdname create_vintages

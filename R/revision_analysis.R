@@ -302,27 +302,27 @@ revision_analysis <- function(vintages,
 
     options(scipen = 0)
 
-    return(
-        structure(list(
-            call = cl,
-            revisions = rv_notrf,
-            descriptive.statistics = ds,
-            summary = summary_table,
-            summary.residuals = diagnostics_table,
-            relevancy = list(theil = theil_infos$theil_rslt),
-            bias = list(t_ta_test = tat_infos$tat_rslt,
-                        slope_and_drift = sd_infos$sd_rslt),
-            efficiency = list(efficiency1 = eff1_infos$eff1_rslt,
-                              efficiency2 = eff2_infos$eff2_rslt),
-            orthogonality = list(orthogonality1 = orth1_infos$orth1_rslt,
-                                 orthogonality2 = orth2_infos$orth2_rslt,
-                                 autocorrelation_test = ac_infos$ac_rslt,
-                                 seasonality_test = seas_infos$seas_rslt),
-            signalnoise = list(signal_noise = sn_infos$sn_rslt),
-            varbased = var_based_rslt,
-            view = view
-        ), class = "rjd3rev_rslts")
+    output <- list(
+        call = cl,
+        revisions = rv_notrf,
+        descriptive.statistics = ds,
+        summary = summary_table,
+        summary.residuals = diagnostics_table,
+        relevancy = list(theil = theil_infos$theil_rslt),
+        bias = list(t_ta_test = tat_infos$tat_rslt,
+                    slope_and_drift = sd_infos$sd_rslt),
+        efficiency = list(efficiency1 = eff1_infos$eff1_rslt,
+                          efficiency2 = eff2_infos$eff2_rslt),
+        orthogonality = list(orthogonality1 = orth1_infos$orth1_rslt,
+                             orthogonality2 = orth2_infos$orth2_rslt,
+                             autocorrelation_test = ac_infos$ac_rslt,
+                             seasonality_test = seas_infos$seas_rslt),
+        signalnoise = list(signal_noise = sn_infos$sn_rslt),
+        varbased = var_based_rslt,
+        view = view
     )
+    class(output) <- "rjd3rev_rslts"
+    return(output)
 }
 
 # get_vintages_view function ---------------------------------------------------
