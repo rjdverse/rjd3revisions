@@ -92,7 +92,7 @@ matrix_r2jd <- function(s) {
 #' ## Create vintage and get descriptive statistics of revisions
 #' vintages <- create_vintages(df_long, periodicity = 4)
 #' revisions <- get_revisions(vintages, gap = 1)
-#' descriptive_statistics(revisions$diagonal_view, rounding = 1)
+#' descriptive_statistics(revisions[["diagonal_view"]], rounding = 1)
 #'
 descriptive_statistics <- function(revisions.view, rounding = 3) {
 
@@ -150,7 +150,7 @@ descriptive_statistics <- function(revisions.view, rounding = 3) {
 #'
 #' ## Create vintage and test
 #' vintages <- create_vintages(df_long, periodicity = 4)
-#' theil(vintages$diagonal_view)
+#' theil(vintages[["diagonal_view"]])
 #'
 theil <- function(vintages.view, gap = 1, na.zero = FALSE) {
     q <- vintages.view
@@ -189,7 +189,7 @@ theil <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #'
 #' ## Create vintage and test
 #' vintages <- create_vintages(df_long, periodicity = 4)
-#' theil2(vintages$diagonal_view)
+#' theil2(vintages[["diagonal_view"]])
 #'
 theil2 <- function(vintages.view, gap = 1, na.zero = FALSE) {
     q <- vintages.view
@@ -226,7 +226,7 @@ theil2 <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #' ## Create vintage and test
 #' vintages <- create_vintages(df_long, periodicity = 4)
 #' revisions <- get_revisions(vintages, gap = 1)
-#' bias(revisions$diagonal_view)
+#' bias(revisions[["diagonal_view"]])
 #'
 
 bias <- function(revisions.view, na.zero = FALSE) {
@@ -278,7 +278,7 @@ bias <- function(revisions.view, na.zero = FALSE) {
 #'
 #' ## Create vintage and test
 #' vintages <- create_vintages(df_long, periodicity = 4L)
-#' slope_and_drift(vintages$diagonal_view)
+#' slope_and_drift(vintages[["diagonal_view"]])
 #'
 slope_and_drift <- function(vintages.view, gap = 1, na.zero = FALSE) {
     q <- vintages.view
@@ -329,7 +329,7 @@ slope_and_drift <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #'
 #' ## Create vintage and test
 #' vintages <- create_vintages(df_long, periodicity = 4L)
-#' efficiencyModel1(vintages$diagonal_view)
+#' efficiencyModel1(vintages[["diagonal_view"]])
 #'
 efficiencyModel1 <- function(vintages.view, gap = 1, na.zero = FALSE) {
     q <- vintages.view
@@ -381,7 +381,7 @@ efficiencyModel1 <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #'
 #' ## Create vintage and test
 #' vintages <- create_vintages(df_long, periodicity = 4L)
-#' efficiencyModel2(vintages$diagonal_view)
+#' efficiencyModel2(vintages[["diagonal_view"]])
 #'
 efficiencyModel2 <- function(vintages.view, gap = 1, na.zero = FALSE) {
     q <- vintages.view
@@ -436,7 +436,7 @@ efficiencyModel2 <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #' ## Create vintage and test
 #' vintages <- create_vintages(df_long, periodicity = 4L)
 #' revisions <- get_revisions(vintages, gap = 1)
-#' orthogonallyModel1(revisions$diagonal_view)
+#' orthogonallyModel1(revisions[["diagonal_view"]])
 #'
 orthogonallyModel1 <- function(revisions.view, nrevs = 1, na.zero = FALSE) {
     r <- revisions.view
@@ -488,7 +488,7 @@ orthogonallyModel1 <- function(revisions.view, nrevs = 1, na.zero = FALSE) {
 #' ## Create vintage and test
 #' vintages <- create_vintages(df_long, periodicity = 4L)
 #' revisions <- get_revisions(vintages, gap = 1)
-#' orthogonallyModel2(revisions$diagonal_view)
+#' orthogonallyModel2(revisions[["diagonal_view"]])
 #'
 orthogonallyModel2 <- function(revisions.view, reference = 1, na.zero = FALSE) {
     r <- revisions.view
@@ -542,7 +542,7 @@ orthogonallyModel2 <- function(revisions.view, reference = 1, na.zero = FALSE) {
 #'
 #' ## Create vintage and test
 #' vintages <- create_vintages(df_long, periodicity = 4L)
-#' signalnoise(vintages$diagonal_view)
+#' signalnoise(vintages[["diagonal_view"]])
 #'
 signalnoise <- function(vintages.view, gap = 1, na.zero = FALSE) {
     q <- vintages.view
@@ -589,7 +589,7 @@ signalnoise <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #'
 #' ## Create vintage and test
 #' vintages <- create_vintages(df_long, periodicity = 4L)
-#' unitroot(vintages$diagonal_view)
+#' unitroot(vintages[["diagonal_view"]])
 #'
 unitroot <- function(vintages.view, adfk = 1, na.zero = FALSE) {
     q <- vintages.view
@@ -629,7 +629,7 @@ unitroot <- function(vintages.view, adfk = 1, na.zero = FALSE) {
 #'
 #' ## Create vintage and test
 #' vintages <- create_vintages(df_long, periodicity = 4L)
-#' cointegration(vintages$diagonal_view)
+#' cointegration(vintages[["diagonal_view"]])
 #'
 cointegration <- function(vintages.view, adfk = 1, na.zero = FALSE) {
     q <- vintages.view
@@ -680,7 +680,7 @@ get_rownames_diag <- function(vt, gap) {
 #'
 #' ## Create vintage and test
 #' vintages <- create_vintages(df_long, periodicity = 4L)
-#' vecm(vintages$diagonal_view)
+#' vecm(vintages[["diagonal_view"]])
 #'
 vecm <- function(vintages.view, lag = 2, model = c("none", "cnt", "trend"), na.zero = FALSE) {
     model <- match.arg(model)

@@ -234,9 +234,9 @@ check_long <- function(x, date_format = "%Y-%m-%d") {
     long <- x
 
     colnames(long) <- c("revdate", "time", "obs_values")
-    long$revdate <- rev_date
-    long$time <- time_period
-    long <- long[order(long$revdate, long$time), ]
+    long[["revdate"]] <- rev_date
+    long[["time"]] <- time_period
+    long <- long[order(long[["revdate"]], long[["time"]]), ]
     rownames(long) <- NULL
 
     return(long)

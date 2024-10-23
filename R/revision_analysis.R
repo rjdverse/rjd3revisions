@@ -128,10 +128,10 @@ revision_analysis <- function(vintages,
 
     if (is.null(vintages)) stop("No vintage found!")
     if (view == "diagonal") {
-        if (ncol(vintages$diagonal_view) < (gap + 1)) stop("The number of releases must be >= (1+gap)")
+        if (ncol(vintages[["diagonal_view"]]) < (gap + 1)) stop("The number of releases must be >= (1+gap)")
         if (n.releases < (gap + 1)) stop("'n.releases' must be >= (1+gap)")
     } else {
-        if (ncol(vintages$vertical_view) < (gap + 1)) stop("The number of vintages must be >= (1+gap)")
+        if (ncol(vintages[["vertical_view"]]) < (gap + 1)) stop("The number of vintages must be >= (1+gap)")
     }
 
     # Pre-treatment
@@ -329,10 +329,10 @@ revision_analysis <- function(vintages,
 get_vintages_view <- function(vintages, transf.log, view, n.releases) {
 
     if (view == "vertical") {
-        vt <- vintages$vertical_view
+        vt <- vintages[["vertical_view"]]
     } else if (view == "diagonal") {
-        n.releases <- min(n.releases, ncol(vintages$diagonal_view))
-        vt <- vintages$diagonal_view[, 1:n.releases]
+        n.releases <- min(n.releases, ncol(vintages[["diagonal_view"]]))
+        vt <- vintages[["diagonal_view"]][, 1:n.releases]
     }
 
     if (transf.log) {
@@ -382,8 +382,8 @@ seasonality_test <- function(x) {
 
     if (stats::frequency(x) > 1) {
         x_diff <- diff(x)
-        lb_pval <- try(seasonality_qs(x_diff, stats::frequency(x))$pvalue, silent = TRUE) # Ljung-Box
-        fd_pval <- try(seasonality_friedman(x_diff, stats::frequency(x))$pvalue, silent = TRUE) # Friedman non-parametric test
+        lb_pval <- try(seasonality_qs(x_diff, stats::frequency(x))[["pvalue"]], silent = TRUE) # Ljung-Box
+        fd_pval <- try(seasonality_friedman(x_diff, stats::frequency(x))[["pvalue"]], silent = TRUE) # Friedman non-parametric test
 
         test_succeeded <- c(!inherits(lb_pval, "try-error"), !inherits(fd_pval, "try-error"))
         if (all(test_succeeded)) {

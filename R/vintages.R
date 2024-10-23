@@ -156,7 +156,7 @@ create_vintages.data.frame <- function(
         if (!missing(vintage_selection)) {
 
             vintage_selection <- as.Date(vintage_selection, format = date_format)
-            revdate <- long$revdate
+            revdate <- long[["revdate"]]
 
             # Check vintage_selection
             checkmate::assert_date(vintage_selection, min.len = 0, max.len = 2, null.ok = FALSE, any.missing = FALSE)
@@ -506,7 +506,7 @@ print.rjd3rev_vintages <- function(x,
     checkmate::assert_count(x = n_row, positive = TRUE, na.ok = FALSE, null.ok = FALSE, .var.name = "n_row")
     checkmate::assert_count(x = n_col, positive = TRUE, na.ok = FALSE, null.ok = FALSE, .var.name = "n_col")
 
-    vv <- x$vertical_view
+    vv <- x[["vertical_view"]]
     n_col_tot <- ncol(vv)
     n_row_tot <- nrow(vv)
     n_row_long_tot <- nrow(x$long_view)
@@ -519,11 +519,11 @@ print.rjd3rev_vintages <- function(x,
 
     extract_lv <- x$long_view[(n_row_long_tot - n_row_long + 1):n_row_long_tot, ]
     rownames(extract_lv) <- NULL
-    extract_vv <- stats::ts(x$vertical_view[(n_row_tot - n_row + 1):n_row_tot, (n_col_tot - n_col + 1):n_col_tot],
+    extract_vv <- stats::ts(x[["vertical_view"]][(n_row_tot - n_row + 1):n_row_tot, (n_col_tot - n_col + 1):n_col_tot],
                             frequency = freq,
                             end = end_period)
     extract_hv <- x$horizontal_view[(n_col_tot - n_col + 1):n_col_tot, (n_row_tot - n_row + 1):n_row_tot]
-    extract_dv <- stats::ts(x$diagonal_view[(n_row_tot - n_row + 1):n_row_tot, 1:n_col],
+    extract_dv <- stats::ts(x[["diagonal_view"]][(n_row_tot - n_row + 1):n_row_tot, 1:n_col],
                             frequency = freq,
                             end = end_period)
 
@@ -551,7 +551,7 @@ print.rjd3rev_vintages <- function(x,
 summary.rjd3rev_vintages <- function(object, ...) {
 
     x <- object
-    vv <- x$vertical_view
+    vv <- x[["vertical_view"]]
     cat("Number of releases: ", ncol(vv))
     cat("\nCovered period:")
     cat("\n \tFrom: ", stats::start(vv))
@@ -594,8 +594,8 @@ View.rjd3rev_vintages <- function(
 
     if (type %in% c("all", "long")) utils::View(x$long_view, title = paste(title, "Long view"))
     if (type %in% c("all", "horizontal")) utils::View(x$horizontal_view, title = paste(title, "Horizontal view"))
-    if (type %in% c("all", "vertical")) utils::View(x$vertical_view, title = paste(title, "Vertical view"))
-    if (type %in% c("all", "diagonal")) utils::View(x$diagonal_view, title = paste(title, "Diagonal view"))
+    if (type %in% c("all", "vertical")) utils::View(x[["vertical_view"]], title = paste(title, "Vertical view"))
+    if (type %in% c("all", "diagonal")) utils::View(x[["diagonal_view"]], title = paste(title, "Diagonal view"))
 
     return(invisible(NULL))
 }
@@ -612,13 +612,13 @@ View.rjd3rev_vintages <- function(
 #'
 plot.rjd3rev_vintages <- function(x, col, ...) {
     if (missing(col)) {
-        col <- grDevices::palette.colors(n = ncol(x$vertical_view))
+        col <- grDevices::palette.colors(n = ncol(x[["vertical_view"]]))
     }
     graphics::par(mar = c(5.1, 4.1, 4.1, 8.1), xpd = TRUE)
-    stats::ts.plot(x$vertical_view, gpars = list(col = col, ...))
+    stats::ts.plot(x[["vertical_view"]], gpars = list(col = col, ...))
     graphics::legend(
         x = "topright",
-        legend = colnames(x$vertical_view),
+        legend = colnames(x[["vertical_view"]]),
         pch = 16,
         col = col,
         xpd = TRUE,

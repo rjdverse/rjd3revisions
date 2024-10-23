@@ -32,8 +32,8 @@ get_revisions <- function(vintages, gap = 1) {
     checkmate::assert_class(x = vintages, classes = "rjd3rev_vintages")
     checkmate::assert_count(x = gap, positive = TRUE, na.ok = FALSE, null.ok = FALSE, .var.name = "gap")
 
-    dv <- get_revisions_view(vintages$diagonal_view, gap)
-    vv <- get_revisions_view(vintages$vertical_view, gap)
+    dv <- get_revisions_view(vintages[["diagonal_view"]], gap)
+    vv <- get_revisions_view(vintages[["vertical_view"]], gap)
 
     hv <- t(vv)
     colnames(hv) <- colnames(vintages$horizontal_view)
@@ -120,7 +120,7 @@ print.rjd3rev_revisions <- function(x, n_row = 12, n_col = 3, ...) {
     checkmate::assert_count(x = n_row, positive = TRUE, na.ok = FALSE, null.ok = FALSE, .var.name = "n_row")
     checkmate::assert_count(x = n_col, positive = TRUE, na.ok = FALSE, null.ok = FALSE, .var.name = "n_col")
 
-    vv <- x$vertical_view
+    vv <- x[["vertical_view"]]
     n_col_tot <- ncol(vv)
     n_row_tot <- nrow(vv)
     n_col <- min(n_col_tot, n_col)
@@ -129,11 +129,11 @@ print.rjd3rev_revisions <- function(x, n_row = 12, n_col = 3, ...) {
     end_period <- stats::end(vv)
     is_extract <- ifelse(n_col < n_col_tot || n_row < n_row_tot, TRUE, FALSE)
 
-    extract_vv <- stats::ts(x$vertical_view[(n_row_tot - n_row + 1):n_row_tot, (n_col_tot - n_col + 1):n_col_tot],
+    extract_vv <- stats::ts(x[["vertical_view"]][(n_row_tot - n_row + 1):n_row_tot, (n_col_tot - n_col + 1):n_col_tot],
                             frequency = freq,
                             end = end_period)
     extract_hv <- x$horizontal_view[(n_col_tot - n_col + 1):n_col_tot, (n_row_tot - n_row + 1):n_row_tot]
-    extract_dv <- stats::ts(x$diagonal_view[(n_row_tot - n_row + 1):n_row_tot, 1:n_col],
+    extract_dv <- stats::ts(x[["diagonal_view"]][(n_row_tot - n_row + 1):n_row_tot, 1:n_col],
                             frequency = freq,
                             end = end_period)
 
@@ -153,7 +153,7 @@ print.rjd3rev_revisions <- function(x, n_row = 12, n_col = 3, ...) {
 #'
 summary.rjd3rev_revisions <- function(object, ...) {
     x <- object
-    vv <- x$vertical_view
+    vv <- x[["vertical_view"]]
     cat("Number of release revisions: ", ncol(vv))
     cat("\nCovered period:")
     cat("\n \tFrom: ", stats::start(vv))

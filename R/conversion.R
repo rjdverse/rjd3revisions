@@ -12,10 +12,10 @@ from_long_to_vertical <- function(x, periodicity, date_format = "%Y-%m-%d") {
         timevar = "revdate",
         idvar = "time",
         direction = "wide",
-        varying = list(as.character(unique(x$revdate)))
+        varying = list(as.character(unique(x[["revdate"]])))
     )
 
-    time_periods <- vertical$time
+    time_periods <- vertical[["time"]]
     vertical <- as.matrix(vertical[, -1])
     rownames(vertical) <- as.character(time_periods)
     return(check_vertical(x = vertical, periodicity = periodicity, date_format = date_format))
@@ -30,9 +30,9 @@ from_long_to_horizontal <- function(x, date_format = "%Y-%m-%d") {
         timevar = "time",
         idvar = "revdate",
         direction = "wide",
-        varying = list(as.character(unique(x$time)))
+        varying = list(as.character(unique(x[["time"]])))
     )
-    revdate <- horizontal$revdate
+    revdate <- horizontal[["revdate"]]
     horizontal <- as.matrix(horizontal[, -1])
     rownames(horizontal) <- as.character(revdate)
     return(horizontal)
@@ -82,9 +82,9 @@ from_vertical_to_long <- function(x, date_format = "%Y-%m-%d") {
         times = colnames(vertical)
     )
     long <- long[, c("revdate", "time", "obs_values")]
-    long$revdate <- assert_rev_date(long$revdate, date_format)
-    long$time <- assert_time_period(long$time, date_format)
-    long <- long[order(long$revdate, long$time), ]
+    long[["revdate"]] <- assert_rev_date(long[["revdate"]], date_format)
+    long[["time"]] <- assert_time_period(long[["time"]], date_format)
+    long <- long[order(long[["revdate"]], long[["time"]]), ]
     rownames(long) <- NULL
 
     return(long)
@@ -136,9 +136,9 @@ from_horizontal_to_long <- function(x, date_format = "%Y-%m-%d") {
         times = colnames(horizontal)
     )
     long <- long[, c("revdate", "time", "obs_values")]
-    long$revdate <- assert_rev_date(long$revdate, date_format)
-    long$time <- assert_time_period(long$time, date_format)
-    long <- long[order(long$revdate, long$time), ]
+    long[["revdate"]] <- assert_rev_date(long[["revdate"]], date_format)
+    long[["time"]] <- assert_time_period(long[["time"]], date_format)
+    long <- long[order(long[["revdate"]], long[["time"]]), ]
     rownames(long) <- NULL
 
     return(long)
