@@ -63,6 +63,10 @@ remotes::install_github("rjdverse/rjd3revisions")
 
 ## Usage
 
+```{r, echo = TRUE, eval = TRUE}
+library("rjd3revisions")
+```
+
 First you need to get your input data set as a data.frame in R in a specific format as below. Note that missing values can either be mentioned as NA (as in the example below) or not be included in the input at the best convenience of the user.
 
 ### Format 1: long view
@@ -98,51 +102,47 @@ First you need to get your input data set as a data.frame in R in a specific for
 Depending on the location of your input data, you can use `create_vintages_from_xlsx()` or `create_vintages_from_csv()`, or the more generic function `create_vintages()` to create the vintages.
 
 ```{r, echo = TRUE, eval = TRUE}
+set.seed(7)
+
 # Examples
-
-# Long format
-long_view <- data.frame(
-    rev_date = rep(x = c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
-                         "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28"),
-                   each = 4L),
-    time_period = rep(x = c("2022Q1", "2022Q2", "2022Q3", "2022Q4"), times = 8L),
-    obs_values = c(
-        .8, .2, NA, NA, .8, .1, NA, NA,
-        .7, .1, NA, NA, .7, .2, .5, NA,
-        .7, .2, .5, NA, .7, .3, .7, NA,
-        .7, .2, .7, .4, .7, .3, .7, .3
-    )
+long_view <- simulate_long(
+    periodicity = 4,
+    n_period = 4 * 10,
+    n_revision = 7,
+    start_period = as.Date("2000-01-01")
 )
-
-# Horizontal format
-horizontal_view <- matrix(data = c(.8, .8, .7, .7, .7, .7, .7, .7, .2, .1,
-                            .1, .2, .2, .3, .2, .3, NA, NA, NA, .5, .5, .7, .7,
-                            .7, NA, NA, NA, NA, NA, NA, .4, .3),
-                          ncol = 4)
-colnames(horizontal_view) <- c("2022Q1", "2022Q2", "2022Q3", "2022Q4")
-rownames(horizontal_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
-                               "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28")
-
-# Vertical format
-vertical_view <- matrix(data = c(.8, .2, NA, NA, .8, .1, NA, NA, .7, .1, NA,
-                                 NA, .7, .2, .5, NA, .7, .2, .5, NA, .7, .3, .7, NA,
-                                 .7, .2, .7, .4, .7, .3, .7, .3),
-                          nrow = 4)
-rownames(vertical_view) <- c("2022Q1", "2022Q2", "2022Q3", "2022Q4")
-colnames(vertical_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
-                               "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28")
 ```
 
-Then you can create your vintages, inspect revisions (optional) and make the analysis 
+Then you can create your vintages and plot the vintages and inspect the revisions (optional) 
 
 ```{r, echo = TRUE, eval = TRUE}
-library("rjd3revisions")
-
 vintages <- create_vintages(long_view, periodicity = 4)
-# revisions <- get_revisions(vintages, gap = 2)
-# plot(revisions)
-rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
+plot(vintages, lwd = 2)
+
+revisions <- get_revisions(vintages, gap = 2)
+plot(revisions)
 ```
+
+and make the analysis 
+
+```{r, echo = FALSE, eval = TRUE}
+library("flextable")
+
+set_flextable_defaults(
+    font.family = "Arial",
+    font.size = 7,
+    big.mark = ""
+)
+```
+
+```{r, echo = TRUE, eval = TRUE}
+rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
+
+print(rslt)
+# summary(rslt)
+View(rslt)
+```
+
 
 Finally to create a report and get a summary of the results, you can use
 
@@ -153,10 +153,6 @@ render_report(
     output_dir = tempdir(),
     output_format = "pdf_document"
 )
-
-summary(rslt)
-print(rslt)
-View(rslt)
 ```
 
 ## Additional information

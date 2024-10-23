@@ -157,7 +157,7 @@ theil <- function(vintages.view, gap = 1, na.zero = FALSE) {
     if (na.zero) q[is.na(q)] <- 0
     jq <- matrix_r2jd(q)
     theil <- try(.jcall("jdplus/revisions/base/r/Utility", "[D", "theil", jq, as.integer(gap)), silent = TRUE)
-    if ("try-error" %in% class(theil)) {
+    if (inherits(theil, "try-error")) {
         warning("theil could not be performed", call. = FALSE)
         return(NULL)
     }
@@ -196,7 +196,7 @@ theil2 <- function(vintages.view, gap = 1, na.zero = FALSE) {
     if (na.zero) q[is.na(q)] <- 0
     jq <- matrix_r2jd(q)
     theil2 <- try(.jcall("jdplus/revisions/base/r/Utility", "[D", "theil2", jq, as.integer(gap)), silent = TRUE)
-    if ("try-error" %in% class(theil2)) {
+    if (inherits(theil2, "try-error")) {
         warning("theil2 could not be performed", call. = FALSE)
         return(NULL)
     }
@@ -234,7 +234,7 @@ bias <- function(revisions.view, na.zero = FALSE) {
     if (na.zero) r[is.na(r)] <- 0
     jrevs <- matrix_r2jd(r)
     jbias <- try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "bias", jrevs), silent = TRUE)
-    if ("try-error" %in% class(bias)) {
+    if (inherits(bias, "try-error")) {
         warning("bias could not be performed", call. = FALSE)
         return(NULL)
     }
@@ -285,7 +285,7 @@ slope_and_drift <- function(vintages.view, gap = 1, na.zero = FALSE) {
     if (na.zero) q[is.na(q)] <- 0
     jq <- matrix_r2jd(q)
     jsd <- try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "slopeAndDrift", jq, as.integer(gap)), silent = TRUE)
-    if ("try-error" %in% class(jsd)) {
+    if (inherits(jsd, "try-error")) {
         warning("Slope and drift could not be performed", call. = FALSE)
         return(NULL)
     }
@@ -336,7 +336,7 @@ efficiencyModel1 <- function(vintages.view, gap = 1, na.zero = FALSE) {
     if (na.zero) q[is.na(q)] <- 0
     jq <- matrix_r2jd(q)
     jef1 <- try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "efficiencyModel1", jq, as.integer(gap)), silent = TRUE)
-    if ("try-error" %in% class(jef1)) {
+    if (inherits(jef1, "try-error")) {
         warning("efficiencyModel1 could not be performed", call. = FALSE)
         return(NULL)
     }
@@ -388,7 +388,7 @@ efficiencyModel2 <- function(vintages.view, gap = 1, na.zero = FALSE) {
     if (na.zero) q[is.na(q)] <- 0
     jq <- matrix_r2jd(q)
     jef2 <- try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "efficiencyModel2", jq, as.integer(gap)), silent = TRUE)
-    if ("try-error" %in% class(jef2)) {
+    if (inherits(jef2, "try-error")) {
         warning("efficiencyModel2 could not be performed", call. = FALSE)
         return(NULL)
     }
@@ -443,7 +443,7 @@ orthogonallyModel1 <- function(revisions.view, nrevs = 1, na.zero = FALSE) {
     if (na.zero) r[is.na(r)] <- 0
     jr <- matrix_r2jd(as.matrix(r))
     jom <- try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "orthogonallyModel1", jr, as.integer(nrevs)), silent = TRUE)
-    if ("try-error" %in% class(jom)) {
+    if (inherits(jom, "try-error")) {
         warning("orthogonallyModel1 could not be performed", call. = FALSE)
         return(NULL)
     }
@@ -495,7 +495,7 @@ orthogonallyModel2 <- function(revisions.view, reference = 1, na.zero = FALSE) {
     if (na.zero) r[is.na(r)] <- 0
     jr <- matrix_r2jd(as.matrix(r))
     jom <- try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "orthogonallyModel2", jr, as.integer(reference)), silent = TRUE)
-    if ("try-error" %in% class(jom)) {
+    if (inherits(jom, "try-error")) {
         warning("orthogonallyModel2 could not be performed", call. = FALSE)
         return(NULL)
     }
@@ -549,7 +549,7 @@ signalnoise <- function(vintages.view, gap = 1, na.zero = FALSE) {
     if (na.zero) q[is.na(q)] <- 0
     jq <- matrix_r2jd(q)
     jsd <- try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "signalNoise", jq, as.integer(gap)), silent = TRUE)
-    if ("try-error" %in% class(jsd)) {
+    if (inherits(jsd, "try-error")) {
         warning("signalnoise could not be performed", call. = FALSE)
         return(NULL)
     }
@@ -596,7 +596,7 @@ unitroot <- function(vintages.view, adfk = 1, na.zero = FALSE) {
     if (na.zero) q[is.na(q)] <- 0
     jq <- matrix_r2jd(q)
     jsd <- try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "unitroot", jq, as.integer(adfk)), silent = TRUE)
-    if ("try-error" %in% class(jsd)) {
+    if (inherits(jsd, "try-error")) {
         warning("unit root test could not be performed", call. = FALSE)
         return(NULL)
     }
@@ -636,7 +636,7 @@ cointegration <- function(vintages.view, adfk = 1, na.zero = FALSE) {
     if (na.zero) q[is.na(q)] <- 0
     jq <- matrix_r2jd(q)
     jsd <- try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "cointegration", jq, as.integer(adfk)), silent = TRUE)
-    if ("try-error" %in% class(jsd)) {
+    if (inherits(jsd, "try-error")) {
         warning("cointegration test could not be performed", call. = FALSE)
         return(NULL)
     }
@@ -688,7 +688,7 @@ vecm <- function(vintages.view, lag = 2, model = c("none", "cnt", "trend"), na.z
     if (na.zero) q[is.na(q)] <- 0
     jq <- matrix_r2jd(q)
     jsd <- try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "vecm", jq, as.integer(lag), model), silent = TRUE)
-    if ("try-error" %in% class(jsd)) {
+    if (inherits(jsd, "try-error")) {
         warning("vecm could not be performed", call. = FALSE)
         return(NULL)
     }

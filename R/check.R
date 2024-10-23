@@ -1,4 +1,3 @@
-
 #' Check vector with date
 #' @description
 #' Useful functions to check if a vector represent dates object
@@ -120,7 +119,7 @@ check_date_month <- function(x) {
 #' @export
 check_format_date <- function(x, date_format = "%Y-%m-%d") {
     for (format_n in date_format) {
-        if (!(any(is.na(as.Date(x, format = format_n))))) {
+        if (!(anyNA(as.Date(x, format = format_n)))) {
             return(TRUE)
         }
     }
@@ -154,7 +153,7 @@ assert_time_period <- function(x, date_format = "%Y-%m-%d") {
     if (check_format_date(x = x, date_format = date_format)) {
         # Date au format ISO ou type date
         for (format_n in date_format) {
-            if (!(any(is.na(as.Date(x, format = format_n))))) {
+            if (!(anyNA(as.Date(x, format = format_n)))) {
                 return(as.Date(x, format = format_n))
             }
         }
@@ -191,7 +190,7 @@ assert_rev_date <- function(x, date_format = "%Y-%m-%d") {
     if (check_format_date(x = x, date_format = date_format)) {
         # Date au format ISO ou type date
         for (format_n in date_format) {
-            if (!(any(is.na(as.Date(x, format = format_n))))) {
+            if (!(anyNA(as.Date(x, format = format_n)))) {
                 return(as.Date(x, format = format_n))
             }
         }
