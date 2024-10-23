@@ -109,19 +109,19 @@ long_view <- data.frame(
                    each = 4L),
     time_period = rep(x = c("2022Q1", "2022Q2", "2022Q3", "2022Q4"), times = 8L),
     obs_values = c(
-        .8, .2, NA, NA, .8, .1, NA, NA,
-        .7, .1, NA, NA, .7, .2, .5, NA,
-        .7, .2, .5, NA, .7, .3, .7, NA,
-        .7, .2, .7, .4, .7, .3, .7, .3
+        0.8, 0.2, NA, NA, 0.8, 0.1, NA, NA,
+        0.7, 0.1, NA, NA, 0.7, 0.2, 0.5, NA,
+        0.7, 0.2, 0.5, NA, 0.7, 0.3, 0.7, NA,
+        0.7, 0.2, 0.7, 0.4, 0.7, 0.3, 0.7, 0.3
     ),
     stringsAsFactors = FALSE
 )
 print(long_view)
 
 # Horizontal format
-horizontal_view <- matrix(data = c(.8, .8, .7, .7, .7, .7, .7, .7, .2, .1,
-                                   .1, .2, .2, .3, .2, .3, NA, NA, NA, .5, .5, .7, .7,
-                                   .7, NA, NA, NA, NA, NA, NA, .4, .3),
+horizontal_view <- matrix(data = c(0.8, 0.8, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.2, 0.1,
+                                   0.1, 0.2, 0.2, 0.3, 0.2, 0.3, NA, NA, NA, 0.5, 0.5, 0.7, 0.7,
+                                   0.7, NA, NA, NA, NA, NA, NA, 0.4, 0.3),
                           ncol = 4)
 colnames(horizontal_view) <- c("2022Q1", "2022Q2", "2022Q3", "2022Q4")
 rownames(horizontal_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
@@ -129,9 +129,9 @@ rownames(horizontal_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-1
 print(horizontal_view)
 
 # Vertical format
-vertical_view <- matrix(data = c(.8, .2, NA, NA, .8, .1, NA, NA, .7, .1, NA,
-                                 NA, .7, .2, .5, NA, .7, .2, .5, NA, .7, .3, .7, NA,
-                                 .7, .2, .7, .4, .7, .3, .7, .3),
+vertical_view <- matrix(data = c(0.8, 0.2, NA, NA, 0.8, 0.1, NA, NA, 0.7, 0.1, NA,
+                                 NA, 0.7, 0.2, 0.5, NA, 0.7, 0.2, 0.5, NA, 0.7, 0.3, 0.7, NA,
+                                 0.7, 0.2, 0.7, 0.4, 0.7, 0.3, 0.7, 0.3),
                         nrow = 4)
 rownames(vertical_view) <- c("2022Q1", "2022Q2", "2022Q3", "2022Q4")
 colnames(vertical_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
@@ -274,7 +274,7 @@ Here's how to customize a threshold. Thresholds values should be defined as an a
 options(
     augmented_t_threshold = c(severe = 0.005, bad = 0.05, uncertain = 0.1),
     t_threshold = c(bad = 0.05, uncertain = 0.1),
-    theil_u2_threshold = c(uncertain = .5, bad = .75, severe = 1)
+    theil_u2_threshold = c(uncertain = 0.5, bad = 0.75, severe = 1)
 )
 
 rslt2 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
@@ -287,8 +287,8 @@ Here are all the possible options the user can modified, together with their des
 
 |Name    |Description | Default value|
 |:-------|:-------|:-------|
-|theil_u1_threshold     |Threshold values for Theil’s Inequality Coefficient U1     |c(uncertain = .8, bad = .9, severe = .99)  |
-|theil_u2_threshold     |Threshold values for Theil’s Inequality Coefficient U2     |c(uncertain = .8, bad = .9, severe = 1)    |
+|theil_u1_threshold     |Threshold values for Theil’s Inequality Coefficient U1     |c(uncertain = 0.8, bad = .9, severe = .99)  |
+|theil_u2_threshold     |Threshold values for Theil’s Inequality Coefficient U2     |c(uncertain = 0.8, bad = .9, severe = 1)    |
 |t_threshold    |Threshold values for T-test      |c(severe = 0.001, bad = 0.01, uncertain = 0.05)    |
 |augmented_t_threshold     |Threshold values for Augmented T-test     |c(severe = 0.001, bad = 0.01, uncertain = 0.05)  |
 |slope_and_drift_threshold     |Threshold values for Slope and drift test     |c(severe = 0.001, bad = 0.01, uncertain = 0.05)    |

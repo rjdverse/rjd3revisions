@@ -153,7 +153,7 @@ revision_analysis <- function(vintages,
     is_cointegrated <- coint_test_interpretor(coint_test, is_stationary)
 
     seas_test <- apply(vt, 2, seasonality_test)
-    is_seasonal <- ifelse(sum(seas_test) / ncol(vt) > .8, TRUE, FALSE)
+    is_seasonal <- ifelse(sum(seas_test) / ncol(vt) > 0.8, TRUE, FALSE)
 
     delta_diff <- ifelse(is_seasonal, freq, 1)
     if (transf.diff == "auto") {
@@ -355,8 +355,8 @@ get_vintages_view <- function(vintages, transf.log, view, n.releases) {
 ur_test_intepretor <- function(ur) {
     if (!is.null(ur)) {
         ur_ADFpvals <- ur[, "ADF.pvalue"]
-        pc_signif_ur <- length(ur_ADFpvals[ur_ADFpvals < .05]) / length(ur_ADFpvals)
-        is_stationary <- ifelse(pc_signif_ur > .8, TRUE, FALSE)
+        pc_signif_ur <- length(ur_ADFpvals[ur_ADFpvals < 0.05]) / length(ur_ADFpvals)
+        is_stationary <- ifelse(pc_signif_ur > 0.8, TRUE, FALSE)
     } else {
         is_stationary <- TRUE
     }
@@ -369,8 +369,8 @@ coint_test_interpretor <- function(coint, is_stationary) {
     } else {
         if (!is.null(coint)) {
             coint_pvals <- coint[, "pvalue"]
-            pc_signif_coint <- length(coint_pvals[coint_pvals < .05]) / length(coint_pvals)
-            is_cointegrated <- ifelse(pc_signif_coint > .8, TRUE, FALSE)
+            pc_signif_coint <- length(coint_pvals[coint_pvals < 0.05]) / length(coint_pvals)
+            is_cointegrated <- ifelse(pc_signif_coint > 0.8, TRUE, FALSE)
         } else {
             is_cointegrated <- FALSE
         }
@@ -388,12 +388,12 @@ seasonality_test <- function(x) {
         test_succeeded <- c(!inherits(lb_pval, "try-error"), !inherits(fd_pval, "try-error"))
         if (all(test_succeeded)) {
             pvals <- c(lb_pval, fd_pval)
-            seasonality <- ifelse(length(pvals[which(pvals < .05)]) == 2, TRUE, FALSE)
+            seasonality <- ifelse(length(pvals[which(pvals < 0.05)]) == 2, TRUE, FALSE)
         } else if (any(test_succeeded)) {
             if (test_succeeded[1]) {
-                seasonality <- ifelse(lb_pval < .01, TRUE, FALSE)
+                seasonality <- ifelse(lb_pval < 0.01, TRUE, FALSE)
             } else if (test_succeeded[2]) {
-                seasonality <- ifelse(fd_pval < .01, TRUE, FALSE)
+                seasonality <- ifelse(fd_pval < 0.01, TRUE, FALSE)
             }
         } else {
             seasonality <- FALSE
