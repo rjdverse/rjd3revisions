@@ -82,30 +82,30 @@ rather as data not (yet) available (the default).</p></dd>
 <span class="r-in"><span><span class="va">vintages</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_vintages.html">create_vintages</a></span><span class="op">(</span><span class="va">df_long</span>, periodicity <span class="op">=</span> <span class="fl">4L</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">slope_and_drift</span><span class="op">(</span><span class="va">vintages</span><span class="op">$</span><span class="va">diagonal_view</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             N        R2         F intercept.estimate intercept.stderr</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[2] 29 0.9582194  619.2325         0.02239269       0.48147068</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[3] 26 0.9860235 1693.1638        -0.26275777       0.23163725</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[4] 17 0.9938404 2420.2169         0.11596702       0.14720340</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[5] 14 0.9986236 8706.1058        -0.02639480       0.07536153</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[2] 29 0.9939361  4425.602         0.15027633        0.6926224</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[3] 26 0.9985866 16956.903        -0.25206122        0.3298895</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[4] 17 0.9992438 19821.412         0.23581438        0.2107640</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[5] 14 0.9997989 59650.136        -0.04437905        0.1026261</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            intercept.pvalue slope.estimate slope.stderr slope.pvalue   skewness</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[2]        0.9632469      0.9650841   0.03878272    0.3759230 -0.3409252</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[3]        0.2678510      1.0146423   0.02465832    0.5581979 -0.6867388</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[4]        0.4430848      1.0247360   0.02082979    0.2534843 -0.3330940</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[5]        0.7322276      0.9955205   0.01066936    0.6820171 -0.4100232</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              kurtosis JarqueBera.value JarqueBera.pvalue BreuschPagan.R2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[2]  1.2932913        2.4937764         0.2873977     0.001706483</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[3] -0.4624466        2.1878101         0.3349061     0.001704986</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[4] -0.9771695        0.9324445         0.6273678     0.012010733</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[5] -0.1474985        0.3760422         0.8285972     0.045716144</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            BreuschPagan.value BreuschPagan.pvalue    White.R2 White.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[2]         0.04615381           0.8315109 0.003151524  0.09139419</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[3]         0.04098955           0.8412646 0.042962763  1.11703185</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[4]         0.18235117           0.6754265 0.057692184  0.98076713</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[5]         0.57487479           0.4629597 0.093393151  1.30750411</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            White.pvalue     arch.R2 arch.value arch.pvalue</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[2]    0.9553313 0.051637846 1.44585968   0.2291935</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[3]    0.5720574 0.044430209 1.11075521   0.2919178</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[4]    0.6123915 0.011467362 0.18347779   0.6684014</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Release[5]    0.5200907 0.005566283 0.07236168   0.7879287</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[2]        0.8298651      0.9961734  0.014974377    0.8002403 -0.3722054</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[3]        0.4522681      1.0026125  0.007699452    0.7373301 -0.6780136</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[4]        0.2808000      1.0081042  0.007160414    0.2754838 -0.2080953</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[5]        0.6730950      0.9986551  0.004088931    0.7478881 -0.3615824</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               kurtosis JarqueBera.value JarqueBera.pvalue BreuschPagan.R2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[2]  0.89969211        1.5908588         0.4513874     0.003804105</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[3] -0.41506612        2.0948851         0.3508338     0.004235920</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[4] -1.00251497        0.7855006         0.6751973     0.075373274</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[5] -0.05842755        0.2851232         0.8671342     0.113710532</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            BreuschPagan.value BreuschPagan.pvalue   White.R2 White.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[2]          0.1031030           0.7506095 0.02828903   0.8203818</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[3]          0.1020945           0.7520952 0.08563116   2.2264103</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[4]          1.2227627           0.2862397 0.10342178   1.7581703</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[5]          1.5395945           0.2383890 0.12346070   1.7284498</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            White.pvalue      arch.R2  arch.value arch.pvalue</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[2]    0.6635236 0.0746503261 2.090209131   0.1482458</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[3]    0.3285044 0.0450459388 1.126148471   0.2885984</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[4]    0.4151625 0.0002702476 0.004323962   0.9475714</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Release[5]    0.4213780 0.0145449596 0.189084475   0.6636797</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

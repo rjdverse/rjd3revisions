@@ -99,6 +99,13 @@
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/rjdverse/rjd3revisions" class="external-link">"rjd3revisions"</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'rjd3revisions'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:utils':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     View</span></span></code></pre></div>
 <p>First you need to get your input data set as a data.frame in R in a specific format as below. Note that missing values can either be mentioned as NA (as in the example below) or not be included in the input at the best convenience of the user.</p>
 <div class="section level3">
 <h3 id="format-1-long-view">Format 1: long view<a class="anchor" aria-label="anchor" href="#format-1-long-view"></a>
@@ -237,70 +244,80 @@
 </tbody>
 </table>
 <p>Depending on the location of your input data, you can use <code><a href="reference/create_vintages_from_xlsx.html">create_vintages_from_xlsx()</a></code> or <code><a href="reference/create_vintages_from_csv.html">create_vintages_from_csv()</a></code>, or the more generic function <code><a href="reference/create_vintages.html">create_vintages()</a></code> to create the vintages.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Examples</span></span>
-<span></span>
-<span><span class="co"># Long format</span></span>
-<span><span class="va">long_view</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>    rev_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022-07-31"</span>, <span class="st">"2022-08-31"</span>, <span class="st">"2022-09-30"</span>, <span class="st">"2022-10-31"</span>,</span>
-<span>                         <span class="st">"2022-11-30"</span>, <span class="st">"2022-12-31"</span>, <span class="st">"2023-01-31"</span>, <span class="st">"2023-02-28"</span><span class="op">)</span>,</span>
-<span>                   each <span class="op">=</span> <span class="fl">4L</span><span class="op">)</span>,</span>
-<span>    time_period <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022Q1"</span>, <span class="st">"2022Q2"</span>, <span class="st">"2022Q3"</span>, <span class="st">"2022Q4"</span><span class="op">)</span>, times <span class="op">=</span> <span class="fl">8L</span><span class="op">)</span>,</span>
-<span>    obs_values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>        <span class="fl">.8</span>, <span class="fl">.2</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">.8</span>, <span class="fl">.1</span>, <span class="cn">NA</span>, <span class="cn">NA</span>,</span>
-<span>        <span class="fl">.7</span>, <span class="fl">.1</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">.7</span>, <span class="fl">.2</span>, <span class="fl">.5</span>, <span class="cn">NA</span>,</span>
-<span>        <span class="fl">.7</span>, <span class="fl">.2</span>, <span class="fl">.5</span>, <span class="cn">NA</span>, <span class="fl">.7</span>, <span class="fl">.3</span>, <span class="fl">.7</span>, <span class="cn">NA</span>,</span>
-<span>        <span class="fl">.7</span>, <span class="fl">.2</span>, <span class="fl">.7</span>, <span class="fl">.4</span>, <span class="fl">.7</span>, <span class="fl">.3</span>, <span class="fl">.7</span>, <span class="fl">.3</span></span>
-<span>    <span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Horizontal format</span></span>
-<span><span class="va">horizontal_view</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.8</span>, <span class="fl">.8</span>, <span class="fl">.7</span>, <span class="fl">.7</span>, <span class="fl">.7</span>, <span class="fl">.7</span>, <span class="fl">.7</span>, <span class="fl">.7</span>, <span class="fl">.2</span>, <span class="fl">.1</span>,</span>
-<span>                            <span class="fl">.1</span>, <span class="fl">.2</span>, <span class="fl">.2</span>, <span class="fl">.3</span>, <span class="fl">.2</span>, <span class="fl">.3</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">.5</span>, <span class="fl">.5</span>, <span class="fl">.7</span>, <span class="fl">.7</span>,</span>
-<span>                            <span class="fl">.7</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">.4</span>, <span class="fl">.3</span><span class="op">)</span>,</span>
-<span>                          ncol <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">horizontal_view</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022Q1"</span>, <span class="st">"2022Q2"</span>, <span class="st">"2022Q3"</span>, <span class="st">"2022Q4"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">horizontal_view</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022-07-31"</span>, <span class="st">"2022-08-31"</span>, <span class="st">"2022-09-30"</span>, <span class="st">"2022-10-31"</span>,</span>
-<span>                               <span class="st">"2022-11-30"</span>, <span class="st">"2022-12-31"</span>, <span class="st">"2023-01-31"</span>, <span class="st">"2023-02-28"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Vertical format</span></span>
-<span><span class="va">vertical_view</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.8</span>, <span class="fl">.2</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">.8</span>, <span class="fl">.1</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">.7</span>, <span class="fl">.1</span>, <span class="cn">NA</span>,</span>
-<span>                                 <span class="cn">NA</span>, <span class="fl">.7</span>, <span class="fl">.2</span>, <span class="fl">.5</span>, <span class="cn">NA</span>, <span class="fl">.7</span>, <span class="fl">.2</span>, <span class="fl">.5</span>, <span class="cn">NA</span>, <span class="fl">.7</span>, <span class="fl">.3</span>, <span class="fl">.7</span>, <span class="cn">NA</span>,</span>
-<span>                                 <span class="fl">.7</span>, <span class="fl">.2</span>, <span class="fl">.7</span>, <span class="fl">.4</span>, <span class="fl">.7</span>, <span class="fl">.3</span>, <span class="fl">.7</span>, <span class="fl">.3</span><span class="op">)</span>,</span>
-<span>                          nrow <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">vertical_view</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022Q1"</span>, <span class="st">"2022Q2"</span>, <span class="st">"2022Q3"</span>, <span class="st">"2022Q4"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">vertical_view</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022-07-31"</span>, <span class="st">"2022-08-31"</span>, <span class="st">"2022-09-30"</span>, <span class="st">"2022-10-31"</span>,</span>
-<span>                               <span class="st">"2022-11-30"</span>, <span class="st">"2022-12-31"</span>, <span class="st">"2023-01-31"</span>, <span class="st">"2023-02-28"</span><span class="op">)</span></span></code></pre></div>
-<p>Then you can create your vintages, inspect revisions (optional) and make the analysis</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/rjdverse/rjd3revisions" class="external-link">"rjd3revisions"</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'rjd3revisions'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:utils':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     View</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">vintages</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_vintages.html">create_vintages</a></span><span class="op">(</span><span class="va">long_view</span>, periodicity <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
-<span><span class="co"># revisions &lt;- get_revisions(vintages, gap = 2)</span></span>
-<span><span class="co"># plot(revisions)</span></span>
-<span><span class="va">rslt</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/revision_analysis.html">revision_analysis</a></span><span class="op">(</span><span class="va">vintages</span>, gap <span class="op">=</span> <span class="fl">1</span>, view <span class="op">=</span> <span class="st">"diagonal"</span>, n.releases <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Slope and drift could not be performed</span></span>
-<span><span class="co">#&gt; Warning: efficiencyModel1 could not be performed</span></span>
-<span><span class="co">#&gt; Warning: efficiencyModel2 could not be performed</span></span>
-<span><span class="co">#&gt; Warning: orthogonallyModel1 could not be performed</span></span>
-<span><span class="co">#&gt; Warning: orthogonallyModel2 could not be performed</span></span></code></pre></div>
-<p>Finally to create a report and get a summary of the results, you can use</p>
+<span><span class="co"># Examples</span></span>
+<span><span class="va">long_view</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/simulate_long.html">simulate_long</a></span><span class="op">(</span></span>
+<span>    periodicity <span class="op">=</span> <span class="fl">4</span>, </span>
+<span>    n_period <span class="op">=</span> <span class="fl">4</span> <span class="op">*</span> <span class="fl">10</span>, </span>
+<span>    n_revision <span class="op">=</span> <span class="fl">7</span>, </span>
+<span>    start_period <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2000-01-01"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>Then you can create your vintages and plot the vintages and inspect the revisions (optional)</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">vintages</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_vintages.html">create_vintages</a></span><span class="op">(</span><span class="va">long_view</span>, periodicity <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vintages</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="100%"></p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">revisions</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_revisions.html">get_revisions</a></span><span class="op">(</span><span class="va">vintages</span>, gap <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">revisions</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-7-2.png" width="100%"></p>
+<p>and make the analysis</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rslt</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/revision_analysis.html">revision_analysis</a></span><span class="op">(</span><span class="va">vintages</span>, gap <span class="op">=</span> <span class="fl">1</span>, view <span class="op">=</span> <span class="st">"diagonal"</span>, n.releases <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">rslt</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                                            Transf. [Release[2]]-[Release[1]]</span></span>
+<span><span class="co">#&gt; Relevancy - Theil U2                          None              Good (0.339)</span></span>
+<span><span class="co">#&gt; Bias1 T-test                                  None              Good (0.798)</span></span>
+<span><span class="co">#&gt; Bias2 Augmented T-test                        None              Good (0.823)</span></span>
+<span><span class="co">#&gt; Bias3 SlopeAndDrift (Ols L on P) - Mean       None              Good (0.347)</span></span>
+<span><span class="co">#&gt; Bias3 SlopeAndDrift (Ols L on P) - Reg.       None              Good (0.232)</span></span>
+<span><span class="co">#&gt; Efficiency1 (Ols R on P) - Mean            Delta 1              Good (0.166)</span></span>
+<span><span class="co">#&gt; Efficiency1 (Ols R on P) - Reg.            Delta 1              Good (0.107)</span></span>
+<span><span class="co">#&gt; Efficiency2 (Ols Rv on Rv_1) - Mean           None                          </span></span>
+<span><span class="co">#&gt; Efficiency2 (Ols Rv on Rv_1) - Reg.           None                          </span></span>
+<span><span class="co">#&gt; Orthogonality1 (Ols Rv on Rv_(1:p)) - Mean    None                          </span></span>
+<span><span class="co">#&gt; Orthogonality1 (Ols Rv on Rv_(1:p)) - Reg.    None                          </span></span>
+<span><span class="co">#&gt; Orthogonality2 (Ols Rv on Rv_k.) - Mean       None                          </span></span>
+<span><span class="co">#&gt; Orthogonality2 (Ols Rv on Rv_k) - Reg.        None                          </span></span>
+<span><span class="co">#&gt; Orthogonality3 AutoCorrelation (Ljung-Box)    None              Good (0.417)</span></span>
+<span><span class="co">#&gt; Orthogonality4 Seasonality (Ljung-Box)     Delta 1              Good (0.993)</span></span>
+<span><span class="co">#&gt; Orthogonality4 Seasonality (Friedman)      Delta 1              Good (0.137)</span></span>
+<span><span class="co">#&gt; SignalVsNoise1 - Noise (Ols R on P)        Delta 1              Good (0.082)</span></span>
+<span><span class="co">#&gt; SignalVsNoise2 - Signal (Ols R on L)       Delta 1         Uncertain (0.053)</span></span>
+<span><span class="co">#&gt;                                            [Release[3]]-[Release[2]]</span></span>
+<span><span class="co">#&gt; Relevancy - Theil U2                                    Good (0.225)</span></span>
+<span><span class="co">#&gt; Bias1 T-test                                            Good (0.805)</span></span>
+<span><span class="co">#&gt; Bias2 Augmented T-test                                  Good (0.806)</span></span>
+<span><span class="co">#&gt; Bias3 SlopeAndDrift (Ols L on P) - Mean                 Good (0.584)</span></span>
+<span><span class="co">#&gt; Bias3 SlopeAndDrift (Ols L on P) - Reg.                 Good (0.624)</span></span>
+<span><span class="co">#&gt; Efficiency1 (Ols R on P) - Mean                         Good (0.300)</span></span>
+<span><span class="co">#&gt; Efficiency1 (Ols R on P) - Reg.                         Good (0.240)</span></span>
+<span><span class="co">#&gt; Efficiency2 (Ols Rv on Rv_1) - Mean                     Good (0.818)</span></span>
+<span><span class="co">#&gt; Efficiency2 (Ols Rv on Rv_1) - Reg.                     Good (0.298)</span></span>
+<span><span class="co">#&gt; Orthogonality1 (Ols Rv on Rv_(1:p)) - Mean              Good (0.818)</span></span>
+<span><span class="co">#&gt; Orthogonality1 (Ols Rv on Rv_(1:p)) - Reg.              Good (0.702)</span></span>
+<span><span class="co">#&gt; Orthogonality2 (Ols Rv on Rv_k.) - Mean                 Good (0.818)</span></span>
+<span><span class="co">#&gt; Orthogonality2 (Ols Rv on Rv_k) - Reg.                  Good (0.298)</span></span>
+<span><span class="co">#&gt; Orthogonality3 AutoCorrelation (Ljung-Box)              Good (0.999)</span></span>
+<span><span class="co">#&gt; Orthogonality4 Seasonality (Ljung-Box)                  Good (1.000)</span></span>
+<span><span class="co">#&gt; Orthogonality4 Seasonality (Friedman)                   Good (0.769)</span></span>
+<span><span class="co">#&gt; SignalVsNoise1 - Noise (Ols R on P)                     Good (0.248)</span></span>
+<span><span class="co">#&gt; SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.856)</span></span>
+<span><span class="co"># summary(rslt)</span></span>
+<span><span class="fu"><a href="reference/View.html">View</a></span><span class="op">(</span><span class="va">rslt</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-9-1.png" width="100%"></p>
+<p>Finally to create a report and get a summary of the results, you can use</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/render_report.html">render_report</a></span><span class="op">(</span></span>
 <span>    <span class="va">rslt</span>,</span>
 <span>    output_file <span class="op">=</span> <span class="st">"my_report"</span>,</span>
 <span>    output_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    output_format <span class="op">=</span> <span class="st">"pdf_document"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">rslt</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">rslt</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/View.html">View</a></span><span class="op">(</span><span class="va">rslt</span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
