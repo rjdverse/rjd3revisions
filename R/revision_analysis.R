@@ -538,14 +538,14 @@ ac_test_evaluator <- function(ac, is_log, cnames, n_test, thr) {
     ac_trf <- ifelse(is_log, "Log", "None")
     ac_trf_str <- ifelse(ac_trf == "Log", get_info_transformation(TRUE, FALSE), get_info_transformation(FALSE, FALSE))
 
-    if (!inherits(ac, "try-error")) {
+    if (inherits(ac, "try-error")) {
+        ac_rslt <- NULL
+        ac_q <- rep(NA, n_test)
+    } else {
         pm_test_mat <- matrix(unlist(ac), ncol = 2, byrow = TRUE)[, , drop = FALSE]
         dimnames(pm_test_mat) <- list(cnames, c("value", "p.value"))
         ac_rslt <- list(info_transformation = ac_trf_str, estimates_ljungbox = pm_test_mat)
         ac_q <- eval_test(ac_rslt$estimates_ljungbox[, "p.value"], threshold = thr)
-    } else {
-        ac_rslt <- NULL
-        ac_q <- rep(NA, n_test)
     }
 
     return(list(ac_rslt = ac_rslt, ac_q = ac_q, ac_trf = ac_trf))
@@ -765,18 +765,7 @@ build_table <- function(x, type = c("summary", "stats-desc", "revisions", "tests
     # Check type
     type <- match.arg(type)
 
-    if (!requireNamespace("flextable", quietly = TRUE)) {
-        warning("Please install 'flextable': install.packages('flextable') to get more visual output")
-        if (type == "summary") {
-            return(x$summary)
-        } else if (type == "stats-desc") {
-            return(x$descriptive.statistics)
-        } else if (type == "revisions") {
-            return(x$revisions)
-        } else if (type == "tests") {
-            message("Feature not implemented yet.")
-        }
-    } else {
+    if (requireNamespace("flextable", quietly = TRUE)) {
         if (type == "summary") {
             main_results <- x$summary |>
                 format_table() |>
@@ -800,6 +789,17 @@ build_table <- function(x, type = c("summary", "stats-desc", "revisions", "tests
                 flextable::flextable() |>
                 theme_design()
             return(revisions_table)
+        } else if (type == "tests") {
+            message("Feature not implemented yet.")
+        }
+    } else {
+        warning("Please install 'flextable': install.packages('flextable') to get more visual output")
+        if (type == "summary") {
+            return(x$summary)
+        } else if (type == "stats-desc") {
+            return(x$descriptive.statistics)
+        } else if (type == "revisions") {
+            return(x$revisions)
         } else if (type == "tests") {
             message("Feature not implemented yet.")
         }
@@ -841,7 +841,9 @@ View.rjd3rev_rslts <- function(
 
     table_output <- build_table(x, type)
 
-    if (!requireNamespace("flextable", quietly = TRUE)) {
+    if (requireNamespace("flextable", quietly = TRUE)) {
+        return(table_output)
+    } else {
         warning("Please install 'flextable': install.packages('flextable') to get more visual output")
 
         return(
@@ -853,7 +855,5 @@ View.rjd3rev_rslts <- function(
                 "tests" = "All tests"
             )))
         )
-    } else {
-        return(table_output)
     }
 }
