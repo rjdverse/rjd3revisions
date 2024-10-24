@@ -53,7 +53,7 @@ get_revisions_view <- function(vt, gap) {
     n <- dim(vt)[2]
 
     idx1 <- (gap + 1):n
-    idx0 <- 1:(n - gap)
+    idx0 <- seq_len(n - gap)
 
     rev <- vt[, idx1, drop = FALSE] - vt[, idx0, drop = FALSE]
 
@@ -93,11 +93,11 @@ plot.rjd3rev_revisions <- function(x, view = c("vertical", "diagonal"), n_rev = 
     if (view == "vertical") {
         rev <- rev[, (nc - n_rev + 1):nc, drop = FALSE]
     } else {
-        rev <- rev[, 1:n_rev, drop = FALSE]
+        rev <- rev[, seq_len(n_rev), drop = FALSE]
     }
 
-    stats::ts.plot(rev, gpars = list(xlab = "", ylab = "", col = c(1:nc), type = "h", lwd = 2, ...))
-    graphics::legend("topleft", bty = "n", lty = 1, lwd = 2, col = c(1:nc), legend = colnames(rev))
+    stats::ts.plot(rev, gpars = list(xlab = "", ylab = "", col = seq_len(nc), type = "h", lwd = 2, ...))
+    graphics::legend("topleft", bty = "n", lty = 1, lwd = 2, col = seq_len(nc), legend = colnames(rev))
     graphics::title(main = "Revisions size")
 }
 

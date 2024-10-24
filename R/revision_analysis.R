@@ -165,7 +165,9 @@ revision_analysis <- function(vintages,
     } else if (transf.diff == "none") {
         vts <- vtc <- vt
         if (!is_stationary || !is_cointegrated) {
-            warning("No differentiation considered even though stationarity and/or cointegration might not be present. This can lead to spurious regression.", call. = FALSE)
+            warning("No differentiation considered even though stationarity ",
+                    "and/or cointegration might not be present. ",
+                    "This can lead to spurious regression.", call. = FALSE)
         }
         is_stationary <- is_cointegrated <- TRUE
     }
@@ -195,7 +197,7 @@ revision_analysis <- function(vintages,
     ### Slope and drift
     sd_test <- slope_and_drift(vtc, gap, na.zero)
     sd_infos <- sd_test_evaluator(sd_test, is_log, is_cointegrated, delta_diff,
-                                  n_test = ncol(vtc[, -c(1:gap), drop = FALSE]),
+                                  n_test = ncol(vtc[, -seq_len(gap), drop = FALSE]),
                                   thr = getOption("slope_and_drift_threshold"),
                                   thr_res_jb = getOption("jb_res_threshold"),
                                   thr_res_bp = getOption("bp_res_threshold"),
@@ -228,7 +230,7 @@ revision_analysis <- function(vintages,
     ### Regression of latter revisions (Rv) on previous revisions (Rv_1, Rv_2,...Rv_p)
     orth1_test <- orthogonallyModel1(rv, nrevs, na.zero)
     orth1_infos <- orth1_test_evaluator(orth1_test, is_log, nrevs, ncol_rv = ncol(rv),
-                                        n_test = ncol(rv[, -c(1:nrevs), drop = FALSE]),
+                                        n_test = ncol(rv[, -seq_len(nrevs), drop = FALSE]),
                                         thr = getOption("orth1_threshold"),
                                         thr_res_jb = getOption("jb_res_threshold"),
                                         thr_res_bp = getOption("bp_res_threshold"),
@@ -238,7 +240,7 @@ revision_analysis <- function(vintages,
     ### Regression model of latter revisions (Rv) on previous revisions at a specific version (Rv_k)
     orth2_test <- orthogonallyModel2(rv, ref, na.zero)
     orth2_infos <- orth2_test_evaluator(orth2_test, is_log, ref, ncol_rv = ncol(rv),
-                                        n_test = ncol(rv[, -c(1:ref), drop = FALSE]),
+                                        n_test = ncol(rv[, -seq_len(ref), drop = FALSE]),
                                         thr = getOption("orth2_threshold"),
                                         thr_res_jb = getOption("jb_res_threshold"),
                                         thr_res_bp = getOption("bp_res_threshold"),
@@ -251,8 +253,8 @@ revision_analysis <- function(vintages,
                                   thr = getOption("autocorr_threshold"))
 
     ### Seasonality tests
-    lb_test <- try(apply(diff(rv), 2, function(x) seasonality_qs(x, freq)), silent = TRUE) # Ljung-Box
-    fd_test <- try(apply(diff(rv), 2, function(x) seasonality_friedman(x, freq)), silent = TRUE)  # Friedman non-parametric test
+    lb_test <- try(apply(X = diff(rv), MARGIN = 2, FUN = seasonality_qs, period = freq), silent = TRUE) # Ljung-Box
+    fd_test <- try(apply(X = diff(rv), MARGIN = 2, FUN = seasonality_friedman, period = freq), silent = TRUE)  # Friedman non-parametric test
     seas_infos <- seas_tests_evaluator(lb_test, fd_test, is_log, cnames = colnames(rv),
                                        freq = freq, n_test = ncol(rv),
                                        thr = getOption("seas_threshold"))
@@ -332,7 +334,7 @@ get_vintages_view <- function(vintages, transf.log, view, n.releases) {
         vt <- vintages[["vertical_view"]]
     } else if (view == "diagonal") {
         n.releases <- min(n.releases, ncol(vintages[["diagonal_view"]]))
-        vt <- vintages[["diagonal_view"]][, 1:n.releases]
+        vt <- vintages[["diagonal_view"]][, seq_len(n.releases)]
     }
 
     if (transf.log) {
@@ -610,7 +612,9 @@ eval_test <- function(val,
                       ascending = TRUE) {
 
     if (is.null(threshold)) {
-        stop("Some user-defined thresholds are defined as NULL. See ?set_thresholds_to_default or ?set_all_thresholds_to_default to reset tests thresholds to their default values", call. = FALSE)
+        stop("Some user-defined thresholds are defined as NULL. ",
+             "See ?set_thresholds_to_default or ?set_all_thresholds_to_default ",
+             "to reset tests thresholds to their default values", call. = FALSE)
     }
 
     if (!all(tolower(names(threshold)) %in% c("good", "uncertain", "bad", "severe"))) {
@@ -623,21 +627,21 @@ eval_test <- function(val,
     val <- as.numeric(val)
     n <- length(val)
     nt <- length(threshold)
-    qualities <- c()
+    qualities <- character(0L)
 
-    for (i in 1:n) {
+    for (i in seq_len(n)) {
         quality <- "good"
 
         if (!is.na(val[i])) {
             if (ascending) {
-                for (k in 1:nt) {
+                for (k in seq_len(nt)) {
                     if (val[i] < threshold[k]) {
                         quality <- names(threshold)[k]
                         break
                     }
                 }
             } else {
-                for (k in nt:1) {
+                for (k in rev(seq_len(nt))) {
                     if (val[i] > threshold[k]) {
                         quality <- names(threshold)[k]
                         break
@@ -662,11 +666,16 @@ format_reg_output <- function(x, is_log, is_diff) {
 
     x_df <- as.data.frame(t(round(x, 3)))
     n <- nrow(x_df)
-    estim <- x_df[1:(n - 13), , drop = FALSE]
+    estim <- x_df[seq_len(n - 13), , drop = FALSE]
 
     norm_test <- list(Jarque_Bera_test = x_df[(n - 12):(n - 9), , drop = FALSE])
-    hsk_test <- list(Breusch_Pagan_test = x_df[(n - 8):(n - 6), , drop = FALSE], White_test = x_df[(n - 5):(n - 3), , drop = FALSE], ARCH_test = x_df[(n - 2):n, , drop = FALSE])
-    tests <- list(normality = norm_test, homoskedasticity = hsk_test)
+    hsk_test <- list(
+        Breusch_Pagan_test = x_df[(n - 8):(n - 6), , drop = FALSE],
+        White_test = x_df[(n - 5):(n - 3), , drop = FALSE],
+        ARCH_test = x_df[(n - 2):n, , drop = FALSE]
+    )
+    tests <- list(normality = norm_test,
+                  homoskedasticity = hsk_test)
 
     return(list(info_transformation = info_transformation, estimates = estim, residuals = tests))
 }
@@ -846,14 +855,15 @@ View.rjd3rev_rslts <- function(
     } else {
         warning("Please install 'flextable': install.packages('flextable') to get more visual output")
 
+        title <- paste(title, switch(
+            type,
+            summary = "Tests summary",
+            "stat-desc" = "Descriptive statistics",
+            revisions = "Revisions",
+            tests = "All tests"
+        ))
         return(
-            utils::View(table_output, title = paste(title, switch(
-                type,
-                "summary" = "Tests summary",
-                "stat-desc" = "Descriptive statistics",
-                "revisions" = "Revisions",
-                "tests" = "All tests"
-            )))
+            utils::View(table_output, title = title)
         )
     }
 }

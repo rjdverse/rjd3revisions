@@ -1,13 +1,19 @@
-#' Check vector with date
+#' @title Check vector with date
+#'
 #' @description
 #' Useful functions to check if a vector represent dates object
 #'
-#' @param x a vector of \code{Date}, \code{character}, \code{integer} or \code{POSIXt} object representing date object
-#' @param date_format \code{character} string (or vector of string) corresponding to the format(s) used in \code{x}
+#' @param x a vector of \code{Date}, \code{character}, \code{integer} or
+#' \code{POSIXt} object representing date object
+#' @param date_format \code{character} string (or vector of string)
+#' corresponding to the format(s) used in \code{x}
 #'
 #' @details
-#' The function \code{check_date_year} checks if the pattern AAAA is recognised. If so, the date will be assimilated with the first January of each year AAAA.
-#' The function \code{check_date_quarter} checks if the quarterly formats. The accepted formats (for example  for the third quarter of 2000) are:
+#' The function \code{check_date_year} checks if the pattern AAAA is recognised.
+#' If so, the date will be assimilated with the first January of each year AAAA.
+#' The function \code{check_date_quarter} checks if the quarterly formats. The
+#' accepted formats (for example  for the third quarter of 2000) are:
+#'
 #' * 2000 T3
 #' * 2000 Q3
 #' * 2000t3
@@ -16,8 +22,14 @@
 #' * 2000Q3
 #' * 2000 t3
 #' * 2000 q3
-#' If one of the previous formats is recognised, the date will be assimilated with the first day of the quarter of the year (For example 2000 Q3 is assimilated to 2000-07-01).
-#' The function \code{check_date_month} checks if the monthly formats. The accepted formats (for example for march of 2000) are:
+#'
+#' If one of the previous formats is recognised, the date will be assimilated
+#' with the first day of the quarter of the year (For example 2000 Q3 is
+#' assimilated to 2000-07-01).
+#'
+#' The function \code{check_date_month} checks if the monthly formats. The
+#' accepted formats (for example for march of 2000) are:
+#'
 #' * 2000 M3
 #' * 2000 M03
 #' * 2000 m3
@@ -26,8 +38,13 @@
 #' * 2000M03
 #' * 2000m3
 #' * 2000m03
-#' If one of the previous formats is recognised, the date will be assimilated with the first day of the month of the year (For example 2000 M3 is assimilated to 2000-03-01).
-#' The function \code{check_format_date} checks if the object \code{x} match the pattern (or one of the patterns) \code{date_format}.
+#'
+#' If one of the previous formats is recognised, the date will be assimilated
+#' with the first day of the month of the year (For example 2000 M3 is
+#' assimilated to 2000-03-01).
+#'
+#' The function \code{check_format_date} checks if the object \code{x} match the
+#' pattern (or one of the patterns) \code{date_format}.
 #'
 #' @return a boolean
 #' @export

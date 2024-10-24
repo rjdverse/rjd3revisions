@@ -564,7 +564,8 @@ summary.rjd3rev_vintages <- function(object, ...) {
 #' @title View function for objects of class "rjd3rev_vintages"
 #'
 #' @description
-#' Display the different view in a different panel to visualize the data in a table / matrix format
+#' Display the different view in a different panel to visualize the data in a
+#' table / matrix format
 #'
 #'
 #' @param x an object of class "rjd3rev_vintages".
@@ -572,7 +573,9 @@ summary.rjd3rev_vintages <- function(object, ...) {
 #' @param ... further arguments passed to the `View` method.
 #'
 #' @details
-#' Generate the view of the vintages in different format. With the type argument, you can choose the view to display. You can choose between the long, horizontal, vertical and diagonal view.
+#' Generate the view of the vintages in different format. With the type
+#' argument, you can choose the view to display. You can choose between the
+#' long, horizontal, vertical and diagonal view.
 #'
 #' @rdname View
 #'
