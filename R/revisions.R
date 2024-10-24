@@ -127,7 +127,7 @@ print.rjd3rev_revisions <- function(x, n_row = 12, n_col = 3, ...) {
     n_row <- min(n_row_tot, n_row)
     freq <- stats::frequency(vv)
     end_period <- stats::end(vv)
-    is_extract <- ifelse(n_col < n_col_tot || n_row < n_row_tot, TRUE, FALSE)
+    is_extract <- (n_col < n_col_tot) || (n_row < n_row_tot)
 
     extract_vv <- stats::ts(x[["vertical_view"]][(n_row_tot - n_row + 1):n_row_tot, (n_col_tot - n_col + 1):n_col_tot],
                             frequency = freq,

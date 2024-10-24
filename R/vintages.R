@@ -515,7 +515,7 @@ print.rjd3rev_vintages <- function(x,
     n_row_long <- min(n_row_long_tot, n_row)
     freq <- stats::frequency(vv)
     end_period <- stats::end(vv)
-    is_extract <- ifelse(n_col < n_col_tot || n_row < n_row_tot || n_row_long < n_row_long_tot, TRUE, FALSE)
+    is_extract <- (n_col < n_col_tot) || (n_row < n_row_tot) || (n_row_long < n_row_long_tot)
 
     extract_lv <- x$long_view[(n_row_long_tot - n_row_long + 1):n_row_long_tot, ]
     rownames(extract_lv) <- NULL

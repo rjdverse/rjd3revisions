@@ -177,7 +177,11 @@ assert_time_period <- function(x, date_format = "%Y-%m-%d") {
         return(as.Date(paste(year, month, "01", sep = "-")))
 
     } else {
-        stop("Time periods not in a correct format. Examples of correct formats are 2023M1, 2023 M07 2023 Q1, 2023 m12, 2023q01, 2023 T2, 2023 or you can specify the format of your date with the argument `date_format`")
+        stop("Time periods not in a correct format.",
+             " Examples of correct formats are 2023M1, 2023 M07 2023 Q1, ",
+             "2023 m12, 2023q01, 2023 T2, 2023 ",
+             "or you can specify the format of your date ",
+             "with the argument `date_format`")
     }
 }
 
