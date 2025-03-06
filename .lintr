@@ -7,6 +7,8 @@ linters: lintr::all_linters(
         extraction_operator_linter = NULL,
         nonportable_path_linter = NULL,
         implicit_integer_linter = NULL,
+        one_call_pipe_linter = NULL,
+        namespace_linter = NULL,
         function_argument_linter = NULL,
         absolute_path_linter = NULL,
         unused_import_linter = NULL,
@@ -18,6 +20,8 @@ linters: lintr::all_linters(
         condition_call_linter = NULL,
         rep_len_linter = NULL,
         if_switch_linter = NULL,
-        unnecessary_nesting_linter = NULL
+        unnecessary_nesting_linter = NULL,
+        missing_package_linter = NULL,
+        library_call_linter = NULL
     )
 encoding: "UTF-8"
