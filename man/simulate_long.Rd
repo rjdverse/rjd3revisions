@@ -8,7 +8,8 @@ simulate_long(
   n_period = 50,
   n_revision = 10,
   start_period = as.Date("2012-01-01"),
-  periodicity = 12L
+  periodicity = 12L,
+  seed = as.integer(Sys.time())
 )
 }
 \arguments{
@@ -21,6 +22,8 @@ simulated series).}
 
 \item{periodicity}{Integer. Periodicity of the time period (12, 4 or 1 for
 resp. monthly, quarterly or annual data).}
+
+\item{seed}{an integer. The generation's seed of random number.}
 }
 \value{
 A dataset in the long format. See \code{\link{create_vintages}} for

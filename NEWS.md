@@ -8,6 +8,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+* a param `seed` in the function `simulate_long()` to add reproductibility to this function
+
 
 ## [1.4.0] - 2024-08-21 
 
