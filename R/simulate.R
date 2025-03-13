@@ -1,5 +1,5 @@
 
-simulate_series <- function(n, periodicity = 12L, seed = as.integer(Sys.time())) {
+simulate_series <- function(n, periodicity = 12L) {
 
     # Check n
     checkmate::assert_count(n, na.ok = FALSE, null.ok = FALSE)
@@ -8,6 +8,7 @@ simulate_series <- function(n, periodicity = 12L, seed = as.integer(Sys.time()))
     checkmate::assert_number(x = periodicity, na.ok = FALSE, finite = TRUE, null.ok = FALSE)
     checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
 
+    seed <- sample.int(n = .Machine$integer.max, size = 1L)
     coeff <- list(
         phi = NULL,
         d = 1,
@@ -30,63 +31,31 @@ simulate_series <- function(n, periodicity = 12L, seed = as.integer(Sys.time()))
     return(rjd3toolkit::sarima_random(model = JD_model, length = n, seed = seed))
 }
 
-simulate_revision <- function(n,
-                              init = stats::rnorm(1, 0, 1),
-                              seed = as.integer(Sys.time())) {
-
+simulate_revision <- function(n, init = stats::rnorm(1, 0, 1)) {
     # Check n
     checkmate::assert_count(n, na.ok = FALSE, null.ok = FALSE)
 
     # Check init
     checkmate::assert_number(init, na.ok = FALSE, finite = TRUE, null.ok = FALSE)
 
-    if (requireNamespace("withr", quietly = TRUE)) {
-        withr::with_seed(seed = seed, code = {
-            output <- init + stats::rnorm(n, mean = 0, sd = 2 ** (2 - seq_len(n)))
-        })
-    } else {
-        warning("Please install 'withr': install.packages(\"withr\") ",
-                "to set a temporary seed.")
-        set.seed(seed)
-        output <- init + stats::rnorm(n, mean = 0, sd = 2 ** (2 - seq_len(n)))
-    }
-
+    output <- init + stats::rnorm(n, mean = 0, sd = 2 ** (2 - seq_len(n)))
     return(output)
 }
 
 simulate_revision_dates <- function(n, time_period,
-                                    periodicity, origin = "1970-01-01",
-                                    seed = as.integer(Sys.time())) {
-
+                                    periodicity, origin = "1970-01-01") {
     # Check n
     checkmate::assert_count(n, na.ok = FALSE, null.ok = FALSE)
 
     x <- min(time_period):(max(time_period) + 2L * 30L * 12L / periodicity) # On rajoute 2 périodes supplémentaires
-
-    if (requireNamespace("withr", quietly = TRUE)) {
-        withr::with_seed(seed = seed, code = {
-            output <- as.Date(
-                x = sort(sample(
-                    x = x,
-                    size = n,
-                    replace = FALSE
-                )),
-                origin = origin
-            )
-        })
-    } else {
-        warning("Please install 'withr': install.packages(\"withr\") ",
-                "to set a temporary seed.")
-        set.seed(seed)
-        output <- as.Date(
-            x = sort(sample(
-                x = x,
-                size = n,
-                replace = FALSE
-            )),
-            origin = origin
-        )
-    }
+    output <- as.Date(
+        x = sort(sample(
+            x = x,
+            size = n,
+            replace = FALSE
+        )),
+        origin = origin
+    )
 
     return(output)
 }
@@ -99,7 +68,6 @@ simulate_revision_dates <- function(n, time_period,
 #' @param start_period Date. Start of the series.
 #' @param periodicity Integer. Periodicity of the time period (12, 4 or 1 for
 #' resp. monthly, quarterly or annual data).
-#' @param seed an integer. The generation's seed of random number.
 #'
 #' @returns A dataset in the long format. See \code{\link{create_vintages}} for
 #' more information about the different data formats.
@@ -118,8 +86,7 @@ simulate_revision_dates <- function(n, time_period,
 simulate_long <- function(n_period = 50,
                           n_revision = 10,
                           start_period = as.Date("2012-01-01"),
-                          periodicity = 12L,
-                          seed = as.integer(Sys.time())) {
+                          periodicity = 12L) {
     # Check n_period
     checkmate::assert_count(n_period, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
 
@@ -143,9 +110,9 @@ simulate_long <- function(n_period = 50,
 
     time_period <- seq.Date(from = start_period, by = by, length.out = n_period)
     rev_date <- simulate_revision_dates(n = n_revision, time_period, periodicity,
-                                        origin = "1970-01-01", seed = seed)
+                                        origin = "1970-01-01")
 
-    final_series <- simulate_series(n_period, periodicity = periodicity, seed = seed)
+    final_series <- simulate_series(n_period, periodicity = periodicity)
 
     long <- data.frame(
         rev_date = integer(),
@@ -159,8 +126,7 @@ simulate_long <- function(n_period = 50,
         nb_NA <- sum(rev_date < period)
         revised_series <- c(rep(NA_real_, nb_NA), simulate_revision(
             n = n_revision - nb_NA,
-            init = value,
-            seed = seed + index_period
+            init = value
         ))
         long <- rbind(long, data.frame(
             rev_date = rev_date,
