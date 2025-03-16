@@ -370,10 +370,11 @@ can use the function <code class="sourceCode r">revision_analysis</code></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rslt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/revision_analysis.html">revision_analysis</a></span><span class="op">(</span><span class="va">vintages</span>, gap <span class="op">=</span> <span class="fl">1</span>, view <span class="op">=</span> <span class="st">"diagonal"</span>, n.releases <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu"><a href="../reference/View.html">View</a></span><span class="op">(</span><span class="va">rslt</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">rslt</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">rslt</span><span class="op">)</span></span></code></pre></div>
-<p>To export the report in pdf or html format, you can use the function
-<code class="sourceCode r">render_report</code></p>
+<p>To export the report in pdf, Word or html format, you can use the
+function <code class="sourceCode r">render_report</code></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/render_report.html">render_report</a></span><span class="op">(</span></span>
 <span>    <span class="va">rslt</span>,</span>
@@ -597,20 +598,20 @@ and/or change the default setting about the prior transformation of the
 data (including the possibility to add a prior log-transformation of
 your data).</p>
 <p>The function <code><a href="../reference/render_report.html">render_report()</a></code> applied on the output of
-<code><a href="../reference/revision_analysis.html">revision_analysis()</a></code> will generate an enhanced HTML or PDF
-report including both a formatted summary of the results and full
+<code><a href="../reference/revision_analysis.html">revision_analysis()</a></code> will generate an enhanced HTML, Word or
+PDF report including both a formatted summary of the results and full
 explanations about each test (which are also included in the vignette
 below). The formatted summary of the results display the p-value of each
 test (except for Theil’s tests where the value of the statistics is
 provided) and their interpretation. An appreciation ‘good’, ‘uncertain’,
 ‘bad’ and ‘severe’ is indeed associated to each test following the usual
-statistical interpretation of p-values and the orientation of the tests.
-This allows a quick visual interpretation of the results and is similar
-to what is done in the GUI of JDemetra+.</p>
+statistical interpretation of p-values (default thresholds can be
+changed, see <a href="#udthres">User-defined thresholds</a>) and the
+orientation of the tests. This allows a quick visual interpretation of
+the results and is similar to what is done in the GUI of JDemetra+.</p>
 <p>In addition to the function <code><a href="../reference/revision_analysis.html">revision_analysis()</a></code>, the
 user can also perform tests individually if they want to. To list all
-functions available in the package (and therefore finding the different
-functions corresponding to the individual tests), you can do</p>
+functions available in the package, you can do</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="st">"package:rjd3revisions"</span><span class="op">)</span></span></code></pre></div>
 <p>Use help(‘name of the functions’) or ?‘name of the functions’ for
@@ -626,17 +627,18 @@ functions associated with the individual test will give you the same
 result specific to this test.</p>
 <p>In addition to the visual report that you can get by applying the
 function <code><a href="../reference/render_report.html">render_report()</a></code> on the output of the function
-<code><a href="../reference/revision_analysis.html">revision_analysis()</a></code>, you can also apply the usual
-<code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> and <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> functions to this
-output. The function <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>, in particular, will print
-only the formatted table of the report with the main results. The
-<code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> will provide the same unformatted information
-together with some extra ones. Finally the <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> function
-applied to the output of the function <code><a href="../reference/get_revisions.html">get_revisions()</a></code> will
-provide you with a visual of the revisions over time.</p>
+<code><a href="../reference/revision_analysis.html">revision_analysis()</a></code>, you can also apply the
+<code><a href="../reference/View.html">View()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> and <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>
+functions to this output. The function <code><a href="../reference/View.html">View()</a></code>, in
+particular, will print only the formatted table of the report with the
+main results. The <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> and <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>
+functions will provide the same unformatted information together with
+some extra ones. Finally the <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> function applied to the
+output of the function <code><a href="../reference/get_revisions.html">get_revisions()</a></code> will provide you
+with a visual of the revisions over time.</p>
 </div>
 <div class="section level3">
-<h3 id="user-defined-thresholds">User-defined thresholds<a class="anchor" aria-label="anchor" href="#user-defined-thresholds"></a>
+<h3 id="udthres">User-defined thresholds<a class="anchor" aria-label="anchor" href="#udthres"></a>
 </h3>
 <p>It is possible for the user to change the default values of the
 thresholds considered in the function <code><a href="../reference/revision_analysis.html">revision_analysis()</a></code>
@@ -900,9 +902,9 @@ revisions only gives information about mean bias, this regression
 enables to assess both mean and regression bias. A regression bias would
 occur, for example, if preliminary estimates tend to be too low when
 latter estimates are relatively high and too high when latter estimates
-are relatively low. In this case, this may result in a positive value of
+are relatively low. In this case, this may result in a negative value of
 the intercept and a value of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mn>1</mn></msub><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\beta_1&lt;1</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mn>1</mn></msub><mo>&gt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\beta_1&gt;1</annotation></semantics></math>.
 To evaluate whether a mean or regression bias is present, we employ a
 conventional t-test on the parameters with the null hypothesis
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mn>0</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\beta_0 = 0</annotation></semantics></math>
