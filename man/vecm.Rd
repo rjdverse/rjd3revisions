@@ -37,6 +37,6 @@ df_long <- simulate_long(
 
 ## Create vintage and test
 vintages <- create_vintages(df_long, periodicity = 4L)
-vecm(vintages$diagonal_view)
+vecm(vintages[["diagonal_view"]])
 
 }

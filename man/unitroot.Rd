@@ -29,7 +29,7 @@ df_long <- simulate_long(
 
 ## Create vintage and test
 vintages <- create_vintages(df_long, periodicity = 4L)
-unitroot(vintages$diagonal_view)
+unitroot(vintages[["diagonal_view"]])
 
 }
 \seealso{

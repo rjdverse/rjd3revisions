@@ -1,8 +1,8 @@
 values_long <- c(
-    .8, .2, NA, NA, .8, .1, NA, NA,
-    .7, .1, NA, NA, .7, .2, .5, NA,
-    .7, .2, .5, NA, .7, .3, .7, NA,
-    .7, .2, .7, .4, .7, .3, .7, .3
+    0.8, 0.2, NA, NA, 0.8, 0.1, NA, NA,
+    0.7, 0.1, NA, NA, 0.7, 0.2, 0.5, NA,
+    0.7, 0.2, 0.5, NA, 0.7, 0.3, 0.7, NA,
+    0.7, 0.2, 0.7, 0.4, 0.7, 0.3, 0.7, 0.3
 )
 
 input_long_1 <- data.frame(
@@ -11,7 +11,8 @@ input_long_1 <- data.frame(
         "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28"
     ), each = 4L),
     time_period = rep(x = c("2022Q1", "2022Q2", "2022Q3", "2022Q4"), times = 8L),
-    obs_value = values_long
+    obs_value = values_long,
+    stringsAsFactors = FALSE
 )
 
 input_long_2 <- data.frame(
@@ -20,7 +21,8 @@ input_long_2 <- data.frame(
         "30/11/2022", "31/12/2022", "31/01/2023", "28/02/2023"
     ), each = 4L),
     time_period = c(rep(x = c("2022 T1", "2022 T2", "2022 T3", "2022 T4"), times = 8L)),
-    obs_value = values_long
+    obs_value = values_long,
+    stringsAsFactors = FALSE
 )
 
 input_long_3 <- data.frame(
@@ -29,7 +31,8 @@ input_long_3 <- data.frame(
         "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28"
     ), each = 4L),
     time_period = rep(x = c("2022-01-01", "2022-04-01", "2022-07-01", "2022-10-01"), times = 8L),
-    obs_value = values_long
+    obs_value = values_long,
+    stringsAsFactors = FALSE
 )
 
 input_long_4 <- data.frame(
@@ -38,7 +41,8 @@ input_long_4 <- data.frame(
         "11/30/22", "12/31/22", "01/31/23", "02/28/23"
     ), each = 4L),
     time_period = c(rep(x = c("2022 Q1", "2022 Q2", "2022 Q3", "2022 Q4"), times = 8L)),
-    obs_value = values_long
+    obs_value = values_long,
+    stringsAsFactors = FALSE
 )
 
 values_horizontal <- c(0.8, 0.8, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.2, 0.1,

@@ -31,7 +31,7 @@ df_long <- simulate_long(
 ## Create vintage and test
 vintages <- create_vintages(df_long, periodicity = 4L)
 revisions <- get_revisions(vintages, gap = 1)
-orthogonallyModel2(revisions$diagonal_view)
+orthogonallyModel2(revisions[["diagonal_view"]])
 
 }
 \seealso{

@@ -32,7 +32,7 @@ df_long <- simulate_long(
 
 ## Create vintage and test
 vintages <- create_vintages(df_long, periodicity = 4)
-theil(vintages$diagonal_view)
+theil(vintages[["diagonal_view"]])
 
 }
 \seealso{
