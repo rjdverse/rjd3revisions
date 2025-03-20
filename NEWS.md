@@ -8,10 +8,15 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.4.1] - 2025-03-20
+
 ### Added
 
 * a param `seed` in the function `simulate_long()` to add reproductibility to this function
 
+### Changed
+
+* update vignette
 
 ## [1.4.0] - 2024-08-21 
 
@@ -114,7 +119,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 * Release based on JD+_main : v3.0.2
 
-[Unreleased]: https://github.com/rjdverse/rjd3revisions/compare/v1.4.0...HEAD
+[Unreleased]: https://github.com/rjdverse/rjd3revisions/compare/v1.4.1...HEAD
+[1.4.1]: https://github.com/rjdverse/rjd3revisions/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/rjdverse/rjd3revisions/compare/v1.3.2...v1.4.0
 [1.3.2]: https://github.com/rjdverse/rjd3revisions/compare/v1.3.1...v1.3.2
 [1.3.1]: https://github.com/rjdverse/rjd3revisions/compare/v1.3.0...v1.3.1
