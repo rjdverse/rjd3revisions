@@ -32,17 +32,19 @@ get_revisions <- function(vintages, gap = 1) {
     checkmate::assert_class(x = vintages, classes = "rjd3rev_vintages")
     checkmate::assert_count(x = gap, positive = TRUE, na.ok = FALSE, null.ok = FALSE, .var.name = "gap")
 
-    dv <- get_revisions_view(vintages$diagonal_view, gap)
-    vv <- get_revisions_view(vintages$vertical_view, gap)
+    dv <- get_revisions_view(vintages[["diagonal_view"]], gap)
+    vv <- get_revisions_view(vintages[["vertical_view"]], gap)
 
     hv <- t(vv)
     colnames(hv) <- colnames(vintages$horizontal_view)
 
-    return(structure(list(
+    output <- list(
         vertical_view = vv,
         horizontal_view = hv,
         diagonal_view = dv
-    ), class = "rjd3rev_revisions"))
+    )
+    class(output) <- "rjd3rev_revisions"
+    return(output)
 }
 
 
@@ -51,7 +53,7 @@ get_revisions_view <- function(vt, gap) {
     n <- dim(vt)[2]
 
     idx1 <- (gap + 1):n
-    idx0 <- 1:(n - gap)
+    idx0 <- seq_len(n - gap)
 
     rev <- vt[, idx1, drop = FALSE] - vt[, idx0, drop = FALSE]
 
@@ -91,11 +93,11 @@ plot.rjd3rev_revisions <- function(x, view = c("vertical", "diagonal"), n_rev = 
     if (view == "vertical") {
         rev <- rev[, (nc - n_rev + 1):nc, drop = FALSE]
     } else {
-        rev <- rev[, 1:n_rev, drop = FALSE]
+        rev <- rev[, seq_len(n_rev), drop = FALSE]
     }
 
-    stats::ts.plot(rev, gpars = list(xlab = "", ylab = "", col = c(1:nc), type = "h", lwd = 2, ...))
-    graphics::legend("topleft", bty = "n", lty = 1, lwd = 2, col = c(1:nc), legend = colnames(rev))
+    stats::ts.plot(rev, gpars = list(xlab = "", ylab = "", col = seq_len(nc), type = "h", lwd = 2, ...))
+    graphics::legend("topleft", bty = "n", lty = 1, lwd = 2, col = seq_len(nc), legend = colnames(rev))
     graphics::title(main = "Revisions size")
 }
 
@@ -118,20 +120,20 @@ print.rjd3rev_revisions <- function(x, n_row = 12, n_col = 3, ...) {
     checkmate::assert_count(x = n_row, positive = TRUE, na.ok = FALSE, null.ok = FALSE, .var.name = "n_row")
     checkmate::assert_count(x = n_col, positive = TRUE, na.ok = FALSE, null.ok = FALSE, .var.name = "n_col")
 
-    vv <- x$vertical_view
+    vv <- x[["vertical_view"]]
     n_col_tot <- ncol(vv)
     n_row_tot <- nrow(vv)
     n_col <- min(n_col_tot, n_col)
     n_row <- min(n_row_tot, n_row)
     freq <- stats::frequency(vv)
     end_period <- stats::end(vv)
-    is_extract <- ifelse(n_col < n_col_tot || n_row < n_row_tot, TRUE, FALSE)
+    is_extract <- (n_col < n_col_tot) || (n_row < n_row_tot)
 
-    extract_vv <- stats::ts(x$vertical_view[(n_row_tot - n_row + 1):n_row_tot, (n_col_tot - n_col + 1):n_col_tot],
+    extract_vv <- stats::ts(x[["vertical_view"]][(n_row_tot - n_row + 1):n_row_tot, (n_col_tot - n_col + 1):n_col_tot],
                             frequency = freq,
                             end = end_period)
     extract_hv <- x$horizontal_view[(n_col_tot - n_col + 1):n_col_tot, (n_row_tot - n_row + 1):n_row_tot]
-    extract_dv <- stats::ts(x$diagonal_view[(n_row_tot - n_row + 1):n_row_tot, 1:n_col],
+    extract_dv <- stats::ts(x[["diagonal_view"]][(n_row_tot - n_row + 1):n_row_tot, 1:n_col],
                             frequency = freq,
                             end = end_period)
 
@@ -151,7 +153,7 @@ print.rjd3rev_revisions <- function(x, n_row = 12, n_col = 3, ...) {
 #'
 summary.rjd3rev_revisions <- function(object, ...) {
     x <- object
-    vv <- x$vertical_view
+    vv <- x[["vertical_view"]]
     cat("Number of release revisions: ", ncol(vv))
     cat("\nCovered period:")
     cat("\n \tFrom: ", stats::start(vv))

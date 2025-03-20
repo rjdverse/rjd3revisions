@@ -29,7 +29,7 @@ df_long <- simulate_long(
 ## Create vintage and test
 vintages <- create_vintages(df_long, periodicity = 4)
 revisions <- get_revisions(vintages, gap = 1)
-bias(revisions$diagonal_view)
+bias(revisions[["diagonal_view"]])
 
 }
 \seealso{

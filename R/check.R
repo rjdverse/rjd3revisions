@@ -1,13 +1,19 @@
-#' Check vector with date
+#' @title Check vector with date
+#'
 #' @description
 #' Useful functions to check if a vector represent dates object
 #'
-#' @param x a vector of \code{Date}, \code{character}, \code{integer} or \code{POSIXt} object representing date object
-#' @param date_format \code{character} string (or vector of string) corresponding to the format(s) used in \code{x}
+#' @param x a vector of \code{Date}, \code{character}, \code{integer} or
+#' \code{POSIXt} object representing date object
+#' @param date_format \code{character} string (or vector of string)
+#' corresponding to the format(s) used in \code{x}
 #'
 #' @details
-#' The function \code{check_date_year} checks if the pattern AAAA is recognised. If so, the date will be assimilated with the first January of each year AAAA.
-#' The function \code{check_date_quarter} checks if the quarterly formats. The accepted formats (for example  for the third quarter of 2000) are:
+#' The function \code{check_date_year} checks if the pattern AAAA is recognised.
+#' If so, the date will be assimilated with the first January of each year AAAA.
+#' The function \code{check_date_quarter} checks if the quarterly formats. The
+#' accepted formats (for example  for the third quarter of 2000) are:
+#'
 #' * 2000 T3
 #' * 2000 Q3
 #' * 2000t3
@@ -16,8 +22,14 @@
 #' * 2000Q3
 #' * 2000 t3
 #' * 2000 q3
-#' If one of the previous formats is recognised, the date will be assimilated with the first day of the quarter of the year (For example 2000 Q3 is assimilated to 2000-07-01).
-#' The function \code{check_date_month} checks if the monthly formats. The accepted formats (for example for march of 2000) are:
+#'
+#' If one of the previous formats is recognised, the date will be assimilated
+#' with the first day of the quarter of the year (For example 2000 Q3 is
+#' assimilated to 2000-07-01).
+#'
+#' The function \code{check_date_month} checks if the monthly formats. The
+#' accepted formats (for example for march of 2000) are:
+#'
 #' * 2000 M3
 #' * 2000 M03
 #' * 2000 m3
@@ -26,8 +38,13 @@
 #' * 2000M03
 #' * 2000m3
 #' * 2000m03
-#' If one of the previous formats is recognised, the date will be assimilated with the first day of the month of the year (For example 2000 M3 is assimilated to 2000-03-01).
-#' The function \code{check_format_date} checks if the object \code{x} match the pattern (or one of the patterns) \code{date_format}.
+#'
+#' If one of the previous formats is recognised, the date will be assimilated
+#' with the first day of the month of the year (For example 2000 M3 is
+#' assimilated to 2000-03-01).
+#'
+#' The function \code{check_format_date} checks if the object \code{x} match the
+#' pattern (or one of the patterns) \code{date_format}.
 #'
 #' @return a boolean
 #' @export
@@ -177,7 +194,11 @@ assert_time_period <- function(x, date_format = "%Y-%m-%d") {
         return(as.Date(paste(year, month, "01", sep = "-")))
 
     } else {
-        stop("Time periods not in a correct format. Examples of correct formats are 2023M1, 2023 M07 2023 Q1, 2023 m12, 2023q01, 2023 T2, 2023 or you can specify the format of your date with the argument `date_format`")
+        stop("Time periods not in a correct format.",
+             " Examples of correct formats are 2023M1, 2023 M07 2023 Q1, ",
+             "2023 m12, 2023q01, 2023 T2, 2023 ",
+             "or you can specify the format of your date ",
+             "with the argument `date_format`")
     }
 }
 
@@ -234,9 +255,9 @@ check_long <- function(x, date_format = "%Y-%m-%d") {
     long <- x
 
     colnames(long) <- c("revdate", "time", "obs_values")
-    long$revdate <- rev_date
-    long$time <- time_period
-    long <- long[order(long$revdate, long$time), ]
+    long[["revdate"]] <- rev_date
+    long[["time"]] <- time_period
+    long <- long[order(long[["revdate"]], long[["time"]]), ]
     rownames(long) <- NULL
 
     return(long)
