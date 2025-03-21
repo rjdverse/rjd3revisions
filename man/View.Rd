@@ -20,8 +20,11 @@ View(x, ...)
 \item{type}{type of view to display}
 }
 \description{
-Display the different view in a different panel to visualize the data in a table / matrix format
+Display the different view in a different panel to visualize the data in a
+table / matrix format
 }
 \details{
-Generate the view of the vintages in different format. With the type argument, you can choose the view to display. You can choose between the long, horizontal, vertical and diagonal view.
+Generate the view of the vintages in different format. With the type
+argument, you can choose the view to display. You can choose between the
+long, horizontal, vertical and diagonal view.
 }

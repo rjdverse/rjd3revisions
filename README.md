@@ -36,7 +36,6 @@ To get the current stable version (from the latest release):
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("rjdverse/rjd3toolkit@*release")
 remotes::install_github("rjdverse/rjd3revisions@*release", build_vignettes = TRUE)
 ```
 
@@ -53,10 +52,19 @@ You can install the development version of **rjd3revisions** from
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("rjdverse/rjd3revisions")
+remotes::install_github("rjdverse/rjd3revisions", build_vignettes = TRUE)
 ```
 
 ## Usage
+
+``` r
+library("rjd3revisions")
+#> 
+#> Attaching package: 'rjd3revisions'
+#> The following object is masked from 'package:utils':
+#> 
+#>     View
+```
 
 First you need to get your input data set as a data.frame in R in a
 specific format as below. Note that missing values can either be
@@ -98,62 +106,84 @@ Depending on the location of your input data, you can use
 more generic function `create_vintages()` to create the vintages.
 
 ``` r
+set.seed(7)
+
 # Examples
-
-# Long format
-long_view <- data.frame(
-    rev_date = rep(x = c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
-                         "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28"),
-                   each = 4L),
-    time_period = rep(x = c("2022Q1", "2022Q2", "2022Q3", "2022Q4"), times = 8L),
-    obs_values = c(
-        .8, .2, NA, NA, .8, .1, NA, NA,
-        .7, .1, NA, NA, .7, .2, .5, NA,
-        .7, .2, .5, NA, .7, .3, .7, NA,
-        .7, .2, .7, .4, .7, .3, .7, .3
-    )
+long_view <- simulate_long(
+    periodicity = 4, 
+    n_period = 4 * 10, 
+    n_revision = 7, 
+    start_period = as.Date("2000-01-01")
 )
-
-# Horizontal format
-horizontal_view <- matrix(data = c(.8, .8, .7, .7, .7, .7, .7, .7, .2, .1,
-                            .1, .2, .2, .3, .2, .3, NA, NA, NA, .5, .5, .7, .7,
-                            .7, NA, NA, NA, NA, NA, NA, .4, .3),
-                          ncol = 4)
-colnames(horizontal_view) <- c("2022Q1", "2022Q2", "2022Q3", "2022Q4")
-rownames(horizontal_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
-                               "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28")
-
-# Vertical format
-vertical_view <- matrix(data = c(.8, .2, NA, NA, .8, .1, NA, NA, .7, .1, NA,
-                                 NA, .7, .2, .5, NA, .7, .2, .5, NA, .7, .3, .7, NA,
-                                 .7, .2, .7, .4, .7, .3, .7, .3),
-                          nrow = 4)
-rownames(vertical_view) <- c("2022Q1", "2022Q2", "2022Q3", "2022Q4")
-colnames(vertical_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
-                               "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28")
 ```
 
-Then you can create your vintages, inspect revisions (optional) and make
-the analysis
+Then you can create your vintages and plot the vintages and inspect the
+revisions (optional)
 
 ``` r
-library("rjd3revisions")
-#> 
-#> Attaching package: 'rjd3revisions'
-#> The following object is masked from 'package:utils':
-#> 
-#>     View
-
 vintages <- create_vintages(long_view, periodicity = 4)
-# revisions <- get_revisions(vintages, gap = 2)
-# plot(revisions)
-rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
-#> Warning: Slope and drift could not be performed
-#> Warning: efficiencyModel1 could not be performed
-#> Warning: efficiencyModel2 could not be performed
-#> Warning: orthogonallyModel1 could not be performed
-#> Warning: orthogonallyModel2 could not be performed
+plot(vintages, lwd = 2)
 ```
+
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+
+``` r
+
+revisions <- get_revisions(vintages, gap = 2)
+plot(revisions)
+```
+
+<img src="man/figures/README-unnamed-chunk-7-2.png" width="100%" />
+
+and make the analysis
+
+``` r
+rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
+
+print(rslt)
+#>                                            Transf. [Release[2]]-[Release[1]]
+#> Relevancy - Theil U2                          None              Good (0.339)
+#> Bias1 T-test                                  None              Good (0.798)
+#> Bias2 Augmented T-test                        None              Good (0.823)
+#> Bias3 SlopeAndDrift (Ols L on P) - Mean       None              Good (0.347)
+#> Bias3 SlopeAndDrift (Ols L on P) - Reg.       None              Good (0.232)
+#> Efficiency1 (Ols R on P) - Mean            Delta 1              Good (0.166)
+#> Efficiency1 (Ols R on P) - Reg.            Delta 1              Good (0.107)
+#> Efficiency2 (Ols Rv on Rv_1) - Mean           None                          
+#> Efficiency2 (Ols Rv on Rv_1) - Reg.           None                          
+#> Orthogonality1 (Ols Rv on Rv_(1:p)) - Mean    None                          
+#> Orthogonality1 (Ols Rv on Rv_(1:p)) - Reg.    None                          
+#> Orthogonality2 (Ols Rv on Rv_k.) - Mean       None                          
+#> Orthogonality2 (Ols Rv on Rv_k) - Reg.        None                          
+#> Orthogonality3 AutoCorrelation (Ljung-Box)    None              Good (0.417)
+#> Orthogonality4 Seasonality (Ljung-Box)     Delta 1              Good (0.993)
+#> Orthogonality4 Seasonality (Friedman)      Delta 1              Good (0.137)
+#> SignalVsNoise1 - Noise (Ols R on P)        Delta 1              Good (0.082)
+#> SignalVsNoise2 - Signal (Ols R on L)       Delta 1         Uncertain (0.053)
+#>                                            [Release[3]]-[Release[2]]
+#> Relevancy - Theil U2                                    Good (0.225)
+#> Bias1 T-test                                            Good (0.805)
+#> Bias2 Augmented T-test                                  Good (0.806)
+#> Bias3 SlopeAndDrift (Ols L on P) - Mean                 Good (0.584)
+#> Bias3 SlopeAndDrift (Ols L on P) - Reg.                 Good (0.624)
+#> Efficiency1 (Ols R on P) - Mean                         Good (0.300)
+#> Efficiency1 (Ols R on P) - Reg.                         Good (0.240)
+#> Efficiency2 (Ols Rv on Rv_1) - Mean                     Good (0.818)
+#> Efficiency2 (Ols Rv on Rv_1) - Reg.                     Good (0.298)
+#> Orthogonality1 (Ols Rv on Rv_(1:p)) - Mean              Good (0.818)
+#> Orthogonality1 (Ols Rv on Rv_(1:p)) - Reg.              Good (0.702)
+#> Orthogonality2 (Ols Rv on Rv_k.) - Mean                 Good (0.818)
+#> Orthogonality2 (Ols Rv on Rv_k) - Reg.                  Good (0.298)
+#> Orthogonality3 AutoCorrelation (Ljung-Box)              Good (0.999)
+#> Orthogonality4 Seasonality (Ljung-Box)                  Good (1.000)
+#> Orthogonality4 Seasonality (Friedman)                   Good (0.769)
+#> SignalVsNoise1 - Noise (Ols R on P)                     Good (0.248)
+#> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.856)
+# summary(rslt)
+View(rslt)
+```
+
+<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
 
 Finally to create a report and get a summary of the results, you can use
 
@@ -164,10 +194,6 @@ render_report(
     output_dir = tempdir(),
     output_format = "pdf_document"
 )
-
-summary(rslt)
-print(rslt)
-View(rslt)
 ```
 
 ## Additional information
@@ -188,4 +214,4 @@ should be added or updated.
 
 The code of this project is licensed under the [European Union Public
 Licence
-(EUPL)](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12).
+(EUPL)](https://interoperable-europe.ec.europa.eu:443/collection/eupl/eupl-text-eupl-12).

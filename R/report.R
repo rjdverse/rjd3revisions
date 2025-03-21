@@ -91,10 +91,10 @@ render_report <- function(
 
     e <- list2env(list(
         rslt = rslt,
-        descriptive_statistics = rslt$descriptive.statistics,
-        main_results = rslt$summary,
+        descriptive_statistics = rslt[["descriptive.statistics"]],
+        main_results = rslt[["summary"]],
         add_plot = plot_revisions,
-        revisions = rslt$revisions
+        revisions = rslt[["revisions"]]
     ))
 
     rmarkdown::render(

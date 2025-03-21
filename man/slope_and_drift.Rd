@@ -32,7 +32,7 @@ df_long <- simulate_long(
 
 ## Create vintage and test
 vintages <- create_vintages(df_long, periodicity = 4L)
-slope_and_drift(vintages$diagonal_view)
+slope_and_drift(vintages[["diagonal_view"]])
 
 }
 \seealso{

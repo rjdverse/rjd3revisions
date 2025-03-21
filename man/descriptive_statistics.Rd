@@ -28,6 +28,6 @@ df_long <- simulate_long(
 ## Create vintage and get descriptive statistics of revisions
 vintages <- create_vintages(df_long, periodicity = 4)
 revisions <- get_revisions(vintages, gap = 1)
-descriptive_statistics(revisions$diagonal_view, rounding = 1)
+descriptive_statistics(revisions[["diagonal_view"]], rounding = 1)
 
 }

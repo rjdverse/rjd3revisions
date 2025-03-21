@@ -43,8 +43,8 @@ set_all_thresholds_to_default <- function(diagnostic_tests = TRUE) {
 set_thresholds_to_default <- function(threshold_option_name) {
     switch(
         threshold_option_name,
-        theil_u1_threshold = { options(theil_u1_threshold = c(uncertain = .8, bad = .9, severe = .99)) },
-        theil_u2_threshold = { options(theil_u2_threshold = c(uncertain = .8, bad = .9, severe = 1)) },
+        theil_u1_threshold = { options(theil_u1_threshold = c(uncertain = 0.8, bad =  0.9, severe = 0.99)) },
+        theil_u2_threshold = { options(theil_u2_threshold = c(uncertain = 0.8, bad = 0.9, severe = 1)) },
         t_threshold = { options(t_threshold = c(severe = 0.001, bad = 0.01, uncertain = 0.05)) },
         augmented_t_threshold = { options(augmented_t_threshold = c(severe = 0.001, bad = 0.01, uncertain = 0.05)) },
         slope_and_drift_threshold = { options(slope_and_drift_threshold = c(severe = 0.001, bad = 0.01, uncertain = 0.05)) },

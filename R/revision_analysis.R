@@ -128,10 +128,10 @@ revision_analysis <- function(vintages,
 
     if (is.null(vintages)) stop("No vintage found!")
     if (view == "diagonal") {
-        if (ncol(vintages$diagonal_view) < (gap + 1)) stop("The number of releases must be >= (1+gap)")
+        if (ncol(vintages[["diagonal_view"]]) < (gap + 1)) stop("The number of releases must be >= (1+gap)")
         if (n.releases < (gap + 1)) stop("'n.releases' must be >= (1+gap)")
     } else {
-        if (ncol(vintages$vertical_view) < (gap + 1)) stop("The number of vintages must be >= (1+gap)")
+        if (ncol(vintages[["vertical_view"]]) < (gap + 1)) stop("The number of vintages must be >= (1+gap)")
     }
 
     # Pre-treatment
@@ -153,7 +153,7 @@ revision_analysis <- function(vintages,
     is_cointegrated <- coint_test_interpretor(coint_test, is_stationary)
 
     seas_test <- apply(vt, 2, seasonality_test)
-    is_seasonal <- ifelse(sum(seas_test) / ncol(vt) > .8, TRUE, FALSE)
+    is_seasonal <- (sum(seas_test) / ncol(vt)) > 0.8
 
     delta_diff <- ifelse(is_seasonal, freq, 1)
     if (transf.diff == "auto") {
@@ -165,7 +165,9 @@ revision_analysis <- function(vintages,
     } else if (transf.diff == "none") {
         vts <- vtc <- vt
         if (!is_stationary || !is_cointegrated) {
-            warning("No differentiation considered even though stationarity and/or cointegration might not be present. This can lead to spurious regression.", call. = FALSE)
+            warning("No differentiation considered even though stationarity ",
+                    "and/or cointegration might not be present. ",
+                    "This can lead to spurious regression.", call. = FALSE)
         }
         is_stationary <- is_cointegrated <- TRUE
     }
@@ -195,7 +197,7 @@ revision_analysis <- function(vintages,
     ### Slope and drift
     sd_test <- slope_and_drift(vtc, gap, na.zero)
     sd_infos <- sd_test_evaluator(sd_test, is_log, is_cointegrated, delta_diff,
-                                  n_test = ncol(vtc[, -c(1:gap), drop = FALSE]),
+                                  n_test = ncol(vtc[, -seq_len(gap), drop = FALSE]),
                                   thr = getOption("slope_and_drift_threshold"),
                                   thr_res_jb = getOption("jb_res_threshold"),
                                   thr_res_bp = getOption("bp_res_threshold"),
@@ -228,7 +230,7 @@ revision_analysis <- function(vintages,
     ### Regression of latter revisions (Rv) on previous revisions (Rv_1, Rv_2,...Rv_p)
     orth1_test <- orthogonallyModel1(rv, nrevs, na.zero)
     orth1_infos <- orth1_test_evaluator(orth1_test, is_log, nrevs, ncol_rv = ncol(rv),
-                                        n_test = ncol(rv[, -c(1:nrevs), drop = FALSE]),
+                                        n_test = ncol(rv[, -seq_len(nrevs), drop = FALSE]),
                                         thr = getOption("orth1_threshold"),
                                         thr_res_jb = getOption("jb_res_threshold"),
                                         thr_res_bp = getOption("bp_res_threshold"),
@@ -238,7 +240,7 @@ revision_analysis <- function(vintages,
     ### Regression model of latter revisions (Rv) on previous revisions at a specific version (Rv_k)
     orth2_test <- orthogonallyModel2(rv, ref, na.zero)
     orth2_infos <- orth2_test_evaluator(orth2_test, is_log, ref, ncol_rv = ncol(rv),
-                                        n_test = ncol(rv[, -c(1:ref), drop = FALSE]),
+                                        n_test = ncol(rv[, -seq_len(ref), drop = FALSE]),
                                         thr = getOption("orth2_threshold"),
                                         thr_res_jb = getOption("jb_res_threshold"),
                                         thr_res_bp = getOption("bp_res_threshold"),
@@ -251,8 +253,8 @@ revision_analysis <- function(vintages,
                                   thr = getOption("autocorr_threshold"))
 
     ### Seasonality tests
-    lb_test <- try(apply(diff(rv), 2, function(x) seasonality_qs(x, freq)), silent = TRUE) # Ljung-Box
-    fd_test <- try(apply(diff(rv), 2, function(x) seasonality_friedman(x, freq)), silent = TRUE)  # Friedman non-parametric test
+    lb_test <- try(apply(X = diff(rv), MARGIN = 2, FUN = seasonality_qs, period = freq), silent = TRUE) # Ljung-Box
+    fd_test <- try(apply(X = diff(rv), MARGIN = 2, FUN = seasonality_friedman, period = freq), silent = TRUE)  # Friedman non-parametric test
     seas_infos <- seas_tests_evaluator(lb_test, fd_test, is_log, cnames = colnames(rv),
                                        freq = freq, n_test = ncol(rv),
                                        thr = getOption("seas_threshold"))
@@ -302,37 +304,37 @@ revision_analysis <- function(vintages,
 
     options(scipen = 0)
 
-    return(
-        structure(list(
-            call = cl,
-            revisions = rv_notrf,
-            descriptive.statistics = ds,
-            summary = summary_table,
-            summary.residuals = diagnostics_table,
-            relevancy = list(theil = theil_infos$theil_rslt),
-            bias = list(t_ta_test = tat_infos$tat_rslt,
-                        slope_and_drift = sd_infos$sd_rslt),
-            efficiency = list(efficiency1 = eff1_infos$eff1_rslt,
-                              efficiency2 = eff2_infos$eff2_rslt),
-            orthogonality = list(orthogonality1 = orth1_infos$orth1_rslt,
-                                 orthogonality2 = orth2_infos$orth2_rslt,
-                                 autocorrelation_test = ac_infos$ac_rslt,
-                                 seasonality_test = seas_infos$seas_rslt),
-            signalnoise = list(signal_noise = sn_infos$sn_rslt),
-            varbased = var_based_rslt,
-            view = view
-        ), class = "rjd3rev_rslts")
+    output <- list(
+        call = cl,
+        revisions = rv_notrf,
+        descriptive.statistics = ds,
+        summary = summary_table,
+        summary.residuals = diagnostics_table,
+        relevancy = list(theil = theil_infos$theil_rslt),
+        bias = list(t_ta_test = tat_infos$tat_rslt,
+                    slope_and_drift = sd_infos$sd_rslt),
+        efficiency = list(efficiency1 = eff1_infos$eff1_rslt,
+                          efficiency2 = eff2_infos$eff2_rslt),
+        orthogonality = list(orthogonality1 = orth1_infos$orth1_rslt,
+                             orthogonality2 = orth2_infos$orth2_rslt,
+                             autocorrelation_test = ac_infos$ac_rslt,
+                             seasonality_test = seas_infos$seas_rslt),
+        signalnoise = list(signal_noise = sn_infos$sn_rslt),
+        varbased = var_based_rslt,
+        view = view
     )
+    class(output) <- "rjd3rev_rslts"
+    return(output)
 }
 
 # get_vintages_view function ---------------------------------------------------
 get_vintages_view <- function(vintages, transf.log, view, n.releases) {
 
     if (view == "vertical") {
-        vt <- vintages$vertical_view
+        vt <- vintages[["vertical_view"]]
     } else if (view == "diagonal") {
-        n.releases <- min(n.releases, ncol(vintages$diagonal_view))
-        vt <- vintages$diagonal_view[, 1:n.releases]
+        n.releases <- min(n.releases, ncol(vintages[["diagonal_view"]]))
+        vt <- vintages[["diagonal_view"]][, seq_len(n.releases)]
     }
 
     if (transf.log) {
@@ -355,8 +357,8 @@ get_vintages_view <- function(vintages, transf.log, view, n.releases) {
 ur_test_intepretor <- function(ur) {
     if (!is.null(ur)) {
         ur_ADFpvals <- ur[, "ADF.pvalue"]
-        pc_signif_ur <- length(ur_ADFpvals[ur_ADFpvals < .05]) / length(ur_ADFpvals)
-        is_stationary <- ifelse(pc_signif_ur > .8, TRUE, FALSE)
+        pc_signif_ur <- length(ur_ADFpvals[ur_ADFpvals < 0.05]) / length(ur_ADFpvals)
+        is_stationary <- pc_signif_ur > 0.8
     } else {
         is_stationary <- TRUE
     }
@@ -369,8 +371,8 @@ coint_test_interpretor <- function(coint, is_stationary) {
     } else {
         if (!is.null(coint)) {
             coint_pvals <- coint[, "pvalue"]
-            pc_signif_coint <- length(coint_pvals[coint_pvals < .05]) / length(coint_pvals)
-            is_cointegrated <- ifelse(pc_signif_coint > .8, TRUE, FALSE)
+            pc_signif_coint <- length(coint_pvals[coint_pvals < 0.05]) / length(coint_pvals)
+            is_cointegrated <- pc_signif_coint > 0.8
         } else {
             is_cointegrated <- FALSE
         }
@@ -382,18 +384,18 @@ seasonality_test <- function(x) {
 
     if (stats::frequency(x) > 1) {
         x_diff <- diff(x)
-        lb_pval <- try(seasonality_qs(x_diff, stats::frequency(x))$pvalue, silent = TRUE) # Ljung-Box
-        fd_pval <- try(seasonality_friedman(x_diff, stats::frequency(x))$pvalue, silent = TRUE) # Friedman non-parametric test
+        lb_pval <- try(seasonality_qs(x_diff, stats::frequency(x))[["pvalue"]], silent = TRUE) # Ljung-Box
+        fd_pval <- try(seasonality_friedman(x_diff, stats::frequency(x))[["pvalue"]], silent = TRUE) # Friedman non-parametric test
 
-        test_succeeded <- c(!"try-error" %in% class(lb_pval), !"try-error" %in% class(fd_pval))
+        test_succeeded <- c(!inherits(lb_pval, "try-error"), !inherits(fd_pval, "try-error"))
         if (all(test_succeeded)) {
             pvals <- c(lb_pval, fd_pval)
-            seasonality <- ifelse(length(pvals[which(pvals < .05)]) == 2, TRUE, FALSE)
+            seasonality <- length(pvals[which(pvals < 0.05)]) == 2
         } else if (any(test_succeeded)) {
             if (test_succeeded[1]) {
-                seasonality <- ifelse(lb_pval < .01, TRUE, FALSE)
+                seasonality <- lb_pval < 0.01
             } else if (test_succeeded[2]) {
-                seasonality <- ifelse(fd_pval < .01, TRUE, FALSE)
+                seasonality <- fd_pval < 0.01
             }
         } else {
             seasonality <- FALSE
@@ -407,7 +409,7 @@ seasonality_test <- function(x) {
 theil_test_evaluator <- function(U1, U2, N, n_test, thr) {
     if (!is.null(U1)) {
         theil_rslt <- round(rbind(N, U1), 3)
-        if (!is.null(U2) && !all(is.nan(U2)) == TRUE) {
+        if (!is.null(U2) && !all(is.nan(U2))) {
             theil_rslt <- rbind(theil_rslt, U2 = round(U2, 3))
             theil_q <- eval_test(U2, threshold = thr$u2, ascending = FALSE)
             U_det <- "U2"
@@ -538,14 +540,14 @@ ac_test_evaluator <- function(ac, is_log, cnames, n_test, thr) {
     ac_trf <- ifelse(is_log, "Log", "None")
     ac_trf_str <- ifelse(ac_trf == "Log", get_info_transformation(TRUE, FALSE), get_info_transformation(FALSE, FALSE))
 
-    if (!"try-error" %in% class(ac)) {
+    if (inherits(ac, "try-error")) {
+        ac_rslt <- NULL
+        ac_q <- rep(NA, n_test)
+    } else {
         pm_test_mat <- matrix(unlist(ac), ncol = 2, byrow = TRUE)[, , drop = FALSE]
         dimnames(pm_test_mat) <- list(cnames, c("value", "p.value"))
         ac_rslt <- list(info_transformation = ac_trf_str, estimates_ljungbox = pm_test_mat)
         ac_q <- eval_test(ac_rslt$estimates_ljungbox[, "p.value"], threshold = thr)
-    } else {
-        ac_rslt <- NULL
-        ac_q <- rep(NA, n_test)
     }
 
     return(list(ac_rslt = ac_rslt, ac_q = ac_q, ac_trf = ac_trf))
@@ -555,19 +557,19 @@ seas_tests_evaluator <- function(lb_test, fd_test, is_log, cnames, freq, n_test,
     seas_trf <- ifelse(is_log, "Delta-Log 1", "Delta 1")
     seas_trf_str <- ifelse(seas_trf == "Delta-Log 1", get_info_transformation(TRUE, TRUE), get_info_transformation(FALSE, TRUE))
 
-    if (!"try-error" %in% class(lb_test) && !"try-error" %in% class(fd_test) && freq > 1) {
+    if (!inherits(lb_test, "try-error") && !inherits(fd_test, "try-error") && freq > 1) {
         seas_rslt <- list(info_transformation = seas_trf_str,
                           estimates_ljungbox = matrix(unlist(lb_test), ncol = 2, byrow = TRUE, dimnames = list(cnames, c("value", "p.value"))),
                           estimates_friedman = matrix(unlist(fd_test), ncol = 2, byrow = TRUE, dimnames = list(cnames, c("value", "p.value"))))
         seas_lb_q <- eval_test(seas_rslt$estimates_ljungbox[, "p.value"], threshold = thr)
         seas_fd_q <- eval_test(seas_rslt$estimates_friedman[, "p.value"], threshold = thr)
-    } else if (!"try-error" %in% class(lb_test) && freq > 1) {
+    } else if (!inherits(lb_test, "try-error") && freq > 1) {
         seas_rslt <- list(info_transformation = seas_trf_str,
                           estimates_ljungbox = matrix(unlist(lb_test), ncol = 2, byrow = TRUE, dimnames = list(cnames, c("value", "p.value"))),
                           estimates_friedman = NULL)
         seas_lb_q <- eval_test(seas_rslt$estimates_ljungbox[, "p.value"], threshold = thr)
         seas_fd_q <- rep(NA, n_test)
-    } else if (!"try-error" %in% class(fd_test) && freq > 1) {
+    } else if (!inherits(fd_test, "try-error") && freq > 1) {
         seas_rslt <- list(info_transformation = seas_trf_str,
                           estimates_ljungbox = NULL,
                           estimates_friedman = matrix(unlist(fd_test), ncol = 2, byrow = TRUE, dimnames = list(cnames, c("value", "p.value"))))
@@ -610,7 +612,9 @@ eval_test <- function(val,
                       ascending = TRUE) {
 
     if (is.null(threshold)) {
-        stop("Some user-defined thresholds are defined as NULL. See ?set_thresholds_to_default or ?set_all_thresholds_to_default to reset tests thresholds to their default values", call. = FALSE)
+        stop("Some user-defined thresholds are defined as NULL. ",
+             "See ?set_thresholds_to_default or ?set_all_thresholds_to_default ",
+             "to reset tests thresholds to their default values", call. = FALSE)
     }
 
     if (!all(tolower(names(threshold)) %in% c("good", "uncertain", "bad", "severe"))) {
@@ -623,21 +627,21 @@ eval_test <- function(val,
     val <- as.numeric(val)
     n <- length(val)
     nt <- length(threshold)
-    qualities <- c()
+    qualities <- character(0L)
 
-    for (i in 1:n) {
+    for (i in seq_len(n)) {
         quality <- "good"
 
         if (!is.na(val[i])) {
             if (ascending) {
-                for (k in 1:nt) {
+                for (k in seq_len(nt)) {
                     if (val[i] < threshold[k]) {
                         quality <- names(threshold)[k]
                         break
                     }
                 }
             } else {
-                for (k in nt:1) {
+                for (k in rev(seq_len(nt))) {
                     if (val[i] > threshold[k]) {
                         quality <- names(threshold)[k]
                         break
@@ -662,11 +666,16 @@ format_reg_output <- function(x, is_log, is_diff) {
 
     x_df <- as.data.frame(t(round(x, 3)))
     n <- nrow(x_df)
-    estim <- x_df[1:(n - 13), , drop = FALSE]
+    estim <- x_df[seq_len(n - 13), , drop = FALSE]
 
     norm_test <- list(Jarque_Bera_test = x_df[(n - 12):(n - 9), , drop = FALSE])
-    hsk_test <- list(Breusch_Pagan_test = x_df[(n - 8):(n - 6), , drop = FALSE], White_test = x_df[(n - 5):(n - 3), , drop = FALSE], ARCH_test = x_df[(n - 2):n, , drop = FALSE])
-    tests <- list(normality = norm_test, homoskedasticity = hsk_test)
+    hsk_test <- list(
+        Breusch_Pagan_test = x_df[(n - 8):(n - 6), , drop = FALSE],
+        White_test = x_df[(n - 5):(n - 3), , drop = FALSE],
+        ARCH_test = x_df[(n - 2):n, , drop = FALSE]
+    )
+    tests <- list(normality = norm_test,
+                  homoskedasticity = hsk_test)
 
     return(list(info_transformation = info_transformation, estimates = estim, residuals = tests))
 }
@@ -765,18 +774,7 @@ build_table <- function(x, type = c("summary", "stats-desc", "revisions", "tests
     # Check type
     type <- match.arg(type)
 
-    if (!requireNamespace("flextable", quietly = TRUE)) {
-        warning("Please install 'flextable': install.packages('flextable') to get more visual output")
-        if (type == "summary") {
-            return(x$summary)
-        } else if (type == "stats-desc") {
-            return(x$descriptive.statistics)
-        } else if (type == "revisions") {
-            return(x$revisions)
-        } else if (type == "tests") {
-            message("Feature not implemented yet.")
-        }
-    } else {
+    if (requireNamespace("flextable", quietly = TRUE)) {
         if (type == "summary") {
             main_results <- x$summary |>
                 format_table() |>
@@ -800,6 +798,17 @@ build_table <- function(x, type = c("summary", "stats-desc", "revisions", "tests
                 flextable::flextable() |>
                 theme_design()
             return(revisions_table)
+        } else if (type == "tests") {
+            message("Feature not implemented yet.")
+        }
+    } else {
+        warning("Please install 'flextable': install.packages('flextable') to get more visual output")
+        if (type == "summary") {
+            return(x$summary)
+        } else if (type == "stats-desc") {
+            return(x$descriptive.statistics)
+        } else if (type == "revisions") {
+            return(x$revisions)
         } else if (type == "tests") {
             message("Feature not implemented yet.")
         }
@@ -841,18 +850,20 @@ View.rjd3rev_rslts <- function(
 
     table_output <- build_table(x, type)
 
-    if (!requireNamespace("flextable", quietly = TRUE)) {
+    if (requireNamespace("flextable", quietly = TRUE)) {
+        return(table_output)
+    } else {
         warning("Please install 'flextable': install.packages('flextable') to get more visual output")
 
-        utils::View(table_output, title = paste(title, switch(
+        title <- paste(title, switch(
             type,
-            "summary" = "Tests summary",
+            summary = "Tests summary",
             "stat-desc" = "Descriptive statistics",
-            "revisions" = "Revisions",
-            "tests" = "All tests"
-        )))
-    } else {
-        print(table_output)
+            revisions = "Revisions",
+            tests = "All tests"
+        ))
+        return(
+            utils::View(table_output, title = title)
+        )
     }
-    return(invisible(NULL))
 }

@@ -8,6 +8,7 @@ simulate_series <- function(n, periodicity = 12L) {
     checkmate::assert_number(x = periodicity, na.ok = FALSE, finite = TRUE, null.ok = FALSE)
     checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
 
+    seed <- sample.int(n = .Machine$integer.max, size = 1L)
     coeff <- list(
         phi = NULL,
         d = 1,
@@ -27,20 +28,37 @@ simulate_series <- function(n, periodicity = 12L) {
         period = periodicity
     )
 
-    return(rjd3toolkit::sarima_random(model = JD_model, length = n))
+    return(rjd3toolkit::sarima_random(model = JD_model, length = n, seed = seed))
 }
 
 simulate_revision <- function(n, init = stats::rnorm(1, 0, 1)) {
-
     # Check n
     checkmate::assert_count(n, na.ok = FALSE, null.ok = FALSE)
 
     # Check init
     checkmate::assert_number(init, na.ok = FALSE, finite = TRUE, null.ok = FALSE)
 
-    return(init + stats::rnorm(n, mean = 0, sd = 2 ** (2 - seq_len(n))))
+    output <- init + stats::rnorm(n, mean = 0, sd = 2 ** (2 - seq_len(n)))
+    return(output)
 }
 
+simulate_revision_dates <- function(n, time_period,
+                                    periodicity, origin = "1970-01-01") {
+    # Check n
+    checkmate::assert_count(n, na.ok = FALSE, null.ok = FALSE)
+
+    x <- min(time_period):(max(time_period) + 2L * 30L * 12L / periodicity) # On rajoute 2 périodes supplémentaires
+    output <- as.Date(
+        x = sort(sample(
+            x = x,
+            size = n,
+            replace = FALSE
+        )),
+        origin = origin
+    )
+
+    return(output)
+}
 
 #' Simulate long datasets with revisions
 #'
@@ -91,14 +109,9 @@ simulate_long <- function(n_period = 50,
     }
 
     time_period <- seq.Date(from = start_period, by = by, length.out = n_period)
-    rev_date <- as.Date(
-        x = sort(sample(
-            x = min(time_period):(max(time_period) + 2 * 30 * 12 / periodicity), # On rajoute 2 périodes supplémentaires
-            size = n_revision,
-            replace = FALSE
-        )),
-        origin = "1970-01-01"
-    )
+    rev_date <- simulate_revision_dates(n = n_revision, time_period, periodicity,
+                                        origin = "1970-01-01")
+
     final_series <- simulate_series(n_period, periodicity = periodicity)
 
     long <- data.frame(
@@ -111,8 +124,10 @@ simulate_long <- function(n_period = 50,
         period <- time_period[index_period]
         value <- final_series[index_period]
         nb_NA <- sum(rev_date < period)
-        revised_series <- c(rep(NA_real_, nb_NA),
-                            simulate_revision(n = n_revision - nb_NA, init = value))
+        revised_series <- c(rep(NA_real_, nb_NA), simulate_revision(
+            n = n_revision - nb_NA,
+            init = value
+        ))
         long <- rbind(long, data.frame(
             rev_date = rev_date,
             time_period = period,
@@ -120,7 +135,7 @@ simulate_long <- function(n_period = 50,
         ))
     }
 
-    long <- long[order(long$rev_date, long$time_period), ]
+    long <- long[order(long[["rev_date"]], long[["time_period"]]), ]
     rownames(long) <- NULL
 
     return(long)

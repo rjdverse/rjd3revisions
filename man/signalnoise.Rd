@@ -33,7 +33,7 @@ df_long <- simulate_long(
 
 ## Create vintage and test
 vintages <- create_vintages(df_long, periodicity = 4L)
-signalnoise(vintages$diagonal_view)
+signalnoise(vintages[["diagonal_view"]])
 
 }
 \seealso{
