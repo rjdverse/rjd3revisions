@@ -3,7 +3,7 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   rjd3revisions: rjd3revisions.html
-last_built: 2025-03-21T08:18Z
+last_built: 2025-03-21T08:21Z
 urls:
   reference: https://rjdverse.github.io/rjd3revisions/reference
   article: https://rjdverse.github.io/rjd3revisions/articles
