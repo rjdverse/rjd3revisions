@@ -118,7 +118,7 @@ $$
 L_t=\beta_0+\beta_1P_t+\varepsilon_t
 $$
 
-While the (augmented) t-test on revisions only gives information about mean bias, this regression enables to assess both mean and regression bias. A regression bias would occur, for example, if preliminary estimates tend to be too low when latter estimates are relatively high and too high when latter estimates are relatively low. In this case, this may result in a positive value of the intercept and a value of $\beta_1<1$. To evaluate whether a mean or regression bias is present, we employ a conventional t-test on the parameters with the null hypothesis $\beta_0 = 0$ and $\hat{\beta}_1 = 1$.  
+While the (augmented) t-test on revisions only gives information about mean bias, this regression enables to assess both mean and regression bias. A regression bias would occur, for example, if preliminary estimates tend to be too low when latter estimates are relatively high and too high when latter estimates are relatively low. In this case, this may result in a negative value of the intercept and a value of $\beta_1>1$. To evaluate whether a mean or regression bias is present, we employ a conventional t-test on the parameters with the null hypothesis $\beta_0 = 0$ and $\hat{\beta}_1 = 1$.  
 
 Recall that OLS regressions always come along with rather strict assumptions. Users should check the diagnostics and draw the necessary conclusions from them. 
 
