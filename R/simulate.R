@@ -28,6 +28,8 @@ simulate_series <- function(n, periodicity = 12L) {
         period = periodicity
     )
 
+    print(JD_model)
+
     return(rjd3toolkit::sarima_random(model = JD_model, length = n, seed = seed))
 }
 
