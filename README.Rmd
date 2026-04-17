@@ -58,7 +58,7 @@ You can install the development version of **rjd3revisions** from [GitHub](https
 
 ```{r, echo = TRUE, eval = FALSE}
 # install.packages("remotes")
-remotes::install_github("rjdverse/rjd3revisions")
+remotes::install_github("rjdverse/rjd3revisions", build_vignettes = TRUE)
 ```
 
 
