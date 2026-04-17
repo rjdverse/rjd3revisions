@@ -427,7 +427,7 @@ create_vintages_from_csv <- function(file,
     ))
 }
 
-#' Create vintages table from XLSX files
+#' @title Create vintages table from XLSX files
 #'
 #' @inheritParams create_vintages_from_csv
 #' @param ... Arguments to be passed to `readxl::read_excel()`, for example:
@@ -482,7 +482,7 @@ create_vintages_from_xlsx <- function(file,
 
 # Generic functions ------------------------------------------------------------
 
-#' Print function for objects of class `"rjd3rev_vintages"`
+#' @title Print function for objects of class `"rjd3rev_vintages"`
 #'
 #' @param x an object of class `"rjd3rev_vintages"`.
 #' @param n_row number of last rows to display. For the horizontal view,
@@ -539,7 +539,7 @@ print.rjd3rev_vintages <- function(x,
     return(invisible(NULL))
 }
 
-#' Summary function for objects of class "rjd3rev_vintages"
+#' @title Summary function for objects of class "rjd3rev_vintages"
 #'
 #' @param object an object of class "rjd3rev_vintages".
 #' @param ... further arguments passed to or from other methods.
