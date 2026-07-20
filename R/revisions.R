@@ -28,9 +28,14 @@
 #' revisions <- get_revisions(vintages, gap = 1)
 #'
 get_revisions <- function(vintages, gap = 1) {
-
     checkmate::assert_class(x = vintages, classes = "rjd3rev_vintages")
-    checkmate::assert_count(x = gap, positive = TRUE, na.ok = FALSE, null.ok = FALSE, .var.name = "gap")
+    checkmate::assert_count(
+        x = gap,
+        positive = TRUE,
+        na.ok = FALSE,
+        null.ok = FALSE,
+        .var.name = "gap"
+    )
 
     dv <- get_revisions_view(vintages[["diagonal_view"]], gap)
     vv <- get_revisions_view(vintages[["vertical_view"]], gap)
@@ -79,13 +84,22 @@ get_revisions_view <- function(vt, gap) {
 #' @exportS3Method plot rjd3rev_revisions
 #' @export
 #'
-plot.rjd3rev_revisions <- function(x, view = c("vertical", "diagonal"), n_rev = 2, ...) {
-
+plot.rjd3rev_revisions <- function(
+    x,
+    view = c("vertical", "diagonal"),
+    n_rev = 2,
+    ...
+) {
     # Check type
     view <- match.arg(view)
 
     # Check counts
-    checkmate::assert_count(x = n_rev, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
+    checkmate::assert_count(
+        x = n_rev,
+        positive = TRUE,
+        na.ok = FALSE,
+        null.ok = FALSE
+    )
 
     rev <- x[[paste0(view, "_view")]]
     nc <- ncol(rev)
@@ -96,8 +110,25 @@ plot.rjd3rev_revisions <- function(x, view = c("vertical", "diagonal"), n_rev = 
         rev <- rev[, seq_len(n_rev), drop = FALSE]
     }
 
-    stats::ts.plot(rev, gpars = list(xlab = "", ylab = "", col = seq_len(nc), type = "h", lwd = 2, ...))
-    graphics::legend("topleft", bty = "n", lty = 1, lwd = 2, col = seq_len(nc), legend = colnames(rev))
+    stats::ts.plot(
+        rev,
+        gpars = list(
+            xlab = "",
+            ylab = "",
+            col = seq_len(nc),
+            type = "h",
+            lwd = 2,
+            ...
+        )
+    )
+    graphics::legend(
+        "topleft",
+        bty = "n",
+        lty = 1,
+        lwd = 2,
+        col = seq_len(nc),
+        legend = colnames(rev)
+    )
     graphics::title(main = "Revisions size")
 }
 
@@ -115,10 +146,21 @@ plot.rjd3rev_revisions <- function(x, view = c("vertical", "diagonal"), n_rev = 
 #' @export
 #'
 print.rjd3rev_revisions <- function(x, n_row = 12, n_col = 3, ...) {
-
     # Check counts
-    checkmate::assert_count(x = n_row, positive = TRUE, na.ok = FALSE, null.ok = FALSE, .var.name = "n_row")
-    checkmate::assert_count(x = n_col, positive = TRUE, na.ok = FALSE, null.ok = FALSE, .var.name = "n_col")
+    checkmate::assert_count(
+        x = n_row,
+        positive = TRUE,
+        na.ok = FALSE,
+        null.ok = FALSE,
+        .var.name = "n_row"
+    )
+    checkmate::assert_count(
+        x = n_col,
+        positive = TRUE,
+        na.ok = FALSE,
+        null.ok = FALSE,
+        .var.name = "n_col"
+    )
 
     vv <- x[["vertical_view"]]
     n_col_tot <- ncol(vv)
@@ -129,18 +171,31 @@ print.rjd3rev_revisions <- function(x, n_row = 12, n_col = 3, ...) {
     end_period <- stats::end(vv)
     is_extract <- (n_col < n_col_tot) || (n_row < n_row_tot)
 
-    extract_vv <- stats::ts(x[["vertical_view"]][(n_row_tot - n_row + 1):n_row_tot, (n_col_tot - n_col + 1):n_col_tot],
-                            frequency = freq,
-                            end = end_period)
-    extract_hv <- x$horizontal_view[(n_col_tot - n_col + 1):n_col_tot, (n_row_tot - n_row + 1):n_row_tot]
-    extract_dv <- stats::ts(x[["diagonal_view"]][(n_row_tot - n_row + 1):n_row_tot, 1:n_col],
-                            frequency = freq,
-                            end = end_period)
+    extract_vv <- stats::ts(
+        x[["vertical_view"]][
+            (n_row_tot - n_row + 1):n_row_tot,
+            (n_col_tot - n_col + 1):n_col_tot
+        ],
+        frequency = freq,
+        end = end_period
+    )
+    extract_hv <- x$horizontal_view[
+        (n_col_tot - n_col + 1):n_col_tot,
+        (n_row_tot - n_row + 1):n_row_tot
+    ]
+    extract_dv <- stats::ts(
+        x[["diagonal_view"]][(n_row_tot - n_row + 1):n_row_tot, 1:n_col],
+        frequency = freq,
+        end = end_period
+    )
 
-    print(list(extract = is_extract,
-               vertical_view = extract_vv,
-               horizontal_view = extract_hv,
-               diagonal_view = extract_dv, ...))
+    print(list(
+        extract = is_extract,
+        vertical_view = extract_vv,
+        horizontal_view = extract_hv,
+        diagonal_view = extract_dv,
+        ...
+    ))
 }
 
 

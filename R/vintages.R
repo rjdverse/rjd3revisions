@@ -1,4 +1,3 @@
-
 #' @title Create vintage tables
 #' @rdname create_vintages
 #'
@@ -134,49 +133,87 @@ create_vintages <- function(x, ...) {
 #' @method create_vintages data.frame
 #'
 create_vintages.data.frame <- function(
-        x,
-        type = c("long", "horizontal", "vertical"),
-        periodicity,
-        date_format = "%Y-%m-%d",
-        vintage_selection,
-        ...) {
-
+    x,
+    type = c("long", "horizontal", "vertical"),
+    periodicity,
+    date_format = "%Y-%m-%d",
+    vintage_selection,
+    ...
+) {
     # Check type
     type <- match.arg(type)
 
     # Check periodicity
-    checkmate::assert_count(x = periodicity, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
+    checkmate::assert_count(
+        x = periodicity,
+        positive = TRUE,
+        na.ok = FALSE,
+        null.ok = FALSE
+    )
     checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
 
     if (type == "long") {
-
         # Check x input
         long <- check_long(x = x, date_format = date_format)
 
         if (!missing(vintage_selection)) {
-
-            vintage_selection <- as.Date(vintage_selection, format = date_format)
+            vintage_selection <- as.Date(
+                vintage_selection,
+                format = date_format
+            )
             revdate <- long[["revdate"]]
 
             # Check vintage_selection
-            checkmate::assert_date(vintage_selection, min.len = 0, max.len = 2, null.ok = FALSE, any.missing = FALSE)
-            checkmate::assert_set_equal(x = length(unique(names(vintage_selection))), y = length(vintage_selection))
-            sapply(X = names(vintage_selection), FUN = checkmate::assert_choice, choices = c("start", "end"))
-            checkmate::assert_true(vintage_selection["start"] <= vintage_selection["end"], na.ok = TRUE)
-            checkmate::assert_true(vintage_selection["start"] <= max(revdate), na.ok = TRUE)
-            checkmate::assert_true(vintage_selection["end"] >= min(revdate), na.ok = TRUE)
+            checkmate::assert_date(
+                vintage_selection,
+                min.len = 0,
+                max.len = 2,
+                null.ok = FALSE,
+                any.missing = FALSE
+            )
+            checkmate::assert_set_equal(
+                x = length(unique(names(vintage_selection))),
+                y = length(vintage_selection)
+            )
+            sapply(
+                X = names(vintage_selection),
+                FUN = checkmate::assert_choice,
+                choices = c("start", "end")
+            )
+            checkmate::assert_true(
+                vintage_selection["start"] <= vintage_selection["end"],
+                na.ok = TRUE
+            )
+            checkmate::assert_true(
+                vintage_selection["start"] <= max(revdate),
+                na.ok = TRUE
+            )
+            checkmate::assert_true(
+                vintage_selection["end"] >= min(revdate),
+                na.ok = TRUE
+            )
 
-            index <- ((is.na(vintage_selection["start"]) | revdate >= vintage_selection["start"])
-                      & (is.na(vintage_selection["end"]) | revdate <= vintage_selection["end"]))
+            index <- ((is.na(vintage_selection["start"]) |
+                revdate >= vintage_selection["start"]) &
+                (is.na(vintage_selection["end"]) |
+                    revdate <= vintage_selection["end"]))
             long <- long[index, ]
         }
 
         # Horizontal format
         horizontal <- from_long_to_horizontal(x = long)
         # Vertical format
-        vertical <- from_long_to_vertical(x = long, periodicity = periodicity, date_format = "%Y-%m-%d")
+        vertical <- from_long_to_vertical(
+            x = long,
+            periodicity = periodicity,
+            date_format = "%Y-%m-%d"
+        )
         # Diagonal format
-        diagonal <- from_horizontal_to_diagonal(x = horizontal, periodicity = periodicity, date_format = "%Y-%m-%d")
+        diagonal <- from_horizontal_to_diagonal(
+            x = horizontal,
+            periodicity = periodicity,
+            date_format = "%Y-%m-%d"
+        )
 
         output <- list(
             vertical_view = vertical,
@@ -186,7 +223,6 @@ create_vintages.data.frame <- function(
         )
         class(output) <- "rjd3rev_vintages"
         return(output)
-
     } else if (type %in% c("horizontal", "vertical")) {
         return(UseMethod("create_vintages", as.matrix(x)))
     }
@@ -198,49 +234,84 @@ create_vintages.data.frame <- function(
 #' @method create_vintages mts
 #'
 create_vintages.mts <- function(
-        x,
-        type = c("long", "horizontal", "vertical"),
-        periodicity,
-        date_format = "%Y-%m-%d",
-        vintage_selection,
-        ...) {
-
+    x,
+    type = c("long", "horizontal", "vertical"),
+    periodicity,
+    date_format = "%Y-%m-%d",
+    vintage_selection,
+    ...
+) {
     # Check type
     type <- match.arg(type)
 
     if (type %in% c("horizontal", "long")) {
         stop("Wrong type for mts data.")
     } else if (type == "vertical") {
-
         # Vertical format
-        vertical <- check_vertical(x = x, periodicity = periodicity, date_format = date_format)
+        vertical <- check_vertical(
+            x = x,
+            periodicity = periodicity,
+            date_format = date_format
+        )
 
         if (!missing(vintage_selection)) {
-
-            vintage_selection <- as.Date(vintage_selection, format = date_format)
+            vintage_selection <- as.Date(
+                vintage_selection,
+                format = date_format
+            )
             revdate <- as.Date(colnames(vertical))
 
             # Check vintage_selection
-            checkmate::assert_date(vintage_selection, min.len = 0, max.len = 2, null.ok = FALSE, any.missing = FALSE)
-            checkmate::assert_set_equal(x = length(unique(names(vintage_selection))), y = length(vintage_selection))
-            sapply(X = names(vintage_selection), FUN = checkmate::assert_choice, choices = c("start", "end"))
-            checkmate::assert_true(vintage_selection["start"] <= vintage_selection["end"], na.ok = TRUE)
-            checkmate::assert_true(vintage_selection["start"] <= max(revdate), na.ok = TRUE)
-            checkmate::assert_true(vintage_selection["end"] >= min(revdate), na.ok = TRUE)
+            checkmate::assert_date(
+                vintage_selection,
+                min.len = 0,
+                max.len = 2,
+                null.ok = FALSE,
+                any.missing = FALSE
+            )
+            checkmate::assert_set_equal(
+                x = length(unique(names(vintage_selection))),
+                y = length(vintage_selection)
+            )
+            sapply(
+                X = names(vintage_selection),
+                FUN = checkmate::assert_choice,
+                choices = c("start", "end")
+            )
+            checkmate::assert_true(
+                vintage_selection["start"] <= vintage_selection["end"],
+                na.ok = TRUE
+            )
+            checkmate::assert_true(
+                vintage_selection["start"] <= max(revdate),
+                na.ok = TRUE
+            )
+            checkmate::assert_true(
+                vintage_selection["end"] >= min(revdate),
+                na.ok = TRUE
+            )
 
-            index <- ((is.na(vintage_selection["start"]) | revdate >= vintage_selection["start"])
-                      & (is.na(vintage_selection["end"]) | revdate <= vintage_selection["end"]))
+            index <- ((is.na(vintage_selection["start"]) |
+                revdate >= vintage_selection["start"]) &
+                (is.na(vintage_selection["end"]) |
+                    revdate <= vintage_selection["end"]))
             vertical <- vertical[, index, drop = FALSE]
             attr(vertical, "class") <- c("mts", "ts", "matrix", "array")
-
         }
 
         # Horizontal format
-        horizontal <- from_vertical_to_horizontal(x = vertical, date_format = "%Y-%m-%d")
+        horizontal <- from_vertical_to_horizontal(
+            x = vertical,
+            date_format = "%Y-%m-%d"
+        )
         # Long format
         long <- from_vertical_to_long(x = vertical, date_format = "%Y-%m-%d")
         # Diagonal format
-        diagonal <- from_horizontal_to_diagonal(x = horizontal, periodicity = stats::frequency(vertical), date_format = "%Y-%m-%d")
+        diagonal <- from_horizontal_to_diagonal(
+            x = horizontal,
+            periodicity = stats::frequency(vertical),
+            date_format = "%Y-%m-%d"
+        )
     }
 
     output <- list(
@@ -259,18 +330,23 @@ create_vintages.mts <- function(
 #' @method create_vintages matrix
 #'
 create_vintages.matrix <- function(
-        x,
-        type = c("long", "horizontal", "vertical"),
-        periodicity,
-        date_format = "%Y-%m-%d",
-        vintage_selection,
-        ...) {
-
+    x,
+    type = c("long", "horizontal", "vertical"),
+    periodicity,
+    date_format = "%Y-%m-%d",
+    vintage_selection,
+    ...
+) {
     # Check type
     type <- match.arg(type)
 
     # Check periodicity
-    checkmate::assert_count(x = periodicity, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
+    checkmate::assert_count(
+        x = periodicity,
+        positive = TRUE,
+        na.ok = FALSE,
+        null.ok = FALSE
+    )
     checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
 
     # Check if date in first column
@@ -282,7 +358,6 @@ create_vintages.matrix <- function(
     if (type == "long") {
         stop("Wrong type for mts data.")
     } else if (type == "horizontal") {
-
         # Check x input
         checkmate::assert_matrix(x, mode = "numeric")
         if (length(rownames(x)) == 0 || length(colnames(x)) == 0) {
@@ -294,62 +369,132 @@ create_vintages.matrix <- function(
 
         # Check vintage_selection
         if (!missing(vintage_selection)) {
-
-            vintage_selection <- as.Date(vintage_selection, format = date_format)
+            vintage_selection <- as.Date(
+                vintage_selection,
+                format = date_format
+            )
             revdate <- as.Date(rownames(horizontal))
 
             # Check vintage_selection
-            checkmate::assert_date(vintage_selection, min.len = 0, max.len = 2, null.ok = FALSE, any.missing = FALSE)
-            checkmate::assert_set_equal(x = length(unique(names(vintage_selection))), y = length(vintage_selection))
-            sapply(X = names(vintage_selection), FUN = checkmate::assert_choice, choices = c("start", "end"))
-            checkmate::assert_true(vintage_selection["start"] <= vintage_selection["end"], na.ok = TRUE)
-            checkmate::assert_true(vintage_selection["start"] <= max(revdate), na.ok = TRUE)
-            checkmate::assert_true(vintage_selection["end"] >= min(revdate), na.ok = TRUE)
+            checkmate::assert_date(
+                vintage_selection,
+                min.len = 0,
+                max.len = 2,
+                null.ok = FALSE,
+                any.missing = FALSE
+            )
+            checkmate::assert_set_equal(
+                x = length(unique(names(vintage_selection))),
+                y = length(vintage_selection)
+            )
+            sapply(
+                X = names(vintage_selection),
+                FUN = checkmate::assert_choice,
+                choices = c("start", "end")
+            )
+            checkmate::assert_true(
+                vintage_selection["start"] <= vintage_selection["end"],
+                na.ok = TRUE
+            )
+            checkmate::assert_true(
+                vintage_selection["start"] <= max(revdate),
+                na.ok = TRUE
+            )
+            checkmate::assert_true(
+                vintage_selection["end"] >= min(revdate),
+                na.ok = TRUE
+            )
 
-            index <- ((is.na(vintage_selection["start"]) | revdate >= vintage_selection["start"])
-                      & (is.na(vintage_selection["end"]) | revdate <= vintage_selection["end"]))
+            index <- ((is.na(vintage_selection["start"]) |
+                revdate >= vintage_selection["start"]) &
+                (is.na(vintage_selection["end"]) |
+                    revdate <= vintage_selection["end"]))
             horizontal <- horizontal[index, , drop = FALSE]
-
         }
 
         # Vertical format
-        vertical <- from_horizontal_to_vertical(x = horizontal, periodicity = periodicity, date_format = "%Y-%m-%d")
+        vertical <- from_horizontal_to_vertical(
+            x = horizontal,
+            periodicity = periodicity,
+            date_format = "%Y-%m-%d"
+        )
         # Long format
-        long <- from_horizontal_to_long(x = horizontal, date_format = "%Y-%m-%d")
+        long <- from_horizontal_to_long(
+            x = horizontal,
+            date_format = "%Y-%m-%d"
+        )
         # Diagonal format
-        diagonal <- from_horizontal_to_diagonal(x = horizontal, periodicity = stats::frequency(vertical), date_format = "%Y-%m-%d")
-
+        diagonal <- from_horizontal_to_diagonal(
+            x = horizontal,
+            periodicity = stats::frequency(vertical),
+            date_format = "%Y-%m-%d"
+        )
     } else if (type == "vertical") {
-
         # Vertical format
-        vertical <- check_vertical(x = x, periodicity = periodicity, date_format = date_format)
+        vertical <- check_vertical(
+            x = x,
+            periodicity = periodicity,
+            date_format = date_format
+        )
 
         # Check vintage_selection
         if (!missing(vintage_selection)) {
-
-            vintage_selection <- as.Date(vintage_selection, format = date_format)
+            vintage_selection <- as.Date(
+                vintage_selection,
+                format = date_format
+            )
             revdate <- as.Date(colnames(vertical))
 
             # Check vintage_selection
-            checkmate::assert_date(vintage_selection, min.len = 0, max.len = 2, null.ok = FALSE, any.missing = FALSE)
-            checkmate::assert_set_equal(x = length(unique(names(vintage_selection))), y = length(vintage_selection))
-            sapply(X = names(vintage_selection), FUN = checkmate::assert_choice, choices = c("start", "end"))
-            checkmate::assert_true(vintage_selection["start"] <= vintage_selection["end"], na.ok = TRUE)
-            checkmate::assert_true(vintage_selection["start"] <= max(revdate), na.ok = TRUE)
-            checkmate::assert_true(vintage_selection["end"] >= min(revdate), na.ok = TRUE)
+            checkmate::assert_date(
+                vintage_selection,
+                min.len = 0,
+                max.len = 2,
+                null.ok = FALSE,
+                any.missing = FALSE
+            )
+            checkmate::assert_set_equal(
+                x = length(unique(names(vintage_selection))),
+                y = length(vintage_selection)
+            )
+            sapply(
+                X = names(vintage_selection),
+                FUN = checkmate::assert_choice,
+                choices = c("start", "end")
+            )
+            checkmate::assert_true(
+                vintage_selection["start"] <= vintage_selection["end"],
+                na.ok = TRUE
+            )
+            checkmate::assert_true(
+                vintage_selection["start"] <= max(revdate),
+                na.ok = TRUE
+            )
+            checkmate::assert_true(
+                vintage_selection["end"] >= min(revdate),
+                na.ok = TRUE
+            )
 
-            index <- ((is.na(vintage_selection["start"]) | revdate >= vintage_selection["start"])
-                      & (is.na(vintage_selection["end"]) | revdate <= vintage_selection["end"]))
+            index <- ((is.na(vintage_selection["start"]) |
+                revdate >= vintage_selection["start"]) &
+                (is.na(vintage_selection["end"]) |
+                    revdate <= vintage_selection["end"]))
             vertical <- vertical[, index, drop = FALSE]
-
         }
 
         # Horizontal format
-        horizontal <- from_vertical_to_horizontal(x = vertical, date_format = "%Y-%m-%d")
+        horizontal <- from_vertical_to_horizontal(
+            x = vertical,
+            date_format = "%Y-%m-%d"
+        )
         # Long format
         long <- from_vertical_to_long(x = vertical, date_format = "%Y-%m-%d")
         # Diagonal format
-        diagonal <- from_horizontal_to_diagonal(x = horizontal, periodicity = stats::frequency(vertical), date_format = "%Y-%m-%d")
+        diagonal <- from_horizontal_to_diagonal(
+            x = horizontal,
+            periodicity = stats::frequency(vertical),
+            date_format = "%Y-%m-%d"
+        )
     }
 
     output <- list(
@@ -402,11 +547,13 @@ create_vintages.default <- function(x, ...) {
 #' )
 #' }
 #'
-create_vintages_from_csv <- function(file,
-                                     type = c("long", "horizontal", "vertical"),
-                                     periodicity,
-                                     date_format = "%Y-%m-%d",
-                                     ...) {
+create_vintages_from_csv <- function(
+    file,
+    type = c("long", "horizontal", "vertical"),
+    periodicity,
+    date_format = "%Y-%m-%d",
+    ...
+) {
     # Check of inputs
     file <- normalizePath(file, mustWork = TRUE)
 
@@ -414,7 +561,12 @@ create_vintages_from_csv <- function(file,
     type <- match.arg(type)
 
     # Check periodicity
-    checkmate::assert_count(x = periodicity, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
+    checkmate::assert_count(
+        x = periodicity,
+        positive = TRUE,
+        na.ok = FALSE,
+        null.ok = FALSE
+    )
     checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
 
     df <- utils::read.csv(file = file, ...)
@@ -453,12 +605,16 @@ create_vintages_from_csv <- function(file,
 #' )
 #' }
 #'
-create_vintages_from_xlsx <- function(file,
-                                      type = c("long", "horizontal", "vertical"),
-                                      periodicity,
-                                      ...) {
+create_vintages_from_xlsx <- function(
+    file,
+    type = c("long", "horizontal", "vertical"),
+    periodicity,
+    ...
+) {
     if (!requireNamespace("readxl", quietly = TRUE)) {
-        stop("package 'readxl' must be installed to run the function 'create_vintages_from_xlsx'")
+        stop(
+            "package 'readxl' must be installed to run the function 'create_vintages_from_xlsx'"
+        )
     }
 
     # Check of inputs
@@ -468,7 +624,12 @@ create_vintages_from_xlsx <- function(file,
     type <- match.arg(type)
 
     # Check periodicity
-    checkmate::assert_count(x = periodicity, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
+    checkmate::assert_count(
+        x = periodicity,
+        positive = TRUE,
+        na.ok = FALSE,
+        null.ok = FALSE
+    )
     checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
 
     df <- as.data.frame(readxl::read_excel(path = file, ...))
@@ -497,14 +658,22 @@ create_vintages_from_xlsx <- function(file,
 #'
 #' @export
 #'
-print.rjd3rev_vintages <- function(x,
-                                   n_row = 8,
-                                   n_col = 3,
-                                   ...) {
-
+print.rjd3rev_vintages <- function(x, n_row = 8, n_col = 3, ...) {
     # Check counts
-    checkmate::assert_count(x = n_row, positive = TRUE, na.ok = FALSE, null.ok = FALSE, .var.name = "n_row")
-    checkmate::assert_count(x = n_col, positive = TRUE, na.ok = FALSE, null.ok = FALSE, .var.name = "n_col")
+    checkmate::assert_count(
+        x = n_row,
+        positive = TRUE,
+        na.ok = FALSE,
+        null.ok = FALSE,
+        .var.name = "n_row"
+    )
+    checkmate::assert_count(
+        x = n_col,
+        positive = TRUE,
+        na.ok = FALSE,
+        null.ok = FALSE,
+        .var.name = "n_col"
+    )
 
     vv <- x[["vertical_view"]]
     n_col_tot <- ncol(vv)
@@ -515,17 +684,31 @@ print.rjd3rev_vintages <- function(x,
     n_row_long <- min(n_row_long_tot, n_row)
     freq <- stats::frequency(vv)
     end_period <- stats::end(vv)
-    is_extract <- (n_col < n_col_tot) || (n_row < n_row_tot) || (n_row_long < n_row_long_tot)
+    is_extract <- (n_col < n_col_tot) ||
+        (n_row < n_row_tot) ||
+        (n_row_long < n_row_long_tot)
 
-    extract_lv <- x$long_view[(n_row_long_tot - n_row_long + 1):n_row_long_tot, ]
+    extract_lv <- x$long_view[
+        (n_row_long_tot - n_row_long + 1):n_row_long_tot,
+    ]
     rownames(extract_lv) <- NULL
-    extract_vv <- stats::ts(x[["vertical_view"]][(n_row_tot - n_row + 1):n_row_tot, (n_col_tot - n_col + 1):n_col_tot],
-                            frequency = freq,
-                            end = end_period)
-    extract_hv <- x$horizontal_view[(n_col_tot - n_col + 1):n_col_tot, (n_row_tot - n_row + 1):n_row_tot]
-    extract_dv <- stats::ts(x[["diagonal_view"]][(n_row_tot - n_row + 1):n_row_tot, 1:n_col],
-                            frequency = freq,
-                            end = end_period)
+    extract_vv <- stats::ts(
+        x[["vertical_view"]][
+            (n_row_tot - n_row + 1):n_row_tot,
+            (n_col_tot - n_col + 1):n_col_tot
+        ],
+        frequency = freq,
+        end = end_period
+    )
+    extract_hv <- x$horizontal_view[
+        (n_col_tot - n_col + 1):n_col_tot,
+        (n_row_tot - n_row + 1):n_row_tot
+    ]
+    extract_dv <- stats::ts(
+        x[["diagonal_view"]][(n_row_tot - n_row + 1):n_row_tot, 1:n_col],
+        frequency = freq,
+        end = end_period
+    )
 
     print(list(
         extract = is_extract,
@@ -549,7 +732,6 @@ print.rjd3rev_vintages <- function(x,
 #' @export
 #'
 summary.rjd3rev_vintages <- function(object, ...) {
-
     x <- object
     vv <- x[["vertical_view"]]
     cat("Number of releases: ", ncol(vv))
@@ -584,10 +766,10 @@ summary.rjd3rev_vintages <- function(object, ...) {
 #' @export
 #'
 View.rjd3rev_vintages <- function(
-        x,
-        type = c("all", "long", "horizontal", "vertical", "diagonal"),
-        ...) {
-
+    x,
+    type = c("all", "long", "horizontal", "vertical", "diagonal"),
+    ...
+) {
     # Check type
     type <- match.arg(type)
 
@@ -595,10 +777,18 @@ View.rjd3rev_vintages <- function(
         title <- ""
     }
 
-    if (type %in% c("all", "long")) utils::View(x$long_view, title = paste(title, "Long view"))
-    if (type %in% c("all", "horizontal")) utils::View(x$horizontal_view, title = paste(title, "Horizontal view"))
-    if (type %in% c("all", "vertical")) utils::View(x[["vertical_view"]], title = paste(title, "Vertical view"))
-    if (type %in% c("all", "diagonal")) utils::View(x[["diagonal_view"]], title = paste(title, "Diagonal view"))
+    if (type %in% c("all", "long")) {
+        utils::View(x$long_view, title = paste(title, "Long view"))
+    }
+    if (type %in% c("all", "horizontal")) {
+        utils::View(x$horizontal_view, title = paste(title, "Horizontal view"))
+    }
+    if (type %in% c("all", "vertical")) {
+        utils::View(x[["vertical_view"]], title = paste(title, "Vertical view"))
+    }
+    if (type %in% c("all", "diagonal")) {
+        utils::View(x[["diagonal_view"]], title = paste(title, "Diagonal view"))
+    }
 
     return(invisible(NULL))
 }

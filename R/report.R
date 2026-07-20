@@ -44,21 +44,24 @@
 #' }
 #'
 render_report <- function(
-        rslt,
-        output_file,
-        output_dir,
-        output_format = c("html_document", "pdf_document", "word_document"),
-        plot_revisions = FALSE,
-        open_report = TRUE,
-        ...) {
-
+    rslt,
+    output_file,
+    output_dir,
+    output_format = c("html_document", "pdf_document", "word_document"),
+    plot_revisions = FALSE,
+    open_report = TRUE,
+    ...
+) {
     # Check input
     checkmate::assert_class(rslt, "rjd3rev_rslts")
 
     # Check output_format
     output_format <- match.arg(output_format)
 
-    template_file <- system.file("templates/report.Rmd", package = "rjd3revisions")
+    template_file <- system.file(
+        "templates/report.Rmd",
+        package = "rjd3revisions"
+    )
 
     # Check dir
     if (missing(output_dir)) {
@@ -79,12 +82,22 @@ render_report <- function(
         }
     }
     output_file <- tools::file_path_sans_ext(output_file)
-    output_path <- paste0(normalizePath(file.path(output_dir, output_file), mustWork = FALSE), ".", ext)
+    output_path <- paste0(
+        normalizePath(file.path(output_dir, output_file), mustWork = FALSE),
+        ".",
+        ext
+    )
 
     # Check path
     checkmate::assert_path_for_output(output_path, overwrite = TRUE)
 
-    message("The report will be rendered to ", output_path, " in ", output_format, " format.")
+    message(
+        "The report will be rendered to ",
+        output_path,
+        " in ",
+        output_format,
+        " format."
+    )
     if (file.exists(output_path)) {
         message("The file already exists and will be overwritten.")
     }

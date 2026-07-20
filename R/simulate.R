@@ -1,6 +1,4 @@
-
 simulate_series <- function(n, periodicity = 12L) {
-
     return(rnorm(n))
 
     # # Check n
@@ -40,14 +38,23 @@ simulate_revision <- function(n, init = stats::rnorm(1, 0, 1)) {
     checkmate::assert_count(n, na.ok = FALSE, null.ok = FALSE)
 
     # Check init
-    checkmate::assert_number(init, na.ok = FALSE, finite = TRUE, null.ok = FALSE)
+    checkmate::assert_number(
+        init,
+        na.ok = FALSE,
+        finite = TRUE,
+        null.ok = FALSE
+    )
 
-    output <- init + stats::rnorm(n, mean = 0, sd = 2 ** (2 - seq_len(n)))
+    output <- init + stats::rnorm(n, mean = 0, sd = 2**(2 - seq_len(n)))
     return(output)
 }
 
-simulate_revision_dates <- function(n, time_period,
-                                    periodicity, origin = "1970-01-01") {
+simulate_revision_dates <- function(
+    n,
+    time_period,
+    periodicity,
+    origin = "1970-01-01"
+) {
     # Check n
     checkmate::assert_count(n, na.ok = FALSE, null.ok = FALSE)
 
@@ -87,21 +94,38 @@ simulate_revision_dates <- function(n, time_period,
 #'               periodicity = 12L)
 #' simulate_long(periodicity = 4L, n_period = 5L * 4L)
 #'
-simulate_long <- function(n_period = 50,
-                          n_revision = 10,
-                          start_period = as.Date("2012-01-01"),
-                          periodicity = 12L) {
+simulate_long <- function(
+    n_period = 50,
+    n_revision = 10,
+    start_period = as.Date("2012-01-01"),
+    periodicity = 12L
+) {
     # Check n_period
-    checkmate::assert_count(n_period, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
+    checkmate::assert_count(
+        n_period,
+        positive = TRUE,
+        na.ok = FALSE,
+        null.ok = FALSE
+    )
 
     # Check n_revision
-    checkmate::assert_count(n_revision, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
+    checkmate::assert_count(
+        n_revision,
+        positive = TRUE,
+        na.ok = FALSE,
+        null.ok = FALSE
+    )
 
     # Check start_period
     checkmate::check_date(start_period, len = 1, null.ok = FALSE)
 
     # Check periodicity
-    checkmate::assert_number(x = periodicity, na.ok = FALSE, finite = TRUE, null.ok = FALSE)
+    checkmate::assert_number(
+        x = periodicity,
+        na.ok = FALSE,
+        finite = TRUE,
+        null.ok = FALSE
+    )
     checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
 
     if (periodicity == 12L) {
@@ -113,8 +137,12 @@ simulate_long <- function(n_period = 50,
     }
 
     time_period <- seq.Date(from = start_period, by = by, length.out = n_period)
-    rev_date <- simulate_revision_dates(n = n_revision, time_period, periodicity,
-                                        origin = "1970-01-01")
+    rev_date <- simulate_revision_dates(
+        n = n_revision,
+        time_period,
+        periodicity,
+        origin = "1970-01-01"
+    )
 
     final_series <- simulate_series(n_period, periodicity = periodicity)
 
@@ -128,15 +156,21 @@ simulate_long <- function(n_period = 50,
         period <- time_period[index_period]
         value <- final_series[index_period]
         nb_NA <- sum(rev_date < period)
-        revised_series <- c(rep(NA_real_, nb_NA), simulate_revision(
-            n = n_revision - nb_NA,
-            init = value
-        ))
-        long <- rbind(long, data.frame(
-            rev_date = rev_date,
-            time_period = period,
-            obs_values = revised_series
-        ))
+        revised_series <- c(
+            rep(NA_real_, nb_NA),
+            simulate_revision(
+                n = n_revision - nb_NA,
+                init = value
+            )
+        )
+        long <- rbind(
+            long,
+            data.frame(
+                rev_date = rev_date,
+                time_period = period,
+                obs_values = revised_series
+            )
+        )
     }
 
     long <- long[order(long[["rev_date"]], long[["time_period"]]), ]
