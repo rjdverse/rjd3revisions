@@ -21,6 +21,7 @@ rather as data not (yet) available (the default).}
 Theil's Inequality Coefficient U2
 }
 \examples{
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 
 ## Simulated data
 df_long <- simulate_long(
@@ -33,7 +34,7 @@ df_long <- simulate_long(
 ## Create vintage and test
 vintages <- create_vintages(df_long, periodicity = 4)
 theil2(vintages[["diagonal_view"]])
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{revision_analysis()}, \code{render_report()}

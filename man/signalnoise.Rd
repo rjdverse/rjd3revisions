@@ -23,6 +23,7 @@ For 'noise': R (revisions) on P (preliminary estimate).
 For 'news': R on L (latter estimate).
 }
 \examples{
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 ## Simulated data
 df_long <- simulate_long(
     n_period = 10L * 4L,
@@ -34,7 +35,7 @@ df_long <- simulate_long(
 ## Create vintage and test
 vintages <- create_vintages(df_long, periodicity = 4L)
 signalnoise(vintages[["diagonal_view"]])
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{revision_analysis()}, \code{render_report()}

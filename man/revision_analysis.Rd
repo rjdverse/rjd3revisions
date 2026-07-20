@@ -79,6 +79,7 @@ would give you both a formatted summary of the results and full explanations
 about each tests.
 }
 \examples{
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 
 ## Simulated data
 
@@ -130,7 +131,7 @@ options(
 rslt4 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 summary(rslt4)
 View(rslt4)
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{create_vintages()} to create the input object,

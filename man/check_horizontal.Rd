@@ -30,6 +30,7 @@ the same input but with date formatted
 Check horizontal format
 }
 \examples{
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 
 long_format <- rjd3revisions:::simulate_long(
     start_period = as.Date("2020-01-01"),
@@ -39,5 +40,5 @@ long_format <- rjd3revisions:::simulate_long(
 )
 horizontal_format <- rjd3revisions:::from_long_to_horizontal(long_format)
 check_horizontal(horizontal_format)
-
+\dontshow{\}) # examplesIf}
 }
