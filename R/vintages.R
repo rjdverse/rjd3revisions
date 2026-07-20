@@ -193,11 +193,12 @@ create_vintages.data.frame <- function(
                 na.ok = TRUE
             )
 
-            index <- ((is.na(vintage_selection["start"]) |
-                revdate >= vintage_selection["start"]) &
-                (is.na(vintage_selection["end"]) |
-                    revdate <= vintage_selection["end"]))
-            long <- long[index, ]
+            cond_start <- is.na(vintage_selection["start"]) |
+                revdate >= vintage_selection["start"]
+            cond_end <- is.na(vintage_selection["end"]) |
+                revdate <= vintage_selection["end"]
+
+            long <- long[cond_start & cond_end, ]
         }
 
         # Horizontal format
@@ -291,11 +292,13 @@ create_vintages.mts <- function(
                 na.ok = TRUE
             )
 
-            index <- ((is.na(vintage_selection["start"]) |
-                revdate >= vintage_selection["start"]) &
-                (is.na(vintage_selection["end"]) |
-                    revdate <= vintage_selection["end"]))
-            vertical <- vertical[, index, drop = FALSE]
+
+            cond_start <- is.na(vintage_selection["start"]) |
+                revdate >= vintage_selection["start"]
+            cond_end <- is.na(vintage_selection["end"]) |
+                revdate <= vintage_selection["end"]
+
+            vertical <- vertical[, cond_start & cond_end, drop = FALSE]
             attr(vertical, "class") <- c("mts", "ts", "matrix", "array")
         }
 
@@ -405,11 +408,12 @@ create_vintages.matrix <- function(
                 na.ok = TRUE
             )
 
-            index <- ((is.na(vintage_selection["start"]) |
-                revdate >= vintage_selection["start"]) &
-                (is.na(vintage_selection["end"]) |
-                    revdate <= vintage_selection["end"]))
-            horizontal <- horizontal[index, , drop = FALSE]
+            cond_start <- is.na(vintage_selection["start"]) |
+                revdate >= vintage_selection["start"]
+            cond_end <- is.na(vintage_selection["end"]) |
+                revdate <= vintage_selection["end"]
+
+            horizontal <- horizontal[cond_start & cond_end, , drop = FALSE]
         }
 
         # Vertical format
@@ -475,11 +479,12 @@ create_vintages.matrix <- function(
                 na.ok = TRUE
             )
 
-            index <- ((is.na(vintage_selection["start"]) |
-                revdate >= vintage_selection["start"]) &
-                (is.na(vintage_selection["end"]) |
-                    revdate <= vintage_selection["end"]))
-            vertical <- vertical[, index, drop = FALSE]
+            cond_start <- is.na(vintage_selection["start"]) |
+                revdate >= vintage_selection["start"]
+            cond_end <- is.na(vintage_selection["end"]) |
+                revdate <= vintage_selection["end"]
+
+            vertical <- vertical[, cond_start & cond_end, drop = FALSE]
         }
 
         # Horizontal format

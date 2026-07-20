@@ -846,9 +846,8 @@ ac_test_evaluator <- function(ac, is_log, cnames, n_test, thr) {
         ac_rslt <- NULL
         ac_q <- rep(NA, n_test)
     } else {
-        pm_test_mat <- matrix(unlist(ac), ncol = 2, byrow = TRUE)[,,
-            drop = FALSE
-        ]
+        pm_test_mat <- matrix(unlist(ac), ncol = 2, byrow = TRUE)
+        pm_test_mat <- pm_test_mat[, , drop = FALSE]
         dimnames(pm_test_mat) <- list(cnames, c("value", "p.value"))
         ac_rslt <- list(
             info_transformation = ac_trf_str,

@@ -72,7 +72,7 @@ render_report <- function(
 
     # Check extension
     ext <- tools::file_ext(output_file)
-    if (nchar(ext) == 0) {
+    if (!nzchar(ext)) {
         if (output_format == "html_document") {
             ext <- "html"
         } else if (output_format == "pdf_document") {
