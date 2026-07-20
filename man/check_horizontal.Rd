@@ -11,7 +11,7 @@ check_horizontal(x, ...)
 
 \method{check_horizontal}{data.frame}(x, ...)
 
-\method{check_horizontal}{matrix}(x, date_format = "\%Y-\%m-\%d")
+\method{check_horizontal}{matrix}(x, date_format = "\%Y-\%m-\%d", ...)
 
 \method{check_horizontal}{default}(x, ...)
 }

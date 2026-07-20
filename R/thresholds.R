@@ -3,7 +3,7 @@
 #' @param diagnostic_tests Boolean. Whether or not to reset thresholds for
 #'   diagnostics tests on residuals as well in addition to parametric tests.
 #' @export
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' set_all_thresholds_to_default()
 #'
@@ -36,7 +36,7 @@ set_all_thresholds_to_default <- function(diagnostic_tests = TRUE) {
 #' @param threshold_option_name Boolean. Whether or not to reset thresholds for
 #'   diagnostics tests on residuals as well in addition to parametric tests.
 #' @export
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' set_thresholds_to_default("t_threshold")
 #'

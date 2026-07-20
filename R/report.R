@@ -18,7 +18,7 @@
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' ## Simulated data
 #' df_long <- simulate_long(

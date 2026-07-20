@@ -49,7 +49,7 @@
 #' @return a boolean
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' # check_date_year --------------------------------------------------
 #'
@@ -230,7 +230,7 @@ assert_rev_date <- function(x, date_format = "%Y-%m-%d") {
 #' @return the same input but with column and date formatted
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' long_format <- rjd3revisions:::simulate_long(
 #'     start_period = as.Date("2020-01-01"),
@@ -275,7 +275,7 @@ check_long <- function(x, date_format = "%Y-%m-%d") {
 #' @return the same input but in a ts object and with revision date formatted
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' long_format <- rjd3revisions:::simulate_long(
 #'     start_period = as.Date("2020-01-01"),
@@ -413,7 +413,7 @@ check_vertical.default <- function(x, ...) {
 #' @return the same input but with date formatted
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' long_format <- rjd3revisions:::simulate_long(
 #'     start_period = as.Date("2020-01-01"),
@@ -444,7 +444,7 @@ check_horizontal.data.frame <- function(x, ...) {
 #'
 #' @rdname check_horizontal
 #'
-check_horizontal.matrix <- function(x, date_format = "%Y-%m-%d") {
+check_horizontal.matrix <- function(x, date_format = "%Y-%m-%d", ...) {
     horizontal <- x
     colnames(horizontal) <- as.character(assert_time_period(x = colnames(horizontal), date_format = date_format))
     rownames(horizontal) <- as.character(assert_rev_date(x = rownames(horizontal), date_format = date_format))

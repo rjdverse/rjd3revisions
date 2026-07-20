@@ -91,7 +91,7 @@ matrix_r2jd <- function(s) {
 #' @param rounding number of decimals to display
 #'
 #' @export
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' ## Simulated data
 #' df_long <- simulate_long(
@@ -150,7 +150,7 @@ descriptive_statistics <- function(revisions.view, rounding = 3) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' ## Simulated data
 #' df_long <- simulate_long(
@@ -189,7 +189,7 @@ theil <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' ## Simulated data
 #' df_long <- simulate_long(
@@ -225,7 +225,7 @@ theil2 <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' ## Simulated data
 #' df_long <- simulate_long(
@@ -278,7 +278,7 @@ bias <- function(revisions.view, na.zero = FALSE) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' ## Simulated data
 #' df_long <- simulate_long(
@@ -336,7 +336,7 @@ slope_and_drift <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' ## Simulated data
 #' df_long <- simulate_long(
@@ -395,7 +395,7 @@ efficiencyModel1 <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' ## Simulated data
 #' df_long <- simulate_long(
@@ -456,7 +456,7 @@ efficiencyModel2 <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' ## Simulated data
 #' df_long <- simulate_long(
@@ -515,7 +515,7 @@ orthogonallyModel1 <- function(revisions.view, nrevs = 1, na.zero = FALSE) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' ## Simulated data
 #' df_long <- simulate_long(
@@ -578,7 +578,7 @@ orthogonallyModel2 <- function(revisions.view, reference = 1, na.zero = FALSE) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #' ## Simulated data
 #' df_long <- simulate_long(
 #'     n_period = 10L * 4L,
@@ -632,7 +632,7 @@ signalnoise <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #' ## Simulated data
 #' df_long <- simulate_long(
 #'     n_period = 10L * 4L,
@@ -676,7 +676,7 @@ unitroot <- function(vintages.view, adfk = 1, na.zero = FALSE) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' ## Simulated data
 #' df_long <- simulate_long(
@@ -735,7 +735,7 @@ get_rownames_diag <- function(vt, gap) {
 #'                rather as data not (yet) available (the default).
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #' ## Simulated data
 #' df_long <- simulate_long(
 #'     n_period = 10L * 4L,

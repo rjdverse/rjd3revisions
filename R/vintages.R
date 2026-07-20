@@ -66,7 +66,7 @@
 #' @return an object of class `rjd3rev_vintages` which contains the four
 #' different view of a revision
 #' @export
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #' ## creating the input
 #'
 #' # Long format
@@ -390,7 +390,7 @@ create_vintages.default <- function(x, ...) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #' \dontrun{
 #' file_name <- "myinput.csv"
 #' vintages <- create_vintages_from_csv(
@@ -441,7 +441,7 @@ create_vintages_from_csv <- function(file,
 #' @return an object of class `rjd3rev_vintages`
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #' \dontrun{
 #' file_name <- "myinput.xlsx"
 #' sheet_name <- "Sheet1"

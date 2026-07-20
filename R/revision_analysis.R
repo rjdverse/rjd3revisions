@@ -47,7 +47,10 @@
 #'                  1 and 2 respectively.
 #' @param na.zero Boolean whether missing values should be considered as 0 or
 #'                rather as data not yet available (the default).
-#' @import rJava rjd3toolkit
+#' @import rJava
+#' @importFrom rjd3toolkit ljungbox
+#' @importFrom rjd3toolkit seasonality_qs
+#' @importFrom rjd3toolkit seasonality_friedman
 #'
 #' @seealso `create_vintages()` to create the input object,
 #'          `render_report()` to get a summary and information the tests
@@ -56,7 +59,7 @@
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' ## Simulated data
 #'
@@ -248,13 +251,13 @@ revision_analysis <- function(vintages,
                                         thr_res_arch = getOption("arch_res_threshold"))
 
     ### Autocorrelation test
-    ac_test <- try(apply(rv, 2, function(x) ljungbox(x[!is.na(x)], k = 2)), silent = TRUE) # Ljung-Box up to k
+    ac_test <- try(apply(rv, 2, function(x) rjd3toolkit::ljungbox(x[!is.na(x)], k = 2)), silent = TRUE) # Ljung-Box up to k
     ac_infos <- ac_test_evaluator(ac_test, is_log, cnames = colnames(rv), n_test = ncol(rv),
                                   thr = getOption("autocorr_threshold"))
 
     ### Seasonality tests
-    lb_test <- try(apply(X = diff(rv), MARGIN = 2, FUN = seasonality_qs, period = freq), silent = TRUE) # Ljung-Box
-    fd_test <- try(apply(X = diff(rv), MARGIN = 2, FUN = seasonality_friedman, period = freq), silent = TRUE)  # Friedman non-parametric test
+    lb_test <- try(apply(X = diff(rv), MARGIN = 2, FUN = rjd3toolkit::seasonality_qs, period = freq), silent = TRUE) # Ljung-Box
+    fd_test <- try(apply(X = diff(rv), MARGIN = 2, FUN = rjd3toolkit::seasonality_friedman, period = freq), silent = TRUE)  # Friedman non-parametric test
     seas_infos <- seas_tests_evaluator(lb_test, fd_test, is_log, cnames = colnames(rv),
                                        freq = freq, n_test = ncol(rv),
                                        thr = getOption("seas_threshold"))
@@ -384,8 +387,8 @@ seasonality_test <- function(x) {
 
     if (stats::frequency(x) > 1) {
         x_diff <- diff(x)
-        lb_pval <- try(seasonality_qs(x_diff, stats::frequency(x))[["pvalue"]], silent = TRUE) # Ljung-Box
-        fd_pval <- try(seasonality_friedman(x_diff, stats::frequency(x))[["pvalue"]], silent = TRUE) # Friedman non-parametric test
+        lb_pval <- try(rjd3toolkit::seasonality_qs(x_diff, stats::frequency(x))[["pvalue"]], silent = TRUE) # Ljung-Box
+        fd_pval <- try(rjd3toolkit::seasonality_friedman(x_diff, stats::frequency(x))[["pvalue"]], silent = TRUE) # Friedman non-parametric test
 
         test_succeeded <- c(!inherits(lb_pval, "try-error"), !inherits(fd_pval, "try-error"))
         if (all(test_succeeded)) {
