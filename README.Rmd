@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 # `rjd3revisions` <a href="https://rjdverse.github.io/rjd3revisions/"><img src="man/figures/logo.png" align="right" height="150" style="float:right; height:150px;"/></a>
 
 <!-- badges: start -->
-[![CRAN status](https://www.r-pkg.org/badges/version/rjd3revisions)](https://CRAN.R-project.org/package=rjd3revisions)
+<!-- [![CRAN status](https://www.r-pkg.org/badges/version/rjd3revisions)](https://CRAN.R-project.org/package=rjd3revisions) -->
 [![Mentioned in Awesome Official Statistics ](https://awesome.re/mentioned-badge.svg)](https://github.com/SNStatComp/awesome-official-statistics-software)
 
 [![R-CMD-check](https://github.com/rjdverse/rjd3revisions/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rjdverse/rjd3revisions/actions/workflows/R-CMD-check.yaml)

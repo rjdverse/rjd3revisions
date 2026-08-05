@@ -5,8 +5,10 @@
 
 <!-- badges: start -->
 
-[![CRAN
-status](https://www.r-pkg.org/badges/version/rjd3revisions)](https://CRAN.R-project.org/package=rjd3revisions)
+<!-- [![CRAN status](https://www.r-pkg.org/badges/version/rjd3revisions)](https://CRAN.R-project.org/package=rjd3revisions) -->
+
+[![Mentioned in Awesome Official
+Statistics](https://awesome.re/mentioned-badge.svg)](https://github.com/SNStatComp/awesome-official-statistics-software)
 
 [![R-CMD-check](https://github.com/rjdverse/rjd3revisions/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rjdverse/rjd3revisions/actions/workflows/R-CMD-check.yaml)
 [![lint](https://github.com/rjdverse/rjd3revisions/actions/workflows/lint.yaml/badge.svg)](https://github.com/rjdverse/rjd3revisions/actions/workflows/lint.yaml)
@@ -24,7 +26,7 @@ estimates.
 
 ## Installation
 
-Running rjd3 packages requires **Java 21 or higher**. How to set up such
+Running rjd3 packages requires **Java 17 or higher**. How to set up such
 a configuration in R is explained
 [here](https://jdemetra-new-documentation.netlify.app/#Rconfig)
 
@@ -36,6 +38,7 @@ To get the current stable version (from the latest release):
 
 ``` r
 # install.packages("remotes")
+remotes::install_github("rjdverse/rjd3toolkit@*release")
 remotes::install_github("rjdverse/rjd3revisions@*release", build_vignettes = TRUE)
 ```
 
@@ -52,7 +55,7 @@ You can install the development version of **rjd3revisions** from
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("rjdverse/rjd3revisions", build_vignettes = TRUE)
+remotes::install_github("rjdverse/rjd3revisions")
 ```
 
 ## Usage
@@ -60,8 +63,8 @@ remotes::install_github("rjdverse/rjd3revisions", build_vignettes = TRUE)
 ``` r
 library("rjd3revisions")
 #> 
-#> Attaching package: 'rjd3revisions'
-#> The following object is masked from 'package:utils':
+#> Attachement du package : 'rjd3revisions'
+#> L'objet suivant est masqué depuis 'package:utils':
 #> 
 #>     View
 ```
@@ -110,9 +113,9 @@ set.seed(7)
 
 # Examples
 long_view <- simulate_long(
-    periodicity = 4, 
-    n_period = 4 * 10, 
-    n_revision = 7, 
+    periodicity = 4,
+    n_period = 4 * 10,
+    n_revision = 7,
     start_period = as.Date("2000-01-01")
 )
 ```
@@ -125,7 +128,7 @@ vintages <- create_vintages(long_view, periodicity = 4)
 plot(vintages, lwd = 2)
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-7-1.png" alt="" width="100%" />
 
 ``` r
 
@@ -133,7 +136,7 @@ revisions <- get_revisions(vintages, gap = 2)
 plot(revisions)
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-2.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-7-2.png" alt="" width="100%" />
 
 and make the analysis
 
@@ -142,48 +145,48 @@ rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 
 print(rslt)
 #>                                            Transf. [Release[2]]-[Release[1]]
-#> Relevancy - Theil U2                          None              Good (0.339)
-#> Bias1 T-test                                  None              Good (0.798)
-#> Bias2 Augmented T-test                        None              Good (0.823)
-#> Bias3 SlopeAndDrift (Ols L on P) - Mean       None              Good (0.347)
-#> Bias3 SlopeAndDrift (Ols L on P) - Reg.       None              Good (0.232)
-#> Efficiency1 (Ols R on P) - Mean            Delta 1              Good (0.166)
-#> Efficiency1 (Ols R on P) - Reg.            Delta 1              Good (0.107)
+#> Relevancy - Theil U2                          None            Severe (1.982)
+#> Bias1 T-test                                  None              Good (0.891)
+#> Bias2 Augmented T-test                        None              Good (0.886)
+#> Bias3 SlopeAndDrift (Ols L on P) - Mean       None              Good (0.881)
+#> Bias3 SlopeAndDrift (Ols L on P) - Reg.       None            Severe (0.000)
+#> Efficiency1 (Ols R on P) - Mean               None              Good (0.881)
+#> Efficiency1 (Ols R on P) - Reg.               None            Severe (0.000)
 #> Efficiency2 (Ols Rv on Rv_1) - Mean           None                          
 #> Efficiency2 (Ols Rv on Rv_1) - Reg.           None                          
 #> Orthogonality1 (Ols Rv on Rv_(1:p)) - Mean    None                          
 #> Orthogonality1 (Ols Rv on Rv_(1:p)) - Reg.    None                          
 #> Orthogonality2 (Ols Rv on Rv_k.) - Mean       None                          
 #> Orthogonality2 (Ols Rv on Rv_k) - Reg.        None                          
-#> Orthogonality3 AutoCorrelation (Ljung-Box)    None              Good (0.417)
-#> Orthogonality4 Seasonality (Ljung-Box)     Delta 1              Good (0.993)
-#> Orthogonality4 Seasonality (Friedman)      Delta 1              Good (0.137)
-#> SignalVsNoise1 - Noise (Ols R on P)        Delta 1              Good (0.082)
-#> SignalVsNoise2 - Signal (Ols R on L)       Delta 1         Uncertain (0.053)
+#> Orthogonality3 AutoCorrelation (Ljung-Box)    None              Good (0.081)
+#> Orthogonality4 Seasonality (Ljung-Box)     Delta 1              Good (0.972)
+#> Orthogonality4 Seasonality (Friedman)      Delta 1              Good (0.162)
+#> SignalVsNoise1 - Noise (Ols R on P)           None            Severe (0.000)
+#> SignalVsNoise2 - Signal (Ols R on L)          None         Uncertain (0.511)
 #>                                            [Release[3]]-[Release[2]]
-#> Relevancy - Theil U2                                    Good (0.225)
-#> Bias1 T-test                                            Good (0.805)
-#> Bias2 Augmented T-test                                  Good (0.806)
-#> Bias3 SlopeAndDrift (Ols L on P) - Mean                 Good (0.584)
-#> Bias3 SlopeAndDrift (Ols L on P) - Reg.                 Good (0.624)
-#> Efficiency1 (Ols R on P) - Mean                         Good (0.300)
-#> Efficiency1 (Ols R on P) - Reg.                         Good (0.240)
-#> Efficiency2 (Ols Rv on Rv_1) - Mean                     Good (0.818)
-#> Efficiency2 (Ols Rv on Rv_1) - Reg.                     Good (0.298)
-#> Orthogonality1 (Ols Rv on Rv_(1:p)) - Mean              Good (0.818)
-#> Orthogonality1 (Ols Rv on Rv_(1:p)) - Reg.              Good (0.702)
-#> Orthogonality2 (Ols Rv on Rv_k.) - Mean                 Good (0.818)
-#> Orthogonality2 (Ols Rv on Rv_k) - Reg.                  Good (0.298)
-#> Orthogonality3 AutoCorrelation (Ljung-Box)              Good (0.999)
-#> Orthogonality4 Seasonality (Ljung-Box)                  Good (1.000)
-#> Orthogonality4 Seasonality (Friedman)                   Good (0.769)
-#> SignalVsNoise1 - Noise (Ols R on P)                     Good (0.248)
-#> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.856)
+#> Relevancy - Theil U2                                    Good (0.761)
+#> Bias1 T-test                                            Good (0.665)
+#> Bias2 Augmented T-test                                  Good (0.666)
+#> Bias3 SlopeAndDrift (Ols L on P) - Mean                 Good (0.473)
+#> Bias3 SlopeAndDrift (Ols L on P) - Reg.               Severe (0.000)
+#> Efficiency1 (Ols R on P) - Mean                         Good (0.473)
+#> Efficiency1 (Ols R on P) - Reg.                       Severe (0.000)
+#> Efficiency2 (Ols Rv on Rv_1) - Mean                     Good (0.678)
+#> Efficiency2 (Ols Rv on Rv_1) - Reg.                     Good (0.219)
+#> Orthogonality1 (Ols Rv on Rv_(1:p)) - Mean              Good (0.678)
+#> Orthogonality1 (Ols Rv on Rv_(1:p)) - Reg.              Good (0.781)
+#> Orthogonality2 (Ols Rv on Rv_k.) - Mean                 Good (0.678)
+#> Orthogonality2 (Ols Rv on Rv_k) - Reg.                  Good (0.219)
+#> Orthogonality3 AutoCorrelation (Ljung-Box)              Good (0.548)
+#> Orthogonality4 Seasonality (Ljung-Box)                  Good (0.914)
+#> Orthogonality4 Seasonality (Friedman)                   Good (0.162)
+#> SignalVsNoise1 - Noise (Ols R on P)                   Severe (0.000)
+#> SignalVsNoise2 - Signal (Ols R on L)                    Good (0.044)
 # summary(rslt)
 View(rslt)
 ```
 
-<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-9-1.png" alt="" width="100%" />
 
 Finally to create a report and get a summary of the results, you can use
 
