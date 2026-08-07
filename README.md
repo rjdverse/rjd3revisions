@@ -10,11 +10,11 @@
 [![Mentioned in Awesome Official
 Statistics](https://awesome.re/mentioned-badge.svg)](https://github.com/SNStatComp/awesome-official-statistics-software)
 
-[![R-CMD-check](https://github.com/rjdverse/rjd3revisions/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rjdverse/rjd3revisions/actions/workflows/R-CMD-check.yaml)
-[![lint](https://github.com/rjdverse/rjd3revisions/actions/workflows/lint.yaml/badge.svg)](https://github.com/rjdverse/rjd3revisions/actions/workflows/lint.yaml)
+[![R-CMD-check](https://github.com/rjdverse/rjd3revisions/actions/workflows/R-CMD-check.yml/badge.svg)](https://github.com/rjdverse/rjd3revisions/actions/workflows/R-CMD-check.yml)
+[![lint](https://github.com/rjdverse/rjd3revisions/actions/workflows/lint.yml/badge.svg)](https://github.com/rjdverse/rjd3revisions/actions/workflows/lint.yml)
 
 [![GH Pages
-built](https://github.com/rjdverse/rjd3revisions/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/rjdverse/rjd3revisions/actions/workflows/pkgdown.yaml)
+built](https://github.com/rjdverse/rjd3revisions/actions/workflows/pkgdown.yml/badge.svg)](https://github.com/rjdverse/rjd3revisions/actions/workflows/pkgdown.yml)
 <!-- badges: end -->
 
 Most economic indicators are published several times for a given
