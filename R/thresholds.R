@@ -52,7 +52,7 @@ set_all_thresholds_to_default <- function(diagnostic_tests = TRUE) {
 #' set_thresholds_to_default("t_threshold")
 #'
 set_thresholds_to_default <- function(threshold_option_name) {
-    switch(
+    threshold_default_option <- switch(
         threshold_option_name,
         theil_u1_threshold = {
             options(
@@ -157,6 +157,12 @@ set_thresholds_to_default <- function(threshold_option_name) {
         arch_res_threshold = {
             options(arch_res_threshold = c(bad = 0.01, uncertain = 0.1))
         },
-        stop("Test not found")
+        NULL
     )
+
+    if (is.null(threshold_default_option)) {
+        stop("Test not found")
+    }
+
+    return(invisible(threshold_default_option))
 }

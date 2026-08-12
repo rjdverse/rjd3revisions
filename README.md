@@ -26,9 +26,9 @@ estimates.
 
 ## Installation
 
-Running rjd3 packages requires **Java 17 or higher**. How to set up such
+Running rjd3 packages requires **Java 21 or higher**. How to set up such
 a configuration in R is explained
-[here](https://doc.jdemetra.org/#Rconfig)
+[here](https://jdemetra-new-documentation.netlify.app/#Rconfig)
 
 ### Latest release
 
@@ -55,7 +55,7 @@ You can install the development version of **rjd3revisions** from
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("rjdverse/rjd3revisions")
+remotes::install_github("rjdverse/rjd3revisions", build_vignettes = TRUE)
 ```
 
 ## Usage
@@ -63,8 +63,8 @@ remotes::install_github("rjdverse/rjd3revisions")
 ``` r
 library("rjd3revisions")
 #> 
-#> Attachement du package : 'rjd3revisions'
-#> L'objet suivant est masqué depuis 'package:utils':
+#> Attaching package: 'rjd3revisions'
+#> The following object is masked from 'package:utils':
 #> 
 #>     View
 ```
@@ -128,7 +128,7 @@ vintages <- create_vintages(long_view, periodicity = 4)
 plot(vintages, lwd = 2)
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" alt="" width="100%" />
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
 
 ``` r
 
@@ -136,57 +136,59 @@ revisions <- get_revisions(vintages, gap = 2)
 plot(revisions)
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-2.png" alt="" width="100%" />
+<img src="man/figures/README-unnamed-chunk-7-2.png" width="100%" />
 
 and make the analysis
+
+    #> Warning: package 'flextable' was built under R version 4.4.3
 
 ``` r
 rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 
 print(rslt)
 #>                                            Transf. [Release[2]]-[Release[1]]
-#> Relevancy - Theil U2                          None            Severe (1.982)
-#> Bias1 T-test                                  None              Good (0.891)
-#> Bias2 Augmented T-test                        None              Good (0.886)
-#> Bias3 SlopeAndDrift (Ols L on P) - Mean       None              Good (0.881)
-#> Bias3 SlopeAndDrift (Ols L on P) - Reg.       None            Severe (0.000)
-#> Efficiency1 (Ols R on P) - Mean               None              Good (0.881)
-#> Efficiency1 (Ols R on P) - Reg.               None            Severe (0.000)
+#> Relevancy - Theil U2                          None              Good (0.385)
+#> Bias1 T-test                                  None              Good (0.691)
+#> Bias2 Augmented T-test                        None              Good (0.694)
+#> Bias3 SlopeAndDrift (Ols L on P) - Mean       None              Good (0.178)
+#> Bias3 SlopeAndDrift (Ols L on P) - Reg.       None              Good (0.064)
+#> Efficiency1 (Ols R on P) - Mean            Delta 1              Good (0.981)
+#> Efficiency1 (Ols R on P) - Reg.            Delta 1         Uncertain (0.043)
 #> Efficiency2 (Ols Rv on Rv_1) - Mean           None                          
 #> Efficiency2 (Ols Rv on Rv_1) - Reg.           None                          
 #> Orthogonality1 (Ols Rv on Rv_(1:p)) - Mean    None                          
 #> Orthogonality1 (Ols Rv on Rv_(1:p)) - Reg.    None                          
 #> Orthogonality2 (Ols Rv on Rv_k.) - Mean       None                          
 #> Orthogonality2 (Ols Rv on Rv_k) - Reg.        None                          
-#> Orthogonality3 AutoCorrelation (Ljung-Box)    None              Good (0.081)
-#> Orthogonality4 Seasonality (Ljung-Box)     Delta 1              Good (0.972)
-#> Orthogonality4 Seasonality (Friedman)      Delta 1              Good (0.162)
-#> SignalVsNoise1 - Noise (Ols R on P)           None            Severe (0.000)
-#> SignalVsNoise2 - Signal (Ols R on L)          None         Uncertain (0.511)
+#> Orthogonality3 AutoCorrelation (Ljung-Box)    None              Good (0.901)
+#> Orthogonality4 Seasonality (Ljung-Box)     Delta 1              Good (1.000)
+#> Orthogonality4 Seasonality (Friedman)      Delta 1              Good (0.435)
+#> SignalVsNoise1 - Noise (Ols R on P)        Delta 1         Uncertain (0.024)
+#> SignalVsNoise2 - Signal (Ols R on L)       Delta 1         Uncertain (0.346)
 #>                                            [Release[3]]-[Release[2]]
-#> Relevancy - Theil U2                                    Good (0.761)
-#> Bias1 T-test                                            Good (0.665)
-#> Bias2 Augmented T-test                                  Good (0.666)
-#> Bias3 SlopeAndDrift (Ols L on P) - Mean                 Good (0.473)
-#> Bias3 SlopeAndDrift (Ols L on P) - Reg.               Severe (0.000)
-#> Efficiency1 (Ols R on P) - Mean                         Good (0.473)
-#> Efficiency1 (Ols R on P) - Reg.                       Severe (0.000)
-#> Efficiency2 (Ols Rv on Rv_1) - Mean                     Good (0.678)
-#> Efficiency2 (Ols Rv on Rv_1) - Reg.                     Good (0.219)
-#> Orthogonality1 (Ols Rv on Rv_(1:p)) - Mean              Good (0.678)
-#> Orthogonality1 (Ols Rv on Rv_(1:p)) - Reg.              Good (0.781)
-#> Orthogonality2 (Ols Rv on Rv_k.) - Mean                 Good (0.678)
-#> Orthogonality2 (Ols Rv on Rv_k) - Reg.                  Good (0.219)
-#> Orthogonality3 AutoCorrelation (Ljung-Box)              Good (0.548)
-#> Orthogonality4 Seasonality (Ljung-Box)                  Good (0.914)
-#> Orthogonality4 Seasonality (Friedman)                   Good (0.162)
-#> SignalVsNoise1 - Noise (Ols R on P)                   Severe (0.000)
-#> SignalVsNoise2 - Signal (Ols R on L)                    Good (0.044)
+#> Relevancy - Theil U2                                    Good (0.107)
+#> Bias1 T-test                                            Good (0.926)
+#> Bias2 Augmented T-test                                  Good (0.936)
+#> Bias3 SlopeAndDrift (Ols L on P) - Mean                 Good (0.765)
+#> Bias3 SlopeAndDrift (Ols L on P) - Reg.                 Good (0.557)
+#> Efficiency1 (Ols R on P) - Mean                         Good (0.973)
+#> Efficiency1 (Ols R on P) - Reg.                    Uncertain (0.022)
+#> Efficiency2 (Ols Rv on Rv_1) - Mean                     Good (0.975)
+#> Efficiency2 (Ols Rv on Rv_1) - Reg.                      Bad (0.002)
+#> Orthogonality1 (Ols Rv on Rv_(1:p)) - Mean              Good (0.975)
+#> Orthogonality1 (Ols Rv on Rv_(1:p)) - Reg.              Good (0.998)
+#> Orthogonality2 (Ols Rv on Rv_k.) - Mean                 Good (0.975)
+#> Orthogonality2 (Ols Rv on Rv_k) - Reg.                   Bad (0.002)
+#> Orthogonality3 AutoCorrelation (Ljung-Box)              Good (0.141)
+#> Orthogonality4 Seasonality (Ljung-Box)                  Good (0.377)
+#> Orthogonality4 Seasonality (Friedman)                   Good (0.334)
+#> SignalVsNoise1 - Noise (Ols R on P)                Uncertain (0.010)
+#> SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.623)
 # summary(rslt)
 View(rslt)
 ```
 
-<img src="man/figures/README-unnamed-chunk-9-1.png" alt="" width="100%" />
+<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
 
 Finally to create a report and get a summary of the results, you can use
 
