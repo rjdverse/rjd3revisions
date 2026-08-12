@@ -22,6 +22,4 @@ Useful links:
 
 Authors:
 
-- Corentin Lemasson <corentin.lemasson@nbb.be>
-
 - Tanguy Barthelemy <tanguy.barthelemy@insee.fr> \[artist\]
