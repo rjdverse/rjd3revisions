@@ -36,6 +36,7 @@ the same input but in a ts object and with revision date formatted
 Check vertical format
 }
 \examples{
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 
 long_format <- rjd3revisions:::simulate_long(
     start_period = as.Date("2020-01-01"),
@@ -45,5 +46,5 @@ long_format <- rjd3revisions:::simulate_long(
 )
 vertical_format <- rjd3revisions:::from_long_to_vertical(long_format, periodicity = 12L)
 check_vertical(vertical_format)
-
+\dontshow{\}) # examplesIf}
 }

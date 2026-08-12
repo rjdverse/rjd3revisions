@@ -19,6 +19,7 @@ the same input but with column and date formatted
 Check long format
 }
 \examples{
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 
 long_format <- rjd3revisions:::simulate_long(
     start_period = as.Date("2020-01-01"),
@@ -27,5 +28,5 @@ long_format <- rjd3revisions:::simulate_long(
     periodicity = 12L
 )
 check_long(long_format)
-
+\dontshow{\}) # examplesIf}
 }

@@ -1,46 +1,123 @@
 descriptiveStatNames <- c(
-    "N", "mean revision", "st.dev.", "min", "q.10", "median", "q.90", "max",
-    "% positive", "% zero", "% negative", "mean absolute revision",
+    "N",
+    "mean revision",
+    "st.dev.",
+    "min",
+    "q.10",
+    "median",
+    "q.90",
+    "max",
+    "% positive",
+    "% zero",
+    "% negative",
+    "mean absolute revision",
     "root mean square revision"
 )
 
-biasNames <- c("N", "estimate", "stderr", "tstat", "pvalue", "ar(1)",
-               "stderr.adjusted", "tstat.adjusted", "pvalue.adjusted")
+biasNames <- c(
+    "N",
+    "estimate",
+    "stderr",
+    "tstat",
+    "pvalue",
+    "ar(1)",
+    "stderr.adjusted",
+    "tstat.adjusted",
+    "pvalue.adjusted"
+)
 
 OlsNames <- c(
-    "N", "R2", "F", "intercept.estimate", "intercept.stderr",
-    "intercept.pvalue", "slope.estimate", "slope.stderr", "slope.pvalue",
-    "skewness", "kurtosis", "JarqueBera.value", "JarqueBera.pvalue",
-    "BreuschPagan.R2", "BreuschPagan.value", "BreuschPagan.pvalue",
-    "White.R2", "White.value", "White.pvalue", "arch.R2", "arch.value",
+    "N",
+    "R2",
+    "F",
+    "intercept.estimate",
+    "intercept.stderr",
+    "intercept.pvalue",
+    "slope.estimate",
+    "slope.stderr",
+    "slope.pvalue",
+    "skewness",
+    "kurtosis",
+    "JarqueBera.value",
+    "JarqueBera.pvalue",
+    "BreuschPagan.R2",
+    "BreuschPagan.value",
+    "BreuschPagan.pvalue",
+    "White.R2",
+    "White.value",
+    "White.pvalue",
+    "arch.R2",
+    "arch.value",
     "arch.pvalue"
 )
 
-OlsTestNames <- c("skewness", "kurtosis", "JarqueBera.value", "JarqueBera.pvalue",
-                  "BreuschPagan.R2", "BreuschPagan.value", "BreuschPagan.pvalue",
-                  "White.R2", "White.value", "White.pvalue",
-                  "arch.R2", "arch.value", "arch.pvalue")
+OlsTestNames <- c(
+    "skewness",
+    "kurtosis",
+    "JarqueBera.value",
+    "JarqueBera.pvalue",
+    "BreuschPagan.R2",
+    "BreuschPagan.value",
+    "BreuschPagan.pvalue",
+    "White.R2",
+    "White.value",
+    "White.pvalue",
+    "arch.R2",
+    "arch.value",
+    "arch.pvalue"
+)
 
 OlsAdjNames <- c("N", "R2", "F")
 
-acNames <- c("BreuschGodfrey.R2", "BreuschGodfrey.value", "BreuschGodfrey.pvalue",
-             "LungBox.value", "LungBox.pvalue")
+acNames <- c(
+    "BreuschGodfrey.R2",
+    "BreuschGodfrey.value",
+    "BreuschGodfrey.pvalue",
+    "LungBox.value",
+    "LungBox.pvalue"
+)
 
-urNames <- c("DF.value", "DF.stderr", "DF.statistic", "DF.pvalue",
-             "ADF.value", "ADF.stderr", "ADF.statistic", "ADF.pvalue",
-             "DFCT.value", "DFCT.stderr", "DFCT.statistic", "DFCT.pvalue",
-             "PP.value", "PP.stderr", "PP.statistic", "PP.pvalue")
+urNames <- c(
+    "DF.value",
+    "DF.stderr",
+    "DF.statistic",
+    "DF.pvalue",
+    "ADF.value",
+    "ADF.stderr",
+    "ADF.statistic",
+    "ADF.pvalue",
+    "DFCT.value",
+    "DFCT.stderr",
+    "DFCT.statistic",
+    "DFCT.pvalue",
+    "PP.value",
+    "PP.stderr",
+    "PP.statistic",
+    "PP.pvalue"
+)
 
 egNames <- c("value", "stderr", "statistic", "pvalue")
 
-snNames <- c("News.R2", "News.F", "News.pvalue", "Noise.R2", "Noise.F", "Noise.pvalue")
+snNames <- c(
+    "News.R2",
+    "News.F",
+    "News.pvalue",
+    "Noise.R2",
+    "Noise.F",
+    "Noise.pvalue"
+)
 
 
 OlsCNames <- function(nregs) {
     n <- c("intercept.estimate", "intercept.stderr", "intercept.pvalue")
     for (i in seq_len(nregs)) {
         cur <- paste0("x(", i, ")")
-        n <- c(n, paste0(cur, ".estimate"), paste0(cur, ".stderr"), paste0(cur, ".pvalue"))
+        n <- c(
+            n,
+            paste0(cur, ".estimate"),
+            paste0(cur, ".stderr"),
+            paste0(cur, ".pvalue")
+        )
     }
     return(n)
 }
@@ -69,8 +146,9 @@ matrix_jd2r <- function(s) {
 }
 
 matrix_r2jd <- function(s) {
-    if (is.null(s))
+    if (is.null(s)) {
         return(.jnull("jdplus/toolkit/base/api/math/matrices/Matrix"))
+    }
     if (!is.matrix(s)) {
         s <- matrix(s, nrow = length(s), ncol = 1)
     }
@@ -79,7 +157,9 @@ matrix_r2jd <- function(s) {
         obj = "jdplus/toolkit/base/api/math/matrices/Matrix",
         returnSig = "Ljdplus/toolkit/base/api/math/matrices/Matrix;",
         method = "of",
-        as.double(s), as.integer(sdim[1]), as.integer(sdim[2])
+        as.double(s),
+        as.integer(sdim[1]),
+        as.integer(sdim[2])
     ))
 }
 
@@ -91,7 +171,7 @@ matrix_r2jd <- function(s) {
 #' @param rounding number of decimals to display
 #'
 #' @export
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' ## Simulated data
 #' df_long <- simulate_long(
@@ -107,7 +187,6 @@ matrix_r2jd <- function(s) {
 #' descriptive_statistics(revisions[["diagonal_view"]], rounding = 1)
 #'
 descriptive_statistics <- function(revisions.view, rounding = 3) {
-
     descriptive_statistics_one <- function(r) {
         rc <- as.numeric(r[!is.na(r)])
 
@@ -150,7 +229,7 @@ descriptive_statistics <- function(revisions.view, rounding = 3) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' ## Simulated data
 #' df_long <- simulate_long(
@@ -166,9 +245,20 @@ descriptive_statistics <- function(revisions.view, rounding = 3) {
 #'
 theil <- function(vintages.view, gap = 1, na.zero = FALSE) {
     q <- vintages.view
-    if (na.zero) q[is.na(q)] <- 0
+    if (na.zero) {
+        q[is.na(q)] <- 0
+    }
     jq <- matrix_r2jd(q)
-    theil <- try(.jcall("jdplus/revisions/base/r/Utility", "[D", "theil", jq, as.integer(gap)), silent = TRUE)
+    theil <- try(
+        .jcall(
+            "jdplus/revisions/base/r/Utility",
+            "[D",
+            "theil",
+            jq,
+            as.integer(gap)
+        ),
+        silent = TRUE
+    )
     if (inherits(theil, "try-error")) {
         warning("theil could not be performed", call. = FALSE)
         return(NULL)
@@ -189,7 +279,7 @@ theil <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' ## Simulated data
 #' df_long <- simulate_long(
@@ -205,9 +295,20 @@ theil <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #'
 theil2 <- function(vintages.view, gap = 1, na.zero = FALSE) {
     q <- vintages.view
-    if (na.zero) q[is.na(q)] <- 0
+    if (na.zero) {
+        q[is.na(q)] <- 0
+    }
     jq <- matrix_r2jd(q)
-    theil2 <- try(.jcall("jdplus/revisions/base/r/Utility", "[D", "theil2", jq, as.integer(gap)), silent = TRUE)
+    theil2 <- try(
+        .jcall(
+            "jdplus/revisions/base/r/Utility",
+            "[D",
+            "theil2",
+            jq,
+            as.integer(gap)
+        ),
+        silent = TRUE
+    )
     if (inherits(theil2, "try-error")) {
         warning("theil2 could not be performed", call. = FALSE)
         return(NULL)
@@ -225,7 +326,7 @@ theil2 <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' ## Simulated data
 #' df_long <- simulate_long(
@@ -243,9 +344,19 @@ theil2 <- function(vintages.view, gap = 1, na.zero = FALSE) {
 
 bias <- function(revisions.view, na.zero = FALSE) {
     r <- revisions.view
-    if (na.zero) r[is.na(r)] <- 0
+    if (na.zero) {
+        r[is.na(r)] <- 0
+    }
     jrevs <- matrix_r2jd(r)
-    jbias <- try(.jcall("jdplus/revisions/base/r/Utility", "Ljdplus/toolkit/base/api/math/matrices/Matrix;", "bias", jrevs), silent = TRUE)
+    jbias <- try(
+        .jcall(
+            "jdplus/revisions/base/r/Utility",
+            "Ljdplus/toolkit/base/api/math/matrices/Matrix;",
+            "bias",
+            jrevs
+        ),
+        silent = TRUE
+    )
     if (inherits(bias, "try-error")) {
         warning("bias could not be performed", call. = FALSE)
         return(NULL)
@@ -278,7 +389,7 @@ bias <- function(revisions.view, na.zero = FALSE) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' ## Simulated data
 #' df_long <- simulate_long(
@@ -294,16 +405,22 @@ bias <- function(revisions.view, na.zero = FALSE) {
 #'
 slope_and_drift <- function(vintages.view, gap = 1, na.zero = FALSE) {
     q <- vintages.view
-    if (na.zero) q[is.na(q)] <- 0
+    if (na.zero) {
+        q[is.na(q)] <- 0
+    }
     jq <- matrix_r2jd(q)
-    jsd <- try({
-        .jcall(
-            obj = "jdplus/revisions/base/r/Utility",
-            returnSig = "Ljdplus/toolkit/base/api/math/matrices/Matrix;",
-            method = "slopeAndDrift",
-            jq, as.integer(gap)
-        )
-    }, silent = TRUE)
+    jsd <- try(
+        {
+            .jcall(
+                obj = "jdplus/revisions/base/r/Utility",
+                returnSig = "Ljdplus/toolkit/base/api/math/matrices/Matrix;",
+                method = "slopeAndDrift",
+                jq,
+                as.integer(gap)
+            )
+        },
+        silent = TRUE
+    )
     if (inherits(jsd, "try-error")) {
         warning("Slope and drift could not be performed", call. = FALSE)
         return(NULL)
@@ -336,7 +453,7 @@ slope_and_drift <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' ## Simulated data
 #' df_long <- simulate_long(
@@ -352,16 +469,22 @@ slope_and_drift <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #'
 efficiencyModel1 <- function(vintages.view, gap = 1, na.zero = FALSE) {
     q <- vintages.view
-    if (na.zero) q[is.na(q)] <- 0
+    if (na.zero) {
+        q[is.na(q)] <- 0
+    }
     jq <- matrix_r2jd(q)
-    jef1 <- try({
-        .jcall(
-            obj = "jdplus/revisions/base/r/Utility",
-            returnSig = "Ljdplus/toolkit/base/api/math/matrices/Matrix;",
-            method = "efficiencyModel1",
-            jq, as.integer(gap)
-        )
-    }, silent = TRUE)
+    jef1 <- try(
+        {
+            .jcall(
+                obj = "jdplus/revisions/base/r/Utility",
+                returnSig = "Ljdplus/toolkit/base/api/math/matrices/Matrix;",
+                method = "efficiencyModel1",
+                jq,
+                as.integer(gap)
+            )
+        },
+        silent = TRUE
+    )
     if (inherits(jef1, "try-error")) {
         warning("efficiencyModel1 could not be performed", call. = FALSE)
         return(NULL)
@@ -375,7 +498,11 @@ efficiencyModel1 <- function(vintages.view, gap = 1, na.zero = FALSE) {
     colnames(efficiencyModel1) <- OlsNames
     n <- dim(q)[2]
     w <- sapply(colnames(q), function(s) paste0("[", s, "]"))
-    rw <- mapply(function(a, b) paste(a, b, sep = "-"), w[(gap + 1):n], w[seq_len(n - gap)])
+    rw <- mapply(
+        function(a, b) paste(a, b, sep = "-"),
+        w[(gap + 1):n],
+        w[seq_len(n - gap)]
+    )
     rownames(efficiencyModel1) <- rw
     return(efficiencyModel1)
 }
@@ -395,7 +522,7 @@ efficiencyModel1 <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' ## Simulated data
 #' df_long <- simulate_long(
@@ -411,23 +538,32 @@ efficiencyModel1 <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #'
 efficiencyModel2 <- function(vintages.view, gap = 1, na.zero = FALSE) {
     q <- vintages.view
-    if (na.zero) q[is.na(q)] <- 0
+    if (na.zero) {
+        q[is.na(q)] <- 0
+    }
     jq <- matrix_r2jd(q)
-    jef2 <- try({
-        .jcall(
-            obj = "jdplus/revisions/base/r/Utility",
-            returnSig = "Ljdplus/toolkit/base/api/math/matrices/Matrix;",
-            method = "efficiencyModel2",
-            jq, as.integer(gap)
-        )
-    }, silent = TRUE)
+    jef2 <- try(
+        {
+            .jcall(
+                obj = "jdplus/revisions/base/r/Utility",
+                returnSig = "Ljdplus/toolkit/base/api/math/matrices/Matrix;",
+                method = "efficiencyModel2",
+                jq,
+                as.integer(gap)
+            )
+        },
+        silent = TRUE
+    )
     if (inherits(jef2, "try-error")) {
         warning("efficiencyModel2 could not be performed", call. = FALSE)
         return(NULL)
     }
     efficiencyModel2 <- matrix_jd2r(jef2)
     if (length(efficiencyModel2) == 0) {
-        warning("efficiencyModel2 could not be performed: Too few number of vintages", call. = FALSE)
+        warning(
+            "efficiencyModel2 could not be performed: Too few number of vintages",
+            call. = FALSE
+        )
         return(NULL)
     }
     efficiencyModel2[rowSums(efficiencyModel2[]) == 0, ] <- NaN # fix non-calculable cases
@@ -438,7 +574,11 @@ efficiencyModel2 <- function(vintages.view, gap = 1, na.zero = FALSE) {
     colnames(efficiencyModel2) <- OlsNames
     n <- dim(q)[2]
     w <- sapply(colnames(q), function(s) paste0("[", s, "]"))
-    rw <- mapply(function(a, b) paste(a, b, sep = "-"), w[(gap + 1):n], w[seq_len(n - gap)])
+    rw <- mapply(
+        function(a, b) paste(a, b, sep = "-"),
+        w[(gap + 1):n],
+        w[seq_len(n - gap)]
+    )
     rownames(efficiencyModel2) <- rw[-1]
     return(efficiencyModel2)
 }
@@ -456,7 +596,7 @@ efficiencyModel2 <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' ## Simulated data
 #' df_long <- simulate_long(
@@ -473,23 +613,32 @@ efficiencyModel2 <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #'
 orthogonallyModel1 <- function(revisions.view, nrevs = 1, na.zero = FALSE) {
     r <- revisions.view
-    if (na.zero) r[is.na(r)] <- 0
+    if (na.zero) {
+        r[is.na(r)] <- 0
+    }
     jr <- matrix_r2jd(as.matrix(r))
-    jom <- try({
-        .jcall(
-            obj = "jdplus/revisions/base/r/Utility",
-            returnSig = "Ljdplus/toolkit/base/api/math/matrices/Matrix;",
-            method = "orthogonallyModel1",
-            jr, as.integer(nrevs)
-        )
-    }, silent = TRUE)
+    jom <- try(
+        {
+            .jcall(
+                obj = "jdplus/revisions/base/r/Utility",
+                returnSig = "Ljdplus/toolkit/base/api/math/matrices/Matrix;",
+                method = "orthogonallyModel1",
+                jr,
+                as.integer(nrevs)
+            )
+        },
+        silent = TRUE
+    )
     if (inherits(jom, "try-error")) {
         warning("orthogonallyModel1 could not be performed", call. = FALSE)
         return(NULL)
     }
     om <- matrix_jd2r(jom)
     if (length(om) == 0) {
-        warning("orthogonallyModel1 could not be performed: Too few number of vintages", call. = FALSE)
+        warning(
+            "orthogonallyModel1 could not be performed: Too few number of vintages",
+            call. = FALSE
+        )
         return(NULL)
     }
     om[rowSums(om[]) == 0, ] <- NaN # fix non-calculable cases
@@ -515,7 +664,7 @@ orthogonallyModel1 <- function(revisions.view, nrevs = 1, na.zero = FALSE) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' ## Simulated data
 #' df_long <- simulate_long(
@@ -532,23 +681,32 @@ orthogonallyModel1 <- function(revisions.view, nrevs = 1, na.zero = FALSE) {
 #'
 orthogonallyModel2 <- function(revisions.view, reference = 1, na.zero = FALSE) {
     r <- revisions.view
-    if (na.zero) r[is.na(r)] <- 0
+    if (na.zero) {
+        r[is.na(r)] <- 0
+    }
     jr <- matrix_r2jd(as.matrix(r))
-    jom <- try({
-        .jcall(
-            obj = "jdplus/revisions/base/r/Utility",
-            returnSig = "Ljdplus/toolkit/base/api/math/matrices/Matrix;",
-            method = "orthogonallyModel2",
-            jr, as.integer(reference)
-        )
-    }, silent = TRUE)
+    jom <- try(
+        {
+            .jcall(
+                obj = "jdplus/revisions/base/r/Utility",
+                returnSig = "Ljdplus/toolkit/base/api/math/matrices/Matrix;",
+                method = "orthogonallyModel2",
+                jr,
+                as.integer(reference)
+            )
+        },
+        silent = TRUE
+    )
     if (inherits(jom, "try-error")) {
         warning("orthogonallyModel2 could not be performed", call. = FALSE)
         return(NULL)
     }
     om <- matrix_jd2r(jom)
     if (length(om) == 0) {
-        warning("orthogonallyModel2 could not be performed: Too few number of vintages", call. = FALSE)
+        warning(
+            "orthogonallyModel2 could not be performed: Too few number of vintages",
+            call. = FALSE
+        )
         return(NULL)
     }
     om[rowSums(om[]) == 0, ] <- NaN # fix non-calculable cases
@@ -578,7 +736,7 @@ orthogonallyModel2 <- function(revisions.view, reference = 1, na.zero = FALSE) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #' ## Simulated data
 #' df_long <- simulate_long(
 #'     n_period = 10L * 4L,
@@ -593,16 +751,22 @@ orthogonallyModel2 <- function(revisions.view, reference = 1, na.zero = FALSE) {
 #'
 signalnoise <- function(vintages.view, gap = 1, na.zero = FALSE) {
     q <- vintages.view
-    if (na.zero) q[is.na(q)] <- 0
+    if (na.zero) {
+        q[is.na(q)] <- 0
+    }
     jq <- matrix_r2jd(q)
-    jsd <- try({
-        .jcall(
-            obj = "jdplus/revisions/base/r/Utility",
-            returnSig = "Ljdplus/toolkit/base/api/math/matrices/Matrix;",
-            method = "signalNoise",
-            jq, as.integer(gap)
-        )
-    }, silent = TRUE)
+    jsd <- try(
+        {
+            .jcall(
+                obj = "jdplus/revisions/base/r/Utility",
+                returnSig = "Ljdplus/toolkit/base/api/math/matrices/Matrix;",
+                method = "signalNoise",
+                jq,
+                as.integer(gap)
+            )
+        },
+        silent = TRUE
+    )
     if (inherits(jsd, "try-error")) {
         warning("signalnoise could not be performed", call. = FALSE)
         return(NULL)
@@ -616,7 +780,11 @@ signalnoise <- function(vintages.view, gap = 1, na.zero = FALSE) {
     colnames(sn) <- snNames
     n <- dim(q)[2]
     w <- sapply(colnames(q), function(s) paste0("[", s, "]"))
-    rw <- mapply(function(a, b) paste(a, b, sep = "-"), w[(gap + 1):n], w[seq_len(n - gap)])
+    rw <- mapply(
+        function(a, b) paste(a, b, sep = "-"),
+        w[(gap + 1):n],
+        w[seq_len(n - gap)]
+    )
     rownames(sn) <- rw
     return(sn)
 }
@@ -632,7 +800,7 @@ signalnoise <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #' ## Simulated data
 #' df_long <- simulate_long(
 #'     n_period = 10L * 4L,
@@ -647,14 +815,22 @@ signalnoise <- function(vintages.view, gap = 1, na.zero = FALSE) {
 #'
 unitroot <- function(vintages.view, adfk = 1, na.zero = FALSE) {
     q <- vintages.view
-    if (na.zero) q[is.na(q)] <- 0
+    if (na.zero) {
+        q[is.na(q)] <- 0
+    }
     jq <- matrix_r2jd(q)
-    jsd <- try({
-        .jcall(obj = "jdplus/revisions/base/r/Utility",
-               returnSig = "Ljdplus/toolkit/base/api/math/matrices/Matrix;",
-               method = "unitroot",
-               jq, as.integer(adfk))
-    }, silent = TRUE)
+    jsd <- try(
+        {
+            .jcall(
+                obj = "jdplus/revisions/base/r/Utility",
+                returnSig = "Ljdplus/toolkit/base/api/math/matrices/Matrix;",
+                method = "unitroot",
+                jq,
+                as.integer(adfk)
+            )
+        },
+        silent = TRUE
+    )
     if (inherits(jsd, "try-error")) {
         warning("unit root test could not be performed", call. = FALSE)
         return(NULL)
@@ -676,7 +852,7 @@ unitroot <- function(vintages.view, adfk = 1, na.zero = FALSE) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
 #' ## Simulated data
 #' df_long <- simulate_long(
@@ -692,16 +868,22 @@ unitroot <- function(vintages.view, adfk = 1, na.zero = FALSE) {
 #'
 cointegration <- function(vintages.view, adfk = 1, na.zero = FALSE) {
     q <- vintages.view
-    if (na.zero) q[is.na(q)] <- 0
+    if (na.zero) {
+        q[is.na(q)] <- 0
+    }
     jq <- matrix_r2jd(q)
-    jsd <- try({
-        .jcall(
-            obj = "jdplus/revisions/base/r/Utility",
-            returnSig = "Ljdplus/toolkit/base/api/math/matrices/Matrix;",
-            method = "cointegration",
-            jq, as.integer(adfk)
-        )
-    }, silent = TRUE)
+    jsd <- try(
+        {
+            .jcall(
+                obj = "jdplus/revisions/base/r/Utility",
+                returnSig = "Ljdplus/toolkit/base/api/math/matrices/Matrix;",
+                method = "cointegration",
+                jq,
+                as.integer(adfk)
+            )
+        },
+        silent = TRUE
+    )
     if (inherits(jsd, "try-error")) {
         warning("cointegration test could not be performed", call. = FALSE)
         return(NULL)
@@ -735,7 +917,7 @@ get_rownames_diag <- function(vt, gap) {
 #'                rather as data not (yet) available (the default).
 #' @export
 #'
-#' @examples
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #' ## Simulated data
 #' df_long <- simulate_long(
 #'     n_period = 10L * 4L,
@@ -748,19 +930,31 @@ get_rownames_diag <- function(vt, gap) {
 #' vintages <- create_vintages(df_long, periodicity = 4L)
 #' vecm(vintages[["diagonal_view"]])
 #'
-vecm <- function(vintages.view, lag = 2, model = c("none", "cnt", "trend"), na.zero = FALSE) {
+vecm <- function(
+    vintages.view,
+    lag = 2,
+    model = c("none", "cnt", "trend"),
+    na.zero = FALSE
+) {
     model <- match.arg(model)
     q <- vintages.view
-    if (na.zero) q[is.na(q)] <- 0
+    if (na.zero) {
+        q[is.na(q)] <- 0
+    }
     jq <- matrix_r2jd(q)
-    jsd <- try({
-        .jcall(
-            obj = "jdplus/revisions/base/r/Utility",
-            returnSig = "Ljdplus/toolkit/base/api/math/matrices/Matrix;",
-            method = "vecm",
-            jq, as.integer(lag), model
-        )
-    }, silent = TRUE)
+    jsd <- try(
+        {
+            .jcall(
+                obj = "jdplus/revisions/base/r/Utility",
+                returnSig = "Ljdplus/toolkit/base/api/math/matrices/Matrix;",
+                method = "vecm",
+                jq,
+                as.integer(lag),
+                model
+            )
+        },
+        silent = TRUE
+    )
     if (inherits(jsd, "try-error")) {
         warning("vecm could not be performed", call. = FALSE)
         return(NULL)

@@ -1,0 +1,29 @@
+name: Update Java Dependencies
+
+on:
+  workflow_dispatch:
+    inputs:
+      update_type:
+        description: "Type de mise à jour (release/snapshot)"
+        required: true
+        type: choice
+        options:
+          - release
+          - snapshot
+        default: "release"
+
+run-name: >
+  Update ${{ inputs.update_type }} JARs
+  by @${{ github.actor }}
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Update Java dependencies
+        uses: TanguyBarthelemy/actions/update-java-dependencies@v1.0.5
+        with:
+          update_type: ${{ inputs.update_type }}
+          branch: "develop"

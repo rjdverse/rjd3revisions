@@ -69,6 +69,7 @@ The function \code{check_format_date} checks if the object \code{x} match the
 pattern (or one of the patterns) \code{date_format}.
 }
 \examples{
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 
 # check_date_year --------------------------------------------------
 
@@ -133,5 +134,5 @@ check_format_date(x = c("01/08/2010", "01/09/2010", "01/10/2010", "01/11/2010",
                         "01/12/2010", "01/01/2011", "01/02/2011", "01/03/2011",
                         "01/04/2011", "01/05/2011"),
                  date_format = "\%Y-\%m-\%d")
-
+\dontshow{\}) # examplesIf}
 }

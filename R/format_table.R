@@ -22,7 +22,11 @@ theme_design <- function(x) {
 }
 
 create_formula <- function(col, status) {
-    return(as.formula(sprintf("~ grepl(x = `%s`, pattern = \"%s\")", col, status)))
+    return(as.formula(sprintf(
+        "~ grepl(x = `%s`, pattern = \"%s\")",
+        col,
+        status
+    )))
 }
 
 format_column <- function(x, col) {
@@ -31,7 +35,12 @@ format_column <- function(x, col) {
     x <- flextable::bg(x, create_formula(col, "Bad"), col, bg = "#ff3737")
     x <- flextable::bg(x, create_formula(col, "Severe"), col, bg = "#c10000")
     x <- flextable::bold(x, create_formula(col, "Severe"), col)
-    x <- flextable::color(x, create_formula(col, "Severe"), col, color = "white")
+    x <- flextable::color(
+        x,
+        create_formula(col, "Severe"),
+        col,
+        color = "white"
+    )
     return(x)
 }
 

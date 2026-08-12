@@ -27,8 +27,6 @@ vignettes/*.pdf
 Meta/
 inst/doc/
 doc/
-/doc/
-/Meta/
 
 # OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
 .httr-oauth
@@ -59,4 +57,9 @@ rsconnect/
 # produced README.html
 README.html
 
+# pom files
 pom.xml.versionsBackup
+
+# Quarto related files
+**/.quarto/
+.quarto

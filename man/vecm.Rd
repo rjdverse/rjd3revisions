@@ -27,6 +27,7 @@ Can lead to a better understanding of the nature of any nonstationary process
 among the different component series.
 }
 \examples{
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 ## Simulated data
 df_long <- simulate_long(
     n_period = 10L * 4L,
@@ -38,5 +39,5 @@ df_long <- simulate_long(
 ## Create vintage and test
 vintages <- create_vintages(df_long, periodicity = 4L)
 vecm(vintages[["diagonal_view"]])
-
+\dontshow{\}) # examplesIf}
 }

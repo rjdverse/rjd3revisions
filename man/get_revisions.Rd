@@ -21,6 +21,7 @@ different views of revisions
 Calculate revisions from vintages
 }
 \examples{
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 df <- data.frame(rev_date = c(rep("2022-07-31",4), rep("2022-08-31",4),
                             rep("2022-09-30",4), rep("2022-10-31",4),
                             rep("2022-11-30",4), rep("2022-12-31",4),
@@ -32,7 +33,7 @@ df <- data.frame(rev_date = c(rep("2022-07-31",4), rep("2022-08-31",4),
                                 .7,.2,.7,.4, .7,.3,.7,.3))
 vintages <- create_vintages(df, periodicity = 4)
 revisions <- get_revisions(vintages, gap = 1)
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{create_vintages()}

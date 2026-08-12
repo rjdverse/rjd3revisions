@@ -14,7 +14,8 @@ diagnostics tests on residuals as well in addition to parametric tests.}
 Set all test thresholds to their default values
 }
 \examples{
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 
 set_all_thresholds_to_default()
-
+\dontshow{\}) # examplesIf}
 }

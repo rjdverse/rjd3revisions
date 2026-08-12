@@ -41,6 +41,7 @@ an object of class \code{rjd3rev_vintages}
 Create vintages table from CSV or TXT files
 }
 \examples{
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 \dontrun{
 file_name <- "myinput.csv"
 vintages <- create_vintages_from_csv(
@@ -51,7 +52,7 @@ vintages <- create_vintages_from_csv(
     sep = ";"
 )
 }
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=create_vintages_from_xlsx]{create_vintages_from_xlsx()}}, \code{\link[=create_vintages]{create_vintages()}} which this function wraps.

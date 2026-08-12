@@ -17,6 +17,7 @@ rather as data not (yet) available (the default).}
 Estimate bias using t-test and augmented t-test
 }
 \examples{
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 
 ## Simulated data
 df_long <- simulate_long(
@@ -30,7 +31,7 @@ df_long <- simulate_long(
 vintages <- create_vintages(df_long, periodicity = 4)
 revisions <- get_revisions(vintages, gap = 1)
 bias(revisions[["diagonal_view"]])
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{revision_analysis()}, \code{render_report()}

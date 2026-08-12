@@ -41,6 +41,7 @@ open automatically after being generated.}
 Generate report on Revision Analysis
 }
 \examples{
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 
 ## Simulated data
 df_long <- simulate_long(
@@ -64,7 +65,7 @@ render_report(
     plot_revisions = TRUE
 )
 }
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{revision_analysis()} to create the input object
