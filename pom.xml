@@ -11,7 +11,7 @@
 	<description>Usage: mvn -Pcopy-jars</description>
 
 	<properties>
-		<jdplus-revisions.version>1.1.0</jdplus-revisions.version>
+		<jdplus-revisions.version>1.1.1-SNAPSHOT</jdplus-revisions.version>
 	</properties>
 
 	<dependencies>

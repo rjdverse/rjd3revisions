@@ -1,10 +1,14 @@
-
 from_long_to_vertical <- function(x, periodicity, date_format = "%Y-%m-%d") {
     # Check input
     x <- check_long(x = x, date_format = date_format)
 
     # Check periodicity
-    checkmate::assert_count(x = periodicity, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
+    checkmate::assert_count(
+        x = periodicity,
+        positive = TRUE,
+        na.ok = FALSE,
+        null.ok = FALSE
+    )
     checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
 
     vertical <- stats::reshape(
@@ -18,7 +22,11 @@ from_long_to_vertical <- function(x, periodicity, date_format = "%Y-%m-%d") {
     time_periods <- vertical[["time"]]
     vertical <- as.matrix(vertical[, -1])
     rownames(vertical) <- as.character(time_periods)
-    return(check_vertical(x = vertical, periodicity = periodicity, date_format = date_format))
+    return(check_vertical(
+        x = vertical,
+        periodicity = periodicity,
+        date_format = date_format
+    ))
 }
 
 from_long_to_horizontal <- function(x, date_format = "%Y-%m-%d") {
@@ -43,11 +51,19 @@ from_long_to_diagonal <- function(x, periodicity, date_format = "%Y-%m-%d") {
     x <- check_long(x = x, date_format = date_format)
 
     # Check periodicity
-    checkmate::assert_count(x = periodicity, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
+    checkmate::assert_count(
+        x = periodicity,
+        positive = TRUE,
+        na.ok = FALSE,
+        null.ok = FALSE
+    )
     checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
 
     horizontal <- from_long_to_horizontal(x = x)
-    diagonal <- from_horizontal_to_diagonal(x = horizontal, periodicity = periodicity)
+    diagonal <- from_horizontal_to_diagonal(
+        x = horizontal,
+        periodicity = periodicity
+    )
     return(diagonal)
 }
 
@@ -58,13 +74,23 @@ from_vertical_to_long <- function(x, date_format = "%Y-%m-%d") {
     vertical <- t(t(x))
     if (stats::frequency(x) == 12L) {
         time_period <- seq.Date(
-            from = as.Date(paste0(stats::start(x)[1], "-", stats::start(x)[2], "-01")),
+            from = as.Date(paste0(
+                stats::start(x)[1],
+                "-",
+                stats::start(x)[2],
+                "-01"
+            )),
             by = "month",
             length.out = nrow(x)
         )
     } else if (stats::frequency(x) == 4L) {
         time_period <- seq.Date(
-            from = as.Date(paste0(stats::start(x)[1], "-", 3 * stats::start(x)[2] - 2, "-01")),
+            from = as.Date(paste0(
+                stats::start(x)[1],
+                "-",
+                3 * stats::start(x)[2] - 2,
+                "-01"
+            )),
             by = "quarter",
             length.out = nrow(x)
         )
@@ -72,7 +98,11 @@ from_vertical_to_long <- function(x, date_format = "%Y-%m-%d") {
     rownames(vertical) <- as.character(time_period)
 
     long <- stats::reshape(
-        data = data.frame(time = rownames(vertical), vertical, check.names = FALSE),
+        data = data.frame(
+            time = rownames(vertical),
+            vertical,
+            check.names = FALSE
+        ),
         direction = "long",
         varying = colnames(vertical),
         v.names = "obs_values",
@@ -97,13 +127,23 @@ from_vertical_to_horizontal <- function(x, date_format = "%Y-%m-%d") {
     horizontal <- t(x)
     if (stats::frequency(x) == 12L) {
         time_period <- seq.Date(
-            from = as.Date(paste0(stats::start(x)[1], "-", stats::start(x)[2], "-01")),
+            from = as.Date(paste0(
+                stats::start(x)[1],
+                "-",
+                stats::start(x)[2],
+                "-01"
+            )),
             by = "month",
             length.out = nrow(x)
         )
     } else if (stats::frequency(x) == 4L) {
         time_period <- seq.Date(
-            from = as.Date(paste0(stats::start(x)[1], "-", 3 * stats::start(x)[2] - 2, "-01")),
+            from = as.Date(paste0(
+                stats::start(x)[1],
+                "-",
+                3 * stats::start(x)[2] - 2,
+                "-01"
+            )),
             by = "quarter",
             length.out = nrow(x)
         )
@@ -122,11 +162,14 @@ from_vertical_to_diagonal <- function(x, date_format = "%Y-%m-%d") {
 }
 
 from_horizontal_to_long <- function(x, date_format = "%Y-%m-%d") {
-
     horizontal <- check_horizontal(x, date_format = date_format)
 
     long <- stats::reshape(
-        data = data.frame(revdate = rownames(horizontal), horizontal, check.names = FALSE),
+        data = data.frame(
+            revdate = rownames(horizontal),
+            horizontal,
+            check.names = FALSE
+        ),
         direction = "long",
         varying = colnames(horizontal),
         v.names = "obs_values",
@@ -144,35 +187,60 @@ from_horizontal_to_long <- function(x, date_format = "%Y-%m-%d") {
     return(long)
 }
 
-from_horizontal_to_vertical <- function(x, periodicity, date_format = "%Y-%m-%d") {
+from_horizontal_to_vertical <- function(
+    x,
+    periodicity,
+    date_format = "%Y-%m-%d"
+) {
     # Check input
     horizontal <- check_horizontal(x = x, date_format = date_format)
 
     # Check periodicity
-    checkmate::assert_count(x = periodicity, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
+    checkmate::assert_count(
+        x = periodicity,
+        positive = TRUE,
+        na.ok = FALSE,
+        null.ok = FALSE
+    )
     checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
 
-    return(check_vertical(x = t(horizontal), periodicity = periodicity, date_format = date_format))
+    return(check_vertical(
+        x = t(horizontal),
+        periodicity = periodicity,
+        date_format = date_format
+    ))
 }
 
-from_horizontal_to_diagonal <- function(x, periodicity, date_format = "%Y-%m-%d") {
+from_horizontal_to_diagonal <- function(
+    x,
+    periodicity,
+    date_format = "%Y-%m-%d"
+) {
     # Check input
     horizontal <- check_horizontal(x = x, date_format = date_format)
 
     # Check periodicity
-    checkmate::assert_count(x = periodicity, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
+    checkmate::assert_count(
+        x = periodicity,
+        positive = TRUE,
+        na.ok = FALSE,
+        null.ok = FALSE
+    )
     checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
 
     diagonal <- apply(
         X = horizontal,
         MARGIN = 2,
         FUN = function(.x) .x[order(is.na(.x))],
-        simplify  = FALSE
+        simplify = FALSE
     )
     diagonal <- do.call(what = rbind, diagonal)
     colnames(diagonal) <- paste0("Release[", seq_len(ncol(diagonal)), "]")
 
-    real_time_period <- assert_time_period(x = rownames(diagonal), date_format = date_format)
+    real_time_period <- assert_time_period(
+        x = rownames(diagonal),
+        date_format = date_format
+    )
 
     start_year <- as.integer(format(min(real_time_period), format = "%Y"))
     start_month <- as.integer(format(min(real_time_period), format = "%m"))

@@ -109,6 +109,7 @@ non-redundant storage of data.
 }
 }
 \examples{
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 ## creating the input
 
 # Long format
@@ -165,5 +166,5 @@ vintages <- create_vintages(
     date_format= "\%Y-\%m-\%d",
     vintage_selection = c(start="2022-10-31", end="2023-01-31")
 )
-
+\dontshow{\}) # examplesIf}
 }

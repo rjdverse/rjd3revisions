@@ -16,6 +16,7 @@ descriptive_statistics(revisions.view, rounding = 3)
 Descriptive statistics
 }
 \examples{
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 
 ## Simulated data
 df_long <- simulate_long(
@@ -29,5 +30,5 @@ df_long <- simulate_long(
 vintages <- create_vintages(df_long, periodicity = 4)
 revisions <- get_revisions(vintages, gap = 1)
 descriptive_statistics(revisions[["diagonal_view"]], rounding = 1)
-
+\dontshow{\}) # examplesIf}
 }

@@ -30,6 +30,7 @@ more information about the different data formats.
 Simulate long datasets with revisions
 }
 \examples{
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 
 simulate_long(n_period = 100L, n_revision = 10L)
 simulate_long(periodicity = 1L)
@@ -37,5 +38,5 @@ simulate_long(start_period = as.Date("2000-01-01"),
               n_period = 10L * 12L,
               periodicity = 12L)
 simulate_long(periodicity = 4L, n_period = 5L * 4L)
-
+\dontshow{\}) # examplesIf}
 }
