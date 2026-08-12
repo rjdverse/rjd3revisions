@@ -12,8 +12,8 @@
 <link rel="icon" sizes="any" href="favicon.ico">
 <link rel="manifest" href="site.webmanifest">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Revision analysis with JDemetra+ 3.x">
 <meta name="description" content="Revision analysis tool part of JDemetra+ 3.x (&lt;https://github.com/jdemetra&gt;) time series analysis software. It performs a battery of tests on revisions and submit a report with the results. The various tests enable the users to detect potential bias and sources of inefficiency in preliminary estimates.">
@@ -61,14 +61,15 @@
 </h1>
 </div>
 <!-- badges: start -->
+<!-- [![CRAN status](https://www.r-pkg.org/badges/version/rjd3revisions)](https://CRAN.R-project.org/package=rjd3revisions) -->
 
-<p><a href="https://github.com/rjdverse/rjd3revisions/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/rjdverse/rjd3revisions/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://github.com/rjdverse/rjd3revisions/actions/workflows/lint.yaml" class="external-link"><img src="https://github.com/rjdverse/rjd3revisions/actions/workflows/lint.yaml/badge.svg" alt="lint"></a></p>
-<p><a href="https://github.com/rjdverse/rjd3revisions/actions/workflows/pkgdown.yaml" class="external-link"><img src="https://github.com/rjdverse/rjd3revisions/actions/workflows/pkgdown.yaml/badge.svg" alt="GH Pages built"></a> <!-- badges: end --></p>
+<p><a href="https://github.com/rjdverse/rjd3revisions/actions/workflows/R-CMD-check.yml" class="external-link"><img src="https://github.com/rjdverse/rjd3revisions/actions/workflows/R-CMD-check.yml/badge.svg" alt="R-CMD-check"></a> <a href="https://github.com/rjdverse/rjd3revisions/actions/workflows/lint.yml" class="external-link"><img src="https://github.com/rjdverse/rjd3revisions/actions/workflows/lint.yml/badge.svg" alt="lint"></a></p>
+<p><a href="https://github.com/rjdverse/rjd3revisions/actions/workflows/pkgdown.yml" class="external-link"><img src="https://github.com/rjdverse/rjd3revisions/actions/workflows/pkgdown.yml/badge.svg" alt="GH Pages built"></a> <!-- badges: end --></p>
 <p>Most economic indicators are published several times for a given reporting period, this entails revisions as time horizon changes. rjd3revisions performs a battery of tests on these revisions and generates a report with the results. The various tests enable the users to detect potential bias and sources of inefficiency in preliminary estimates.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>Running rjd3 packages requires <strong>Java 17 or higher</strong>. How to set up such a configuration in R is explained <a href="https://jdemetra-new-documentation.netlify.app/#Rconfig" class="external-link">here</a></p>
+<p>Running rjd3 packages requires <strong>Java 17 or higher</strong>. How to set up such a configuration in R is explained <a href="https://doc.jdemetra.org/#Rconfig" class="external-link">here</a></p>
 <div class="section level3">
 <h3 id="latest-release">Latest release<a class="anchor" aria-label="anchor" href="#latest-release"></a>
 </h3>
@@ -78,6 +79,7 @@
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"rjdverse/rjd3toolkit@*release"</span><span class="op">)</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"rjdverse/rjd3revisions@*release"</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <ul>
 <li>From <a href="https://rjdverse.r-universe.dev/rjd3revisions" class="external-link">r-universe</a>:</li>
@@ -91,7 +93,7 @@
 <p>You can install the development version of <strong>rjd3revisions</strong> from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"rjdverse/rjd3revisions"</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"rjdverse/rjd3revisions"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -100,8 +102,8 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/rjdverse/rjd3revisions" class="external-link">"rjd3revisions"</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'rjd3revisions'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:utils':</span></span>
+<span><span class="co">#&gt; Attachement du package : 'rjd3revisions'</span></span>
+<span><span class="co">#&gt; L'objet suivant est masqué depuis 'package:utils':</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     View</span></span></code></pre></div>
 <p>First you need to get your input data set as a data.frame in R in a specific format as below. Note that missing values can either be mentioned as NA (as in the example below) or not be included in the input at the best convenience of the user.</p>
@@ -109,38 +111,38 @@
 <h3 id="format-1-long-view">Format 1: long view<a class="anchor" aria-label="anchor" href="#format-1-long-view"></a>
 </h3>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th>rev_date</th>
 <th>time_period</th>
 <th>obs_values</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>2022-07-31</td>
 <td>2022Q1</td>
 <td>0.8</td>
 </tr>
-<tr class="even">
+<tr>
 <td>2022-07-31</td>
 <td>2022Q2</td>
 <td>0.2</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>2022-07-31</td>
 <td>2022Q3</td>
 <td>NA</td>
 </tr>
-<tr class="even">
+<tr>
 <td>2022-07-31</td>
 <td>2022Q4</td>
 <td>NA</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>2022-08-31</td>
 <td>2022Q1</td>
 <td>0.8</td>
 </tr>
-<tr class="even">
+<tr>
 <td>…</td>
 <td>…</td>
 <td>…</td>
@@ -152,44 +154,44 @@
 <h3 id="format-2-vertical-view">Format 2: vertical view<a class="anchor" aria-label="anchor" href="#format-2-vertical-view"></a>
 </h3>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th>Period</th>
 <th>2023/03/31</th>
 <th>2023/04/30</th>
 <th>2023/05/31</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>2022M01</td>
 <td>15.2</td>
 <td>15.1</td>
 <td>15.0</td>
 </tr>
-<tr class="even">
+<tr>
 <td>2022M02</td>
 <td>15.0</td>
 <td>14.9</td>
 <td>14.9</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>…</td>
 <td>…</td>
 <td>…</td>
 <td>…</td>
 </tr>
-<tr class="even">
+<tr>
 <td>2023M01</td>
 <td>13.0</td>
 <td>13.1</td>
 <td>13.2</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>2023M02</td>
 <td></td>
 <td>12.1</td>
 <td>12.1</td>
 </tr>
-<tr class="even">
+<tr>
 <td>2023M03</td>
 <td></td>
 <td></td>
@@ -202,7 +204,7 @@
 <h3 id="format-3-horizontal-view">Format 3: horizontal view<a class="anchor" aria-label="anchor" href="#format-3-horizontal-view"></a>
 </h3>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th>Period</th>
 <th>2022M01</th>
 <th>2022M02</th>
@@ -212,7 +214,7 @@
 <th>2023M03</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>2023/03/31</td>
 <td>15.2</td>
 <td>15.0</td>
@@ -221,7 +223,7 @@
 <td></td>
 <td></td>
 </tr>
-<tr class="even">
+<tr>
 <td>2023/04/30</td>
 <td>15.1</td>
 <td>14.9</td>
@@ -230,7 +232,7 @@
 <td>12.1</td>
 <td></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>2023/05/31</td>
 <td>15.0</td>
 <td>14.9</td>
@@ -247,67 +249,67 @@
 <span></span>
 <span><span class="co"># Examples</span></span>
 <span><span class="va">long_view</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/simulate_long.html">simulate_long</a></span><span class="op">(</span></span>
-<span>    periodicity <span class="op">=</span> <span class="fl">4</span>, </span>
-<span>    n_period <span class="op">=</span> <span class="fl">4</span> <span class="op">*</span> <span class="fl">10</span>, </span>
-<span>    n_revision <span class="op">=</span> <span class="fl">7</span>, </span>
+<span>    periodicity <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>    n_period <span class="op">=</span> <span class="fl">4</span> <span class="op">*</span> <span class="fl">10</span>,</span>
+<span>    n_revision <span class="op">=</span> <span class="fl">7</span>,</span>
 <span>    start_period <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2000-01-01"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Then you can create your vintages and plot the vintages and inspect the revisions (optional)</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vintages</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_vintages.html">create_vintages</a></span><span class="op">(</span><span class="va">long_view</span>, periodicity <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vintages</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-7-1.png" alt="" width="100%"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">revisions</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_revisions.html">get_revisions</a></span><span class="op">(</span><span class="va">vintages</span>, gap <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">revisions</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-7-2.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-7-2.png" alt="" width="100%"></p>
 <p>and make the analysis</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rslt</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/revision_analysis.html">revision_analysis</a></span><span class="op">(</span><span class="va">vintages</span>, gap <span class="op">=</span> <span class="fl">1</span>, view <span class="op">=</span> <span class="st">"diagonal"</span>, n.releases <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">rslt</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                                            Transf. [Release[2]]-[Release[1]]</span></span>
-<span><span class="co">#&gt; Relevancy - Theil U2                          None              Good (0.339)</span></span>
-<span><span class="co">#&gt; Bias1 T-test                                  None              Good (0.798)</span></span>
-<span><span class="co">#&gt; Bias2 Augmented T-test                        None              Good (0.823)</span></span>
-<span><span class="co">#&gt; Bias3 SlopeAndDrift (Ols L on P) - Mean       None              Good (0.347)</span></span>
-<span><span class="co">#&gt; Bias3 SlopeAndDrift (Ols L on P) - Reg.       None              Good (0.232)</span></span>
-<span><span class="co">#&gt; Efficiency1 (Ols R on P) - Mean            Delta 1              Good (0.166)</span></span>
-<span><span class="co">#&gt; Efficiency1 (Ols R on P) - Reg.            Delta 1              Good (0.107)</span></span>
+<span><span class="co">#&gt; Relevancy - Theil U2                          None            Severe (1.982)</span></span>
+<span><span class="co">#&gt; Bias1 T-test                                  None              Good (0.891)</span></span>
+<span><span class="co">#&gt; Bias2 Augmented T-test                        None              Good (0.886)</span></span>
+<span><span class="co">#&gt; Bias3 SlopeAndDrift (Ols L on P) - Mean       None              Good (0.881)</span></span>
+<span><span class="co">#&gt; Bias3 SlopeAndDrift (Ols L on P) - Reg.       None            Severe (0.000)</span></span>
+<span><span class="co">#&gt; Efficiency1 (Ols R on P) - Mean               None              Good (0.881)</span></span>
+<span><span class="co">#&gt; Efficiency1 (Ols R on P) - Reg.               None            Severe (0.000)</span></span>
 <span><span class="co">#&gt; Efficiency2 (Ols Rv on Rv_1) - Mean           None                          </span></span>
 <span><span class="co">#&gt; Efficiency2 (Ols Rv on Rv_1) - Reg.           None                          </span></span>
 <span><span class="co">#&gt; Orthogonality1 (Ols Rv on Rv_(1:p)) - Mean    None                          </span></span>
 <span><span class="co">#&gt; Orthogonality1 (Ols Rv on Rv_(1:p)) - Reg.    None                          </span></span>
 <span><span class="co">#&gt; Orthogonality2 (Ols Rv on Rv_k.) - Mean       None                          </span></span>
 <span><span class="co">#&gt; Orthogonality2 (Ols Rv on Rv_k) - Reg.        None                          </span></span>
-<span><span class="co">#&gt; Orthogonality3 AutoCorrelation (Ljung-Box)    None              Good (0.417)</span></span>
-<span><span class="co">#&gt; Orthogonality4 Seasonality (Ljung-Box)     Delta 1              Good (0.993)</span></span>
-<span><span class="co">#&gt; Orthogonality4 Seasonality (Friedman)      Delta 1              Good (0.137)</span></span>
-<span><span class="co">#&gt; SignalVsNoise1 - Noise (Ols R on P)        Delta 1              Good (0.082)</span></span>
-<span><span class="co">#&gt; SignalVsNoise2 - Signal (Ols R on L)       Delta 1         Uncertain (0.053)</span></span>
+<span><span class="co">#&gt; Orthogonality3 AutoCorrelation (Ljung-Box)    None              Good (0.081)</span></span>
+<span><span class="co">#&gt; Orthogonality4 Seasonality (Ljung-Box)     Delta 1              Good (0.972)</span></span>
+<span><span class="co">#&gt; Orthogonality4 Seasonality (Friedman)      Delta 1              Good (0.162)</span></span>
+<span><span class="co">#&gt; SignalVsNoise1 - Noise (Ols R on P)           None            Severe (0.000)</span></span>
+<span><span class="co">#&gt; SignalVsNoise2 - Signal (Ols R on L)          None         Uncertain (0.511)</span></span>
 <span><span class="co">#&gt;                                            [Release[3]]-[Release[2]]</span></span>
-<span><span class="co">#&gt; Relevancy - Theil U2                                    Good (0.225)</span></span>
-<span><span class="co">#&gt; Bias1 T-test                                            Good (0.805)</span></span>
-<span><span class="co">#&gt; Bias2 Augmented T-test                                  Good (0.806)</span></span>
-<span><span class="co">#&gt; Bias3 SlopeAndDrift (Ols L on P) - Mean                 Good (0.584)</span></span>
-<span><span class="co">#&gt; Bias3 SlopeAndDrift (Ols L on P) - Reg.                 Good (0.624)</span></span>
-<span><span class="co">#&gt; Efficiency1 (Ols R on P) - Mean                         Good (0.300)</span></span>
-<span><span class="co">#&gt; Efficiency1 (Ols R on P) - Reg.                         Good (0.240)</span></span>
-<span><span class="co">#&gt; Efficiency2 (Ols Rv on Rv_1) - Mean                     Good (0.818)</span></span>
-<span><span class="co">#&gt; Efficiency2 (Ols Rv on Rv_1) - Reg.                     Good (0.298)</span></span>
-<span><span class="co">#&gt; Orthogonality1 (Ols Rv on Rv_(1:p)) - Mean              Good (0.818)</span></span>
-<span><span class="co">#&gt; Orthogonality1 (Ols Rv on Rv_(1:p)) - Reg.              Good (0.702)</span></span>
-<span><span class="co">#&gt; Orthogonality2 (Ols Rv on Rv_k.) - Mean                 Good (0.818)</span></span>
-<span><span class="co">#&gt; Orthogonality2 (Ols Rv on Rv_k) - Reg.                  Good (0.298)</span></span>
-<span><span class="co">#&gt; Orthogonality3 AutoCorrelation (Ljung-Box)              Good (0.999)</span></span>
-<span><span class="co">#&gt; Orthogonality4 Seasonality (Ljung-Box)                  Good (1.000)</span></span>
-<span><span class="co">#&gt; Orthogonality4 Seasonality (Friedman)                   Good (0.769)</span></span>
-<span><span class="co">#&gt; SignalVsNoise1 - Noise (Ols R on P)                     Good (0.248)</span></span>
-<span><span class="co">#&gt; SignalVsNoise2 - Signal (Ols R on L)               Uncertain (0.856)</span></span>
+<span><span class="co">#&gt; Relevancy - Theil U2                                    Good (0.761)</span></span>
+<span><span class="co">#&gt; Bias1 T-test                                            Good (0.665)</span></span>
+<span><span class="co">#&gt; Bias2 Augmented T-test                                  Good (0.666)</span></span>
+<span><span class="co">#&gt; Bias3 SlopeAndDrift (Ols L on P) - Mean                 Good (0.473)</span></span>
+<span><span class="co">#&gt; Bias3 SlopeAndDrift (Ols L on P) - Reg.               Severe (0.000)</span></span>
+<span><span class="co">#&gt; Efficiency1 (Ols R on P) - Mean                         Good (0.473)</span></span>
+<span><span class="co">#&gt; Efficiency1 (Ols R on P) - Reg.                       Severe (0.000)</span></span>
+<span><span class="co">#&gt; Efficiency2 (Ols Rv on Rv_1) - Mean                     Good (0.678)</span></span>
+<span><span class="co">#&gt; Efficiency2 (Ols Rv on Rv_1) - Reg.                     Good (0.219)</span></span>
+<span><span class="co">#&gt; Orthogonality1 (Ols Rv on Rv_(1:p)) - Mean              Good (0.678)</span></span>
+<span><span class="co">#&gt; Orthogonality1 (Ols Rv on Rv_(1:p)) - Reg.              Good (0.781)</span></span>
+<span><span class="co">#&gt; Orthogonality2 (Ols Rv on Rv_k.) - Mean                 Good (0.678)</span></span>
+<span><span class="co">#&gt; Orthogonality2 (Ols Rv on Rv_k) - Reg.                  Good (0.219)</span></span>
+<span><span class="co">#&gt; Orthogonality3 AutoCorrelation (Ljung-Box)              Good (0.548)</span></span>
+<span><span class="co">#&gt; Orthogonality4 Seasonality (Ljung-Box)                  Good (0.914)</span></span>
+<span><span class="co">#&gt; Orthogonality4 Seasonality (Friedman)                   Good (0.162)</span></span>
+<span><span class="co">#&gt; SignalVsNoise1 - Noise (Ols R on P)                   Severe (0.000)</span></span>
+<span><span class="co">#&gt; SignalVsNoise2 - Signal (Ols R on L)                    Good (0.044)</span></span>
 <span><span class="co"># summary(rslt)</span></span>
 <span><span class="fu"><a href="reference/View.html">View</a></span><span class="op">(</span><span class="va">rslt</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-9-1.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-9-1.png" alt="" width="100%"></p>
 <p>Finally to create a report and get a summary of the results, you can use</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/render_report.html">render_report</a></span><span class="op">(</span></span>
@@ -331,7 +333,7 @@
 <div class="section level2">
 <h2 id="licensing">Licensing<a class="anchor" aria-label="anchor" href="#licensing"></a>
 </h2>
-<p>The code of this project is licensed under the <a href="https://interoperable-europe.ec.europa.eu:443/collection/eupl/eupl-text-eupl-12" class="external-link">European Union Public Licence (EUPL)</a>.</p>
+<p>The code of this project is licensed under the <a href="https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12" class="external-link">European Union Public Licence (EUPL)</a>.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -369,7 +371,7 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://CRAN.R-project.org/package=rjd3revisions" class="external-link"><img src="https://www.r-pkg.org/badges/version/rjd3revisions" alt="CRAN status"></a></li>
+<li><a href="https://github.com/SNStatComp/awesome-official-statistics-software" class="external-link"><img src="https://awesome.re/mentioned-badge.svg" alt="Mentioned in Awesome Official Statistics"></a></li>
 </ul>
 </div>
 
@@ -382,7 +384,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

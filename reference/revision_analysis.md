@@ -1,0 +1,166 @@
+# Revision analysis through a battery of tests
+
+The function perform parametric tests which enable the users to detect
+potential bias (both mean and regression bias) and sources of
+inefficiency in preliminary estimates. We would conclude to inefficiency
+in the preliminary estimates when revisions are predictable in some way.
+In the results, parametric tests are divided into 5 categories:
+relevancy (check whether preliminary estimates are even worth it), bias,
+efficiency, orthogonality (correlation at higher lags), and
+signalVSnoise. Descriptive statistics on revisions are also provided.
+For some of the parametric tests, prior transformation of the vintage
+data may be important to avoid misleading results. By default, the
+decision to differentiate the vintage data is performed automatically
+based on unit root and co-integration tests whose results can be found
+found in the results too (section 'varbased'). Finally, running the
+function
+[`render_report()`](https://rjdverse.github.io/rjd3revisions/reference/render_report.md)
+on the output of `revision_analysis()` would give you both a formatted
+summary of the results and full explanations about each tests.
+
+## Usage
+
+``` r
+revision_analysis(
+  vintages,
+  gap = 1,
+  view = c("vertical", "diagonal"),
+  n.releases = 3,
+  transf.diff = c("auto", "forced", "none"),
+  transf.log = FALSE,
+  descriptive.rounding = 3,
+  nrevs = 1,
+  ref = 1,
+  na.zero = FALSE
+)
+```
+
+## Arguments
+
+- vintages:
+
+  an object of class `"rjd3rev_vintages"` which is the output of the
+  function
+  [`create_vintages()`](https://rjdverse.github.io/rjd3revisions/reference/create_vintages.md)
+
+- gap:
+
+  Integer. Gap to consider between each vintages. Default is 1 which
+  means that revisions are calculated and tested for each vintages
+  consecutively.
+
+- view:
+
+  Selected view. Can be "vertical" (the default) or "diagonal". Vertical
+  view shows the observed values at each time period by the different
+  vintages. Diagonal view shows subsequent releases of a given time
+  period, without regard for the date of publication, which can be
+  particularly informative when regular estimation intervals exist. See
+  `?create_vintages()` for more information about interests and
+  drawbacks of each view.
+
+- n.releases:
+
+  only used when `view = "diagonal"`. Ignored otherwise. Allow the user
+  to limit the number of releases under investigation). When
+  `view = "vertical"`, the user is invited to limit the number of
+  vintages upstream through the parameter `vintage_selection` in
+  [`create_vintages()`](https://rjdverse.github.io/rjd3revisions/reference/create_vintages.md)
+  whenever necessary.
+
+- transf.diff:
+
+  differentiation to apply to the data prior testing. Only used for
+  regressions including vintage data as regressor and/or regressand.
+  Regression including revision data only are never differentiated even
+  if `transf.diff = "forced"`. Options are "automatic" (the default),
+  "forced" and "none".
+
+- transf.log:
+
+  Boolean whether a log-transformation should first be applied to the
+  data. Default is FALSE.
+
+- descriptive.rounding:
+
+  Integer. Number of decimals to display for descriptive statistics.
+  Default is 3.
+
+- nrevs, ref:
+
+  Integer. Number of lags to consider for orthogonality tests 1 and 2
+  respectively.
+
+- na.zero:
+
+  Boolean whether missing values should be considered as 0 or rather as
+  data not yet available (the default).
+
+## Value
+
+an object of class 'rjd3rev_rslts'
+
+## See also
+
+[`create_vintages()`](https://rjdverse.github.io/rjd3revisions/reference/create_vintages.md)
+to create the input object,
+[`render_report()`](https://rjdverse.github.io/rjd3revisions/reference/render_report.md)
+to get a summary and information the tests
+
+## Examples
+
+``` r
+if (FALSE) { # rjd3jars::check_java_version(silent = TRUE)
+
+## Simulated data
+
+df_long <- simulate_long(
+    n_period = 10L * 4L,
+    n_revision = 10L,
+    periodicity = 4L,
+    start_period = as.Date("2010-01-01")
+)
+
+## Create a `"rjd3rev_vintages"` object with the input
+vintages <- create_vintages(x = df_long, periodicity = 4L, date_format = "%Y-%m-%d")
+# revisions <- get_revisions(vintages, gap = 1L) # just to get a first insight of the revisions
+
+## Call using all default parameters
+rslt1 <- revision_analysis(vintages)
+# render_report(rslt1, output_file = "report1", output_dir = "C:/Users/xxx")
+summary(rslt1) # formatted summary only
+View(rslt1) # formatted tables in viewer panel
+
+## Calls using diagonal view (suited in many situations such as to evaluate GDP estimates)
+## Note: when input are not growth rates but the gross series, differentiation is
+## performed automatically (if transf.diff is let to its default option) but `transf.log`
+## must be set to TRUE manually whenever a log-transformation of the data is necessary
+rslt2 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
+# render_report(rslt2, output_file = "report2", output_dir = "C:/Users/xxx",
+#               output_format = "word_document", plot_revisions = TRUE)
+summary(rslt2)
+View(rslt2)
+
+## Call to evaluate revisions for a specific range of vintage periods
+vintages <- create_vintages(
+    x = df_long,
+    periodicity = 4L,
+    vintage_selection = c(start = "2012-12-31", end = "2018-06-30")
+)
+rslt3 <- revision_analysis(vintages, gap = 2, view = "vertical")
+#render_report(rslt3, output_file = "report2", output_dir = "C:/Users/xxx", plot_revisions = TRUE)
+summary(rslt3)
+View(rslt3)
+
+## Note that it is possible to change thresholds values for quality
+## assessment using options (see vignette for details)
+options(
+    augmented_t_threshold = c(severe = 0.005, bad = 0.01, uncertain = 0.05),
+    slope_and_drift_threshold = c(severe = 0.005, bad = 0.05, uncertain = 0.10),
+    theil_u2_threshold = c(uncertain = .5, bad = .7, severe = 1)
+)
+rslt4 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
+summary(rslt4)
+View(rslt4)
+}
+```

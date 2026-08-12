@@ -1,0 +1,818 @@
+# Revision analysis tool with JDemetra+ version 3.x algorithms
+
+Abstract
+
+Revision analyses provides important information on the efficiency of
+preliminary estimates, allowing to identify potential issues and/or
+improvements that could be made in the compilation process. This package
+provides a tool to automatically perform a battery of relevant tests on
+revisions and submit a visual report including both the main results and
+their interpretation. The tool can perform analysis on different types
+of revision intervals and on different vintage views.
+
+## Introduction
+
+This package performs revision analysis and offers both detailed and
+summary output including the generation of a visual report. It is
+composed on a selection of parametric tests which enable the users to
+detect potential bias (both mean and regression bias) and other sources
+of inefficiency in preliminary estimates. What we mean by inefficiency
+in preliminary estimates is whether further revisions are predictable in
+some way.
+
+This package uses the efficient libraries of [JDemetra+
+v3](https://github.com/jdemetra/jdplus-main). It was built mostly based
+on Eurostat’s technical reports from D. Ares and L. Pitton (2013).
+
+The next section helps with the installation of the package. The third
+section describes how to use the tool and give some important details on
+the main functions. In particular, it is important to mention beforehand
+that your input data must first be set in a specific format described in
+the sub-section on the [input data](#input_format). The fourth section
+is theoretical and describes each test being performed by the main
+function
+[`revision_analysis()`](https://rjdverse.github.io/rjd3revisions/reference/revision_analysis.md)
+(they could also be performed individually) and how to interpret them.
+Finally, you will find out all the reference papers in the last section.
+
+## Installation settings
+
+This package relies on the Java libraries of [JDemetra+
+v3](https://github.com/jdemetra/jdplus-main) and on the package
+[rjd3toolkit](https://github.com/rjdverse/rjd3toolkit) of
+[rjdverse](https://github.com/rjdverse?view_as=public). Prior the
+installation, you must ensure to have a Java version \>= 17.0 on your
+computer. If you need to use a portable version of Java to fill this
+request, you can follow the instructions in the [installation
+manual](https://github.com/rjdverse/rjdemetra/wiki/Installation-manual)
+of RJDemetra.
+
+In addition to a Java version \>= 17.0, you must have a recent version
+of the R packages rJava (\>= 1.0.6) and RProtobuf (\>=0.4.17) that you
+can download from CRAN. Depending on your current version of R, you
+might also need to install another version of Rtools. (\>= 3.6).
+
+This package also depends on the package
+[rjd3toolkit](https://github.com/rjdverse/rjd3toolkit) that you must
+install from GitHub prior to
+[rjd3revsions](https://github.com/rjdverse/rjd3revisions).
+
+``` r
+
+remotes::install_github("rjdverse/rjd3toolkit@*release")
+remotes::install_github("rjdverse/rjd3revisions@*release", build_vignettes = TRUE)
+```
+
+Note that depending on the R packages that are already installed on your
+computer, you might also be asked to install or re-install a few other
+packages from CRAN.
+
+Finally, this package also suggests the R packages `formattable` and
+`kableExtra` (and `readxl` if you import your input data from Excel)
+downloadable from CRAN. You are invited to install them for an enhanced
+formatting of the output (i.e., meaningful colors).
+
+## Usage
+
+### Input data
+
+Your input data must be in a specific format: long, vertical or diagonal
+as shown in one of the table below. Regarding the dates, the format
+shown in the examples below is acceptable, as are the other common date
+formats for both revision dates and time periods. Note that missing
+values can either be mentioned as NA (as in the example below) or not be
+included in the input at the best convenience of the user.
+
+#### Format 1: long view
+
+| rev_date   | time_period | obs_values |
+|------------|-------------|------------|
+| 2022-07-31 | 2022Q1      | 0.8        |
+| 2022-07-31 | 2022Q2      | 0.2        |
+| 2022-07-31 | 2022Q3      | NA         |
+| 2022-07-31 | 2022Q4      | NA         |
+| 2022-08-31 | 2022Q1      | 0.8        |
+| …          | …           | …          |
+
+#### Format 2: vertical view
+
+| Period  | 2023/03/31 | 2023/04/30 | 2023/05/31 |
+|---------|------------|------------|------------|
+| 2022M01 | 15.2       | 15.1       | 15.0       |
+| 2022M02 | 15.0       | 14.9       | 14.9       |
+| …       | …          | …          | …          |
+| 2023M01 | 13.0       | 13.1       | 13.2       |
+| 2023M02 |            | 12.1       | 12.1       |
+| 2023M03 |            |            | 12.3       |
+
+#### Format 3: horizontal view
+
+| Period     | 2022M01 | 2022M02 | …   | 2023M01 | 2023M02 | 2023M03 |
+|------------|---------|---------|-----|---------|---------|---------|
+| 2023/03/31 | 15.2    | 15.0    | …   | 13.0    |         |         |
+| 2023/04/30 | 15.1    | 14.9    | …   | 13.1    | 12.1    |         |
+| 2023/05/31 | 15.0    | 14.9    | …   | 13.2    | 12.1    | 12.3    |
+
+Depending on the location of your input data, you can use
+[`create_vintages_from_xlsx()`](https://rjdverse.github.io/rjd3revisions/reference/create_vintages_from_xlsx.md)
+or
+[`create_vintages_from_csv()`](https://rjdverse.github.io/rjd3revisions/reference/create_vintages_from_csv.md),
+or the more generic function
+[`create_vintages()`](https://rjdverse.github.io/rjd3revisions/reference/create_vintages.md)
+to create the vintages (see section [vintages & revisions](#vintages))
+later on. If you plan to use the generic function, you’ll first need to
+put your input data in a data.frame in R as in the example below.
+
+``` r
+
+# Long format
+long_view <- data.frame(
+    rev_date = rep(x = c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
+                         "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28"),
+                   each = 4L),
+    time_period = rep(x = c("2022Q1", "2022Q2", "2022Q3", "2022Q4"), times = 8L),
+    obs_values = c(
+        0.8, 0.2, NA, NA, 0.8, 0.1, NA, NA,
+        0.7, 0.1, NA, NA, 0.7, 0.2, 0.5, NA,
+        0.7, 0.2, 0.5, NA, 0.7, 0.3, 0.7, NA,
+        0.7, 0.2, 0.7, 0.4, 0.7, 0.3, 0.7, 0.3
+    ),
+    stringsAsFactors = FALSE
+)
+print(long_view)
+
+# Horizontal format
+horizontal_view <- matrix(data = c(0.8, 0.8, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.2, 0.1,
+                                   0.1, 0.2, 0.2, 0.3, 0.2, 0.3, NA, NA, NA, 0.5, 0.5, 0.7, 0.7,
+                                   0.7, NA, NA, NA, NA, NA, NA, 0.4, 0.3),
+                          ncol = 4)
+colnames(horizontal_view) <- c("2022Q1", "2022Q2", "2022Q3", "2022Q4")
+rownames(horizontal_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
+                               "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28")
+print(horizontal_view)
+
+# Vertical format
+vertical_view <- matrix(data = c(0.8, 0.2, NA, NA, 0.8, 0.1, NA, NA, 0.7, 0.1, NA,
+                                 NA, 0.7, 0.2, 0.5, NA, 0.7, 0.2, 0.5, NA, 0.7, 0.3, 0.7, NA,
+                                 0.7, 0.2, 0.7, 0.4, 0.7, 0.3, 0.7, 0.3),
+                        nrow = 4)
+rownames(vertical_view) <- c("2022Q1", "2022Q2", "2022Q3", "2022Q4")
+colnames(vertical_view) <- c("2022-07-31", "2022-08-31", "2022-09-30", "2022-10-31",
+                             "2022-11-30", "2022-12-31", "2023-01-31", "2023-02-28")
+print(vertical_view)
+```
+
+### Processing
+
+``` r
+
+library("rjd3revisions")
+```
+
+Once your input data are in the right format, you create the vintages:
+
+``` r
+
+vintages <- create_vintages(long_view, type = "long", periodicity = 4L)
+# vintages <- create_vintages_from_xlsx(
+#     file = "myinput.xlsx",
+#     type = "long",
+#     periodicity = 4,
+#     "Sheet1"
+# )
+# vintages <- create_vintages_from_csv(
+#     file = "myinput.csv",
+#     periodicity = 4,
+#     sep = "\t",
+#     date_format = "%Y-%m-%d"
+# )
+
+print(vintages) # extract of the vintages according to the different views
+summary(vintages) # metadata about vintages
+```
+
+possibly inspect the revisions and perform the revision analysis:
+
+``` r
+
+revisions <- get_revisions(vintages, gap = 1)
+
+plot(revisions)
+
+print(revisions) # extract of the revisions according to the different views
+summary(revisions) # metadata about revisions
+```
+
+Finally to create the report and get a summary of the results, you can
+use the function `revision_analysis`
+
+``` r
+
+rslt <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
+
+View(rslt)
+summary(rslt)
+print(rslt)
+```
+
+To export the report in pdf, Word or html format, you can use the
+function `render_report`
+
+``` r
+
+render_report(
+    rslt,
+    output_file = "my_report",
+    output_dir = "C:/Users/xxx",
+    output_format = "pdf_document"
+)
+```
+
+### Details on the main functions
+
+#### Vintages & revisions
+
+Once your input data are in the right format, you must first create an
+object of the class `rjd3rev_vintages` before you can run your revision
+analysis. The function
+[`create_vintages()`](https://rjdverse.github.io/rjd3revisions/reference/create_vintages.md)
+(or, alternatively,
+[`create_vintages_from_xlsx()`](https://rjdverse.github.io/rjd3revisions/reference/create_vintages_from_xlsx.md)
+or
+[`create_vintages_from_csv()`](https://rjdverse.github.io/rjd3revisions/reference/create_vintages_from_csv.md))
+will create this object from the input data and display the vintages
+considering three different data structures or views: vertical,
+horizontal and diagonal.
+
+1.  The **vertical view** shows the observed values at each time period
+    by the different vintages. This approach is robust to changes of
+    base year and data redefinition and could for example be used to
+    analyse revisions resulting from a benchmark revision. A drawback of
+    this approach is that for comparing the same historical series for
+    different vintages, we need to look at the smallest common number of
+    observations and consequently the number of observations is in some
+    circumstances very small. Moreover, it is often the case that most
+    of the revision is about the last few points of the series so that
+    the number of observations is too small to test anything.
+
+| Period  | 2023/03/31 | 2023/04/30 | 2023/05/31 |
+|---------|------------|------------|------------|
+| 2022M01 | 15.2       | 15.1       | 15.0       |
+| 2022M02 | 15.0       | 14.9       | 14.9       |
+| …       | …          | …          | …          |
+| 2023M01 | 13.0       | 13.1       | 13.2       |
+| 2023M02 |            | 12.1       | 12.1       |
+| 2023M03 |            |            | 12.3       |
+
+Example of vertical view {.table}
+
+2.  The **horizontal view** shows the observed values of the different
+    vintages by the period. A quick analysis can be performed by rows in
+    order to see how for the same data point (e.g. 2023Q1), figures are
+    first estimated, then forecasted and finally revised. The main
+    findings are usually obvious: in most cases the variance decreases,
+    namely data converge towards the ‘true value’. Horizontal tables are
+    just a transpose of vertical tables and are not used in the tests in
+    ‘revision_analysis’.
+
+| Period     | 2022M01 | 2022M02 | …   | 2023M01 | 2023M02 | 2023M03 |
+|------------|---------|---------|-----|---------|---------|---------|
+| 2023/03/31 | 15.2    | 15.0    | …   | 13.0    |         |         |
+| 2023/04/30 | 15.1    | 14.9    | …   | 13.1    | 12.1    |         |
+| 2023/05/31 | 15.0    | 14.9    | …   | 13.2    | 12.1    | 12.3    |
+
+Example of horizontal view {.table style="width:100%;"}
+
+3.  The **diagonal view** shows subsequent releases of a given time
+    period, without regard for the date of publication. The advantage of
+    the diagonal approach is that it gives a way to analyse the trade
+    between the timing of the release and the accuracy of the published
+    figures. It is particularly informative when regular estimation
+    intervals exist for the data under study (as it is the case for most
+    of the official statistics). However, this approach requires to be
+    particularly vigilant in case there is a change in base year or data
+    redefinition.
+
+| Period  | Release1 | Release2 | Release3 |
+|---------|----------|----------|----------|
+| 2023M01 | 13.0     | 13.1     | 13.2     |
+| 2023M02 | 12.1     | 12.1     |          |
+| 2023M03 | 12.3     |          |          |
+
+Example of diagonal view {.table}
+
+Note that in the argument of the function
+[`create_vintages()`](https://rjdverse.github.io/rjd3revisions/reference/create_vintages.md),
+the argument `vintage_selection` allows you to limit the range of
+revision dates to consider if needed. See ?create_vintages for more
+details.
+
+Revisions are easily calculated from vintages by choosing the gap to
+consider. The function
+[`get_revisions()`](https://rjdverse.github.io/rjd3revisions/reference/get_revisions.md)
+will display the revisions according to each view. It is just an
+informative function that does not need to be run prior the revision
+analysis.
+
+#### Revision analysis & reporting
+
+The function
+[`revision_analysis()`](https://rjdverse.github.io/rjd3revisions/reference/revision_analysis.md)
+is the main function of the package. It provides some descriptive
+statistics and performs a battery of parametric tests which enable the
+users to detect potential bias (both mean and regression bias) and
+sources of inefficiency in preliminary estimates. We would conclude to
+inefficiency in the preliminary estimates when revisions are predictable
+in some way. Parametric tests are divided into 5 categories: relevancy
+(check whether preliminary estimates are even worth it), bias,
+efficiency, orthogonality (correlation at higher lags), and
+signalVSnoise. This function is robust. If for some reasons, a test
+fails to process, it is just skipped and a warning is sent to users with
+the possible cause of failure. The other tests are then performed as
+usual.
+
+For some of the parametric tests, prior transformation of the vintage
+data may be important to avoid misleading results. By default, the
+decision to differentiate the vintage data is performed automatically
+based on unit root and co-integration tests. More specifically, we focus
+on the augmented Dickey-Fuller (ADF) test to test the presence of unit
+root and, for cointegration, we proceed to an ADF test on the residuals
+of an OLS regression between the two vintages. The results of those
+tests are also made available in the output of the function (section
+‘varbased’). By contrast, the choice of log-transformation is left to
+the discretion of the users based on their knowledge of the series and
+the diagnostics of the various tests. By default, no log-transformation
+is considered.
+
+As part of the arguments of the
+[`revision_analysis()`](https://rjdverse.github.io/rjd3revisions/reference/revision_analysis.md)
+function, you can choose the view and the gap to consider, restrict the
+number of releases under investigation when diagonal view is selected
+and/or change the default setting about the prior transformation of the
+data (including the possibility to add a prior log-transformation of
+your data).
+
+The function
+[`render_report()`](https://rjdverse.github.io/rjd3revisions/reference/render_report.md)
+applied on the output of
+[`revision_analysis()`](https://rjdverse.github.io/rjd3revisions/reference/revision_analysis.md)
+will generate an enhanced HTML, Word or PDF report including both a
+formatted summary of the results and full explanations about each test
+(which are also included in the vignette below). The formatted summary
+of the results display the p-value of each test (except for Theil’s
+tests where the value of the statistics is provided) and their
+interpretation. An appreciation ‘good’, ‘uncertain’, ‘bad’ and ‘severe’
+is indeed associated to each test following the usual statistical
+interpretation of p-values (default thresholds can be changed, see
+[User-defined thresholds](#udthres)) and the orientation of the tests.
+This allows a quick visual interpretation of the results and is similar
+to what is done in the GUI of JDemetra+.
+
+In addition to the function
+[`revision_analysis()`](https://rjdverse.github.io/rjd3revisions/reference/revision_analysis.md),
+the user can also perform tests individually if they want to. To list
+all functions available in the package, you can do
+
+``` r
+
+ls("package:rjd3revisions")
+```
+
+Use help(‘name of the functions’) or ?‘name of the functions’ for more
+information and examples over the various functions.
+
+### Output
+
+The detailed results of each test are part of the output returned by the
+function
+[`revision_analysis()`](https://rjdverse.github.io/rjd3revisions/reference/revision_analysis.md).
+Alternatively, the functions associated with the individual test will
+give you the same result specific to this test.
+
+In addition to the visual report that you can get by applying the
+function
+[`render_report()`](https://rjdverse.github.io/rjd3revisions/reference/render_report.md)
+on the output of the function
+[`revision_analysis()`](https://rjdverse.github.io/rjd3revisions/reference/revision_analysis.md),
+you can also apply the
+[`View()`](https://rjdverse.github.io/rjd3revisions/reference/View.md),
+[`summary()`](https://rdrr.io/r/base/summary.html) and
+[`print()`](https://rdrr.io/r/base/print.html) functions to this output.
+The function
+[`View()`](https://rjdverse.github.io/rjd3revisions/reference/View.md),
+in particular, will print only the formatted table of the report with
+the main results. The [`summary()`](https://rdrr.io/r/base/summary.html)
+and [`print()`](https://rdrr.io/r/base/print.html) functions will
+provide the same unformatted information together with some extra ones.
+Finally the [`plot()`](https://rdrr.io/r/graphics/plot.default.html)
+function applied to the output of the function
+[`get_revisions()`](https://rjdverse.github.io/rjd3revisions/reference/get_revisions.md)
+will provide you with a visual of the revisions over time.
+
+### User-defined thresholds
+
+It is possible for the user to change the default values of the
+thresholds considered in the function
+[`revision_analysis()`](https://rjdverse.github.io/rjd3revisions/reference/revision_analysis.md)
+(and displayed by the functions
+[`summary.rjd3rev_rslts()`](https://rjdverse.github.io/rjd3revisions/reference/summary.rjd3rev_rslts.md)
+and
+[`render_report()`](https://rjdverse.github.io/rjd3revisions/reference/render_report.md))
+that are used to make quality assessment on the results of the tests.
+Changing the default values of the thresholds can be done for each test
+through the global options. The latter can be set via
+[`options()`](https://rdrr.io/r/base/options.html) and queried via
+[`getOption()`](https://rdrr.io/r/base/options.html). Note that the
+default thresholds considered for residuals diagnostics can also be
+changed if necessary.
+
+Here’s how to customize a threshold. Thresholds values should be defined
+as an ascending numeric vector. We start from -Inf and each element of
+the vector should be understood as the upper or lower bound (depending
+on the null hypothesis) of the corresponding assessment. Furthermore,
+the assessment “good” is always the one not to be mentioned. Depending
+on the test, it will be interpreted adequately. Finally, only the
+assessments ‘good’ (implicitly), ‘uncertain’, ‘bad’ and ‘severe’ are
+allowed but they don’t all have to be used if it is not necessary. Here
+is an example of how to modify threshold values for some of the tests.
+The list with the name of all test thresholds that can be modified can
+be found in the list below.
+
+``` r
+
+options(
+    augmented_t_threshold = c(severe = 0.005, bad = 0.05, uncertain = 0.1),
+    t_threshold = c(bad = 0.05, uncertain = 0.1),
+    theil_u2_threshold = c(uncertain = 0.5, bad = 0.75, severe = 1)
+)
+
+rslt2 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
+summary(rslt2)
+```
+
+For the augmented t-test, by defining the threshold values like this, it
+means that the results will be assessed as severe if the p-value \<
+0.005, as bad if the p-value is between 0.005 and 0.05, as uncertain if
+between 0.05 and 0.1 and as good if it is higher than 0.1. As far as the
+Theil U2 test is concerned, given the definition of the test (see
+section [Theil’s Inequality Coefficient](#theil)), the results will be
+assessed as good if the value of the test is lower than 0.5, uncertain,
+between 0.5 and 0.75, bad between 0.75 and 1 and severe if it is higher
+than 1.
+
+Here are all the possible options the user can modified, together with
+their description and their default value.
+
+| Name | Description | Default value |
+|:---|:---|:---|
+| theil_u1_threshold | Threshold values for Theil’s Inequality Coefficient U1 | c(uncertain = 0.8, bad = .9, severe = .99) |
+| theil_u2_threshold | Threshold values for Theil’s Inequality Coefficient U2 | c(uncertain = 0.8, bad = .9, severe = 1) |
+| t_threshold | Threshold values for T-test | c(severe = 0.001, bad = 0.01, uncertain = 0.05) |
+| augmented_t_threshold | Threshold values for Augmented T-test | c(severe = 0.001, bad = 0.01, uncertain = 0.05) |
+| slope_and_drift_threshold | Threshold values for Slope and drift test | c(severe = 0.001, bad = 0.01, uncertain = 0.05) |
+| eff1_threshold | Threshold values for Efficiency test (test 1) | c(severe = 0.001, bad = 0.01, uncertain = 0.05) |
+| eff2_threshold | Threshold values for Efficiency test (test 2) | c(severe = 0.001, bad = 0.01, uncertain = 0.05) |
+| orth1_threshold | Threshold values for Orthogonality test (test 1) | c(severe = 0.001, bad = 0.01, uncertain = 0.05) |
+| orth2_threshold | Threshold values for Orthogonality test (test 2) | c(severe = 0.001, bad = 0.01, uncertain = 0.05) |
+| autocorr_threshold | Threshold values for Orthogonality test (test 3 on autocorrelation) | c(severe = 0.001, bad = 0.01, uncertain = 0.05) |
+| seas_threshold | Threshold values for Orthogonality test (test 4 on seasonality) | c(severe = 0.001, bad = 0.01, uncertain = 0.05) |
+| signal_noise1_threshold | Threshold values for Signal vs Noise test (test 1) | c(severe = 0.001, bad = 0.01, uncertain = 0.05) |
+| signal_noise2_threshold | Threshold values for Signal vs Noise test (test 2) | c(uncertain = 0.05) |
+| jb_res_threshold | Normality test: Jarque-Bera | c(bad = 0.01, uncertain = 0.1) |
+| bp_res_threshold | Homoskedasticity test: Breusch-Pagan | c(bad = 0.01, uncertain = 0.1) |
+| white_res_threshold | Homoskedasticity test: Whitet | c(bad = 0.01, uncertain = 0.1) |
+| arch_res_threshold | Homoskedasticity test: ARCH | c(bad = 0.01, uncertain = 0.1) |
+
+Finally, the functions
+[`set_thresholds_to_default()`](https://rjdverse.github.io/rjd3revisions/reference/set_thresholds_to_default.md)
+and
+[`set_all_thresholds_to_default()`](https://rjdverse.github.io/rjd3revisions/reference/set_all_thresholds_to_default.md)
+can be used to reset test thresholds to their default values.
+
+``` r
+
+set_thresholds_to_default("t_threshold")
+# or to reset all threshold options
+set_all_thresholds_to_default()
+
+rslt3 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
+summary(rslt3)
+```
+
+## Tests description and interpretation
+
+Recall that the purpose of the parametric tests described below are:
+
+- To check the *relevancy* of preliminary estimates
+- To detect potential mean and regression *bias*  
+- To measure *efficiency* of preliminary estimates (i.e., whether
+  revisions are somehow predictable)
+
+### Relevancy
+
+#### Theil’s Inequality Coefficient
+
+In the context of revision analysis, Theil’s inequality coefficient,
+also known as Theil’s U, provides a measure of the accuracy of a set of
+preliminary estimates (P) compared to a latter version (L). There exists
+a few definitions of Theil’s statistics leading to different
+interpretation of the results. In this package, two definitions are
+considered. The first statistic, U1, is given by \$\$
+U_1=\frac{\sqrt{\frac{1}{n}\sum^n\_{t=1}(L_t-P_t)^2}}{\sqrt{\frac{1}{n}\sum^n\_{t=1}L_t^2}+\sqrt{\frac{1}{n}\sum^n\_{t=1}P_t^2}}
+\\ \\ \$\$ U1 is bounded between 0 and 1. The closer the value of U1 is
+to zero, the better the forecast method. However, this classic
+definition of Theil’s statistic suffers from a number of limitations. In
+particular, a set of near zero preliminary estimates would always give a
+value of the U1 statistic close to 1 even though they are close to the
+latter estimates.
+
+The second statistic, U2, is given by
+``` math
+U_2=\frac{\sqrt{\sum^n_{t=1}\left(\frac{P_{t + 1}-L_{t + 1}}{L_t}\right)^2}}{\sqrt{\sum^n_{t=1}\left(\frac{L_{t + 1}-L_t}{L_t}\right)^2}}
+```
+The interpretation of U2 differs from U1. The value of 1 is no longer
+the upper bound of the statistic but a threshold above (below) which the
+preliminary estimates is less (more) accurate than the naïve random walk
+forecast repeating the last observed value (considering
+$`P_{t + 1}=L_t`$). Whenever it can be calculated
+($`L_t \neq 0 ~\forall t`$), the U2 statistic is the preferred option to
+evaluate the relevancy of the preliminary estimates.
+
+### Bias
+
+A bias in preliminary estimates may indicate inaccurate initial data or
+inefficient compilation methods. However, we must be cautious if a bias
+is shown to be statistically significant and we intend to correct it.
+Biases may change overtime, so we might correct for errors that no
+longer apply. Over a long interval, changes in methodology or
+definitions may also occur so that there are valid reasons to expect a
+non-zero mean revision.
+
+#### T-test and Augmented T-test
+
+To test whether the mean revision is statistically different from zero
+for a sample of n, we employ a conventional t-statistic
+``` math
+t=\frac{\overline{R}}{\sqrt{s^2/n}}
+```
+If the null hypothesis that the bias is equal to zero is rejected, it
+may give an insight of whether a bias exists in the earlier estimates.
+
+The t-test is equivalent to fitting a linear regression of the revisions
+on only a constant (i.e. the mean). Assumptions such as the gaussianity
+of the revisions are implied. One can release the assumption of no
+autocorrelation by adding it into the model. Hence we have
+``` math
+R_t=\mu+\varepsilon_t, ~~t=1,...,n
+```
+And the errors are thought to be serially correlated according to an
+AR(1) model, that is
+``` math
+\varepsilon_t=\gamma\varepsilon_t+u_t, ~~with~ |\gamma|<1 ~and ~u_t \sim{iid} 
+```
+The auto-correlation in the error terms reduces the number of
+independent observations (and the degrees of freedom) by a factor of
+$`n\frac{(1-\gamma)}{(1+\gamma)}`$ and thus, the variance of the mean
+should be adjusted upward accordingly.
+
+Hence, the Augmented t-test is calculated as
+``` math
+t_{adj}=\frac{\overline{R}}{\sqrt{\frac{s^2(1+\hat{\gamma})}{n(1-\hat{\gamma})}}}
+```
+where
+``` math
+\hat{\gamma}=\frac{\sum^{n-1}_{t=1}(R_t-\overline{R})(R_{t + 1}-\overline{R})}{\sum^n_{t=1}(R_t-\overline{R})^2}
+```
+
+#### Slope and drift
+
+We assume a linear regression model of a latter vintage (L) on a
+preliminary vintage (P) and estimate the intercept (drift) $`\beta_0`$
+and slope coefficient $`\beta_1`$ by OLS. The model is
+
+``` math
+L_t=\beta_0+\beta_1P_t+\varepsilon_t
+```
+While the (augmented) t-test on revisions only gives information about
+mean bias, this regression enables to assess both mean and regression
+bias. A regression bias would occur, for example, if preliminary
+estimates tend to be too low when latter estimates are relatively high
+and too high when latter estimates are relatively low. In this case,
+this may result in a negative value of the intercept and a value of
+$`\beta_1>1`$. To evaluate whether a mean or regression bias is present,
+we employ a conventional t-test on the parameters with the null
+hypothesis $`\beta_0 = 0`$ and $`\beta_1 = 1`$.
+
+Recall that OLS regressions always come along with rather strict
+assumptions. Users should check the diagnostics and draw the necessary
+conclusions from them.
+
+### Efficiency
+
+Efficiency tests evaluate whether preliminary estimates are “efficient”
+forecast of the latter estimates. If all information were used
+efficiently at the time of the preliminary estimate, revisions should
+not be predictable and therefore neither be correlated with preliminary
+estimates or display any relationship from one vintage to another. This
+section focuses on these two points. Predictability of revisions is
+tested even further in the Orthogonality and SignalVSNoise sections.
+
+#### Regression of revisions on previous estimates
+
+We assume a linear regression model of the revisions (R) on a
+preliminary vintage (P) and estimate the intercept $`\beta_0`$ and slope
+coefficient $`\beta_1`$ by OLS. The model is
+
+``` math
+R_t=\beta_0+\beta_1P_t+\varepsilon_t, ~~t=1,...,n
+```
+If revisions are affected by preliminary estimates, it means that those
+are not efficient and could be improved. We employ a conventional t-test
+on the parameters with the null hypothesis $`\beta_0 = 0`$ and
+$`\beta_1 = 0`$. Diagnostics on the residuals should be verified.
+
+#### Regression of revisions from latter vintages on revisions from the previous vintages
+
+We assume a linear regression model of the revisions between latter
+vintages ($`R_v`$) on the revisions between the previous vintages
+($`R_{v-1}`$) and estimate the intercept $`\beta_0`$ and slope
+coefficient $`\beta_1`$ by OLS. The model is
+
+``` math
+R_{v,t}=\beta_0+\beta_1R_{v-1,t}+\varepsilon_t, ~~t=1,...,n
+```
+If latter revisions are predictable from previous revisions, it means
+that preliminary estimates are not efficient and could be improved. We
+employ a conventional t-test on the parameters with the null hypothesis
+$`\beta_0 = 0`$ and $`\beta_1 = 0`$. Diagnostics on the residuals should
+be verified.
+
+### Orthogonality
+
+Orthogonality tests evaluate whether revisions from older vintages
+affect the latter revisions. This section also includes autocorrelation
+and seasonality tests for a given set of revisions. If there is
+significant correlation in the revisions for subsequent periods, this
+may witness some degree of predictability in the revision process.
+
+#### Regression of latter revisions (Rv) on previous revisions (Rv_1, Rv_2,…Rv_p)
+
+We assume a linear regression model of the revisions from latter
+vintages ($`R_v`$) on the revisions from p previous vintages
+($`R_{v-1}, ..., R_{v-p}`$) and estimate the intercept $`\beta_0`$ and
+slope coefficients of $`\beta_1, ..., \beta_p`$ by OLS. The model is
+
+``` math
+R_{v,t}=\beta_0+\sum^p_{i=1}\beta_{i}R_{v-i,t}+\varepsilon_t, ~~t=1,...,n
+```
+If latter revisions are predictable from previous revisions, it means
+that preliminary estimates are not efficient and could be improved. We
+employ a conventional t-test on the intercept parameter with the null
+hypothesis $`\beta_0 = 0`$ and a F-test to check the null hypothesis
+that $`\beta_1 = \beta_2=...=\beta_p=0`$. Diagnostics on the residuals
+should be verified
+
+#### Regression of latter revisions (Rv) on revisions from a specific vintage (Rv_k)
+
+We assume a linear regression model of the revisions from latter
+vintages ($`R_v`$) on the revisions from a specific vintage
+($`R_{v-k}`$) and estimate the intercept $`\beta_0`$ and slope
+coefficient $`\beta_1`$ by OLS. The model is
+
+``` math
+R_{v,t}=\beta_0+\beta_1R_{v-k,t}+\varepsilon_t, ~~t=1,...,n
+```
+If latter revisions are predictable from previous revisions, it means
+that preliminary estimates are not efficient and could be improved. We
+employ a conventional t-test on the parameters with the null hypothesis
+$`\beta_0 = 0`$ and $`\beta_1 = 0`$. Diagnostics on the residuals should
+be verified.
+
+#### Test of autocorrelations in revisions
+
+To test whether autocorrelation is present in revisions, we employ the
+Ljung-Box test. The Ljung-Box test considers together a group of
+autocorrelation coefficients up to a certain lag k and is therefore
+sometimes referred to as a portmanteau test. For the purpose of revision
+analysis, as we expect a relatively small number of observations, we
+decided to restrict the number of lags considered to $`k=2`$. Hence, the
+users can also make the distinction with autocorrelation at seasonal
+lags (see seasonality tests below).
+
+The null hypothesis is no autocorrelation. The test statistic is given
+by
+``` math
+Q=n(n+2)\sum^k_{i=1}\frac{\hat{\rho}_i^2}{n-i}
+```
+where n is the sample size, $`\hat{\rho}_i^2`$ is the sample
+autocorrelation at lag in and $`k=2`$ is the number of lags being
+tested. Under the null hypothesis, $`Q\sim\chi^2(k)`$.
+
+If Q is statistically different from zero, the revision process may be
+locally biased in the sense that latter revisions are related to the
+previous ones.
+
+#### Test of seasonality in revisions
+
+To test whether seasonality is present in revisions, we employ two
+tests: the parametric QS test and the non-parametric Friedman test. Note
+that seasonality tests are always performed on first-differentiated
+series to avoid misleading results.
+
+The QS test is a variant of the Ljung-Box test computed on seasonal
+lags, where we only consider positive auto-correlations
+``` math
+QS=n(n+2)\sum^k_{i=1}\frac{\left[max(0,\hat{\gamma}_{i.l})\right]^2}{n-i.l}
+```
+where $`k=2`$, so only the first and second seasonal lags are
+considered. Thus, the test would checks the correlation between the
+actual observation and the observations lagged by one and two years.
+Note that $`l=12`$ when dealing with monthly observations, so we
+consider the auto-covariances $`\hat{\gamma}_{12}`$ and
+$`\hat{\gamma}_{24}`$ alone. In turn $`k=4`$ in the case of quarterly
+data.
+
+Under the null hypothesis of no autocorrelation at seasonal lags,
+$`QS\sim \chi_{modified}^2(k)`$. The elimination of negative
+correlations calls indeed for a modified $`\chi^2`$ distribution. This
+was done using simulation techniques.
+
+The Friedman test requires no distributional assumptions. It uses the
+rankings of the observations. It is constructed as follows. Consider
+first the matrix of data $`\{x_{ij}\}_{nxk}`$ with n rows (the blocks,
+i.e. the number of years in the sample), k columns (the treatments,
+i.e., either 12 months or 4 quarters, depending on the frequency of the
+data). The data matrix needs to be replaced by a new matrix
+$`\{r_{ij}\}_{nxk}`$, where the entry $`r_{ij}`$ is the rank of
+$`x_{ij}`$ within the block i. The test statistic is given by
+
+``` math
+Q=\frac{n\sum^k_{j=1}(\tilde{r}_{.j}-\tilde{r})^2}{\frac{1}{n(k-1)}\sum^n_{i=1}\sum^k_{j=1}(r_{ij}-\tilde{r})^2}
+```
+The denominator represents the variance of the average ranking across
+treatments j relative to the total. Under the null hypothesis of no
+(stable) seasonality, $`Q\sim \chi^2(k-1)`$.
+
+As for non-seasonal autocorrelation tests at lower lags, if QS and Q are
+significantly different from zero, the revision process may be locally
+biased in the sense that latter revisions are related to the previous
+ones.
+
+### Signal vs Noise
+
+Regression techniques can also be used to determine whether revisions
+should be classified as ‘news’ or ‘noise’. Those are also closely
+related to the notion of efficiency developed earlier.
+
+If the correlation between revisions and preliminary estimates is
+significantly different from zero, this implies that we did not fully
+utilize all the information available at the time of the preliminary
+estimates. In that sense, we would conclude that the preliminary
+estimates could have been better and that revisions embody noise. The
+model to test whether revisions are “noise” is similar to the first
+model established earlier to test efficiency:
+``` math
+R_t=\beta_0+\beta_1P_t+\varepsilon_t, ~~t=1,...,n
+```
+We employ a F-test on the parameters to test jointly that
+$`\beta_0 = 0`$ and $`\beta_1 = 0`$. If the null hypothesis is rejected,
+this suggest that revisions are likely to include noise. Diagnostics on
+the residuals should be verified.
+
+On the other hand, revisions should be correlated to the latter
+estimates. If this is the case, it means that information which becomes
+available between the compilation of the preliminary and the latter
+estimates are captured in the estimation process of the latter
+estimates. In that sense, the revision process is warranted and we
+conclude that revisions embody news. The model to test whether revisions
+are “news” is
+
+``` math
+R_t=\beta_0+\beta_1L_t+\varepsilon_t, ~~t=1,...,n
+```
+We employ a F-test on the parameters to test jointly that
+$`\beta_0 = 0`$ and $`\beta_1 = 0`$. If the null hypothesis is rejected,
+this is a good thing as it suggests that revisions incorporate news.
+Note that even if we reject the null hypothesis and conclude that
+revisions incorporate news, it does not necessarily mean that revisions
+are efficient as those might still be predicted by other variables not
+included in the estimation process.
+
+## References
+
+- Ares, David. 2013. “Tool for Revision Analysis : Technical Report.”
+  DI/06769. DG ESTAT.
+- Cook, Steve. 2019. “Forecast Evaluation Using Theil’s Inequality
+  Coefficients.” Swansea University;
+  <https://www.economicsnetwork.ac.uk/showcase/cook_theil>.
+- Fixler, Dennis. 2007. “How to Interpret Whether Revisions to Economic
+  Variables Reflect ‘News’ or ‘Noise’.” OECD.
+- McKenzie, Richard, and Michela Gamba. 2007. “Interpreting the Results
+  of Revision Analyses: Recommended Summary Statistics.” OECD.
+- Pitton, Laurent, and David Ares. 2013a. “Tool for Revision Analysis :
+  Regression Based Parametric Analysis.” DI/06769. DG ESTAT.
+- Pitton, Laurent, and David Ares. 2013b. “Tool for Revision Analysis :
+  VAR Based Models and Final Equation.” DI/06769. DG ESTAT.
+- Smyk, Anna, Tanguy Barthelemy, Karsten Webel and al. 2024. “JDemetra+
+  Documentation.” INSEE;
+  <https://jdemetra-new-documentation.netlify.app/>.
