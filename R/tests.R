@@ -721,7 +721,7 @@ orthogonallyModel2 <- function(revisions.view, reference = 1, na.zero = FALSE) {
 
 #' Signal VS Noise
 #'
-#' Linear regression models to determine whether revisions are ‘news’ or ‘noise’.
+#' Linear regression models to determine whether revisions are 'news' or 'noise'.
 #' For 'noise': R (revisions) on P (preliminary estimate).
 #' For 'news': R on L (latter estimate).
 #'
@@ -906,7 +906,7 @@ get_rownames_diag <- function(vt, gap) {
 
 #' Vector error correction model (VECM)
 #'
-#' Can lead to a better understanding of the nature of any nonstationary process
+#' Can lead to a better understanding of the nature of any non-stationary process
 #' among the different component series.
 #'
 #' @param vintages.view mts object. Vertical or diagonal view of the

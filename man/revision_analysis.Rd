@@ -59,7 +59,7 @@ descriptive statistics. Default is 3.}
 rather as data not yet available (the default).}
 }
 \value{
-an object of class 'rjd3rev_rslts'
+an object of class \code{"rjd3rev_rslts"}
 }
 \description{
 The function perform parametric tests which enable the users to detect
@@ -68,12 +68,12 @@ preliminary estimates. We would conclude to inefficiency in the preliminary
 estimates when revisions are predictable in some way. In the results,
 parametric tests are divided into 5 categories: relevancy (check whether
 preliminary estimates are even worth it), bias, efficiency, orthogonality
-(correlation at higher lags), and signalVSnoise. Descriptive statistics on
+(correlation at higher lags), and signal vs. noise. Descriptive statistics on
 revisions are also provided. For some of the parametric tests, prior
 transformation of the vintage data may be important to avoid misleading
 results. By default, the decision to differentiate the vintage data is
 performed automatically based on unit root and co-integration tests whose
-results can be found found in the results too (section 'varbased'). Finally,
+results can be found found in the results too (section 'var-based'). Finally,
 running the function \code{render_report()} on the output of \code{revision_analysis()}
 would give you both a formatted summary of the results and full explanations
 about each tests.

@@ -4,9 +4,9 @@
 \name{rjd3revisions-package}
 \alias{rjd3revisions}
 \alias{rjd3revisions-package}
-\title{rjd3revisions: Revision analysis with 'JDemetra+ 3.x'}
+\title{rjd3revisions: Revision Analysis with 'JDemetra+ 3.x'}
 \description{
-\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+\if{html}{\figure{logo.svg}{options: style='float: right' alt='logo' width='120'}}
 
 Revision analysis tool part of 'JDemetra+ 3.x' (\url{https://github.com/jdemetra}) time series analysis software. It performs a battery of tests on revisions and submit a report with the results. The various tests enable the users to detect potential bias and sources of inefficiency in preliminary estimates.
 }
@@ -20,10 +20,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Corentin Lemasson \email{corentin.lemasson@nbb.be}
+\strong{Maintainer}: Corentin Lemasson \email{corentin.lemasson@nbb.be} [copyright holder]
 
 Authors:
 \itemize{
+  \item Corentin Lemasson \email{corentin.lemasson@nbb.be} [copyright holder]
   \item Tanguy Barthelemy \email{tanguy.barthelemy@insee.fr} [artist]
 }
 

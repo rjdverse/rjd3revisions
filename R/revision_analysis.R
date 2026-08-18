@@ -6,12 +6,12 @@
 #' estimates when revisions are predictable in some way. In the results,
 #' parametric tests are divided into 5 categories: relevancy (check whether
 #' preliminary estimates are even worth it), bias, efficiency, orthogonality
-#' (correlation at higher lags), and signalVSnoise. Descriptive statistics on
+#' (correlation at higher lags), and signal vs. noise. Descriptive statistics on
 #' revisions are also provided. For some of the parametric tests, prior
 #' transformation of the vintage data may be important to avoid misleading
 #' results. By default, the decision to differentiate the vintage data is
 #' performed automatically based on unit root and co-integration tests whose
-#' results can be found found in the results too (section 'varbased'). Finally,
+#' results can be found found in the results too (section 'var-based'). Finally,
 #' running the function `render_report()` on the output of `revision_analysis()`
 #' would give you both a formatted summary of the results and full explanations
 #' about each tests.
@@ -55,7 +55,7 @@
 #' @seealso `create_vintages()` to create the input object,
 #'          `render_report()` to get a summary and information the tests
 #'
-#' @return an object of class 'rjd3rev_rslts'
+#' @return an object of class `"rjd3rev_rslts"`
 #'
 #' @export
 #'
@@ -1125,7 +1125,7 @@ regression_diagnostics <- function(
     arch <- eval_test(reg_output[, "arch.pvalue"], threshold = thr_res_arch)
 
     lbl <- c("Jarque-Bera", "Breusch-Pagan", "White", "ARCH")
-    tests <- c("Normality", rep("Homoskedasticity", 3))
+    tests <- c("Normality", rep("Homoscedasticity", 3))
     tests_rslts <- rbind(jb, bp, wh, arch)
     colnames(tests_rslts) <- rownames(reg_output)
 

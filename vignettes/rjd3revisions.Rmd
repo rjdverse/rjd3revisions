@@ -40,17 +40,17 @@ knitr::opts_chunk$set(
 
 This package performs revision analysis and offers both detailed and summary output including the generation of a visual report. It is composed on a selection of parametric tests which enable the users to detect potential bias (both mean and regression bias) and other sources of inefficiency in preliminary estimates. What we mean by inefficiency in preliminary estimates is whether further revisions are predictable in some way. 
 
-This package uses the efficient libraries of [JDemetra+ v3](https://github.com/jdemetra/jdplus-main). It was built mostly based on Eurostat’s technical reports from D. Ares and L. Pitton (2013).
+This package uses the efficient libraries of [JDemetra+ v3](https://github.com/jdemetra/jdplus-main). It was built mostly based on Eurostat's technical reports from D. Ares and L. Pitton (2013).
  
 The next section helps with the installation of the package. The third section describes how to use the tool and give some important details on the main functions. In particular, it is important to mention beforehand that your input data must first be set in a specific format described in the sub-section on the [input data](#input_format). The fourth section is theoretical and describes each test being performed by the main function `revision_analysis()` (they could also be performed individually) and how to interpret them. Finally, you will find out all the reference papers in the last section.         
 
 # Installation settings
 
-This package relies on the Java libraries of [JDemetra+ v3](https://github.com/jdemetra/jdplus-main) and on the package [rjd3toolkit](https://github.com/rjdverse/rjd3toolkit) of [rjdverse](https://github.com/rjdverse?view_as=public). Prior the installation, you must ensure to have a Java version >= 17.0 on your computer. If you need to use a portable version of Java to fill this request, you can follow the instructions in the [installation manual](https://github.com/rjdverse/rjdemetra/wiki/Installation-manual) of RJDemetra.
+This package relies on the Java libraries of [JDemetra+ v3](https://github.com/jdemetra/jdplus-main) and on the package [{rjd3toolkit}](https://github.com/rjdverse/rjd3toolkit) of [rjdverse](https://github.com/rjdverse?view_as=public). Prior the installation, you must ensure to have a Java version >= 17.0 on your computer. If you need to use a portable version of Java to fill this request, you can follow the instructions in the [installation manual](https://github.com/rjdverse/rjdemetra/wiki/Installation-manual) of {RJDemetra}.
 
-In addition to a Java version >= 17.0, you must have a recent version of the R packages rJava (>= 1.0.6) and RProtobuf (>=0.4.17) that you can download from CRAN. Depending on your current version of R, you might also need to install another version of Rtools. (>= 3.6). 
+In addition to a Java version >= 17.0, you must have a recent version of the R packages {rJava} (>= 1.0.6) and {RProtoBuf} (>=0.4.17) that you can download from CRAN. Depending on your current version of R, you might also need to install another version of rtools. (>= 3.6). 
 
-This package also depends on the package [rjd3toolkit](https://github.com/rjdverse/rjd3toolkit) that you must install from GitHub prior to [rjd3revsions](https://github.com/rjdverse/rjd3revisions).
+This package also depends on the package [{rjd3toolkit}](https://github.com/rjdverse/rjd3toolkit) that you must install from GitHub prior to [{rjd3revisions}](https://github.com/rjdverse/rjd3revisions).
 
 ```{r package installation, echo = TRUE, eval = FALSE}
 remotes::install_github("rjdverse/rjd3toolkit@*release")
@@ -59,7 +59,7 @@ remotes::install_github("rjdverse/rjd3revisions@*release", build_vignettes = TRU
 
 Note that depending on the R packages that are already installed on your computer, you might also be asked to install or re-install a few other packages from CRAN. 
 
-Finally, this package also suggests the R packages `formattable` and `kableExtra` (and `readxl` if you import your input data from Excel) downloadable from CRAN. You are invited to install them for an enhanced formatting of the output (i.e., meaningful colors). 
+Finally, this package also suggests the R packages {formattable} and {kableExtra} (and `readxl` if you import your input data from Excel) downloadable from CRAN. You are invited to install them for an enhanced formatting of the output (i.e., meaningful colours). 
 
 # Usage
 
@@ -243,9 +243,9 @@ Revisions are easily calculated from vintages by choosing the gap to consider. T
 
 ### Revision analysis & reporting
 
-The function `revision_analysis()` is the main function of the package. It provides some descriptive statistics and performs a battery of parametric tests which enable the users to detect potential bias (both mean and regression bias) and sources of inefficiency in preliminary estimates. We would conclude to inefficiency in the preliminary estimates when revisions are predictable in some way. Parametric tests are divided into 5 categories: relevancy (check whether preliminary estimates are even worth it), bias, efficiency, orthogonality (correlation at higher lags), and signalVSnoise. This function is robust. If for some reasons, a test fails to process, it is just skipped and a warning is sent to users with the possible cause of failure. The other tests are then performed as usual.
+The function `revision_analysis()` is the main function of the package. It provides some descriptive statistics and performs a battery of parametric tests which enable the users to detect potential bias (both mean and regression bias) and sources of inefficiency in preliminary estimates. We would conclude to inefficiency in the preliminary estimates when revisions are predictable in some way. Parametric tests are divided into 5 categories: relevancy (check whether preliminary estimates are even worth it), bias, efficiency, orthogonality (correlation at higher lags), and signal vs. noise. This function is robust. If for some reasons, a test fails to process, it is just skipped and a warning is sent to users with the possible cause of failure. The other tests are then performed as usual.
 
-For some of the parametric tests, prior transformation of the vintage data may be important to avoid misleading results. By default, the decision to differentiate the vintage data is performed automatically based on unit root and co-integration tests. More specifically, we focus on the augmented Dickey-Fuller (ADF) test to test the presence of unit root and, for cointegration, we proceed to an ADF test on the residuals of an OLS regression between the two vintages. The results of those tests are also made available in the output of the function (section 'varbased'). By contrast, the choice of log-transformation is left to the discretion of the users based on their knowledge of the series and the diagnostics of the various tests. By default, no log-transformation is considered.
+For some of the parametric tests, prior transformation of the vintage data may be important to avoid misleading results. By default, the decision to differentiate the vintage data is performed automatically based on unit root and co-integration tests. More specifically, we focus on the augmented Dickey-Fuller (ADF) test to test the presence of unit root and, for cointegration, we proceed to an ADF test on the residuals of an OLS regression between the two vintages. The results of those tests are also made available in the output of the function (section 'var-based'). By contrast, the choice of log-transformation is left to the discretion of the users based on their knowledge of the series and the diagnostics of the various tests. By default, no log-transformation is considered.
 
 As part of the arguments of the `revision_analysis()` function, you can choose the view and the gap to consider, restrict the number of releases under investigation when diagonal view is selected and/or change the default setting about the prior transformation of the data (including the possibility to add a prior log-transformation of your data).  
 
@@ -257,7 +257,7 @@ In addition to the function `revision_analysis()`, the user can also perform tes
 ls("package:rjd3revisions")
 ```
 
-Use help(‘name of the functions’) or ?‘name of the functions’ for more information and examples over the various functions.
+Use help('name of the functions') or ?'name of the functions' for more information and examples over the various functions.
 
 ## Output
 
@@ -282,14 +282,14 @@ rslt2 <- revision_analysis(vintages, gap = 1, view = "diagonal", n.releases = 3)
 summary(rslt2)
 ```
 
-For the augmented t-test, by defining the threshold values like this, it means that the results will be assessed as severe if the p-value < 0.005, as bad if the p-value is between 0.005 and 0.05, as uncertain if between 0.05 and 0.1 and as good if it is higher than 0.1. As far as the Theil U2 test is concerned, given the definition of the test (see section [Theil’s Inequality Coefficient](#theil)), the results will be assessed as good if the value of the test is lower than 0.5, uncertain, between 0.5 and 0.75, bad between 0.75 and 1 and severe if it is higher than 1.
+For the augmented t-test, by defining the threshold values like this, it means that the results will be assessed as severe if the p-value < 0.005, as bad if the p-value is between 0.005 and 0.05, as uncertain if between 0.05 and 0.1 and as good if it is higher than 0.1. As far as the Theil U2 test is concerned, given the definition of the test (see section [Theil's Inequality Coefficient](#theil)), the results will be assessed as good if the value of the test is lower than 0.5, uncertain, between 0.5 and 0.75, bad between 0.75 and 1 and severe if it is higher than 1.
 
 Here are all the possible options the user can modified, together with their description and their default value.
 
 |Name    |Description | Default value|
 |:-------|:-------|:-------|
-|theil_u1_threshold     |Threshold values for Theil’s Inequality Coefficient U1     |c(uncertain = 0.8, bad = .9, severe = .99)  |
-|theil_u2_threshold     |Threshold values for Theil’s Inequality Coefficient U2     |c(uncertain = 0.8, bad = .9, severe = 1)    |
+|theil_u1_threshold     |Threshold values for Theil's Inequality Coefficient U1     |c(uncertain = 0.8, bad = .9, severe = .99)  |
+|theil_u2_threshold     |Threshold values for Theil's Inequality Coefficient U2     |c(uncertain = 0.8, bad = .9, severe = 1)    |
 |t_threshold    |Threshold values for T-test      |c(severe = 0.001, bad = 0.01, uncertain = 0.05)    |
 |augmented_t_threshold     |Threshold values for Augmented T-test     |c(severe = 0.001, bad = 0.01, uncertain = 0.05)  |
 |slope_and_drift_threshold     |Threshold values for Slope and drift test     |c(severe = 0.001, bad = 0.01, uncertain = 0.05)    |
@@ -302,9 +302,9 @@ Here are all the possible options the user can modified, together with their des
 |signal_noise1_threshold    |Threshold values for Signal vs Noise test (test 1)     |c(severe = 0.001, bad = 0.01, uncertain = 0.05)  |
 |signal_noise2_threshold    |Threshold values for Signal vs Noise test (test 2)     |c(uncertain = 0.05)  |
 |jb_res_threshold     |Normality test: Jarque-Bera     |c(bad = 0.01, uncertain = 0.1)  |
-|bp_res_threshold     |Homoskedasticity test: Breusch-Pagan     |c(bad = 0.01, uncertain = 0.1)    |
-|white_res_threshold    |Homoskedasticity test: Whitet      |c(bad = 0.01, uncertain = 0.1)    |
-|arch_res_threshold     |Homoskedasticity test: ARCH     |c(bad = 0.01, uncertain = 0.1)  |
+|bp_res_threshold     |Homoscedasticity test: Breusch-Pagan     |c(bad = 0.01, uncertain = 0.1)    |
+|white_res_threshold    |Homoscedasticity test: Whitet      |c(bad = 0.01, uncertain = 0.1)    |
+|arch_res_threshold     |Homoscedasticity test: ARCH     |c(bad = 0.01, uncertain = 0.1)  |
 
 Finally, the functions `set_thresholds_to_default()` and `set_all_thresholds_to_default()` can be used to reset test thresholds to their default values.
 
@@ -327,7 +327,7 @@ Recall that the purpose of the parametric tests described below are:
 
 ## Relevancy
 
-### Theil’s Inequality Coefficient {#theil}
+### Theil's Inequality Coefficient {#theil}
 
 In the context of revision analysis, Theil's inequality coefficient, also known as Theil's U, provides a measure of the accuracy of a set of preliminary estimates (P) compared to a latter version (L). There exists a few definitions of Theil's statistics leading to different interpretation of the results. In this package, two definitions are considered. The first statistic, U1, is given by
 $$
@@ -386,7 +386,7 @@ Recall that OLS regressions always come along with rather strict assumptions. Us
 
 ## Efficiency
 
-Efficiency tests evaluate whether preliminary estimates are "efficient" forecast of the latter estimates. If all information were used efficiently at the time of the preliminary estimate, revisions should not be predictable and therefore neither be correlated with preliminary estimates or display any relationship from one vintage to another. This section focuses on these two points. Predictability of revisions is tested even further in the Orthogonality and SignalVSNoise sections.
+Efficiency tests evaluate whether preliminary estimates are "efficient" forecast of the latter estimates. If all information were used efficiently at the time of the preliminary estimate, revisions should not be predictable and therefore neither be correlated with preliminary estimates or display any relationship from one vintage to another. This section focuses on these two points. Predictability of revisions is tested even further in the Orthogonality and  signal vs. noise sections.
 
 ### Regression of revisions on previous estimates
 
@@ -411,7 +411,7 @@ If latter revisions are predictable from previous revisions, it means that preli
 
 Orthogonality tests evaluate whether revisions from older vintages affect the latter revisions. This section also includes autocorrelation and seasonality tests for a given set of revisions. If there is significant correlation in the revisions for subsequent periods, this may witness some degree of predictability in the revision process.          
 
-### Regression of latter revisions (Rv) on previous revisions (Rv_1, Rv_2,...Rv_p)
+### Regression of latter revisions ($Rv$) on previous revisions ($Rv_1$, $Rv_2$,...$Rv_p$)
 
 We assume a linear regression model of the revisions from latter vintages ($R_v$) on the revisions from p previous vintages ($R_{v-1}, ..., R_{v-p}$) and estimate the intercept $\beta_0$ and slope coefficients of $\beta_1, ..., \beta_p$ by OLS. The model is
 
@@ -420,7 +420,7 @@ R_{v,t}=\beta_0+\sum^p_{i=1}\beta_{i}R_{v-i,t}+\varepsilon_t, ~~t=1,...,n
 $$
 If latter revisions are predictable from previous revisions, it means that preliminary estimates are not efficient and could be improved. We employ a conventional t-test on the intercept parameter with the null hypothesis $\beta_0 = 0$ and a F-test to check the null hypothesis that $\beta_1 = \beta_2=...=\beta_p=0$. Diagnostics on the residuals should be verified
 
-### Regression of latter revisions (Rv) on revisions from a specific vintage (Rv_k)
+### Regression of latter revisions ($Rv$) on revisions from a specific vintage ($Rv_k$)
 
 We assume a linear regression model of the revisions from latter vintages ($R_v$) on the revisions from a specific vintage ($R_{v-k}$) and estimate the intercept $\beta_0$ and slope coefficient $\beta_1$ by OLS. The model is
 
@@ -465,7 +465,7 @@ As for non-seasonal autocorrelation tests at lower lags, if QS and Q are signifi
 
 ## Signal vs Noise
 
-Regression techniques can also be used to determine whether revisions should be classified as ‘news’ or ‘noise’. Those are also closely related to the notion of efficiency developed earlier. 
+Regression techniques can also be used to determine whether revisions should be classified as 'news' or 'noise'. Those are also closely related to the notion of efficiency developed earlier. 
 
 If the correlation between revisions and preliminary estimates is significantly different from zero, this implies that we did not fully utilize all the information available at the time of the preliminary estimates. In that sense, we would conclude that the preliminary estimates could have been better and that revisions embody noise. The model to test whether revisions are "noise" is similar to the first model established earlier to test efficiency: 
 $$
@@ -484,8 +484,8 @@ We employ a F-test on the parameters to test jointly that $\beta_0 = 0$ and $\be
 # References
 
 - Ares, David. 2013. “Tool for Revision Analysis : Technical Report.” DI/06769. DG ESTAT.
-- Cook, Steve. 2019. “Forecast Evaluation Using Theil’s Inequality Coefficients.” Swansea University; https://www.economicsnetwork.ac.uk/showcase/cook_theil.
-- Fixler, Dennis. 2007. “How to Interpret Whether Revisions to Economic Variables Reflect ‘News’ or ‘Noise’.” OECD.
+- Cook, Steve. 2019. “Forecast Evaluation Using Theil's Inequality Coefficients.” Swansea University; https://www.economicsnetwork.ac.uk/showcase/cook_theil.
+- Fixler, Dennis. 2007. “How to Interpret Whether Revisions to Economic Variables Reflect 'News' or 'Noise'.” OECD.
 - McKenzie, Richard, and Michela Gamba. 2007. “Interpreting the Results of Revision Analyses: Recommended Summary Statistics.” OECD.
 - Pitton, Laurent, and David Ares. 2013a. “Tool for Revision Analysis : Regression Based Parametric Analysis.” DI/06769. DG ESTAT.
 - Pitton, Laurent, and David Ares. 2013b. “Tool for Revision Analysis : VAR Based Models and Final Equation.” DI/06769. DG ESTAT.

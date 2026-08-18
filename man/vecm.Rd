@@ -23,7 +23,7 @@ vecm(
 rather as data not (yet) available (the default).}
 }
 \description{
-Can lead to a better understanding of the nature of any nonstationary process
+Can lead to a better understanding of the nature of any non-stationary process
 among the different component series.
 }
 \examples{
