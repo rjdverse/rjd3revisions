@@ -9,8 +9,8 @@
 #' corresponding to the format(s) used in \code{x}
 #'
 #' @details
-#' The function \code{check_date_year} checks if the pattern AAAA is recognised.
-#' If so, the date will be assimilated with the first January of each year AAAA.
+#' The function \code{check_date_year} checks if the pattern `AAAA` is recognised.
+#' If so, the date will be assimilated with the first January of each year `AAAA`.
 #' The function \code{check_date_quarter} checks if the quarterly formats. The
 #' accepted formats (for example  for the third quarter of 2000) are:
 #'

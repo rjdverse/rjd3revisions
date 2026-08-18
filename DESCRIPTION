@@ -12,7 +12,7 @@ Description: Revision analysis tool part of 'JDemetra+ 3.x' (<https://github.com
              with the results. The various tests enable the users to detect
              potential bias and sources of inefficiency in preliminary 
              estimates.
-License: EUPL | file LICENSE
+License: EUPL
 URL: https://github.com/rjdverse/rjd3revisions, https://rjdverse.github.io/rjd3revisions/
 BugReports: https://github.com/rjdverse/rjd3revisions/issues
 SystemRequirements: Java (>= 17)
@@ -58,4 +58,4 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
 Config/roxygen2/version: 8.1.0
-Language: en-US
+Language: en-GB

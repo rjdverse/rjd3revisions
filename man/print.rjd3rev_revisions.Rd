@@ -13,7 +13,7 @@
 corresponds to the number of columns.}
 
 \item{n_col}{number of columns to display. Can be either the last n columns
-(verical view), the last n rows (horizontal view) or the first n columns
+(vertical view), the last n rows (horizontal view) or the first n columns
 (diagonal view).}
 
 \item{\dots}{further arguments passed to the \code{\link{print}} function.}

@@ -51,7 +51,7 @@ rslt |> build_table(type = "summary")
 
 ## I. Relevancy
 
-### Theil’s Inequality Coefficient
+### Theil's Inequality Coefficient
 
 In the context of revision analysis, Theil's inequality coefficient, also known as Theil's U, provides a measure of the accuracy of a set of preliminary estimates (P) compared to a latter version (L). There exists a few definitions of Theil's statistics leading to different interpretation of the results. In this package, two definitions are considered. The first statistic, U1, is given by
 
@@ -124,7 +124,7 @@ Recall that OLS regressions always come along with rather strict assumptions. Us
 
 ## III. Efficiency
 
-Efficiency tests evaluate whether preliminary estimates are "efficient" forecast of the latter estimates. If all information were used efficiently at the time of the preliminary estimate, revisions should not be predictable and therefore neither be correlated with preliminary estimates or display any relationship from one vintage to another. This section focuses on these two points. Predictability of revisions is tested even further in the Orthogonality and SignalVSNoise sections.
+Efficiency tests evaluate whether preliminary estimates are "efficient" forecast of the latter estimates. If all information were used efficiently at the time of the preliminary estimate, revisions should not be predictable and therefore neither be correlated with preliminary estimates or display any relationship from one vintage to another. This section focuses on these two points. Predictability of revisions is tested even further in the Orthogonality and  signal vs. noise sections.
 
 ### III.1. Regression of revisions on previous estimates
 
@@ -212,7 +212,7 @@ As for non-seasonal autocorrelation tests at lower lags, if QS and Q are signifi
 
 ## V. Signal vs Noise
 
-Regression techniques can also be used to determine whether revisions should be classified as ‘news’ or ‘noise’. Those are also closely related to the notion of efficiency developed earlier. 
+Regression techniques can also be used to determine whether revisions should be classified as 'news' or 'noise'. Those are also closely related to the notion of efficiency developed earlier. 
 
 If the correlation between revisions and preliminary estimates is significantly different from zero, this implies that we did not fully utilize all the information available at the time of the preliminary estimates. In that sense, we would conclude that the preliminary estimates could have been better and that revisions embody noise. The model to test whether revisions are "noise" is similar to the first model established earlier to test efficiency: 
 

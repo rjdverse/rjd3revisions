@@ -654,7 +654,7 @@ create_vintages_from_xlsx <- function(
 #' @param n_row number of last rows to display. For the horizontal view,
 #'   corresponds to the number of columns.
 #' @param n_col number of columns to display. Can be either the last n columns
-#'   (verical view), the last n rows (horizontal view) or the first n columns
+#'   (vertical view), the last n rows (horizontal view) or the first n columns
 #'   (diagonal view). This argument is not used for the long view.
 #' @param ... further arguments passed to the \code{\link{print}} function.
 #'
@@ -801,7 +801,7 @@ View.rjd3rev_vintages <- function(
 #' @title Plot function for objects of class "rjd3rev_vintages"
 #'
 #' @param x an object of class "rjd3rev_vintages".
-#' @param col a color vector of the same length as the number of releases
+#' @param col a colour vector of the same length as the number of releases
 #' @param ... further arguments passed to or from other methods.
 #'
 #' @exportS3Method plot rjd3rev_vintages

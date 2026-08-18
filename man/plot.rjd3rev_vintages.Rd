@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{an object of class "rjd3rev_vintages".}
 
-\item{col}{a color vector of the same length as the number of releases}
+\item{col}{a colour vector of the same length as the number of releases}
 
 \item{...}{further arguments passed to or from other methods.}
 }

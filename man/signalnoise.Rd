@@ -18,7 +18,7 @@ vintages consecutively.}
 rather as data not (yet) available (the default).}
 }
 \description{
-Linear regression models to determine whether revisions are ‘news’ or ‘noise’.
+Linear regression models to determine whether revisions are 'news' or 'noise'.
 For 'noise': R (revisions) on P (preliminary estimate).
 For 'news': R on L (latter estimate).
 }

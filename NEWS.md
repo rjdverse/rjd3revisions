@@ -12,7 +12,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
-* a param `seed` in the function `simulate_long()` to add reproductibility to this function
+* a new argument `seed` in the function `simulate_long()` to add reproducibility to this function
 
 ### Changed
 
