@@ -1,37 +1,39 @@
 simulate_series <- function(n, periodicity = 12L) {
     return(rnorm(n))
-
-    # # Check n
-    # checkmate::assert_count(n, na.ok = FALSE, null.ok = FALSE)
-    #
-    # # Check periodicity
-    # checkmate::assert_number(x = periodicity, na.ok = FALSE, finite = TRUE, null.ok = FALSE)
-    # checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
-    #
-    # seed <- sample.int(n = .Machine$integer.max, size = 1L)
-    # coeff <- list(
-    #     phi = NULL,
-    #     d = 1,
-    #     theta = 2.8,
-    #     B_phi = NULL,
-    #     B_D = 1,
-    #     B_theta = -0.2
-    # )
-    #
-    # JD_model <- rjd3toolkit::sarima_model(
-    #     phi = coeff$phi,
-    #     d = coeff$d,
-    #     theta = coeff$theta,
-    #     bphi = coeff$B_phi,
-    #     bd = coeff$B_D,
-    #     btheta = coeff$B_theta,
-    #     period = periodicity
-    # )
-    #
-    # print(JD_model)
-    #
-    # return(rjd3toolkit::sarima_random(model = JD_model, length = n, seed = seed))
 }
+
+# simulate_series_prev <- function(n, periodicity = 12L) {
+#     # Check n
+#     checkmate::assert_count(n, na.ok = FALSE, null.ok = FALSE)
+#
+#     # Check periodicity
+#     checkmate::assert_number(x = periodicity, na.ok = FALSE, finite = TRUE, null.ok = FALSE)
+#     checkmate::assert_choice(x = periodicity, choices = c(1L, 4L, 12L))
+#
+#     seed <- sample.int(n = .Machine$integer.max, size = 1L)
+#     coeff <- list(
+#         phi = NULL,
+#         d = 1,
+#         theta = 2.8,
+#         B_phi = NULL,
+#         B_D = 1,
+#         B_theta = -0.2
+#     )
+#
+#     JD_model <- rjd3toolkit::sarima_model(
+#         phi = coeff$phi,
+#         d = coeff$d,
+#         theta = coeff$theta,
+#         bphi = coeff$B_phi,
+#         bd = coeff$B_D,
+#         btheta = coeff$B_theta,
+#         period = periodicity
+#     )
+#
+#     print(JD_model)
+#
+#     return(rjd3toolkit::sarima_random(model = JD_model, length = n, seed = seed))
+# }
 
 simulate_revision <- function(n, init = stats::rnorm(1, 0, 1)) {
     # Check n
