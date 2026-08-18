@@ -4,7 +4,7 @@ Title: Revision Analysis with 'JDemetra+ 3.x'
 Version: 1.4.1.9000
 Authors@R: c(
     person(given = "Corentin", family = "Lemasson",
-           email = "corentin.lemasson@nbb.be", role = c("aut", "cre")), 
+           email = "corentin.lemasson@nbb.be", role = c("aut", "cre", "cph")), 
     person(given = "Tanguy", family = "Barthelemy",
            email = "tanguy.barthelemy@insee.fr", role = c("aut", "art")))
 Description: Revision analysis tool part of 'JDemetra+ 3.x' (<https://github.com/jdemetra>) time series analysis software.
