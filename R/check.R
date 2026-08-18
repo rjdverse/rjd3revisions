@@ -234,7 +234,7 @@ assert_rev_date <- function(x, date_format = "%Y-%m-%d") {
 #'
 #' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
-#' long_format <- rjd3revisions:::simulate_long(
+#' long_format <- simulate_long(
 #'     start_period = as.Date("2020-01-01"),
 #'     n_period = 24,
 #'     n_revision = 6,
@@ -287,7 +287,7 @@ check_long <- function(x, date_format = "%Y-%m-%d") {
 #'
 #' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
-#' long_format <- rjd3revisions:::simulate_long(
+#' long_format <- simulate_long(
 #'     start_period = as.Date("2020-01-01"),
 #'     n_period = 24,
 #'     n_revision = 6,
@@ -444,7 +444,7 @@ check_vertical.default <- function(x, ...) {
 #'
 #' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #'
-#' long_format <- rjd3revisions:::simulate_long(
+#' long_format <- simulate_long(
 #'     start_period = as.Date("2020-01-01"),
 #'     n_period = 24,
 #'     n_revision = 6,
